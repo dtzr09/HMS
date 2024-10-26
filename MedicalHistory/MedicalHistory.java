@@ -5,13 +5,15 @@ public class MedicalHistory {
     private Patient patient;
     private String allergies;
     private BloodType bloodType;
+    private Diagnosis diagnosis;
     private Prescription prescription;
     private Double height;
     private Double weight;
 
     public MedicalHistory(){}
-    public MedicalHistory(Patient patient, Prescription prescription){
+    public MedicalHistory(Patient patient, Diagnosis diagnosis, Prescription prescription){
         this.patient = patient;
+        this.diagnosis = diagnosis;
         this.prescription = prescription;
     }
 
