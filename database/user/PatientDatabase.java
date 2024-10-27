@@ -1,27 +1,27 @@
-package databases.user;
+package database.user;
 
 import java.util.List;
 import java.util.Map;
 
-import databases.Database;
-import model.user.Administrator;
+import database.Database;
+import model.user.Patient;
 
-public class AdministratorDatabase extends Database<Administrator> {
+public class PatientDatabase extends Database<Patient> {
 
-    private static final String FILE_PATH = "./data/user/administrator.txt";
+    private static final String FILE_PATH = "./data/user/patient.txt";
 
-    AdministratorDatabase() {
+    PatientDatabase() {
         super();
         load();
     }
 
     /**
-     * Gets a new instance of AdministratorDatabase.
+     * Gets a new instance of PatientDatabase.
      *
-     * @return a new instance of AdministratorDatabase
+     * @return a new instance of PatientDatabase
      */
-    public static AdministratorDatabase getInstance() {
-        return new AdministratorDatabase();
+    public static PatientDatabase getInstance() {
+        return new PatientDatabase();
     }
 
     /**
@@ -42,7 +42,8 @@ public class AdministratorDatabase extends Database<Administrator> {
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
-            getAll().add(new Administrator(map));
+            getAll().add(new Patient(map));
         }
     }
+
 }

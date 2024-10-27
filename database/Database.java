@@ -1,4 +1,4 @@
-package databases;
+package database;
 
 import model.Model;
 import utils.exceptions.ModelAlreadyExistsException;

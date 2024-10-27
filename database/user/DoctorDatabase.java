@@ -1,25 +1,28 @@
-package databases;
+package database.user;
 
-import model.medication.Medication;
+import model.user.Doctor;
+
 import java.util.List;
 import java.util.Map;
 
-public class MedicationDatabase extends Database<Medication> {
+import database.Database;
 
-    private static final String FILE_PATH = "./data/user/medication.txt";
+public class DoctorDatabase extends Database<Doctor> {
 
-    MedicationDatabase() {
+    private static final String FILE_PATH = "./data/user/doctor.txt";
+
+    DoctorDatabase() {
         super();
         load();
     }
 
     /**
-     * Gets a new instance of MedicationDatabase.
+     * Gets a new instance of DoctorDatabase.
      *
-     * @return a new instance of MedicationDatabase
+     * @return a new instance of DoctorDatabase
      */
-    public static MedicationDatabase getInstance() {
-        return new MedicationDatabase();
+    public static DoctorDatabase getInstance() {
+        return new DoctorDatabase();
     }
 
     /**
@@ -40,7 +43,7 @@ public class MedicationDatabase extends Database<Medication> {
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
-            getAll().add(new Medication(map));
+            getAll().add(new Doctor(map));
         }
     }
 
