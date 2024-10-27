@@ -60,7 +60,7 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
      */
     public ModelObject getByID(String modelObjectID) throws ModelNotFoundException {
         for (ModelObject modelObject : listOfModelObjects) {
-            if (modelObject.getID().equalsIgnoreCase(modelObjectID)) {
+            if (modelObject.getModelID().equalsIgnoreCase(modelObjectID)) {
                 return modelObject;
             }
         }
@@ -91,8 +91,9 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
      *                                     already exists in the repository
      */
     public void add(ModelObject modelObject) throws ModelAlreadyExistsException {
-        if (contains(modelObject.getID())) {
-            throw new ModelAlreadyExistsException("A model object with ID " + modelObject.getID() + " already exists.");
+        if (contains(modelObject.getModelID())) {
+            throw new ModelAlreadyExistsException(
+                    "A model object with ID " + modelObject.getModelID() + " already exists.");
         } else {
             listOfModelObjects.add(modelObject);
             save(getFilePath());
@@ -145,7 +146,7 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
      *                                the repository
      */
     public void update(ModelObject modelObject) throws ModelNotFoundException {
-        ModelObject oldModelObject = getByID(modelObject.getID());
+        ModelObject oldModelObject = getByID(modelObject.getModelID());
         listOfModelObjects.set(listOfModelObjects.indexOf(oldModelObject), modelObject);
         save(getFilePath());
     }

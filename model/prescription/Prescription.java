@@ -3,6 +3,11 @@ package model.prescription;
 import java.util.ArrayList;
 import java.util.Date;
 
+import model.medication.Medication;
+import model.user.Doctor;
+import model.user.Patient;
+import model.user.Pharmacist;
+
 public class Prescription {
     private String prescriptionID;
     private Patient patient;
@@ -13,9 +18,10 @@ public class Prescription {
     private String drugInstructions;
     private PrescriptionStatus prescriptionStatus;
 
-    public Prescription(){
+    public Prescription() {
     }
-    public Prescription(String prescriptionID, Patient patient, Pharmacist pharmacist, Doctor doctorName){
+
+    public Prescription(String prescriptionID, Patient patient, Pharmacist pharmacist, Doctor doctorName) {
         this.prescriptionID = prescriptionID;
         this.patient = patient;
         this.pharmacist = pharmacist;
@@ -25,6 +31,7 @@ public class Prescription {
     public String getPrescriptionID() {
         return prescriptionID;
     }
+
     public void setPrescriptionID(String prescriptionID) {
         this.prescriptionID = prescriptionID;
     }
@@ -32,6 +39,7 @@ public class Prescription {
     public Patient getPatient() {
         return patient;
     }
+
     public void setPatient(Patient patient) {
         this.patient = patient;
     }
@@ -39,6 +47,7 @@ public class Prescription {
     public Pharmacist getPharmacist() {
         return pharmacist;
     }
+
     public void setPharmacist(Pharmacist pharmacist) {
         this.pharmacist = pharmacist;
     }
@@ -46,6 +55,7 @@ public class Prescription {
     public Doctor getDoctorName() {
         return doctorName;
     }
+
     public void setDoctorName(Doctor doctorName) {
         this.doctorName = doctorName;
     }
@@ -53,6 +63,7 @@ public class Prescription {
     public ArrayList<Medication> getMedication() {
         return medication;
     }
+
     public void setMedication(ArrayList<Medication> medication) {
         this.medication = medication;
     }
@@ -60,6 +71,7 @@ public class Prescription {
     public Date getDateOfPrescription() {
         return dateOfPrescription;
     }
+
     public void setDateOfPrescription(Date dateOfPrescription) {
         this.dateOfPrescription = dateOfPrescription;
     }
@@ -67,6 +79,7 @@ public class Prescription {
     public String getDrugInstructions() {
         return drugInstructions;
     }
+
     public void setDrugInstructions(String drugInstructions) {
         this.drugInstructions = drugInstructions;
     }
@@ -74,6 +87,7 @@ public class Prescription {
     public PrescriptionStatus getPrescriptionStatus() {
         return prescriptionStatus;
     }
+
     public void setPrescriptionStatus(PrescriptionStatus prescriptionStatus) {
         this.prescriptionStatus = prescriptionStatus;
     }

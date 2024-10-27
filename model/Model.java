@@ -17,5 +17,5 @@ public interface Model extends Mappable {
      *
      * @return the ID of the model.
      */
-    String getID();
+    String getModelID();
 }
