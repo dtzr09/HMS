@@ -1,4 +1,4 @@
-package MedicalHistory;
+package model.prescription;
 
 import java.util.ArrayList;
 import java.util.Date;

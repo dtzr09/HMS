@@ -1,4 +1,4 @@
-package MedicalHistory;
+package model.diagnosis;
 
 public class Diagnosis {
     private String disease;

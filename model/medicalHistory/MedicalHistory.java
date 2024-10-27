@@ -1,4 +1,7 @@
-package MedicalHistory;
+package model.medicalHistory;
+
+import model.diagnosis.Diagnosis;
+import model.prescription.Prescription;
 
 public class MedicalHistory {
 

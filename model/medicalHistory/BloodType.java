@@ -1,4 +1,4 @@
-package MedicalHistory;
+package model.medicalHistory;
 
 public enum BloodType {
     A_POSITIVE,  // A+
