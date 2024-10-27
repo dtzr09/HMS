@@ -1,4 +1,4 @@
-package tests.repository;
+package tests.Database;
 
 public class MedicineLoadTest {
 

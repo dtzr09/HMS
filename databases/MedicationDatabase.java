@@ -1,31 +1,31 @@
-package repository;
+package databases;
 
 import model.medication.Medication;
 import java.util.List;
 import java.util.Map;
 
-public class MedicationRepository extends Repository<Medication> {
+public class MedicationDatabase extends Database<Medication> {
 
     private static final String FILE_PATH = "./data/user/medication.txt";
 
-    MedicationRepository() {
+    MedicationDatabase() {
         super();
         load();
     }
 
     /**
-     * Gets a new instance of MedicationRepository.
+     * Gets a new instance of MedicationDatabase.
      *
-     * @return a new instance of MedicationRepository
+     * @return a new instance of MedicationDatabase
      */
-    public static MedicationRepository getInstance() {
-        return new MedicationRepository();
+    public static MedicationDatabase getInstance() {
+        return new MedicationDatabase();
     }
 
     /**
-     * Gets the file path of the repository.
+     * Gets the file path of the Database.
      *
-     * @return the file path of the repository
+     * @return the file path of the Database
      */
     @Override
     public String getFilePath() {
@@ -33,7 +33,7 @@ public class MedicationRepository extends Repository<Medication> {
     }
 
     /**
-     * Sets the list of mappable objects in the repository.
+     * Sets the list of mappable objects in the Database.
      *
      * @param listOfMappableObjects the list of mappable objects to set
      */

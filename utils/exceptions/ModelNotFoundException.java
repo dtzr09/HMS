@@ -3,7 +3,7 @@ package utils.exceptions;
 /**
  * The {@link ModelNotFoundException} class is a custom exception that is thrown
  * when a requested model cannot be found
- * in a repository.
+ * in a Database.
  * It extends the {@link Exception} class.
  */
 public class ModelNotFoundException extends Exception {

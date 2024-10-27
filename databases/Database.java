@@ -1,4 +1,4 @@
-package repository;
+package databases;
 
 import model.Model;
 import utils.exceptions.ModelAlreadyExistsException;
@@ -10,33 +10,33 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * The Repository abstract class provides the basic functionality for storing,
+ * The Database abstract class provides the basic functionality for storing,
  * retrieving, and managing a list of model objects.
  * It implements the Savable interface and provides methods for adding,
  * removing, updating, and finding model objects.
  *
- * @param <ModelObject> the type of model object stored in the repository
+ * @param <ModelObject> the type of model object stored in the Database
  */
-public abstract class Repository<ModelObject extends Model> extends Savable<ModelObject>
+public abstract class Database<ModelObject extends Model> extends Savable<ModelObject>
         implements Iterable<ModelObject> {
 
     /**
-     * The list of model objects stored in the repository.
+     * The list of model objects stored in the Database.
      */
     List<ModelObject> listOfModelObjects;
 
     /**
-     * Creates a new instance of the Repository class.
+     * Creates a new instance of the Database class.
      */
-    public Repository() {
+    public Database() {
         super();
         listOfModelObjects = new ArrayList<>();
     }
 
     /**
-     * Gets the path of the repository file.
+     * Gets the path of the Database file.
      *
-     * @return the path of the repository file
+     * @return the path of the Database file
      */
     public abstract String getFilePath();
 
@@ -68,10 +68,10 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Checks whether the repository contains a model object with the given ID.
+     * Checks whether the Database contains a model object with the given ID.
      *
      * @param modelObjectID the ID of the model object to check
-     * @return true if the repository contains a model object with the given ID,
+     * @return true if the Database contains a model object with the given ID,
      *         false otherwise
      */
     public boolean contains(String modelObjectID) {
@@ -84,11 +84,11 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Adds a model object to the repository.
+     * Adds a model object to the Database.
      *
      * @param modelObject the model object to add
      * @throws ModelAlreadyExistsException if a model object with the same ID
-     *                                     already exists in the repository
+     *                                     already exists in the Database
      */
     public void add(ModelObject modelObject) throws ModelAlreadyExistsException {
         if (contains(modelObject.getModelID())) {
@@ -101,7 +101,7 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Removes a model object from the repository by ID.
+     * Removes a model object from the Database by ID.
      *
      * @param modelObjectID the ID of the model object to remove
      * @throws ModelNotFoundException if the model object with the given ID does not
@@ -113,25 +113,25 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Checks whether the repository is empty.
+     * Checks whether the Database is empty.
      *
-     * @return true if the repository is empty, false otherwise
+     * @return true if the Database is empty, false otherwise
      */
     public boolean isEmpty() {
         return listOfModelObjects.isEmpty();
     }
 
     /**
-     * Gets the size of the repository.
+     * Gets the size of the Database.
      *
-     * @return the size of the repository
+     * @return the size of the Database
      */
     public int size() {
         return listOfModelObjects.size();
     }
 
     /**
-     * Removes all model objects from this repository.
+     * Removes all model objects from this Database.
      */
     public void clear() {
         listOfModelObjects.clear();
@@ -139,11 +139,11 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Updates the specified model object in the repository.
+     * Updates the specified model object in the Database.
      *
      * @param modelObject the model object to update
      * @throws ModelNotFoundException if the specified model object is not found in
-     *                                the repository
+     *                                the Database
      */
     public void update(ModelObject modelObject) throws ModelNotFoundException {
         ModelObject oldModelObject = getByID(modelObject.getModelID());
@@ -152,7 +152,7 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Updates all model objects in the repository with the specified list of model
+     * Updates all model objects in the Database with the specified list of model
      * objects.
      *
      * @param modelObjects the list of model objects to update
@@ -163,7 +163,7 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Loads the list of model objects from the repository file.
+     * Loads the list of model objects from the Database file.
      */
     public void load() {
         this.listOfModelObjects = new ArrayList<>();
@@ -171,7 +171,7 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Saves the list of model objects to the repository file.
+     * Saves the list of model objects to the Database file.
      */
     public void save() {
         save(getFilePath());
@@ -188,7 +188,7 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Finds all model objects in the repository that match the specified rules.
+     * Finds all model objects in the Database that match the specified rules.
      * <p>
      * Multiple rules can be specified, and all rules must be satisfied for a model
      * object to be considered a match.
@@ -199,7 +199,7 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
      * Here is an example of how to use this method:
      *
      * <pre>
-     * List&lt;Student&gt; modelObjects = repository.findByRules(
+     * List&lt;Student&gt; modelObjects = Database.findByRules(
      *         student -&gt; student.getFirstName().equals("John"),
      *         student -&gt; student.getLastName().equals("Smith"));
      * </pre>
@@ -208,15 +208,15 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
      * last name is "Smith".
      *
      * @param rules the rules to match
-     * @return a list of all model objects in the repository that match the
+     * @return a list of all model objects in the Database that match the
      *         specified rules
      */
     @SafeVarargs
-    public final List<ModelObject> findByRules(RepositoryRule<ModelObject>... rules) {
+    public final List<ModelObject> findByRules(DatabaseRule<ModelObject>... rules) {
         List<ModelObject> modelObjects = new ArrayList<>();
         for (ModelObject modelObject : listOfModelObjects) {
             boolean isMatch = true;
-            for (RepositoryRule<ModelObject> rule : rules) {
+            for (DatabaseRule<ModelObject> rule : rules) {
                 if (!rule.isMatch(modelObject)) {
                     isMatch = false;
                     break;
@@ -230,20 +230,20 @@ public abstract class Repository<ModelObject extends Model> extends Savable<Mode
     }
 
     /**
-     * Gets a list of all model objects in the repository.
+     * Gets a list of all model objects in the Database.
      *
-     * @return a list of all model objects in the repository
+     * @return a list of all model objects in the Database
      */
     public List<ModelObject> getList() {
         return findByRules();
     }
 
     /**
-     * Provides a rule for filtering model objects in the repository.
+     * Provides a rule for filtering model objects in the Database.
      *
-     * @param <ModelObject> the type of model object stored in the repository
+     * @param <ModelObject> the type of model object stored in the Database
      */
-    public interface RepositoryRule<ModelObject> {
+    public interface DatabaseRule<ModelObject> {
         /**
          * Checks whether the specified model object matches the rule.
          *

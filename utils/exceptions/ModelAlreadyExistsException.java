@@ -3,7 +3,7 @@ package utils.exceptions;
 /**
  * The {@link ModelAlreadyExistsException} class is a custom exception that is
  * thrown when an attempt is made to add a
- * model to a repository that already contains a model with the same ID.
+ * model to a Database that already contains a model with the same ID.
  * It extends the {@link Exception} class.
  */
 public class ModelAlreadyExistsException extends Exception {
