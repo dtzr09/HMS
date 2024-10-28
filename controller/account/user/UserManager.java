@@ -14,28 +14,28 @@ import utils.exceptions.ModelNotFoundException;
 
 public class UserManager {
 
-    private static User findDoctor(String emailID) throws ModelNotFoundException {
-        return DoctorDatabase.getDB().getByEmail(emailID);
+    private static User findDoctor(String email) throws ModelNotFoundException {
+        return DoctorDatabase.getDB().getByEmail(email);
     }
 
-    private static User findPatient(String emailID) throws ModelNotFoundException {
-        return PatientDatabase.getDB().getByEmail(emailID);
+    private static User findPatient(String email) throws ModelNotFoundException {
+        return PatientDatabase.getDB().getByEmail(email);
     }
 
-    private static User findPharmacist(String emailID) throws ModelNotFoundException {
-        return PharmacistDatabase.getDB().getByEmail(emailID);
+    private static User findPharmacist(String email) throws ModelNotFoundException {
+        return PharmacistDatabase.getDB().getByEmail(email);
     }
 
-    private static User findAdministrator(String emailID) throws ModelNotFoundException {
-        return AdministratorDatabase.getDB().getByEmail(emailID);
+    private static User findAdministrator(String email) throws ModelNotFoundException {
+        return AdministratorDatabase.getDB().getByEmail(email);
     }
 
-    public static User findUser(String userID, UserType userType) throws ModelNotFoundException {
+    public static User findUser(String email, UserType userType) throws ModelNotFoundException {
         return switch (userType) {
-            case DOCTOR -> findDoctor(userID);
-            case PATIENT -> findPatient(userID);
-            case PHARMACIST -> findPharmacist(userID);
-            case ADMINISTRATOR -> findAdministrator(userID);
+            case DOCTOR -> findDoctor(email);
+            case PATIENT -> findPatient(email);
+            case PHARMACIST -> findPharmacist(email);
+            case ADMINISTRATOR -> findAdministrator(email);
         };
     }
 

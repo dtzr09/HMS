@@ -10,19 +10,22 @@ import utils.exceptions.PasswordIncorrectException;
 public class AccountManager {
     private String password = "password";
 
-    /**
-     * Adds a new user to the database
-     *
-     * @param userType the type of the user to be added
-     * @param userID   the ID of the user to be added
-     * @param password the password of the user to be added
-     * @return the user that is added
-     * @throws PasswordIncorrectException if the password is incorrect
-     * @throws ModelNotFoundException     if the user is not found
-     */
-    public static User login(UserType userType, String userID, String password)
+    public static boolean userExist(String email, UserType userType) {
+        try {
+            User user = UserManager.findUser(email, userType);
+            if (user != null) {
+                return true;
+            }
+            return false;
+        } catch (ModelNotFoundException e) {
+            return false;
+        }
+
+    }
+
+    public static User login(UserType userType, String email, String password)
             throws PasswordIncorrectException, ModelNotFoundException {
-        User user = UserManager.findUser(userID, userType);
+        User user = UserManager.findUser(email, userType);
         if (PasswordManager.checkPassword(user, password)) {
             return user;
         } else {
