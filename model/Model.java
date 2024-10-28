@@ -12,10 +12,9 @@ import utils.iocontrol.Mappable;
  * defines how the ID can be retrieved.
  */
 public interface Model extends Mappable {
-    /**
-     * Returns the ID of the model as a string.
-     *
-     * @return the ID of the model.
-     */
     String getModelID();
+
+    default String getModelEmail() {
+        return null;
+    }
 }

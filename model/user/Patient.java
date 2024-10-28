@@ -35,6 +35,10 @@ public class Patient implements User {
         return this.hashedPassword;
     }
 
+    public String getEmail() {
+        return personalInfo.getEmail();
+    }
+
     public String getName() {
         return personalInfo.getName();
     }

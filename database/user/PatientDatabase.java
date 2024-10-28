@@ -20,7 +20,7 @@ public class PatientDatabase extends Database<Patient> {
      *
      * @return a new instance of PatientDatabase
      */
-    public static PatientDatabase getInstance() {
+    public static PatientDatabase getDB() {
         return new PatientDatabase();
     }
 

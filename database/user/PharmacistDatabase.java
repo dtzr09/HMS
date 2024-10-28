@@ -19,7 +19,7 @@ public class PharmacistDatabase extends Database<Pharmacist> {
      *
      * @return a new instance of PharmacistDatabase
      */
-    public static PharmacistDatabase getInstance() {
+    public static PharmacistDatabase getDB() {
         return new PharmacistDatabase();
     }
 

@@ -8,7 +8,7 @@ public class MedicineSaveTest {
      *             //
      */
     // public static void main(String[] args) {
-    // for (Supervisor supervisor : FacultyDatabase.getInstance()) {
+    // for (Supervisor supervisor : FacultyDatabase.getDB()) {
     // System.out.println(supervisor.toMap());
     // }
     // }

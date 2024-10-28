@@ -9,9 +9,10 @@ public class Medication implements Model {
     private String name;
     private int stock;
     private double price;
-    private double lowStockLevelAlert;
+    private int lowStockLevelAlert;
 
-    public Medication(String name, int stock, double price, double lowStockLevelAlert) {
+    public Medication(String medicationID, String name, int stock, double price, int lowStockLevelAlert) {
+        this.medicationID = medicationID;
         this.name = name;
         this.stock = stock;
         this.price = price;
@@ -64,7 +65,7 @@ public class Medication implements Model {
         return lowStockLevelAlert;
     }
 
-    public void setLowStockLevelAlert(double lowStockLevelAlert) {
+    public void setLowStockLevelAlert(int lowStockLevelAlert) {
         this.lowStockLevelAlert = lowStockLevelAlert;
     }
 

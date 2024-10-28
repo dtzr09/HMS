@@ -37,6 +37,10 @@ public class Doctor implements User {
         return personalInfo.getName();
     }
 
+    public String getEmail() {
+        return personalInfo.getEmail();
+    }
+
     public PersonalInfo getPersonalInfo() {
         return personalInfo;
     }

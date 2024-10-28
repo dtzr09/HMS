@@ -53,4 +53,8 @@ public class Administrator implements User {
     public List<ReplenishmentRequest> getAllRequests() {
         return requests;
     }
+
+    public String getEmail() {
+        return personalInfo.getEmail();
+    }
 }

@@ -40,7 +40,7 @@ public class PersonalInfo {
         return dateOfBirth;
     }
 
-    public String getEmailAddress() {
+    public String getEmail() {
         return emailAddress;
     }
 
@@ -80,7 +80,7 @@ public class PersonalInfo {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setEmailAddress(String emailAddress) {
+    public void setEmail(String emailAddress) {
         this.emailAddress = emailAddress;
     }
 

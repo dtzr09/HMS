@@ -20,7 +20,7 @@ public class AdministratorDatabase extends Database<Administrator> {
      *
      * @return a new instance of AdministratorDatabase
      */
-    public static AdministratorDatabase getInstance() {
+    public static AdministratorDatabase getDB() {
         return new AdministratorDatabase();
     }
 

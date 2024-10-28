@@ -1,6 +1,5 @@
 package database;
 
-import model.Model;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 import utils.iocontrol.Savable;
@@ -8,6 +7,9 @@ import utils.iocontrol.Savable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import model.Model;
+import model.medication.Medication;
 
 /**
  * The Database abstract class provides the basic functionality for storing,
@@ -20,44 +22,33 @@ import java.util.List;
 public abstract class Database<ModelObject extends Model> extends Savable<ModelObject>
         implements Iterable<ModelObject> {
 
-    /**
-     * The list of model objects stored in the Database.
-     */
     List<ModelObject> listOfModelObjects;
 
-    /**
-     * Creates a new instance of the Database class.
-     */
     public Database() {
         super();
         listOfModelObjects = new ArrayList<>();
     }
 
-    /**
-     * Gets the path of the Database file.
-     *
-     * @return the path of the Database file
-     */
     public abstract String getFilePath();
 
-    /**
-     * Gets the list of mappable objects.
-     *
-     * @return the list of mappable objects
-     */
     @Override
     protected List<ModelObject> getAll() {
         return listOfModelObjects;
     }
 
-    /**
-     * Gets a model object by ID
-     *
-     * @param modelObjectID the ID of the model object to get
-     * @return the model object with the given ID
-     * @throws ModelNotFoundException if the model object with the given ID does not
-     *                                exist
-     */
+    // Only users will have email
+    public ModelObject getByEmail(String userEmail) throws ModelNotFoundException {
+        for (ModelObject modelObject : listOfModelObjects) {
+            if (modelObject instanceof Medication) {
+                continue;
+            }
+            if (modelObject.getModelEmail().equalsIgnoreCase(userEmail)) {
+                return modelObject;
+            }
+        }
+        throw new ModelNotFoundException("No model object with Email" + userEmail + " exists.");
+    }
+
     public ModelObject getByID(String modelObjectID) throws ModelNotFoundException {
         for (ModelObject modelObject : listOfModelObjects) {
             if (modelObject.getModelID().equalsIgnoreCase(modelObjectID)) {

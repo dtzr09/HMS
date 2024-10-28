@@ -32,6 +32,10 @@ public class Pharmacist implements User {
         return personalInfo;
     }
 
+    public String getEmail() {
+        return personalInfo.getEmail();
+    }
+
     public String getModelID() {
         return pharmacistID;
     }

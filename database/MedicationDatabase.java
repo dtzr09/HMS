@@ -18,7 +18,7 @@ public class MedicationDatabase extends Database<Medication> {
      *
      * @return a new instance of MedicationDatabase
      */
-    public static MedicationDatabase getInstance() {
+    public static MedicationDatabase getDB() {
         return new MedicationDatabase();
     }
 
@@ -31,6 +31,8 @@ public class MedicationDatabase extends Database<Medication> {
     public String getFilePath() {
         return FILE_PATH;
     }
+
+    
 
     /**
      * Sets the list of mappable objects in the Database.

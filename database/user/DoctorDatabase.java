@@ -21,7 +21,7 @@ public class DoctorDatabase extends Database<Doctor> {
      *
      * @return a new instance of DoctorDatabase
      */
-    public static DoctorDatabase getInstance() {
+    public static DoctorDatabase getDB() {
         return new DoctorDatabase();
     }
 
