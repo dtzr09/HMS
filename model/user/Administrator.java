@@ -32,8 +32,8 @@ public class Administrator implements User {
         this.convertToObject(map);
     }
 
-    public PersonalInfo getPersonalInfo() {
-        return personalInfo;
+    public void displayPersonalInfo() {
+        personalInfo.displayPersonalInfo();
     }
 
     public void setPersonalInfo(PersonalInfo personalInfo) {

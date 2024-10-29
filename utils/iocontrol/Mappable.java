@@ -22,10 +22,22 @@ public interface Mappable {
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
-                try {
-                    map.put(field.getName(), field.get(this).toString());
-                } catch (NullPointerException e) {
-                    map.put(field.getName(), EmptyID.EMPTY_ID);
+                Object value = field.get(this);
+                if (value instanceof Mappable) {
+                    Map<String, String> nestedMap = ((Mappable) value).convertToMap();
+                    for (Map.Entry<String, String> entry : nestedMap.entrySet()) {
+                        try {
+                            map.put(field.getName() + "_" + entry.getKey(), entry.getValue());
+                        } catch (NullPointerException e) {
+                            map.put(field.getName(), EmptyID.EMPTY_ID);
+                        }
+                    }
+                } else {
+                    try {
+                        map.put(field.getName(), field.get(this).toString());
+                    } catch (NullPointerException e) {
+                        map.put(field.getName(), EmptyID.EMPTY_ID);
+                    }
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -44,6 +56,7 @@ public interface Mappable {
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
+                System.out.println(field.getType());
                 if (field.getType().isEnum()) {
                     @SuppressWarnings("unchecked")
                     Enum<?> enumValue = Enum.valueOf((Class<Enum>) field.getType(), map.get(field.getName()));

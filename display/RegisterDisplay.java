@@ -1,6 +1,7 @@
 package display;
 
 import controller.account.AccountManager;
+import model.user.User;
 import model.user.UserType;
 import utils.iocontrol.CustScanner;
 
@@ -39,7 +40,6 @@ public class RegisterDisplay {
             register();
         }
 
-        System.out.println();
         System.out.print("Enter your name: ");
         name = CustScanner.getStrChoice();
         while (name.isEmpty()) {
@@ -48,7 +48,6 @@ public class RegisterDisplay {
             userEmail = CustScanner.getStrChoice();
         }
 
-        System.out.println();
         System.out.print("Enter your email address: ");
         userEmail = CustScanner.getStrChoice();
 
@@ -59,7 +58,17 @@ public class RegisterDisplay {
         }
 
         try {
-            AccountManager.register(userEmail, name, userType);
+            User user = AccountManager.register(userEmail, name, userType);
+            if (user != null) {
+                System.out.println("User registered successfully.");
+                switch (userType) {
+                    case ADMINISTRATOR -> AdministratorDisplay.AdministratorDisplay(user);
+                    default -> throw new IllegalStateException("Unexpected value: " + userType);
+                }
+
+            } else {
+                throw new Exception();
+            }
         } catch (Exception e) {
             System.out.println("Error registering user.");
             System.out.println("Enter [b] to go back to login page, else any other key to try again.");

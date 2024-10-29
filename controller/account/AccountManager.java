@@ -31,12 +31,14 @@ public class AccountManager {
         }
     }
 
-    public static void register(String email, String name, UserType userType) throws ModelNotFoundException {
+    public static User register(String email, String name, UserType userType) throws ModelNotFoundException {
         try {
-            UserManager.createUser(email, name, userType, "password");
+            User user = UserManager.createUser(email, name, userType, "password");
+            return user;
         } catch (Exception e) {
             System.out.println("Error registering user");
         }
+        return null;
     }
 
     public void logout() {

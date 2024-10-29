@@ -2,7 +2,9 @@ package model.user;
 
 import java.util.Date;
 
-public class PersonalInfo {
+import utils.iocontrol.Mappable;
+
+public class PersonalInfo implements Mappable {
 
     private String name;
     private String gender;

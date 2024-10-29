@@ -9,9 +9,10 @@ public class LoginDisplay {
         ClearDisplay.ClearConsole();
         System.out.println("========================================");
         System.out.println("HOSPITAL MANAGEMENT SYSTEM");
+        System.out.println("========================================");
 
         // Check if user is new
-        System.out.print("\tAre you a new user? [y/n]");
+        System.out.print("Are you a new user? [y/n] ");
         if (CustScanner.getStrChoice().equalsIgnoreCase("y")) {
             RegisterDisplay.register();
         }

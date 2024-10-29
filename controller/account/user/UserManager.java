@@ -87,7 +87,7 @@ public class UserManager {
         AdministratorDatabase.getDB().add(administrator);
     }
 
-    public static void createUser(String email, String name, UserType userType, String password)
+    public static User createUser(String email, String name, UserType userType, String password)
             throws ModelAlreadyExistsException {
         PersonalInfo personalInfo = new PersonalInfo(name, email);
         String userID = UUID.randomUUID().toString();
@@ -106,6 +106,8 @@ public class UserManager {
         } else if (user instanceof Administrator administrator) {
             createAdministrator(administrator);
         }
+
+        return user;
     }
 
 }
