@@ -23,6 +23,11 @@ public class PersonalInfo {
         this.dateOfModification = dateOfModification;
     }
 
+    public PersonalInfo(String name, String emailAddress) {
+        this.name = name;
+        this.emailAddress = emailAddress;
+    }
+
     // Getters
     public String getName() {
         return name;

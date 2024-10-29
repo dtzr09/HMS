@@ -17,6 +17,12 @@ public class Patient implements User {
         this.appointments = appointments;
     }
 
+    public Patient(String patientID, PersonalInfo personalInfo, String hashedPassword) {
+        this.patientID = patientID;
+        this.hashedPassword = hashedPassword;
+        this.personalInfo = personalInfo;
+    }
+
     /**
      * Converts the map to a Patient object
      *

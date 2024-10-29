@@ -82,9 +82,10 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
      *                                     already exists in the Database
      */
     public void add(ModelObject modelObject) throws ModelAlreadyExistsException {
-        if (contains(modelObject.getModelID())) {
+        if (contains(modelObject.getModelID()) || contains(modelObject.getModelEmail())) {
             throw new ModelAlreadyExistsException(
-                    "A model object with ID " + modelObject.getModelID() + " already exists.");
+                    "A model object with ID " + modelObject.getModelID() + " or email " + modelObject.getModelEmail()
+                            + " already exists.");
         } else {
             listOfModelObjects.add(modelObject);
             save(getFilePath());

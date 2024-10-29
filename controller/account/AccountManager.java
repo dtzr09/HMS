@@ -8,8 +8,6 @@ import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PasswordIncorrectException;
 
 public class AccountManager {
-    private String password = "password";
-
     public static boolean userExist(String email, UserType userType) {
         try {
             User user = UserManager.findUser(email, userType);
@@ -33,20 +31,24 @@ public class AccountManager {
         }
     }
 
+    public static void register(String email, String name, UserType userType) throws ModelNotFoundException {
+        try {
+            UserManager.createUser(email, name, userType, "password");
+        } catch (Exception e) {
+            System.out.println("Error registering user");
+        }
+    }
+
     public void logout() {
         // logout
     }
 
-    public boolean validatePassword(String password) {
-        if (this.password.equals(password)) {
-            return true;
-        }
-        return false;
-    }
-
-    public void register(String username, String password) {
-        // register
-    }
+    // public boolean validatePassword(String password) {
+    // if (this.password.equals(password)) {
+    // return true;
+    // }
+    // return false;
+    // }
 
     public void viewProfile() {
         // viewProfile

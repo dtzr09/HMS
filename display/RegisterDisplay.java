@@ -1,7 +1,12 @@
 package display;
 
+import controller.account.AccountManager;
+import model.user.UserType;
+import utils.iocontrol.CustScanner;
+
 public class RegisterDisplay {
     public static void register() {
+        ClearDisplay.ClearConsole();
         System.out.println("========================================");
         System.out.println("HOSPITAL MANAGEMENT SYSTEM");
         System.out.println("========================================");
@@ -12,20 +17,59 @@ public class RegisterDisplay {
         System.out.println("4. Administrator");
         System.out.println("5. Exit");
         System.out.print("Enter your choice: ");
-        // try {
-        // while (true) {
-        // int choice = CustScanner.getIntChoice();
-        // switch (choice) {
-        // case 1 -> DoctorRegisterDisplay.doctorRegister();
-        // case 2 -> PatientRegisterDisplay.patientRegister();
-        // case 3 -> PharmacistRegisterDisplay.pharmacistRegister();
-        // case 4 -> AdministratorRegisterDisplay.administratorRegister();
-        // case 5 -> ExitPage.exitPage();
-        // default -> System.out.println("Invalid choice. Please try again.");
-        // }
-        // }
-        // } catch (PageBackException e) {
-        // LoginDisplay.LoginDisplay();
-        // }
+
+        UserType userType = null;
+        String userEmail = null;
+        String name = null;
+        try {
+            int choice = CustScanner.getIntChoice();
+            if (choice < 1 || choice > 5) {
+                System.out.println("Invalid choice. Please try again.");
+                throw new Exception();
+            }
+            userType = switch (choice) {
+                case 1 -> UserType.DOCTOR;
+                case 2 -> UserType.PATIENT;
+                case 3 -> UserType.PHARMACIST;
+                case 4 -> UserType.ADMINISTRATOR;
+                default -> throw new IllegalStateException("Unexpected value: " + choice);
+            };
+        } catch (Exception e) {
+            System.out.println("Please try again.");
+            register();
+        }
+
+        System.out.println();
+        System.out.print("Enter your name: ");
+        name = CustScanner.getStrChoice();
+        while (name.isEmpty()) {
+            System.out.println("Name cannot be empty.");
+            System.out.print("Enter your Name: ");
+            userEmail = CustScanner.getStrChoice();
+        }
+
+        System.out.println();
+        System.out.print("Enter your email address: ");
+        userEmail = CustScanner.getStrChoice();
+
+        while (userEmail.isEmpty()) {
+            System.out.println("Email cannot be empty.");
+            System.out.print("Enter your email address: ");
+            userEmail = CustScanner.getStrChoice();
+        }
+
+        try {
+            AccountManager.register(userEmail, name, userType);
+        } catch (Exception e) {
+            System.out.println("Error registering user.");
+            System.out.println("Enter [b] to go back to login page, else any other key to try again.");
+            String choice = CustScanner.getStrChoice();
+            if (choice.equalsIgnoreCase("b")) {
+                LoginDisplay.loginDisplay();
+            } else {
+                System.out.println("Please try again.");
+                register();
+            }
+        }
     }
 }

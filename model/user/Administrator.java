@@ -17,6 +17,12 @@ public class Administrator implements User {
         this.requests = requests;
     }
 
+    public Administrator(String administratorID, PersonalInfo personalInfo, String hashedPassword) {
+        this.administratorID = administratorID;
+        this.personalInfo = personalInfo;
+        this.hashedPassword = hashedPassword;
+    }
+
     /**
      * Converts the map to a Administrator object
      *

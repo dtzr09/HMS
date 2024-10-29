@@ -1,5 +1,7 @@
 package controller.account.user;
 
+import java.util.UUID;
+
 import database.user.AdministratorDatabase;
 import database.user.DoctorDatabase;
 import database.user.PatientDatabase;
@@ -7,9 +9,11 @@ import database.user.PharmacistDatabase;
 import model.user.Administrator;
 import model.user.Doctor;
 import model.user.Patient;
+import model.user.PersonalInfo;
 import model.user.Pharmacist;
 import model.user.User;
 import model.user.UserType;
+import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 
 public class UserManager {
@@ -64,6 +68,43 @@ public class UserManager {
             updatePharmacist((Pharmacist) user);
         } else if (user instanceof Administrator) {
             updateAdministrator((Administrator) user);
+        }
+    }
+
+    private static void createDoctor(Doctor doctor) throws ModelAlreadyExistsException {
+        DoctorDatabase.getDB().add(doctor);
+    }
+
+    private static void createPatient(Patient patient) throws ModelAlreadyExistsException {
+        PatientDatabase.getDB().add(patient);
+    }
+
+    private static void createPharmacist(Pharmacist pharmacist) throws ModelAlreadyExistsException {
+        PharmacistDatabase.getDB().add(pharmacist);
+    }
+
+    private static void createAdministrator(Administrator administrator) throws ModelAlreadyExistsException {
+        AdministratorDatabase.getDB().add(administrator);
+    }
+
+    public static void createUser(String email, String name, UserType userType, String password)
+            throws ModelAlreadyExistsException {
+        PersonalInfo personalInfo = new PersonalInfo(name, email);
+        String userID = UUID.randomUUID().toString();
+        User user = switch (userType) {
+            case DOCTOR -> new Doctor(userID, password, personalInfo);
+            case PATIENT -> new Patient(userID, personalInfo, password);
+            case PHARMACIST -> new Pharmacist(userID, personalInfo, password);
+            case ADMINISTRATOR -> new Administrator(userID, personalInfo, password);
+        };
+        if (user instanceof Doctor doctor) {
+            createDoctor(doctor);
+        } else if (user instanceof Patient patient) {
+            createPatient(patient);
+        } else if (user instanceof Pharmacist pharmacist) {
+            createPharmacist(pharmacist);
+        } else if (user instanceof Administrator administrator) {
+            createAdministrator(administrator);
         }
     }
 
