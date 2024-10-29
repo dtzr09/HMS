@@ -1,6 +1,7 @@
 package controller.login;
 
 import controller.account.AccountManager;
+import controller.account.password.PasswordManager;
 import display.AdministratorDisplay;
 import display.ClearDisplay;
 import display.LoginDisplay;
@@ -27,7 +28,7 @@ public class LoginManager {
 
         // if user does not exist, ask to register
         if (!AccountManager.userExist(email, userType)) {
-            RegisterDisplay.register();
+            RegisterDisplay.registerDisplay();
         }
 
         // if user exists, check the password
@@ -43,6 +44,7 @@ public class LoginManager {
 
         try {
             User user = AccountManager.login(userType, email, password);
+
             switch (userType) {
                 case ADMINISTRATOR -> AdministratorDisplay.AdministratorDisplay(user);
                 // case DOCTOR:

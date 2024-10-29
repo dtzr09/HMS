@@ -45,19 +45,8 @@ public class AccountManager {
         // logout
     }
 
-    // public boolean validatePassword(String password) {
-    // if (this.password.equals(password)) {
-    // return true;
-    // }
-    // return false;
-    // }
-
     public void viewProfile() {
         // viewProfile
-    }
-
-    public void changePassword(String password) {
-        // changePassword
     }
 
     public void updateProfile() {

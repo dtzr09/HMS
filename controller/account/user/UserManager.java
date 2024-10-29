@@ -60,14 +60,14 @@ public class UserManager {
     }
 
     public static void updateUser(User user) throws ModelNotFoundException {
-        if (user instanceof Doctor) {
-            updateDoctor((Doctor) user);
-        } else if (user instanceof Patient) {
-            updatePatient((Patient) user);
-        } else if (user instanceof Pharmacist) {
-            updatePharmacist((Pharmacist) user);
-        } else if (user instanceof Administrator) {
-            updateAdministrator((Administrator) user);
+        if (user instanceof Doctor doctor) {
+            updateDoctor(doctor);
+        } else if (user instanceof Patient patient) {
+            updatePatient(patient);
+        } else if (user instanceof Pharmacist pharmacist) {
+            updatePharmacist(pharmacist);
+        } else if (user instanceof Administrator administrator) {
+            updateAdministrator(administrator);
         }
     }
 
