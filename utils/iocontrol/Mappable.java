@@ -1,7 +1,10 @@
 package utils.iocontrol;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import utils.utils.EmptyID;
@@ -56,7 +59,6 @@ public interface Mappable {
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
-                System.out.println(field.getType());
                 if (field.getType().isEnum()) {
                     @SuppressWarnings("unchecked")
                     Enum<?> enumValue = Enum.valueOf((Class<Enum>) field.getType(), map.get(field.getName()));
@@ -67,6 +69,33 @@ public interface Mappable {
                     } else {
                         int intValue = Integer.parseInt(map.get(field.getName()));
                         field.set(this, intValue);
+                    }
+                } else if (field.getType().equals(List.class)) {
+                    String listString = map.get(field.getName());
+                    if (listString != null) {
+                        // Create a new list to populate
+                        List<Object> list = new ArrayList<>();
+
+                        // Determine the type of elements in the list (if known)
+                        ParameterizedType listType = (ParameterizedType) field.getGenericType();
+                        Class<?> listClass = (Class<?>) listType.getActualTypeArguments()[0];
+
+                        // Split the string and parse elements based on the list type
+                        String[] items = listString.split(",");
+                        for (String item : items) {
+                            if (listClass.equals(String.class)) {
+                                list.add(item);
+                            } else if (listClass.equals(Integer.class)) {
+                                list.add(Integer.parseInt(item.trim()));
+                            }
+                            // Add more type checks as needed for other types
+                        }
+
+                        // Set the populated list to the field
+                        field.set(this, list);
+                    } else {
+                        // Set an empty list if no data is found in the map
+                        field.set(this, new ArrayList<>());
                     }
                 } else {
                     field.set(this, map.get(field.getName()));

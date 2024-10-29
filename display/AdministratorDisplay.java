@@ -17,7 +17,6 @@ public class AdministratorDisplay {
             System.out.println("\t2. Change my password");
             System.out.println("\t10. Logout");
             System.out.println("===================================");
-            administrator.displayPersonalInfo();
         }
 
         System.out.println();
