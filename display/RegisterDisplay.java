@@ -9,7 +9,7 @@ import utils.iocontrol.CustScanner;
 
 public class RegisterDisplay {
 
-    public static void registerUserDisplay(UserType userType) {
+    private static void registerUserDisplay(UserType userType) {
         ClearDisplay.ClearConsole();
         System.out.println("========================================");
         System.out.println("HOSPITAL MANAGEMENT SYSTEM");

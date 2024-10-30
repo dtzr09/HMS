@@ -1,5 +1,5 @@
 import controller.account.MedicationManager;
-import display.LoginDisplay;
+import display.WelcomeDisplay;
 
 public class InitialLoad {
     // private static boolean isInitial() {
@@ -10,6 +10,6 @@ public class InitialLoad {
         // if (isInitial()) {
         // MedicationManager.loadMedication();
         // }
-        LoginDisplay.loginDisplay();
+        WelcomeDisplay.welcome();
     }
 }
