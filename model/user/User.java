@@ -10,8 +10,8 @@ public interface User extends Model {
 
     String getName();
 
-    String getHashedPassword();
+    String getPassword();
 
-    void setHashedPassword(String hashedPassword);
+    void setPassword(String password);
 
 }

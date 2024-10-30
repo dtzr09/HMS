@@ -6,21 +6,21 @@ import java.util.Map;
 public class Administrator implements User {
     private String administratorID;
     private PersonalInfo personalInfo;
-    private String hashedPassword;
+    private String password;
     private List<ReplenishmentRequest> requests = null;
 
-    public Administrator(String administratorID, PersonalInfo personalInfo, String hashedPassword,
+    public Administrator(String administratorID, PersonalInfo personalInfo, String password,
             List<ReplenishmentRequest> requests) {
         this.administratorID = administratorID;
         this.personalInfo = personalInfo;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
         this.requests = requests;
     }
 
-    public Administrator(String administratorID, PersonalInfo personalInfo, String hashedPassword) {
+    public Administrator(String administratorID, PersonalInfo personalInfo, String password) {
         this.administratorID = administratorID;
         this.personalInfo = personalInfo;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
     }
 
     /**
@@ -48,12 +48,12 @@ public class Administrator implements User {
         return administratorID;
     }
 
-    public String getHashedPassword() {
-        return hashedPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<ReplenishmentRequest> getAllRequests() {

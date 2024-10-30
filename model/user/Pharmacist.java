@@ -5,13 +5,13 @@ import java.util.Map;
 public class Pharmacist implements User {
     private String pharmacistID;
     private PersonalInfo personalInfo;
-    private String hashedPassword;
+    private String password;
 
     // Constructor
-    public Pharmacist(String pharmacistID, PersonalInfo personalInfo, String hashedPassword) {
+    public Pharmacist(String pharmacistID, PersonalInfo personalInfo, String password) {
         this.pharmacistID = pharmacistID;
         this.personalInfo = personalInfo;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
     }
 
     /**
@@ -40,8 +40,8 @@ public class Pharmacist implements User {
         return pharmacistID;
     }
 
-    public String getHashedPassword() {
-        return hashedPassword;
+    public String getPassword() {
+        return password;
     }
 
     // setters
@@ -49,8 +49,8 @@ public class Pharmacist implements User {
         personalInfo.setName(name);
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setPersonalInfo(PersonalInfo personalInfo) {

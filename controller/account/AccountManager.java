@@ -41,6 +41,13 @@ public class AccountManager {
         return null;
     }
 
+    public static void changePassword(UserType userType, String email, String oldPassword, String newPassword)
+            throws PasswordIncorrectException, ModelNotFoundException {
+        User user = UserManager.findUser(email, userType);
+        PasswordManager.changePassword(user, oldPassword, newPassword);
+        UserManager.updateUser(user);
+    }
+
     public void logout() {
         // logout
     }

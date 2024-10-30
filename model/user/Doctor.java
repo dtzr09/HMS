@@ -5,23 +5,23 @@ import java.util.List;
 
 public class Doctor implements User {
     private String doctorID;
-    private String hashedPassword;
+    private String password;
     private PersonalInfo personalInfo;
     private int numOfPatients = 0;
     private List<Appointment> appointments = null;
 
-    public Doctor(String doctorID, String hashedPassword, PersonalInfo personalInfo, List<Appointment> appointments,
+    public Doctor(String doctorID, String password, PersonalInfo personalInfo, List<Appointment> appointments,
             int numOfPatients) {
         this.doctorID = doctorID;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
         this.personalInfo = personalInfo;
         this.appointments = appointments;
         this.numOfPatients = numOfPatients;
     }
 
-    public Doctor(String doctorID, String hashedPassword, PersonalInfo personalInfo) {
+    public Doctor(String doctorID, String password, PersonalInfo personalInfo) {
         this.doctorID = doctorID;
-        this.hashedPassword = hashedPassword;
+        this.password = password;
         this.personalInfo = personalInfo;
     }
 
@@ -51,8 +51,8 @@ public class Doctor implements User {
         return personalInfo;
     }
 
-    public String getHashedPassword() {
-        return this.hashedPassword;
+    public String getPassword() {
+        return this.password;
     }
 
     public List<Appointment> getAppointments() {
@@ -64,8 +64,8 @@ public class Doctor implements User {
     }
 
     // setters
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setPersonalInfo(PersonalInfo personalInfo) {

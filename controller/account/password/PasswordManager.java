@@ -5,13 +5,13 @@ import utils.exceptions.PasswordIncorrectException;
 
 public class PasswordManager {
     public static boolean checkPassword(User user, String password) {
-        return user.getHashedPassword().equals(password);
+        return user.getPassword().equals(password);
     }
 
     public static void changePassword(User user, String oldPassword, String newPassword)
             throws PasswordIncorrectException {
         if (checkPassword(user, oldPassword)) {
-            user.setHashedPassword(newPassword);
+            user.setPassword(newPassword);
         } else {
             throw new PasswordIncorrectException();
         }
