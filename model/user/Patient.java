@@ -1,5 +1,6 @@
 package model.user;
 
+import model.medicalHistory.*;
 import java.util.Map;
 import java.util.List;
 
@@ -8,13 +9,14 @@ public class Patient implements User {
     private String password;
     private PersonalInfo personalInfo;
     private List<Appointment> appointments = null;
-    // private String List<MedicalHistory> medicalHistory;
+    private List<MedicalHistory> medicalHistories = null;
 
-    public Patient(String patientID, String password, PersonalInfo personalInfo, List<Appointment> appointments) {
+    public Patient(String patientID, String password, PersonalInfo personalInfo, List<Appointment> appointments , List<MedicalHistory> medicalHistory) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
         this.appointments = appointments;
+        this.medicalHistories = medicalHistory;
     }
 
     public Patient(String patientID, PersonalInfo personalInfo, String password) {
@@ -68,6 +70,14 @@ public class Patient implements User {
 
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
+    }
+
+    public List<MedicalHistory> getMedicalHistories() {
+        return medicalHistories;
+    }
+
+    public void setMedicalHistories(MedicalHistory medicalHistory) { // Adding single history
+        this.medicalHistories.add(medicalHistory);
     }
 
 }

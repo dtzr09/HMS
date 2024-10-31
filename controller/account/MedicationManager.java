@@ -35,8 +35,7 @@ public class MedicationManager {
                 int medicationStock = Integer.parseInt(medication.get(1));
                 int lowStockLevelAlert = Integer.parseInt(medication.get(2));
 
-                // TODO: add price to Medication constructor
-                addMedication(new Medication(medicationID, medicationName, medicationStock, 0.0, lowStockLevelAlert));
+                addMedication(new Medication(medicationID, medicationName, medicationStock, lowStockLevelAlert));
             } catch (ModelAlreadyExistsException e) {
                 e.printStackTrace();
             }

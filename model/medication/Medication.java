@@ -8,14 +8,12 @@ public class Medication implements Model {
     private String medicationID;
     private String name;
     private int stock;
-    private double price;
     private int lowStockLevelAlert;
 
-    public Medication(String medicationID, String name, int stock, double price, int lowStockLevelAlert) {
+    public Medication(String medicationID, String name, int stock, int lowStockLevelAlert) {
         this.medicationID = medicationID;
         this.name = name;
         this.stock = stock;
-        this.price = price;
         this.lowStockLevelAlert = lowStockLevelAlert;
     }
 
@@ -51,14 +49,6 @@ public class Medication implements Model {
 
     public void setStock(int stock) {
         this.stock = stock;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public double getLowStockLevelAlert() {
