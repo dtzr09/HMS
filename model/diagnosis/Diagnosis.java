@@ -48,7 +48,7 @@ public class Diagnosis {
     public void setPrescriptions(ArrayList<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
     }
-    public void addPrescriptions(Prescription prescription){
+    public void addPrescriptions(Prescription prescription){    // Adding one prescription object
         this.prescriptions.add(prescription);
     }
 }
