@@ -1,17 +1,23 @@
 package model.diagnosis;
 
+import java.util.ArrayList;
+
+import model.prescription.Prescription;
+
 public class Diagnosis {
     private String dianosisID;
     private String disease;
     private String doctorID;
+    private ArrayList<Prescription> prescriptions = null;
 
     public Diagnosis(){
 
     }
-    public Diagnosis(String diagnosisID, String disease, String doctorID){
+    public Diagnosis(String diagnosisID, String disease, String doctorID, ArrayList<Prescription> prescriptions){
         this.dianosisID = diagnosisID;
         this.disease = disease;
         this.doctorID = doctorID;
+        this.prescriptions = prescriptions;
     }
 
     public String getDianosisID() {
@@ -34,5 +40,15 @@ public class Diagnosis {
     }
     public void setDoctorID(String doctorID) {
         this.doctorID = doctorID;
+    }
+
+    public ArrayList<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+    public void setPrescriptions(ArrayList<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
+    public void addPrescriptions(Prescription prescription){
+        this.prescriptions.add(prescription);
     }
 }

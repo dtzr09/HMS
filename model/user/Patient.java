@@ -1,5 +1,6 @@
 package model.user;
 
+import model.diagnosis.Diagnosis;
 import model.medicalHistory.*;
 import java.util.Map;
 import java.util.List;
@@ -8,18 +9,22 @@ public class Patient implements User {
     private String patientID;
     private String password;
     private PersonalInfo personalInfo;
+    private String allergies;
+    private BloodType bloodType;
     private List<Appointment> appointments = null;
-    private List<MedicalHistory> medicalHistories = null;
+    private List<Diagnosis> diagnosis = null;
 
-    public Patient(String patientID, String password, PersonalInfo personalInfo, List<Appointment> appointments , List<MedicalHistory> medicalHistory) {
+    public Patient(String patientID, String password, PersonalInfo personalInfo, String allergies, BloodType bloodType, List<Appointment> appointments , List<Diagnosis> diagnosis) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
+        this.allergies = allergies;
+        this.bloodType = bloodType;
         this.appointments = appointments;
-        this.medicalHistories = medicalHistory;
+        this.diagnosis = diagnosis;
     }
 
-    public Patient(String patientID, PersonalInfo personalInfo, String password) {
+    public Patient(String patientID, String password, PersonalInfo personalInfo) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
@@ -59,6 +64,16 @@ public class Patient implements User {
         return appointments;
     }
 
+    public String getAllergies() {
+        return allergies;
+    }
+    public BloodType getBloodType() {
+        return bloodType;
+    }
+    public List<Diagnosis> getDiagnosis() {
+        return diagnosis;
+    }
+
     // setters
     public void setPassword(String password) {
         this.password = password;
@@ -71,13 +86,13 @@ public class Patient implements User {
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
-
-    public List<MedicalHistory> getMedicalHistories() {
-        return medicalHistories;
+    public void setAllergies(String allergies) {
+        this.allergies = allergies;
     }
-
-    public void setMedicalHistories(MedicalHistory medicalHistory) { // Adding single history
-        this.medicalHistories.add(medicalHistory);
+    public void setBloodType(BloodType bloodType) {
+        this.bloodType = bloodType;
     }
-
+    public void setDiagnosis(List<Diagnosis> diagnosis) {
+        this.diagnosis = diagnosis;
+    }
 }

@@ -12,7 +12,7 @@ public class Prescription {
     private String prescriptionID;
     private Patient patient;
     private Pharmacist pharmacist;
-    private Doctor doctorName;
+    private Doctor doctor;
     private ArrayList<Medication> medication;
     private Date dateOfPrescription;
     private String drugInstructions;
@@ -21,11 +21,16 @@ public class Prescription {
     public Prescription() {
     }
 
-    public Prescription(String prescriptionID, Patient patient, Pharmacist pharmacist, Doctor doctorName) {
+    public Prescription(String prescriptionID, Patient patient, Pharmacist pharmacist, Doctor doctor, ArrayList<Medication> medication
+                        , Date dateOfPrescription, String drugInstructions, PrescriptionStatus prescriptionStatus) {
         this.prescriptionID = prescriptionID;
         this.patient = patient;
         this.pharmacist = pharmacist;
-        this.doctorName = doctorName;
+        this.doctor = doctor;
+        this.medication = medication;
+        this.dateOfPrescription = dateOfPrescription;
+        this.drugInstructions = drugInstructions;
+        this.prescriptionStatus = prescriptionStatus;
     }
 
     public String getPrescriptionID() {
@@ -52,12 +57,12 @@ public class Prescription {
         this.pharmacist = pharmacist;
     }
 
-    public Doctor getDoctorName() {
-        return doctorName;
+    public Doctor getdoctor() {
+        return doctor;
     }
 
-    public void setDoctorName(Doctor doctorName) {
-        this.doctorName = doctorName;
+    public void setdoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
     public ArrayList<Medication> getMedication() {
