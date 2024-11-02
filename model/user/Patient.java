@@ -95,4 +95,7 @@ public class Patient implements User {
     public void setDiagnosis(List<Diagnosis> diagnosis) {
         this.diagnosis = diagnosis;
     }
+    public void addDiagnosis(Diagnosis diagnosis){      //For adding one new diagnosis
+        this.diagnosis.add(diagnosis);
+    }
 }
