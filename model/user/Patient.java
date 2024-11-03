@@ -24,7 +24,7 @@ public class Patient implements User {
         this.diagnosis = diagnosis;
     }
 
-    public Patient(String patientID, String password, PersonalInfo personalInfo) {
+    public Patient(String patientID, PersonalInfo personalInfo, String password) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
