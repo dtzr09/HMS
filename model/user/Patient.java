@@ -3,7 +3,7 @@ package model.user;
 import model.diagnosis.Diagnosis;
 import model.medicalHistory.*;
 import java.util.Map;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Patient implements User {
     private String patientID;
@@ -11,10 +11,10 @@ public class Patient implements User {
     private PersonalInfo personalInfo;
     private String allergies;
     private BloodType bloodType;
-    private List<Appointment> appointments = null;
-    private List<Diagnosis> diagnosis = null;
+    private ArrayList<Appointment> appointments = null;
+    private ArrayList<Diagnosis> diagnosis = null;
 
-    public Patient(String patientID, String password, PersonalInfo personalInfo, String allergies, BloodType bloodType, List<Appointment> appointments , List<Diagnosis> diagnosis) {
+    public Patient(String patientID, String password, PersonalInfo personalInfo, String allergies, BloodType bloodType, ArrayList<Appointment> appointments , ArrayList<Diagnosis> diagnosis) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
@@ -60,7 +60,7 @@ public class Patient implements User {
         return personalInfo;
     }
 
-    public List<Appointment> getAppointments() {
+    public ArrayList<Appointment> getAppointments() {
         return appointments;
     }
 
@@ -70,7 +70,7 @@ public class Patient implements User {
     public BloodType getBloodType() {
         return bloodType;
     }
-    public List<Diagnosis> getDiagnosis() {
+    public ArrayList<Diagnosis> getDiagnosis() {
         return diagnosis;
     }
 
@@ -83,7 +83,7 @@ public class Patient implements User {
         this.personalInfo = personalInfo;
     }
 
-    public void setAppointments(List<Appointment> appointments) {
+    public void setAppointments(ArrayList<Appointment> appointments) {
         this.appointments = appointments;
     }
     public void setAllergies(String allergies) {
@@ -92,7 +92,7 @@ public class Patient implements User {
     public void setBloodType(BloodType bloodType) {
         this.bloodType = bloodType;
     }
-    public void setDiagnosis(List<Diagnosis> diagnosis) {
+    public void setDiagnosis(ArrayList<Diagnosis> diagnosis) {
         this.diagnosis = diagnosis;
     }
     public void addDiagnosis(Diagnosis diagnosis){      //For adding one new diagnosis
