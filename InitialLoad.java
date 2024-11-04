@@ -1,4 +1,4 @@
-import controller.MedicationManager;
+import controller.medication.MedicationManager;
 import display.WelcomeDisplay;
 
 public class InitialLoad {

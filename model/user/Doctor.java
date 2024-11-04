@@ -1,6 +1,9 @@
 package model.user;
 
 import java.util.Map;
+
+import model.appointment.Appointment;
+
 import java.util.List;
 
 public class Doctor implements User {

@@ -1,8 +1,10 @@
-package database;
+package database.medication;
 
 import model.medication.Medication;
 import java.util.List;
 import java.util.Map;
+
+import database.Database;
 
 public class MedicationDatabase extends Database<Medication> {
 

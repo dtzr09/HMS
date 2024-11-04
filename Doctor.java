@@ -2,7 +2,7 @@ package AccountManager;
 
 import java.util.List;
 
-import controller.AppointmentManager;
+import controller.appointment.AppointmentManager;
 
 public class Doctor {
     private String id;

@@ -1,6 +1,6 @@
 package AccountManager;
 
-import controller.Status;
+import controller.appointment.Status;
 
 public class Appointment {
     private String appointmentID; 
@@ -15,7 +15,7 @@ public class Appointment {
         this.doctorID = doctorID;
         this.patientID = patientID;
         this.timeSlot = timeSlot;
-        this.status = Status.SCHEDULED;
+        this.status = controller.appointment.SCHEDULED;
         this.outcome = "";
     }
 

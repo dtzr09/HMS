@@ -1,4 +1,4 @@
-package display;
+package display.auth;
 
 public class LogoutDisplay {
 

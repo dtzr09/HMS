@@ -3,6 +3,8 @@ package model.user;
 import java.util.List;
 import java.util.Map;
 
+import model.request.ReplenishmentRequest;
+
 public class Administrator implements User {
     private String administratorID;
     private PersonalInfo personalInfo;

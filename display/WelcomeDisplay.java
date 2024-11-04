@@ -1,6 +1,8 @@
 package display;
 
-import model.user.UserType;
+import display.auth.LoginDisplay;
+import display.auth.RegisterDisplay;
+import model.user.enums.UserType;
 import utils.iocontrol.CustScanner;
 
 public class WelcomeDisplay {

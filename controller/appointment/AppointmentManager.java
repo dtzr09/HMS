@@ -1,9 +1,9 @@
-package controller;
+package controller.appointment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.user.Appointment;
+import model.appointment.Appointment;
 
 enum Status {
     SCHEDULED, COMPLETED, CANCELLED

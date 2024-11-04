@@ -1,4 +1,4 @@
-package controller;
+package controller.medication;
 
 import database.user.PatientDatabase;
 import model.diagnosis.Diagnosis;

@@ -12,7 +12,7 @@ import model.user.Patient;
 import model.user.PersonalInfo;
 import model.user.Pharmacist;
 import model.user.User;
-import model.user.UserType;
+import model.user.enums.UserType;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 

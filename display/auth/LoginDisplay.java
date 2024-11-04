@@ -1,9 +1,11 @@
-package display;
+package display.auth;
 
 import controller.account.AccountManager;
+import display.ClearDisplay;
+import display.WelcomeDisplay;
 import display.user.AdministratorDisplay;
 import model.user.User;
-import model.user.UserType;
+import model.user.enums.UserType;
 import utils.exceptions.PasswordIncorrectException;
 import utils.iocontrol.CustScanner;
 

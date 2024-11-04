@@ -1,4 +1,4 @@
-package controller.password;
+package controller.authentication;
 
 import model.user.User;
 import utils.exceptions.PasswordIncorrectException;

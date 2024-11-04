@@ -1,11 +1,12 @@
-package controller;
+package controller.medication;
 
-import database.MedicationDatabase;
 import model.medication.Medication;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 import utils.iocontrol.CSVReader;
 import java.util.UUID;
+
+import database.medication.MedicationDatabase;
 
 import java.util.List;
 

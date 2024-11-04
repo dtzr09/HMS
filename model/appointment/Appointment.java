@@ -1,6 +1,10 @@
-package model.user;
+package model.appointment;
 
 import java.util.Date;
+
+import model.appointment.enums.AppointmentStatus;
+import model.user.Doctor;
+import model.user.Patient;
 
 public class Appointment {
     private String appointmentID;

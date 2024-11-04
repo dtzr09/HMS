@@ -1,9 +1,9 @@
 package controller.account;
 
-import controller.password.PasswordManager;
+import controller.authentication.PasswordManager;
 import controller.user.UserManager;
 import model.user.User;
-import model.user.UserType;
+import model.user.enums.UserType;
 import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PasswordIncorrectException;
 

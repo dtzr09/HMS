@@ -1,11 +1,12 @@
-package display;
+package display.auth;
 
 import controller.account.AccountManager;
-import controller.password.PasswordManager;
+import controller.authentication.PasswordManager;
 import controller.user.UserManager;
+import display.ClearDisplay;
 import display.user.AdministratorDisplay;
 import model.user.User;
-import model.user.UserType;
+import model.user.enums.UserType;
 import utils.iocontrol.CustScanner;
 
 public class RegisterDisplay {

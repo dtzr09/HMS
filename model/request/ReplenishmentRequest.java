@@ -1,6 +1,8 @@
-package model.user;
+package model.request;
 
 import java.util.Date;
+
+import model.request.enums.RequestStatus;
 
 public class ReplenishmentRequest {
     private String replenishmentRequestID;
