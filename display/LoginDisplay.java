@@ -1,6 +1,7 @@
 package display;
 
 import controller.account.AccountManager;
+import display.user.AdministratorDisplay;
 import model.user.User;
 import model.user.UserType;
 import utils.exceptions.PasswordIncorrectException;
@@ -41,7 +42,7 @@ public class LoginDisplay {
             User user = AccountManager.login(userType, email, password);
 
             switch (userType) {
-                case ADMINISTRATOR -> AdministratorDisplay.AdministratorDisplay(user);
+                case ADMINISTRATOR -> AdministratorDisplay.display(user);
                 // case DOCTOR:
                 // // DoctorDisplay.DoctorDisplay(user);
                 // break;

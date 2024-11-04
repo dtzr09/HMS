@@ -1,7 +1,7 @@
 package controller.account;
 
-import controller.account.password.PasswordManager;
-import controller.account.user.UserManager;
+import controller.password.PasswordManager;
+import controller.user.UserManager;
 import model.user.User;
 import model.user.UserType;
 import utils.exceptions.ModelNotFoundException;

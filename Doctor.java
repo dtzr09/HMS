@@ -2,6 +2,8 @@ package AccountManager;
 
 import java.util.List;
 
+import controller.AppointmentManager;
+
 public class Doctor {
     private String id;
     private String name;

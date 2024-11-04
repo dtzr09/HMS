@@ -1,13 +1,14 @@
-package display;
+package display.user;
 
+import display.ClearDisplay;
 import model.user.Administrator;
 import model.user.User;
 import utils.iocontrol.CustScanner;
 
 public class AdministratorDisplay {
 
-    public static void AdministratorDisplay(User user) {
-        // ClearDisplay.ClearConsole();
+    public static void display(User user) {
+        ClearDisplay.ClearConsole();
         if (user instanceof Administrator administrator) {
             System.out.println("===================================");
             System.out.println("Welcome to Administrator Main Page");

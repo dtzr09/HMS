@@ -1,4 +1,4 @@
-package controller.account.user;
+package controller.user;
 
 import java.util.UUID;
 

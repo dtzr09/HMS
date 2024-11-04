@@ -6,11 +6,16 @@ public class Appointment {
     private String appointmentID;
     private AppointmentStatus appointmentStatus;
     private TimeSlot timeSlot;
+    private Patient patient;
+    private Doctor doctor;
 
-    public Appointment(String appointmentID, AppointmentStatus appointmentStatus, TimeSlot timeSlot) {
+    public Appointment(String appointmentID, AppointmentStatus appointmentStatus, TimeSlot timeSlot, Patient patient,
+            Doctor doctor) {
         this.appointmentID = appointmentID;
         this.appointmentStatus = appointmentStatus;
         this.timeSlot = timeSlot;
+        this.patient = patient;
+        this.doctor = doctor;
     }
 
     public String getAppointmentID() {
@@ -40,9 +45,26 @@ public class Appointment {
         return timeSlot.getDate();
     }
 
+    public void setTimeSlot(TimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
+    }
+
+    public TimeSlot getTimeSlot() {
+        return timeSlot;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
     public void displayAppointment() {
         System.out.println("Appointment ID: " + appointmentID);
         System.out.println("Status: " + appointmentStatus);
         System.out.println("Time Slot: " + timeSlot.toString());
     }
+
 }

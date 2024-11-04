@@ -1,12 +1,13 @@
-package display;
+package display.user;
 
+import display.ClearDisplay;
 import model.user.Patient;
 import model.user.User;
 import utils.iocontrol.CustScanner;
 
 public class PatientDisplay {
-    public static void PatientDisplay(User user) {
-        // ClearDisplay.ClearConsole();
+    public static void display(User user) {
+        ClearDisplay.ClearConsole();
         if (user instanceof Patient patient) {
             System.out.println("===================================");
             System.out.println("Welcome to Patient Main Page");
@@ -28,7 +29,7 @@ public class PatientDisplay {
         }
 
         int choice = 0;
-        while (choice < 1 || choice > 12){
+        while (choice < 1 || choice > 12) {
             System.out.println();
             System.out.print("What would you like to do? ");
             choice = CustScanner.getIntChoice();

@@ -1,5 +1,7 @@
 package AccountManager;
 
+import controller.Status;
+
 public class Appointment {
     private String appointmentID; 
     private String doctorID; 

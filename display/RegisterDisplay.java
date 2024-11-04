@@ -1,8 +1,9 @@
 package display;
 
 import controller.account.AccountManager;
-import controller.account.password.PasswordManager;
-import controller.account.user.UserManager;
+import controller.password.PasswordManager;
+import controller.user.UserManager;
+import display.user.AdministratorDisplay;
 import model.user.User;
 import model.user.UserType;
 import utils.iocontrol.CustScanner;
@@ -50,7 +51,7 @@ public class RegisterDisplay {
                     System.out.println("Password changed successfully.");
                 }
                 switch (userType) {
-                    case ADMINISTRATOR -> AdministratorDisplay.AdministratorDisplay(user);
+                    case ADMINISTRATOR -> AdministratorDisplay.display(user);
                     default -> throw new IllegalStateException("Unexpected value: " + userType);
                 }
             } else {
