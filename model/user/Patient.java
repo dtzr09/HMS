@@ -15,7 +15,8 @@ public class Patient implements User {
     private ArrayList<Appointment> appointments = null;
     private ArrayList<Diagnosis> diagnosis = null;
 
-    public Patient(String patientID, String password, PersonalInfo personalInfo, String allergies, BloodType bloodType, ArrayList<Appointment> appointments , ArrayList<Diagnosis> diagnosis) {
+    public Patient(String patientID, String password, PersonalInfo personalInfo, String allergies, BloodType bloodType,
+            ArrayList<Appointment> appointments, ArrayList<Diagnosis> diagnosis) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
@@ -53,6 +54,10 @@ public class Patient implements User {
         return personalInfo.getEmail();
     }
 
+    public String getModelEmail() {
+        return personalInfo.getEmail();
+    }
+
     public String getName() {
         return personalInfo.getName();
     }
@@ -68,9 +73,11 @@ public class Patient implements User {
     public String getAllergies() {
         return allergies;
     }
+
     public BloodType getBloodType() {
         return bloodType;
     }
+
     public ArrayList<Diagnosis> getDiagnosis() {
         return diagnosis;
     }
@@ -87,16 +94,20 @@ public class Patient implements User {
     public void setAppointments(ArrayList<Appointment> appointments) {
         this.appointments = appointments;
     }
+
     public void setAllergies(String allergies) {
         this.allergies = allergies;
     }
+
     public void setBloodType(BloodType bloodType) {
         this.bloodType = bloodType;
     }
+
     public void setDiagnosis(ArrayList<Diagnosis> diagnosis) {
         this.diagnosis = diagnosis;
     }
-    public void addDiagnosis(Diagnosis diagnosis){      //For adding one new diagnosis
+
+    public void addDiagnosis(Diagnosis diagnosis) { // For adding one new diagnosis
         this.diagnosis.add(diagnosis);
     }
 }

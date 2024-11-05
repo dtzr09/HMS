@@ -6,6 +6,8 @@ public interface User extends Model {
 
     String getModelID();
 
+    String getModelEmail();
+
     String getEmail();
 
     String getName();

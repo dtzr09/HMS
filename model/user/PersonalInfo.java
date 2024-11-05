@@ -8,14 +8,14 @@ import utils.iocontrol.Mappable;
 public class PersonalInfo implements Mappable {
 
     private String name;
-    private String gender;
+    private Gender gender;
     private int age;
     private String dateOfBirth;
     private String emailAddress;
     private String phoneNumber;
     private String dateOfModification;
 
-    public PersonalInfo(String name, String gender, int age, String dateOfBirth, String emailAddress,
+    public PersonalInfo(String name, Gender gender, int age, String dateOfBirth, String emailAddress,
             String phoneNumber, String dateOfModification) {
         this.name = name;
         this.gender = gender;
@@ -29,7 +29,7 @@ public class PersonalInfo implements Mappable {
     public PersonalInfo(String name, String emailAddress, Gender gender, int age) {
         this.name = name;
         this.emailAddress = emailAddress;
-        this.gender = gender.toString();
+        this.gender = gender;
         this.age = age;
     }
 
@@ -38,7 +38,7 @@ public class PersonalInfo implements Mappable {
         return name;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
@@ -78,7 +78,7 @@ public class PersonalInfo implements Mappable {
         this.name = name;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

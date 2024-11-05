@@ -1,9 +1,6 @@
 package model.user;
 
-import java.util.List;
 import java.util.Map;
-
-import model.request.ReplenishmentRequest;
 
 public class Administrator implements User {
     private String administratorID;
@@ -39,6 +36,10 @@ public class Administrator implements User {
 
     public String getModelID() {
         return administratorID;
+    }
+
+    public String getModelEmail() {
+        return personalInfo.getEmail();
     }
 
     public String getPassword() {

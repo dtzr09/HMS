@@ -38,7 +38,6 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
     // Only users will have email
     public ModelObject getByEmail(String userEmail) throws ModelNotFoundException {
         for (ModelObject modelObject : listOfModelObjects) {
-            System.out.println(modelObject.getModelEmail());
             if (modelObject.getModelEmail().equalsIgnoreCase(userEmail)) {
                 return modelObject;
             }

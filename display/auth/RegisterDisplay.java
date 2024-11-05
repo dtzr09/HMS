@@ -8,11 +8,12 @@ import display.user.AdministratorDisplay;
 import model.user.User;
 import model.user.enums.Gender;
 import model.user.enums.UserType;
+import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
 public class RegisterDisplay {
 
-    private static void registerUserDisplay(UserType userType) {
+    private static void registerUserDisplay(UserType userType) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("========================================");
         System.out.println("HOSPITAL MANAGEMENT SYSTEM");
@@ -37,7 +38,7 @@ public class RegisterDisplay {
 
         System.out.print("What is your gender? [M/F]: ");
         String genderInput = CustScanner.getStrChoice();
-        while (genderInput.isEmpty() || !genderInput.equalsIgnoreCase("M") || !genderInput.equalsIgnoreCase("F")) {
+        while (genderInput.isEmpty() || (!genderInput.equalsIgnoreCase("M") && !genderInput.equalsIgnoreCase("F"))) {
             System.out.println("Invalid choice. Please try again.");
             System.out.print("What is your gender? [M/F]: ");
             genderInput = CustScanner.getStrChoice();
@@ -82,7 +83,7 @@ public class RegisterDisplay {
             System.out.println("Enter [b] to go back to login page, else any other key to try again.");
             String choice = CustScanner.getStrChoice();
             if (choice.equalsIgnoreCase("b")) {
-                registerDisplay();
+                throw new PageBackException();
             } else {
                 System.out.println("Please try again.");
                 registerUserDisplay(userType);

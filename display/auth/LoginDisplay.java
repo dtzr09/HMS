@@ -1,13 +1,9 @@
 package display.auth;
 
-import java.util.List;
-
 import controller.account.AccountManager;
-import database.user.AdministratorDatabase;
 import display.ClearDisplay;
 import display.WelcomeDisplay;
 import display.user.AdministratorDisplay;
-import model.user.Administrator;
 import model.user.User;
 import model.user.enums.UserType;
 import utils.exceptions.PasswordIncorrectException;
@@ -28,15 +24,9 @@ public class LoginDisplay {
             email = CustScanner.getStrChoice();
         }
 
-        // if user does not exist, ask to register
-        List<Administrator> admins = AdministratorDatabase.getDB().getAllAdministrators();
-        for (Administrator admin : admins) {
-            System.out.println(admin.getEmail());
-        }
-
         if (!AccountManager.userExist(email, userType)) {
             System.out.println("User does not exist. Please register.");
-            // RegisterDisplay.registerDisplay();
+            RegisterDisplay.registerDisplay();
         }
 
         // if user exists, check the password
@@ -70,7 +60,7 @@ public class LoginDisplay {
             System.out.println("Password incorrect.");
         } catch (Exception e) {
             System.out.println("Invalid email or password. Please try again.");
-            // login(userType);
+            login(userType);
         }
 
         System.out.println("Enter [b] to go back, else any other key to try again.");
@@ -79,7 +69,7 @@ public class LoginDisplay {
             WelcomeDisplay.welcome();
         } else {
             System.out.println("Please try again.");
-            // login(userType);
+            login(userType);
         }
     }
 }

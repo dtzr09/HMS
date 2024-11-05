@@ -50,6 +50,10 @@ public class Doctor implements User {
         return personalInfo.getEmail();
     }
 
+    public String getModelEmail() {
+        return personalInfo.getEmail();
+    }
+
     public PersonalInfo getPersonalInfo() {
         return personalInfo;
     }

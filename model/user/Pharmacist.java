@@ -44,6 +44,10 @@ public class Pharmacist implements User {
         return password;
     }
 
+    public String getModelEmail() {
+        return personalInfo.getEmail();
+    }
+
     // setters
     public void setName(String name) {
         personalInfo.setName(name);
