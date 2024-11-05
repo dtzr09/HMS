@@ -17,7 +17,6 @@ import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
-import utils.exceptions.UserAlreadyExistsException;
 import utils.exceptions.UserCannotBeFoundException;
 
 public class UserManager {

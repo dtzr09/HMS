@@ -14,9 +14,11 @@ public class WelcomeDisplay {
 
         // Check if user is new
         System.out.print("Are you a new user? [y/n] ");
-        if (CustScanner.getStrChoice().equalsIgnoreCase("y")) {
+        String strChoice = CustScanner.getStrChoice();
+        if (strChoice.equalsIgnoreCase("y")) {
             RegisterDisplay.registerDisplay();
-        } else if (CustScanner.getStrChoice().equalsIgnoreCase("n")) {
+        } else if (strChoice.equalsIgnoreCase("n")) {
+            System.out.println();
             System.out.println("Who are you logging in as?");
             System.out.println("1. Doctor");
             System.out.println("2. Patient");
@@ -41,11 +43,11 @@ public class WelcomeDisplay {
                 LoginDisplay.login(userType);
 
             } catch (Exception e) {
-                welcome();
+                // welcome();
             }
         } else {
             System.out.println("Invalid choice. Please try again.");
-            welcome();
+            // welcome();
         }
 
     }

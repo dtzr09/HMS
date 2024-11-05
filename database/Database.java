@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.Model;
-import model.medication.Medication;
 
 /**
  * The Database abstract class provides the basic functionality for storing,
@@ -39,9 +38,7 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
     // Only users will have email
     public ModelObject getByEmail(String userEmail) throws ModelNotFoundException {
         for (ModelObject modelObject : listOfModelObjects) {
-            if (modelObject instanceof Medication) {
-                continue;
-            }
+            System.out.println(modelObject.getModelEmail());
             if (modelObject.getModelEmail().equalsIgnoreCase(userEmail)) {
                 return modelObject;
             }
