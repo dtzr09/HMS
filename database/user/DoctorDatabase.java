@@ -47,4 +47,8 @@ public class DoctorDatabase extends Database<Doctor> {
         }
     }
 
+    public List<Doctor> getAllDoctors() {
+        return super.getAll();
+    }
+
 }

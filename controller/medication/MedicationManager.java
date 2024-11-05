@@ -11,7 +11,8 @@ import database.medication.MedicationDatabase;
 import java.util.List;
 
 public class MedicationManager {
-    public Medication findMedication(String medicationID) throws ModelNotFoundException {
+
+    public static Medication findMedication(String medicationID) throws ModelNotFoundException {
         return MedicationDatabase.getDB().getByID(medicationID);
     }
 
@@ -40,6 +41,28 @@ public class MedicationManager {
             } catch (ModelAlreadyExistsException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static List<Medication> getMedications() {
+        return MedicationDatabase.getDB().getAllMedications();
+    }
+
+    public static void updateMedicationStock(String medicationID) {
+        try {
+            Medication medication = findMedication(medicationID);
+            medication.setStock(medication.getStock() + 10);
+            updateMedication(medication);
+        } catch (ModelNotFoundException e) {
+            System.out.println(medicationID + " not found.");
+        }
+    }
+
+    public static void deleteMedication(String medicationID) {
+        try {
+            MedicationDatabase.getDB().remove(medicationID);
+        } catch (ModelNotFoundException e) {
+            System.out.println(medicationID + " not found.");
         }
     }
 }

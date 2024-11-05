@@ -44,7 +44,7 @@ public class LoginDisplay {
             User user = AccountManager.login(userType, email, password);
 
             switch (userType) {
-                case ADMINISTRATOR -> AdministratorDisplay.display(user);
+                case ADMINISTRATOR -> AdministratorDisplay.administratorDisplay(user);
                 // case DOCTOR:
                 // // DoctorDisplay.DoctorDisplay(user);
                 // break;

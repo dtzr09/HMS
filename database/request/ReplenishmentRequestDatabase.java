@@ -1,26 +1,28 @@
-package database.user;
+package database.request;
+
+import model.request.ReplenishmentRequest;
 
 import java.util.List;
 import java.util.Map;
 
 import database.Database;
-import model.user.Pharmacist;
 
-public class PharmacistDatabase extends Database<Pharmacist> {
-    private static final String FILE_PATH = "./data/user/pharmacist.txt";
+public class ReplenishmentRequestDatabase extends Database<ReplenishmentRequest> {
 
-    PharmacistDatabase() {
+    private static final String FILE_PATH = "./data/user/replenishmentRequest.txt";
+
+    ReplenishmentRequestDatabase() {
         super();
         load();
     }
 
     /**
-     * Gets a new instance of PharmacistDatabase.
+     * Gets a new instance of MedicationDatabase.
      *
-     * @return a new instance of PharmacistDatabase
+     * @return a new instance of MedicationDatabase
      */
-    public static PharmacistDatabase getDB() {
-        return new PharmacistDatabase();
+    public static ReplenishmentRequestDatabase getDB() {
+        return new ReplenishmentRequestDatabase();
     }
 
     /**
@@ -41,11 +43,11 @@ public class PharmacistDatabase extends Database<Pharmacist> {
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
-            getAll().add(new Pharmacist(map));
+            getAll().add(new ReplenishmentRequest(map));
         }
     }
 
-    public List<Pharmacist> getAllPharmacist() {
+    public List<ReplenishmentRequest> getAllReplenishmentRequests() {
         return super.getAll();
     }
 }

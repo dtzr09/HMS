@@ -45,4 +45,8 @@ public class AdministratorDatabase extends Database<Administrator> {
             getAll().add(new Administrator(map));
         }
     }
+
+    public List<Administrator> getAllAdministrators() {
+        return super.getAll();
+    }
 }

@@ -52,10 +52,6 @@ public class AccountManager {
         // logout
     }
 
-    public void viewProfile() {
-        // viewProfile
-    }
-
     public void updateProfile() {
         // updateProfile
     }

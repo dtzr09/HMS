@@ -52,7 +52,7 @@ public class RegisterDisplay {
                     System.out.println("Password changed successfully.");
                 }
                 switch (userType) {
-                    case ADMINISTRATOR -> AdministratorDisplay.display(user);
+                    case ADMINISTRATOR -> AdministratorDisplay.administratorDisplay(user);
                     default -> throw new IllegalStateException("Unexpected value: " + userType);
                 }
             } else {

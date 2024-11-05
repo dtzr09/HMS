@@ -1,6 +1,7 @@
 package database.medication;
 
 import model.medication.Medication;
+
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +35,6 @@ public class MedicationDatabase extends Database<Medication> {
         return FILE_PATH;
     }
 
-    
-
     /**
      * Sets the list of mappable objects in the Database.
      *
@@ -48,4 +47,7 @@ public class MedicationDatabase extends Database<Medication> {
         }
     }
 
+    public List<Medication> getAllMedications() {
+        return super.getAll();
+    }
 }

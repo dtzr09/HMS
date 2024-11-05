@@ -9,15 +9,6 @@ public class Administrator implements User {
     private String administratorID;
     private PersonalInfo personalInfo;
     private String password;
-    private List<ReplenishmentRequest> requests = null;
-
-    public Administrator(String administratorID, PersonalInfo personalInfo, String password,
-            List<ReplenishmentRequest> requests) {
-        this.administratorID = administratorID;
-        this.personalInfo = personalInfo;
-        this.password = password;
-        this.requests = requests;
-    }
 
     public Administrator(String administratorID, PersonalInfo personalInfo, String password) {
         this.administratorID = administratorID;
@@ -56,10 +47,6 @@ public class Administrator implements User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<ReplenishmentRequest> getAllRequests() {
-        return requests;
     }
 
     public String getEmail() {

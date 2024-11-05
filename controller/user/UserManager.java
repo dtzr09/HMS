@@ -1,5 +1,6 @@
 package controller.user;
 
+import java.util.List;
 import java.util.UUID;
 
 import database.user.AdministratorDatabase;
@@ -108,6 +109,18 @@ public class UserManager {
         }
 
         return user;
+    }
+
+    public static List<Doctor> getDoctors() {
+        return DoctorDatabase.getDB().getAllDoctors();
+    }
+
+    public static List<Administrator> getAdministrators() {
+        return AdministratorDatabase.getDB().getAllAdministrators();
+    }
+
+    public static List<Pharmacist> getPharmacists() {
+        return PharmacistDatabase.getDB().getAllPharmacist();
     }
 
 }
