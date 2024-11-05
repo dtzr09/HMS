@@ -42,7 +42,7 @@ public class PharmacistDisplay {
             try {
                 switch (choice) {
                     // case 1 -> ; ////ToDo Add appointment parts and implement function here
-                    case 2 -> updatePrescriptionStatus();
+                    case 2 -> updatePrescriptionStatus(user);
                     // case 3 -> ;
                     // case 4 -> ;
                     case 5 -> ViewUserProfileDisplay.viewUserProfilePage(pharmacist, UserType.PHARMACIST);
@@ -62,7 +62,7 @@ public class PharmacistDisplay {
 
     }
 
-    public static void updatePrescriptionStatus(){
+    public static void updatePrescriptionStatus(User user){
         try {
             System.out.println("Enter Patient's email : ");   
             String email = CustScanner.getStrChoice();
