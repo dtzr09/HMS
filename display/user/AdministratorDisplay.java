@@ -16,6 +16,7 @@ import model.user.Administrator;
 import model.user.User;
 import model.user.Doctor;
 import model.user.Pharmacist;
+import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
@@ -148,9 +149,37 @@ public class AdministratorDisplay {
 
         System.out.print("Enter name: ");
         String name = CustScanner.getStrChoice();
+        while (name.isEmpty()) {
+            System.out.println("Name cannot be empty.");
+            System.out.print("Enter your Name: ");
+            name = CustScanner.getStrChoice();
+        }
 
         System.out.print("Enter email: ");
         String email = CustScanner.getStrChoice();
+
+        while (email.isEmpty()) {
+            System.out.println("Email cannot be empty.");
+            System.out.print("Enter your email address: ");
+            email = CustScanner.getStrChoice();
+        }
+
+        System.out.print("What is your gender? [M/F]: ");
+        String genderInput = CustScanner.getStrChoice();
+        while (genderInput.isEmpty() || !genderInput.equalsIgnoreCase("M") || !genderInput.equalsIgnoreCase("F")) {
+            System.out.println("Invalid choice. Please try again.");
+            System.out.print("What is your gender? [M/F]: ");
+            genderInput = CustScanner.getStrChoice();
+        }
+        Gender gender = null;
+        if (genderInput.equalsIgnoreCase("M")) {
+            gender = Gender.MALE;
+        } else if (genderInput.equalsIgnoreCase("F")) {
+            gender = Gender.FEMALE;
+        }
+
+        System.out.print("Enter your age: ");
+        int age = CustScanner.getIntChoice();
 
         UserType userType = null;
         switch (choice) {
@@ -165,7 +194,7 @@ public class AdministratorDisplay {
         }
 
         try {
-            AdministratorManager.addNewHospitalStaff(email, name, userType);
+            AdministratorManager.addNewHospitalStaff(email, name, gender, age, userType);
             System.out.println("Hospital staff successfully onboarded.");
         } catch (ModelNotFoundException e) {
             System.out.println("Error onboarding hospital staff.");

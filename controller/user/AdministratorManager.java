@@ -2,6 +2,7 @@ package controller.user;
 
 import controller.account.AccountManager;
 import database.user.AdministratorDatabase;
+import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.UserAlreadyExistsException;
@@ -13,10 +14,10 @@ public class AdministratorManager {
         return AdministratorDatabase.getDB().isEmpty();
     }
 
-    public static void addNewHospitalStaff(String email, String name, UserType userType)
+    public static void addNewHospitalStaff(String email, String name, Gender gender, int age, UserType userType)
             throws ModelNotFoundException, UserAlreadyExistsException {
         try {
-            AccountManager.register(email, name, userType);
+            AccountManager.register(email, name, gender, age, userType);
         } catch (ModelNotFoundException e) {
             throw new ModelNotFoundException("User already exists");
         } catch (UserAlreadyExistsException e) {

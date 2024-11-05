@@ -1,14 +1,19 @@
 package controller.account;
 
+import java.util.List;
+
 import controller.authentication.PasswordManager;
 import controller.user.UserManager;
 import model.user.User;
+import model.user.enums.Gender;
 import model.user.enums.UserType;
+import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PasswordDoesNotFulfilCriteriaException;
 import utils.exceptions.PasswordIncorrectException;
 import utils.exceptions.UserAlreadyExistsException;
 import utils.exceptions.UserCannotBeFoundException;
+import utils.iocontrol.CSVReader;
 
 public class AccountManager {
     public static boolean userExist(String email, UserType userType) {
@@ -34,10 +39,10 @@ public class AccountManager {
         }
     }
 
-    public static User register(String email, String name, UserType userType)
+    public static User register(String email, String name, Gender gender, int age, UserType userType)
             throws ModelNotFoundException, UserAlreadyExistsException {
         try {
-            User user = UserManager.createUser(email, name, userType, "password");
+            User user = UserManager.createUser(email, name, gender, age, userType, "password");
             return user;
         } catch (Exception e) {
             System.out.println("Error registering user");
@@ -71,20 +76,40 @@ public class AccountManager {
         // updateProfile
     }
 
-    public void loadDoctor() {
-        // loadDoctor
-    }
-
     public void loadPatient() {
         // loadPatient
     }
 
-    public void loadAPharmacist() {
-        // loadAPharmacist
-    }
+    public static void loadHospitalStaffs() {
+        List<List<String>> hospitalStaffs = CSVReader.read("./resources/Staff_List.csv", true);
+        for (List<String> hospitalStaff : hospitalStaffs) {
+            try {
+                String staffName = hospitalStaff.get(1);
+                String staffEmail = hospitalStaff.get(2);
+                String staffType = hospitalStaff.get(3);
+                String staffGender = hospitalStaff.get(4);
+                int age = Integer.valueOf(hospitalStaff.get(5));
 
-    public void loadAdministrator() {
-        // loadAdministrator
+                UserType userType = null;
+                Gender gender = null;
+
+                switch (staffType) {
+                    case "Doctor" -> userType = UserType.DOCTOR;
+                    case "Pharmacist" -> userType = UserType.PHARMACIST;
+                    case "Administrator" -> userType = UserType.ADMINISTRATOR;
+                }
+
+                switch (staffGender) {
+                    case "Male" -> gender = Gender.MALE;
+                    case "Female" -> gender = Gender.FEMALE;
+                }
+
+                UserManager.createUser(staffEmail, staffName, gender, age, userType, "password");
+            } catch (ModelNotFoundException | UserAlreadyExistsException | ModelAlreadyExistsException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public void loadMedicine() {

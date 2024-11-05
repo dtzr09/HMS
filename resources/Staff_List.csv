@@ -1,5 +1,5 @@
-﻿Staff ID,Name,Role,Gender,Age
-D001,John Smith,Doctor,Male,45
-D002,Emily Clarke,Doctor,Female,38
-P001,Mark Lee,Pharmacist,Male,29
-A001,Sarah Lee,Administrator,Female,40
+﻿Staff ID,Name,Email,Role,Gender,Age
+D001,John Smith,john_smith@hotmail.com,Doctor,Male,45
+D002,Emily Clarke,emily_clarke@hotmail.com,Doctor,Female,38
+P001,Mark Lee,mark_lee@hotmail.com,Pharmacist,Male,29
+A001,Sarah Lee,sarah_lee@hotmail.com,Administrator,Female,40

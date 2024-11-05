@@ -2,6 +2,7 @@ package model.user;
 
 import java.util.Date;
 
+import model.user.enums.Gender;
 import utils.iocontrol.Mappable;
 
 public class PersonalInfo implements Mappable {
@@ -25,9 +26,11 @@ public class PersonalInfo implements Mappable {
         this.dateOfModification = dateOfModification;
     }
 
-    public PersonalInfo(String name, String emailAddress) {
+    public PersonalInfo(String name, String emailAddress, Gender gender, int age) {
         this.name = name;
         this.emailAddress = emailAddress;
+        this.gender = gender.toString();
+        this.age = age;
     }
 
     // Getters

@@ -1,3 +1,4 @@
+import controller.account.AccountManager;
 import controller.medication.MedicationManager;
 import display.WelcomeDisplay;
 
@@ -10,6 +11,7 @@ public class InitialLoad {
     public static void start() {
         if (isInitial()) {
             MedicationManager.loadMedication();
+            AccountManager.loadHospitalStaffs();
         }
         WelcomeDisplay.welcome();
     }

@@ -6,6 +6,7 @@ import controller.user.UserManager;
 import display.ClearDisplay;
 import display.user.AdministratorDisplay;
 import model.user.User;
+import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.iocontrol.CustScanner;
 
@@ -34,8 +35,25 @@ public class RegisterDisplay {
             userEmail = CustScanner.getStrChoice();
         }
 
+        System.out.print("What is your gender? [M/F]: ");
+        String genderInput = CustScanner.getStrChoice();
+        while (genderInput.isEmpty() || !genderInput.equalsIgnoreCase("M") || !genderInput.equalsIgnoreCase("F")) {
+            System.out.println("Invalid choice. Please try again.");
+            System.out.print("What is your gender? [M/F]: ");
+            genderInput = CustScanner.getStrChoice();
+        }
+        Gender gender = null;
+        if (genderInput.equalsIgnoreCase("M")) {
+            gender = Gender.MALE;
+        } else if (genderInput.equalsIgnoreCase("F")) {
+            gender = Gender.FEMALE;
+        }
+
+        System.out.print("Enter your age: ");
+        int age = CustScanner.getIntChoice();
+
         try {
-            User user = AccountManager.register(userEmail, name, userType);
+            User user = AccountManager.register(userEmail, name, gender, age, userType);
             if (user != null) {
                 System.out.println("User registered successfully.");
 

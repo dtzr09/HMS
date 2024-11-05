@@ -13,6 +13,7 @@ import model.user.Patient;
 import model.user.PersonalInfo;
 import model.user.Pharmacist;
 import model.user.User;
+import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
@@ -115,14 +116,14 @@ public class UserManager {
         AdministratorDatabase.getDB().add(administrator);
     }
 
-    public static User createUser(String email, String name, UserType userType, String password)
+    public static User createUser(String email, String name, Gender gender, int age, UserType userType, String password)
             throws ModelNotFoundException, ModelAlreadyExistsException, UserAlreadyExistsException {
 
         if (findUser(email, userType) != null) {
             throw new UserAlreadyExistsException(userType, email);
         }
 
-        PersonalInfo personalInfo = new PersonalInfo(name, email);
+        PersonalInfo personalInfo = new PersonalInfo(name, email, gender, age);
         String userID = UUID.randomUUID().toString();
         User user = switch (userType) {
             case DOCTOR -> new Doctor(userID, password, personalInfo);
