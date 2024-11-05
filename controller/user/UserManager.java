@@ -117,11 +117,7 @@ public class UserManager {
     }
 
     public static User createUser(String email, String name, Gender gender, int age, UserType userType, String password)
-            throws ModelNotFoundException, ModelAlreadyExistsException, UserAlreadyExistsException {
-
-        if (findUser(email, userType) != null) {
-            throw new UserAlreadyExistsException(userType, email);
-        }
+            throws ModelNotFoundException, ModelAlreadyExistsException {
 
         PersonalInfo personalInfo = new PersonalInfo(name, email, gender, age);
         String userID = UUID.randomUUID().toString();

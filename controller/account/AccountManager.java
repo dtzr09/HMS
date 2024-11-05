@@ -105,7 +105,7 @@ public class AccountManager {
                 }
 
                 UserManager.createUser(staffEmail, staffName, gender, age, userType, "password");
-            } catch (ModelNotFoundException | UserAlreadyExistsException | ModelAlreadyExistsException e) {
+            } catch (ModelNotFoundException | ModelAlreadyExistsException e) {
                 e.printStackTrace();
             }
         }
