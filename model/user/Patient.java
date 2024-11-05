@@ -3,7 +3,10 @@ package model.user;
 import model.appointment.Appointment;
 import model.diagnosis.Diagnosis;
 import model.medicalHistory.*;
+import utils.exceptions.ModelNotFoundException;
+
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.ArrayList;
 
 public class Patient implements User {
@@ -80,6 +83,19 @@ public class Patient implements User {
 
     public ArrayList<Diagnosis> getDiagnosis() {
         return diagnosis;
+    }
+    public void printAllDiagnosis(){
+        for (Diagnosis diagnosis : this.diagnosis) {
+            System.out.println("Diagnosis ID: "+diagnosis.getDianosisID()+" , "+diagnosis.getDisease());
+        }
+    }
+    public Diagnosis getOneDiagnosis(String id){
+        for (Diagnosis oneDiagnosis : this.diagnosis) {
+            if (oneDiagnosis.getDianosisID().equals(id)) {
+                return oneDiagnosis;
+            }
+        }
+        throw new NoSuchElementException("Diagnosis with ID " + id + " not found!");
     }
 
     // setters

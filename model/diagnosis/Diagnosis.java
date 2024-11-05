@@ -1,6 +1,7 @@
 package model.diagnosis;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import model.prescription.Prescription;
 
@@ -47,6 +48,14 @@ public class Diagnosis {
     }
     public void setPrescriptions(ArrayList<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
+    }
+    public Prescription findPrescription(String prescriptionid){
+        for (Prescription prescription : this.prescriptions) {
+            if (prescription.getPrescriptionID().equals(prescriptionid)) {
+                return prescription;
+            }
+        } throw new NoSuchElementException("Prescription with ID " + prescriptionid + " not found!");
+
     }
     public void addPrescriptions(Prescription prescription){    // Adding one prescription object
         this.prescriptions.add(prescription);
