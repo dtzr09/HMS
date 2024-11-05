@@ -16,31 +16,58 @@ import model.user.User;
 import model.user.enums.UserType;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
+import utils.exceptions.UserAlreadyExistsException;
+import utils.exceptions.UserCannotBeFoundException;
 
 public class UserManager {
 
-    private static User findDoctor(String email) throws ModelNotFoundException {
+    private static User findDoctorByEmail(String email) throws ModelNotFoundException {
         return DoctorDatabase.getDB().getByEmail(email);
     }
 
-    private static User findPatient(String email) throws ModelNotFoundException {
+    private static User findPatientByEmail(String email) throws ModelNotFoundException {
         return PatientDatabase.getDB().getByEmail(email);
     }
 
-    private static User findPharmacist(String email) throws ModelNotFoundException {
+    private static User findPhamarcistByEmail(String email) throws ModelNotFoundException {
         return PharmacistDatabase.getDB().getByEmail(email);
     }
 
-    private static User findAdministrator(String email) throws ModelNotFoundException {
+    private static User findAdministratorByEmail(String email) throws ModelNotFoundException {
         return AdministratorDatabase.getDB().getByEmail(email);
     }
 
     public static User findUser(String email, UserType userType) throws ModelNotFoundException {
         return switch (userType) {
-            case DOCTOR -> findDoctor(email);
-            case PATIENT -> findPatient(email);
-            case PHARMACIST -> findPharmacist(email);
-            case ADMINISTRATOR -> findAdministrator(email);
+            case DOCTOR -> findDoctorByEmail(email);
+            case PATIENT -> findPatientByEmail(email);
+            case PHARMACIST -> findPhamarcistByEmail(email);
+            case ADMINISTRATOR -> findAdministratorByEmail(email);
+        };
+    }
+
+    private static User findDoctorById(String doctorID) throws ModelNotFoundException {
+        return DoctorDatabase.getDB().getByID(doctorID);
+    }
+
+    private static User findPatientById(String patientID) throws ModelNotFoundException {
+        return PatientDatabase.getDB().getByID(patientID);
+    }
+
+    private static User findPharmacistById(String pharmacistID) throws ModelNotFoundException {
+        return PharmacistDatabase.getDB().getByID(pharmacistID);
+    }
+
+    private static User findAdministratorById(String administratorID) throws ModelNotFoundException {
+        return AdministratorDatabase.getDB().getByID(administratorID);
+    }
+
+    public static User findUserById(String userID, UserType userType) throws ModelNotFoundException {
+        return switch (userType) {
+            case DOCTOR -> findDoctorById(userID);
+            case PATIENT -> findPatientById(userID);
+            case PHARMACIST -> findPharmacistById(userID);
+            case ADMINISTRATOR -> findAdministratorById(userID);
         };
     }
 
@@ -89,7 +116,12 @@ public class UserManager {
     }
 
     public static User createUser(String email, String name, UserType userType, String password)
-            throws ModelAlreadyExistsException {
+            throws ModelNotFoundException, ModelAlreadyExistsException, UserAlreadyExistsException {
+
+        if (findUser(email, userType) != null) {
+            throw new UserAlreadyExistsException(userType, email);
+        }
+
         PersonalInfo personalInfo = new PersonalInfo(name, email);
         String userID = UUID.randomUUID().toString();
         User user = switch (userType) {
@@ -107,8 +139,8 @@ public class UserManager {
         } else if (user instanceof Administrator administrator) {
             createAdministrator(administrator);
         }
-
         return user;
+
     }
 
     public static List<Doctor> getDoctors() {
@@ -121,6 +153,35 @@ public class UserManager {
 
     public static List<Pharmacist> getPharmacists() {
         return PharmacistDatabase.getDB().getAllPharmacist();
+    }
+
+    private static void removeDoctor(String doctorID) throws ModelNotFoundException {
+        DoctorDatabase.getDB().remove(doctorID);
+    }
+
+    private static void removePharmacist(String pharmacistID) throws ModelNotFoundException {
+        PharmacistDatabase.getDB().remove(pharmacistID);
+    }
+
+    private static void removeAdministrator(String administratorID) throws ModelNotFoundException {
+        AdministratorDatabase.getDB().remove(administratorID);
+    }
+
+    private static void removePatient(String patientID) throws ModelNotFoundException {
+        PatientDatabase.getDB().remove(patientID);
+    }
+
+    public static void removeUserByID(String staffID, UserType userType)
+            throws ModelNotFoundException, UserCannotBeFoundException {
+        if (findUserById(staffID, userType) == null) {
+            throw new UserCannotBeFoundException(staffID, userType);
+        }
+        switch (userType) {
+            case DOCTOR -> removeDoctor(staffID);
+            case PATIENT -> removePatient(staffID);
+            case PHARMACIST -> removePharmacist(staffID);
+            case ADMINISTRATOR -> removeAdministrator(staffID);
+        }
     }
 
 }

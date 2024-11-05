@@ -5,7 +5,10 @@ import controller.user.UserManager;
 import model.user.User;
 import model.user.enums.UserType;
 import utils.exceptions.ModelNotFoundException;
+import utils.exceptions.PasswordDoesNotFulfilCriteriaException;
 import utils.exceptions.PasswordIncorrectException;
+import utils.exceptions.UserAlreadyExistsException;
+import utils.exceptions.UserCannotBeFoundException;
 
 public class AccountManager {
     public static boolean userExist(String email, UserType userType) {
@@ -31,7 +34,8 @@ public class AccountManager {
         }
     }
 
-    public static User register(String email, String name, UserType userType) throws ModelNotFoundException {
+    public static User register(String email, String name, UserType userType)
+            throws ModelNotFoundException, UserAlreadyExistsException {
         try {
             User user = UserManager.createUser(email, name, userType, "password");
             return user;
@@ -42,10 +46,21 @@ public class AccountManager {
     }
 
     public static void changePassword(UserType userType, String email, String oldPassword, String newPassword)
-            throws PasswordIncorrectException, ModelNotFoundException {
+            throws PasswordIncorrectException, ModelNotFoundException, PasswordDoesNotFulfilCriteriaException {
         User user = UserManager.findUser(email, userType);
         PasswordManager.changePassword(user, oldPassword, newPassword);
         UserManager.updateUser(user);
+    }
+
+    public static void removeUser(String staffID, UserType userType)
+            throws ModelNotFoundException, UserCannotBeFoundException {
+        try {
+            UserManager.removeUserByID(staffID, userType);
+        } catch (UserCannotBeFoundException e) {
+            throw new UserCannotBeFoundException(staffID, userType);
+        } catch (ModelNotFoundException e) {
+            throw new ModelNotFoundException("User not found");
+        }
     }
 
     public void logout() {

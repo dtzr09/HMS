@@ -7,8 +7,6 @@ import display.user.AdministratorDisplay;
 import model.medication.Medication;
 import model.user.Administrator;
 import utils.exceptions.ModelAlreadyExistsException;
-import utils.exceptions.ModelNotFoundException;
-import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
 public class MedicationDisplay {

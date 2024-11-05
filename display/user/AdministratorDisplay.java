@@ -8,6 +8,7 @@ import controller.user.AdministratorManager;
 import controller.user.UserManager;
 import display.ClearDisplay;
 import display.MedicationDisplay;
+import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import model.medication.Medication;
 import model.request.ReplenishmentRequest;
@@ -18,6 +19,8 @@ import model.user.Pharmacist;
 import model.user.enums.UserType;
 import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
+import utils.exceptions.UserAlreadyExistsException;
+import utils.exceptions.UserCannotBeFoundException;
 import utils.iocontrol.CustScanner;
 
 public class AdministratorDisplay {
@@ -47,14 +50,14 @@ public class AdministratorDisplay {
             try {
                 switch (choice) {
                     case 1 -> viewHospitalStaffs();
-                    case 2 -> AdministratorManager.manageHospitalStaffs(administrator);
+                    case 2 -> manageHospitalStaffs(administrator);
                     case 3 -> viewMedicationInventory(administrator);
                     case 4 -> MedicationDisplay.medicationDisplay(administrator);
                     case 5 ->
                         viewPendingMedicationReplenishmentRequest();
                     case 6 -> approveMedicationReplenishmentRequest(administrator);
                     case 7 -> ViewUserProfileDisplay.viewUserProfilePage(administrator, UserType.ADMINISTRATOR);
-                    // case 8 -> AdministratorFunction.changeMyPassword(administrator);
+                    case 8 -> ChangePasswordDisplay.changePassword(administrator, UserType.ADMINISTRATOR);
                     case 9 -> LogoutDisplay.logout();
                     default -> {
                         System.out.println("Invalid choice. Please try again.");
@@ -69,7 +72,7 @@ public class AdministratorDisplay {
         }
     }
 
-    private static void viewHospitalStaffs() {
+    private static void viewHospitalStaffs() throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== DOCTORS ==============");
         System.out.println();
@@ -100,6 +103,120 @@ public class AdministratorDisplay {
             System.out.println(
                     administrator.getModelID() + "\t" + administrator.getEmail() + "\t" + administrator.getEmail());
         }
+
+        System.out.println("Press enter to go back.");
+        CustScanner.getStrChoice();
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
+        }
+    }
+
+    private static void manageHospitalStaffs(Administrator administrator) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("============== MANAGE HOSPITAL STAFFS ==============");
+        System.out.println();
+        System.out.println("\t1. Onboard hospital staff");
+        System.out.println("\t2. Remove hospital staff");
+        System.out.println("\t3. Back");
+        System.out.println("====================================================");
+        System.out.println();
+        System.out.print("What would you like to do? ");
+        int choice = CustScanner.getIntChoice();
+        switch (choice) {
+            case 1 -> addHospitalStaff(administrator);
+            case 2 -> removeHospitalStaff(administrator);
+            case 3 -> throw new PageBackException();
+            default -> {
+                System.out.println("Invalid choice. Please try again.");
+                manageHospitalStaffs(administrator);
+            }
+        }
+    }
+
+    private static void addHospitalStaff(Administrator administrator) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("============== ONBOARD NEW HOSPITAL STAFF ==============");
+        System.out.println();
+        System.out.println("\t1. Onboard new doctor");
+        System.out.println("\t2. Onboard new pharmacist");
+        System.out.println("\t3. Onboard new administrator");
+        System.out.println("\t4. Back");
+        System.out.println("================================================");
+        System.out.println();
+        System.out.print("What would you like to do? ");
+        int choice = CustScanner.getIntChoice();
+
+        System.out.print("Enter name: ");
+        String name = CustScanner.getStrChoice();
+
+        System.out.print("Enter email: ");
+        String email = CustScanner.getStrChoice();
+
+        UserType userType = null;
+        switch (choice) {
+            case 1 -> userType = UserType.DOCTOR;
+            case 2 -> userType = UserType.PHARMACIST;
+            case 3 -> userType = UserType.ADMINISTRATOR;
+            case 4 -> manageHospitalStaffs(administrator);
+            default -> {
+                System.out.println("Invalid choice. Please try again.");
+                addHospitalStaff(administrator);
+            }
+        }
+
+        try {
+            AdministratorManager.addNewHospitalStaff(email, name, userType);
+            System.out.println("Hospital staff successfully onboarded.");
+        } catch (ModelNotFoundException e) {
+            System.out.println("Error onboarding hospital staff.");
+        } catch (UserAlreadyExistsException e) {
+            System.out.println(e.getMessage());
+        }
+
+        System.out.println("Press enter to go back.");
+        CustScanner.getStrChoice();
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
+        }
+    }
+
+    private static void removeHospitalStaff(Administrator administrator) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("============== REMOVE HOSPITAL STAFF ==============");
+        System.out.println();
+        System.out.println("\t1. Remove doctor");
+        System.out.println("\t2. Remove pharmacist");
+        System.out.println("\t3. Remove administrator");
+        System.out.println("\t4. Back");
+        System.out.println("================================================");
+        System.out.println();
+        System.out.print("What would you like to do? ");
+        int choice = CustScanner.getIntChoice();
+        UserType userType = null;
+
+        System.out.print("Enter staff ID: ");
+        String staffId = CustScanner.getStrChoice();
+
+        switch (choice) {
+            case 1 -> userType = UserType.DOCTOR;
+            case 2 -> userType = UserType.PHARMACIST;
+            case 3 -> userType = UserType.ADMINISTRATOR;
+            case 4 -> throw new PageBackException();
+            default -> {
+                System.out.println("Invalid choice. Please try again.");
+                removeHospitalStaff(administrator);
+            }
+        }
+
+        try {
+            AdministratorManager.removeNewHospitalStaff(staffId, userType);
+            System.out.println("Hospital staff successfully removed.");
+        } catch (ModelNotFoundException e) {
+            System.out.println("Error removing hospital staff.");
+        } catch (UserCannotBeFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private static void viewMedicationInventory(Administrator administrator) {
@@ -116,7 +233,7 @@ public class AdministratorDisplay {
         }
     }
 
-    public static void viewPendingMedicationReplenishmentRequest() {
+    public static void viewPendingMedicationReplenishmentRequest() throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== PENDING REPLENISHMENT REQUEST ==============");
         System.out.println();
@@ -150,9 +267,15 @@ public class AdministratorDisplay {
                         + request.getDateOfRequest());
             }
         }
+
+        System.out.println("Press enter to go back.");
+        CustScanner.getStrChoice();
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
+        }
     }
 
-    public static void approveMedicationReplenishmentRequest(Administrator user) {
+    public static void approveMedicationReplenishmentRequest(Administrator user) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== APPROVE OF REPLENISHMENT REQUEST ==============");
         System.out.println();
@@ -161,8 +284,12 @@ public class AdministratorDisplay {
         if (ReplenishmentRequestManager.approveMedicationReplenishmentRequest(requestId)) {
             System.out.println("Request approved.");
         } else {
-            System.out.println("Request not found. Press enter to go back.");
-            administratorDisplay(user);
+            System.out.println("Request not found.");
+        }
+        System.out.println("Press enter to go back.");
+        CustScanner.getStrChoice();
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
         }
     }
 
