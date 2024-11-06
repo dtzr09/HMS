@@ -56,7 +56,7 @@ public class PharmacistDatabase extends Database<Pharmacist> {
             PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
                     dateOfModification);
 
-            String pharmacistID = map.get("pharamacistID");
+            String pharmacistID = map.get("pharmacistID");
             String password = map.get("password");
 
             Pharmacist admin = new Pharmacist(pharmacistID, personalInfo, password);

@@ -22,7 +22,7 @@ public class Doctor implements User {
         this.numOfPatients = numOfPatients;
     }
 
-    public Doctor(String doctorID, String password, PersonalInfo personalInfo) {
+    public Doctor(String doctorID, PersonalInfo personalInfo, String password) {
         this.doctorID = doctorID;
         this.password = password;
         this.personalInfo = personalInfo;
