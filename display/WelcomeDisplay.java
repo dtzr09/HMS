@@ -43,11 +43,12 @@ public class WelcomeDisplay {
                 LoginDisplay.login(userType);
 
             } catch (Exception e) {
-                // welcome();
+                System.out.println("Invalid choice. Please try again.");
+                welcome();
             }
         } else {
             System.out.println("Invalid choice. Please try again.");
-            // welcome();
+            welcome();
         }
 
     }

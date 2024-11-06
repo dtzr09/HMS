@@ -13,7 +13,7 @@ import utils.iocontrol.CustScanner;
 
 public class MedicationDisplay {
 
-    public static void medicationDisplay(Administrator administrator) {
+    public static void medicationDisplay(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== MANAGE MEDICATION INVENTORY ==============");
         System.out.println();
@@ -25,21 +25,12 @@ public class MedicationDisplay {
         System.out.println();
         System.out.print("What would you like to do? ");
         int choice = CustScanner.getIntChoice();
+        System.out.println();
 
         switch (choice) {
-            case 1 -> addNewMedication(administrator);
-            case 2 -> {
-                displayMedicationInventory();
-                System.out.print("Enter Medication ID: ");
-                String medicationID = CustScanner.getStrChoice();
-                MedicationManager.updateMedicationStock(medicationID);
-            }
-            case 3 -> {
-                displayMedicationInventory();
-                System.out.print("Enter Medication ID: ");
-                String medicationID = CustScanner.getStrChoice();
-                MedicationManager.deleteMedication(medicationID);
-            }
+            case 1 -> addNewMedication();
+            case 2 -> addMedicationStock();
+            case 3 -> removeMedication();
             case 4 -> AdministratorDisplay.administratorDisplay(administrator);
             default -> {
                 System.out.println("Invalid choice. Please try again.");
@@ -47,7 +38,64 @@ public class MedicationDisplay {
         }
     }
 
-    private static void addNewMedication(Administrator user) {
+    private static void removeMedication() throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("============== REMOVE MEDICATION STOCK ==============");
+        System.out.println();
+        displayMedicationInventory();
+        System.out.print("Enter Medication ID: ");
+        String medicationID = CustScanner.getStrChoice();
+
+        Medication selectedMed = null;
+        try {
+            selectedMed = MedicationManager.findMedication(medicationID);
+        } catch (Exception e) {
+            System.out.println("Medication not found.");
+            throw new PageBackException();
+        }
+
+        MedicationManager.deleteMedication(medicationID);
+        System.out.println();
+        System.out.println(
+                "Medication " + selectedMed.getName() + " has been removed from the inventory.");
+        System.out.println();
+        System.out.println("Press enter to go back.");
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
+        }
+    }
+
+    private static void addMedicationStock() throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("============== ADD MEDICATION STOCK ==============");
+        System.out.println();
+
+        displayMedicationInventory();
+
+        System.out.println();
+        System.out.print("Enter Medication ID: ");
+        String medicationID = CustScanner.getStrChoice();
+        Medication selectedMed = null;
+        try {
+            selectedMed = MedicationManager.findMedication(medicationID);
+        } catch (Exception e) {
+            System.out.println("Medication not found.");
+            throw new PageBackException();
+        }
+
+        MedicationManager.updateMedicationStock(medicationID);
+        System.out.println();
+        System.out.println(
+                "Medication stock updated! The current stock for the medication " + selectedMed.getName() + " is now "
+                        + selectedMed.getStock());
+        System.out.println();
+        System.out.println("Press enter to go back.");
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
+        }
+    }
+
+    private static void addNewMedication() throws PageBackException {
         String medicationID = UUID.randomUUID().toString();
         System.out.print("Enter Medication Name: ");
         String medicationName = CustScanner.getStrChoice();
@@ -61,9 +109,16 @@ public class MedicationDisplay {
                     .addMedication(new Medication(medicationID, medicationName, medicationStock, lowStockLevelAlert));
         } catch (ModelAlreadyExistsException e) {
             System.out.println("Medication already exists.");
-            medicationDisplay(user);
+            throw new PageBackException();
         }
 
+        System.out.println();
+        System.out.println("Medication " + medicationName + " has been added to the inventory.");
+        System.out.println();
+        System.out.println("Press enter to go back.");
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
+        }
     }
 
     public static void viewMedicationInventory() throws PageBackException {
@@ -79,13 +134,13 @@ public class MedicationDisplay {
     private static void displayMedicationInventory() {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+";
         System.out.println(fourColBorder);
-        System.out.printf("| %-97s |%n", " " + "MEDICATION INVENTORY");
+        System.out.printf("| %-100s |%n", " " + "MEDICATION INVENTORY");
         System.out.println(fourColBorder);
-        System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n", "ID", "Name", "Quantity", "Low Stock Level Alert");
+        System.out.printf("| %-36s | %-20s | %-15s | %-20s|%n", "ID", "Name", "Quantity", "Low Stock Level Alert");
         System.out.println(fourColBorder);
         List<Medication> medications = MedicationManager.getMedications();
         for (Medication medication : medications) {
-            System.out.printf("| %-36s | %-20s | %-10s | %-10s |%n",
+            System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
                     medication.getModelID(), medication.getName(),
                     medication.getStock(), medication.getLowStockLevelAlert());
         }

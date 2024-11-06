@@ -276,15 +276,10 @@ public class AdministratorDisplay {
             for (int i = 0; i < ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest().size(); i++) {
                 ReplenishmentRequest request = ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest()
                         .get(i);
-                Medication medication = null;
-                try {
-                    medication = MedicationManager.findMedication(request.getMedicationID());
-                } catch (ModelNotFoundException e) {
-                    System.out.println("No medication found.");
-                }
-
+                Medication medication = MedicationManager.findMedication(request.getMedicationID());
                 if (medication == null) {
-                    System.out.println("No medication found.");
+                    System.out.println("Something went wrong. No medication found.");
+                    throw new PageBackException();
                 } else {
                     System.out.printf("| %-36s | %-25s | %-10s | %-10s | %-20s | %-10s | %n", request
                             .getRequestID(),
