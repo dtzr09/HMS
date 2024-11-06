@@ -3,7 +3,6 @@ package model.user;
 import model.appointment.Appointment;
 import model.diagnosis.Diagnosis;
 import model.medicalHistory.*;
-import utils.exceptions.ModelNotFoundException;
 
 import java.util.Map;
 import java.util.NoSuchElementException;

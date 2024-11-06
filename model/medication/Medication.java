@@ -51,7 +51,7 @@ public class Medication implements Model {
         this.stock = stock;
     }
 
-    public double getLowStockLevelAlert() {
+    public int getLowStockLevelAlert() {
         return lowStockLevelAlert;
     }
 

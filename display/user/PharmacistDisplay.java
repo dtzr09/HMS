@@ -1,7 +1,9 @@
 package display.user;
 
 import controller.user.UserManager;
+import controller.user.PharmacistManager;
 import controller.medication.PrescriptionManager;
+import controller.medication.MedicationManager;
 import model.user.User;
 import model.user.enums.UserType;
 import display.ClearDisplay;
@@ -30,10 +32,11 @@ public class PharmacistDisplay {
             System.out.println("\t1. View appointment outcome record");
             System.out.println("\t2. Update prescription status");
             System.out.println("\t3. View medication inventory");
-            System.out.println("\t4. Submit medication replenishment request");
-            System.out.println("\t5. View my profile");
-            System.out.println("\t6. Change my password");
-            System.out.println("\t7. Logout");
+            System.out.println("\t4. View low stock medication inventory");
+            System.out.println("\t5. Submit medication replenishment request");
+            System.out.println("\t6. View my profile");
+            System.out.println("\t7. Change my password");
+            System.out.println("\t8. Logout");
             System.out.println("===================================");
             System.out.println();
             System.out.print("What would you like to do? ");
@@ -43,11 +46,12 @@ public class PharmacistDisplay {
                 switch (choice) {
                     // case 1 -> ; ////ToDo Add appointment parts and implement function here
                     case 2 -> updatePrescriptionStatus(user);
-                    // case 3 -> ;
-                    // case 4 -> ;
-                    case 5 -> ViewUserProfileDisplay.viewUserProfilePage(pharmacist, UserType.PHARMACIST);
-                    case 6 -> ChangePasswordDisplay.changePassword(pharmacist, UserType.PHARMACIST);
-                    case 7 -> LogoutDisplay.logout();
+                    case 3 -> PharmacistManager.viewMedicationInventory();
+                    case 4 -> PharmacistManager.viewLowStockMedicationInventory();
+                    // case 5 -> ;
+                    case 6 -> ViewUserProfileDisplay.viewUserProfilePage(pharmacist, UserType.PHARMACIST);
+                    case 7 -> ChangePasswordDisplay.changePassword(pharmacist, UserType.PHARMACIST);
+                    case 8 -> LogoutDisplay.logout();
                     default -> {
                         System.out.println("Invalid choice. Please try again.");
                         pharmacistDisplay(user);
@@ -80,13 +84,13 @@ public class PharmacistDisplay {
             int i = CustScanner.getIntChoice();
             switch (i) {
                 case 1:
-                    PrescriptionManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.PENDING);
+                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.PENDING);
                     break;
                 case 2:
-                    PrescriptionManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.DISPENSED);
+                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.DISPENSED);
                     break;
                 case 3:
-                    PrescriptionManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.DECLINED);
+                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.DECLINED);
                     break;
                 default:
                     System.out.println("INVALID CHOICE");                    
@@ -97,6 +101,5 @@ public class PharmacistDisplay {
         }
 
     }
-
 }
 
