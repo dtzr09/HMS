@@ -20,6 +20,7 @@ import database.medication.MedicationDatabase;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class PharmacistManager {
     public static void updatePrescriptionStatus(Diagnosis diagnosis, String prescriptionID, PrescriptionStatus status){
@@ -64,10 +65,11 @@ public class PharmacistManager {
         viewInventory(getLowStockMedicationInventory());
     }
 
-    public static void submitReplenishmentRequest(String replenishmentRequestID, RequestStatus status, Date dateOfRequest,
-            Date dateOfModification, String medicationID ){
-                
-            }
+    public static void submitReplenishmentRequest( String medicationID ){
+        String replenishmentRequestID = UUID.randomUUID().toString();
+        Date dateOfRequest = new Date();
+        ReplenishmentRequestManager.addReplenishmentRequest(replenishmentRequestID, RequestStatus.PENDING, dateOfRequest, dateOfRequest, medicationID);
+    }
 
 
 }

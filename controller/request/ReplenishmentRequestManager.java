@@ -1,12 +1,14 @@
 package controller.request;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import controller.medication.MedicationManager;
 import database.request.ReplenishmentRequestDatabase;
 import model.request.ReplenishmentRequest;
 import model.request.enums.RequestStatus;
+import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 
 public class ReplenishmentRequestManager {
@@ -24,6 +26,16 @@ public class ReplenishmentRequestManager {
             return false;
         }
 
+    }
+
+    public static void addReplenishmentRequest(String replenishmentRequestID, RequestStatus status, Date dateOfRequest,
+            Date dateOfModification, String medicationID){
+                ReplenishmentRequest request = new ReplenishmentRequest(replenishmentRequestID, status, dateOfRequest, dateOfModification, medicationID);
+                try {
+                    ReplenishmentRequestDatabase.getDB().add(request);
+                } catch (ModelAlreadyExistsException e) {
+                    System.out.println("Request Invalid. Check request details before submitting!");
+                }
     }
 
     private static ReplenishmentRequest getReplenishmentRequestById(String requestId) throws ModelNotFoundException {

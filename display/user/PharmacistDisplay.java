@@ -46,7 +46,7 @@ public class PharmacistDisplay {
                     case 2 -> updatePrescriptionStatus(user);
                     case 3 -> PharmacistManager.viewMedicationInventory();
                     case 4 -> PharmacistManager.viewLowStockMedicationInventory();
-                    // case 5 -> ;
+                    case 5 -> submitRequest(user);
                     case 6 -> ViewUserProfileDisplay.viewUserProfilePage(pharmacist, UserType.PHARMACIST);
                     case 7 -> ChangePasswordDisplay.changePassword(pharmacist, UserType.PHARMACIST);
                     case 8 -> LogoutDisplay.logout();
@@ -98,5 +98,17 @@ public class PharmacistDisplay {
             pharmacistDisplay(user);
         }
 
+    }
+
+    public static void submitRequest(User user){
+        try {
+            PharmacistManager.viewMedicationInventory();
+            System.out.println("Enter the medication ID that you want to restock");
+            System.out.println("");
+            String id = CustScanner.getStrChoice();
+            PharmacistManager.submitReplenishmentRequest(id);
+        } catch (Exception e) {
+            System.out.println("No such medication ID!");
+        }
     }
 }
