@@ -16,17 +16,17 @@
 
 ## All functionalities
 ### Administrator
-[] View all hospital staffs
-[] Add new hospital staffs
-[] Delete hospital staffs
-[] View all medications
-[] Delete medication
-[] Add new medication
-[] Increase medication stock
-[] View pending medication replenishment request
-[] Approve medication replenishment request
-[] View profile
-[] Change password
+- [ ] View all hospital staffs
+- [ ] Add new hospital staffs
+- [ ] Delete hospital staffs
+- [ ] View all medications
+- [ ] Delete medication
+- [ ] Add new medication
+- [ ] Increase medication stock
+- [ ] View pending medication replenishment request
+- [ ] Approve medication replenishment request
+- [ ] View profile
+- [ ] Change password
 
 ## Example of a new administrator registration workflow
 
