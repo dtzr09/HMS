@@ -15,18 +15,20 @@
 - Compile and run `Main.java`
 
 ## All functionalities
+
 ### Administrator
-- [ ] View all hospital staffs
-- [ ] Add new hospital staffs
-- [ ] Delete hospital staffs
-- [ ] View all medications
-- [ ] Delete medication
-- [ ] Add new medication
-- [ ] Increase medication stock
-- [ ] View pending medication replenishment request
-- [ ] Approve medication replenishment request
-- [ ] View profile
-- [ ] Change password
+
+- [x] View all hospital staffs
+- [x] Add new hospital staffs
+- [x] Delete hospital staffs
+- [x] View all medications
+- [x] Delete medication
+- [x] Add new medication
+- [x] Increase medication stock
+- [x] View pending medication replenishment request
+- [x] Approve medication replenishment request
+- [x] View profile
+- [x] Change password
 
 ## Example of a new administrator registration workflow
 
@@ -80,4 +82,3 @@ The `createUser` function in `UserManager` class will then be called with a defa
 ```
 
 Once the user has been registered in our "database", the user will be prompted to change his password from the default password. The responsibility for changing password will then be passed to the `PasswordManager`. Once the password has been successfully changed, the system will then update the user by calling `UserManager.updateUser()`.
-
