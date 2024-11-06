@@ -121,7 +121,7 @@ public class UserManager {
         PersonalInfo personalInfo = new PersonalInfo(name, email, gender, age);
         String userID = UUID.randomUUID().toString();
         User user = switch (userType) {
-            case DOCTOR -> new Doctor(userID, password, personalInfo);
+            case DOCTOR -> new Doctor(userID, personalInfo, password);
             case PATIENT -> new Patient(userID, personalInfo, password);
             case PHARMACIST -> new Pharmacist(userID, personalInfo, password);
             case ADMINISTRATOR -> new Administrator(userID, personalInfo, password);

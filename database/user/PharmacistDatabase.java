@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import database.Database;
+import model.user.PersonalInfo;
 import model.user.Pharmacist;
+import model.user.enums.Gender;
 
 public class PharmacistDatabase extends Database<Pharmacist> {
     private static final String FILE_PATH = "./data/user/pharmacist.txt";
@@ -41,7 +43,25 @@ public class PharmacistDatabase extends Database<Pharmacist> {
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
-            getAll().add(new Pharmacist(map));
+            String name = map.get("personalInfo_name");
+            String emailAddress = map.get("personalInfo_emailAddress");
+            String phoneNumber = map.get("personalInfo_phoneNumber");
+            String ageStr = map.get("personalInfo_age");
+            Integer age = ageStr != null ? Integer.parseInt(ageStr) : null;
+            String dateOfBirth = map.get("personalInfo_dateOfBirth");
+            String dateOfModification = map.get("personalInfo_dateOfModification");
+            String genderStr = map.get("personalInfo_gender");
+            Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
+
+            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
+                    dateOfModification);
+
+            String pharmacistID = map.get("pharmacistID");
+            String password = map.get("password");
+
+            Pharmacist admin = new Pharmacist(pharmacistID, personalInfo, password);
+
+            getAll().add(admin);
         }
     }
 
