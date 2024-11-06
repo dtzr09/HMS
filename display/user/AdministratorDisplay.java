@@ -40,7 +40,7 @@ public class AdministratorDisplay {
             System.out.println("\t3. View medication inventory");
             System.out.println("\t4. Manage medication inventory");
             System.out.println("\t5. View pending medication replenisment request");
-            System.out.println("\t6. Approve medication replenishment request");
+            System.out.println("\t6. Manage medication replenishment request");
             System.out.println("\t7. View my profile");
             System.out.println("\t8. Change my password");
             System.out.println("\t9. Logout");
@@ -59,7 +59,7 @@ public class AdministratorDisplay {
                     case 4 -> MedicationDisplay.medicationDisplay(administrator);
                     case 5 ->
                         viewPendingMedicationReplenishmentRequest();
-                    case 6 -> approveMedicationReplenishmentRequest(administrator);
+                    case 6 -> manageMedicationReplenishmentRequest(administrator);
                     case 7 -> ViewUserProfileDisplay.viewUserProfilePage(administrator, UserType.ADMINISTRATOR);
                     case 8 -> ChangePasswordDisplay.changePassword(administrator, UserType.ADMINISTRATOR);
                     case 9 -> LogoutDisplay.logout();
@@ -310,19 +310,47 @@ public class AdministratorDisplay {
         }
     }
 
-    public static void approveMedicationReplenishmentRequest(Administrator user) throws PageBackException {
+    public static void manageMedicationReplenishmentRequest(Administrator user) throws PageBackException {
         ClearDisplay.ClearConsole();
-        System.out.println("============== APPROVE REPLENISHMENT REQUEST ==============");
-        System.out.println();
+        System.out.println("============== MANAGE REPLENISHMENT REQUEST ==============");
 
         if (!ReplenishmentRequestManager.isThereAnyPendingRequests()) {
             System.out.println("No pending requests found.");
-            System.out.println("Press enter to go back.");
+            System.out.println("Press Enter to go back.");
             if (CustScanner.getStrChoice().equals("")) {
                 throw new PageBackException();
             }
         }
 
+        System.out.println();
+        System.out.println("\t1. Approve medication replenishment request");
+        System.out.println("\t2. Decline medication replenishment request");
+        System.out.println("\t3. Back");
+        System.out.println("=========================================================");
+
+        System.out.print("What would you like to do? ");
+        int choice = CustScanner.getIntChoice();
+
+        switch (choice) {
+            case 1 -> approveMedicationReplenishmentRequestDisplay();
+            case 2 -> declineMedicationReplenishmentRequestDisplay();
+            case 3 -> throw new PageBackException();
+            default -> {
+                System.out.println("Invalid choice. Please try again.");
+                manageMedicationReplenishmentRequest(user);
+            }
+        }
+        viewPendingRequests();
+        System.out.println("Press enter to go back.");
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
+        }
+
+    }
+
+    private static void approveMedicationReplenishmentRequestDisplay() {
+        System.out.println("============== APPROVE REPLENISHMENT REQUEST ==============");
+        System.out.println();
         viewPendingRequests();
         System.out.println();
         System.out.print("Enter request ID: ");
@@ -332,9 +360,19 @@ public class AdministratorDisplay {
         } else {
             System.out.println("Request not found.");
         }
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
+    }
+
+    private static void declineMedicationReplenishmentRequestDisplay() {
+        System.out.println("============== APPROVE REPLENISHMENT REQUEST ==============");
+        System.out.println();
+        viewPendingRequests();
+        System.out.println();
+        System.out.print("Enter request ID: ");
+        String requestId = CustScanner.getStrChoice();
+        if (ReplenishmentRequestManager.approveMedicationReplenishmentRequest(requestId)) {
+            System.out.println("Request approved.");
+        } else {
+            System.out.println("Request not found.");
         }
     }
 
