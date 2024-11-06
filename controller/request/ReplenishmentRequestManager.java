@@ -10,19 +10,39 @@ import model.request.enums.RequestStatus;
 import utils.exceptions.ModelNotFoundException;
 
 public class ReplenishmentRequestManager {
+
+    public static Boolean isThereAnyPendingRequests() {
+        try {
+            List<ReplenishmentRequest> replenishmentRequests = ReplenishmentRequestDatabase.getDB()
+                    .getAllReplenishmentRequests();
+            for (ReplenishmentRequest replenishmentRequest : replenishmentRequests) {
+                if (replenishmentRequest.getStatus().equals(RequestStatus.PENDING))
+                    return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
     private static ReplenishmentRequest getReplenishmentRequestById(String requestId) throws ModelNotFoundException {
         return ReplenishmentRequestDatabase.getDB().getByID(requestId);
     }
 
     public static ArrayList<ReplenishmentRequest> viewPendingMedicationReplenishmentRequest() {
-        List<ReplenishmentRequest> replenishmentRequests = ReplenishmentRequestDatabase.getDB()
-                .getAllReplenishmentRequests();
-        ArrayList<ReplenishmentRequest> pendingReplenishmentRequests = new ArrayList<>();
-        for (ReplenishmentRequest replenishmentRequest : replenishmentRequests) {
-            if (replenishmentRequest.getStatus().equals(RequestStatus.PENDING))
-                pendingReplenishmentRequests.add(replenishmentRequest);
+        try {
+            List<ReplenishmentRequest> replenishmentRequests = ReplenishmentRequestDatabase.getDB()
+                    .getAllReplenishmentRequests();
+            ArrayList<ReplenishmentRequest> pendingReplenishmentRequests = new ArrayList<>();
+            for (ReplenishmentRequest replenishmentRequest : replenishmentRequests) {
+                if (replenishmentRequest.getStatus().equals(RequestStatus.PENDING))
+                    pendingReplenishmentRequests.add(replenishmentRequest);
+            }
+            return pendingReplenishmentRequests;
+        } catch (Exception e) {
+            return new ArrayList<>();
         }
-        return pendingReplenishmentRequests;
     }
 
     public static boolean approveMedicationReplenishmentRequest(String requestId) {

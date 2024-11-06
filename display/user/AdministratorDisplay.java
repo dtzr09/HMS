@@ -14,8 +14,6 @@ import model.medication.Medication;
 import model.request.ReplenishmentRequest;
 import model.user.Administrator;
 import model.user.User;
-import model.user.Doctor;
-import model.user.Pharmacist;
 import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.exceptions.ModelNotFoundException;
@@ -26,11 +24,15 @@ import utils.iocontrol.CustScanner;
 
 public class AdministratorDisplay {
 
+    private static String threeColBorder = "+--------------------------------------+----------------------+------------------------------+";
+    private static String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
+
     public static void administratorDisplay(User user) {
         ClearDisplay.ClearConsole();
         if (user instanceof Administrator administrator) {
             System.out.println("===================================");
             System.out.println("Welcome to Administrator Main Page");
+            System.out.println();
             System.out.println("Hello, " + administrator.getName() + "!");
             System.out.println();
             System.out.println("\t1. View hospital staffs");
@@ -42,6 +44,7 @@ public class AdministratorDisplay {
             System.out.println("\t7. View my profile");
             System.out.println("\t8. Change my password");
             System.out.println("\t9. Logout");
+            System.out.println();
             System.out.println("===================================");
 
             System.out.println();
@@ -52,7 +55,7 @@ public class AdministratorDisplay {
                 switch (choice) {
                     case 1 -> viewHospitalStaffs();
                     case 2 -> manageHospitalStaffs(administrator);
-                    case 3 -> viewMedicationInventory(administrator);
+                    case 3 -> MedicationDisplay.viewMedicationInventory();
                     case 4 -> MedicationDisplay.medicationDisplay(administrator);
                     case 5 ->
                         viewPendingMedicationReplenishmentRequest();
@@ -74,15 +77,13 @@ public class AdministratorDisplay {
     }
 
     private static void displayTableHeader() {
-        String border = "+--------------------------------------+----------------------+------------------------------+";
-        System.out.println(border);
+        System.out.println(threeColBorder);
         System.out.printf("| %-36s | %-20s | %-28s |%n", "ID", "Name", "Email");
-        System.out.println(border);
+        System.out.println(threeColBorder);
     }
 
     private static <T extends User> void displayUserTable(String title, List<T> users) {
-        String border = "+--------------------------------------+----------------------+------------------------------+";
-        System.out.println(border);
+        System.out.println(threeColBorder);
         System.out.printf("| %-90s |%n", " " + title);
         displayTableHeader();
 
@@ -96,7 +97,7 @@ public class AdministratorDisplay {
                         user.getEmail() != null ? user.getEmail() : "N/A");
             }
         }
-        System.out.println(border);
+        System.out.println(threeColBorder);
         System.out.println();
     }
 
@@ -110,6 +111,16 @@ public class AdministratorDisplay {
         System.out.println("Press Enter to go back.");
         if (CustScanner.getStrChoice().equals("")) {
             throw new PageBackException();
+        }
+    }
+
+    private static void viewHospitalStaffsByUsertype(UserType userType) {
+        ClearDisplay.ClearConsole();
+        switch (userType) {
+            case DOCTOR -> displayUserTable("DOCTORS", UserManager.getDoctors());
+            case PHARMACIST -> displayUserTable("PHARMACISTS", UserManager.getPharmacists());
+            case ADMINISTRATOR -> displayUserTable("ADMINISTRATORS", UserManager.getAdministrators());
+            default -> System.out.println("Invalid user type.");
         }
     }
 
@@ -167,7 +178,7 @@ public class AdministratorDisplay {
 
         System.out.print("What is your gender? [M/F]: ");
         String genderInput = CustScanner.getStrChoice();
-        while (genderInput.isEmpty() || !genderInput.equalsIgnoreCase("M") || !genderInput.equalsIgnoreCase("F")) {
+        while (genderInput.isEmpty() || (!genderInput.equalsIgnoreCase("M") && !genderInput.equalsIgnoreCase("F"))) {
             System.out.println("Invalid choice. Please try again.");
             System.out.print("What is your gender? [M/F]: ");
             genderInput = CustScanner.getStrChoice();
@@ -223,9 +234,6 @@ public class AdministratorDisplay {
         int choice = CustScanner.getIntChoice();
         UserType userType = null;
 
-        System.out.print("Enter staff ID: ");
-        String staffId = CustScanner.getStrChoice();
-
         switch (choice) {
             case 1 -> userType = UserType.DOCTOR;
             case 2 -> userType = UserType.PHARMACIST;
@@ -237,6 +245,11 @@ public class AdministratorDisplay {
             }
         }
 
+        viewHospitalStaffsByUsertype(userType);
+
+        System.out.print("Enter staff ID: ");
+        String staffId = CustScanner.getStrChoice();
+
         try {
             AdministratorManager.removeNewHospitalStaff(staffId, userType);
             System.out.println("Hospital staff successfully removed.");
@@ -246,62 +259,56 @@ public class AdministratorDisplay {
             System.out.println(e.getMessage());
         }
 
-    }
-
-    private static void viewMedicationInventory(Administrator administrator) throws PageBackException {
-        ClearDisplay.ClearConsole();
-        System.out.println("============== MEDICATION INVENTORY ==============");
-        System.out.println();
-        System.out.println("ID\tName\tQuantity\tLow Stock Level Alert");
-        System.out.println("=================================================");
-        List<Medication> medications = MedicationManager.getMedications();
-        for (Medication medication : medications) {
-            System.out.println(medication.getModelID() + "\t" + medication.getName() +
-                    "\t"
-                    + medication.getStock() + "\t" + medication.getLowStockLevelAlert());
-        }
-
         System.out.println("Press enter to go back.");
         if (CustScanner.getStrChoice().equals("")) {
             throw new PageBackException();
         }
+
+    }
+
+    private static void viewPendingRequests() {
+        System.out.println(fiveColBorder);
+        try {
+            System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", "ID", "Name", "Current Quantity",
+                    "Status", "Date of Request");
+            System.out.println(fiveColBorder);
+            ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest();
+            for (int i = 0; i < ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest().size(); i++) {
+                ReplenishmentRequest request = ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest()
+                        .get(i);
+                Medication medication = null;
+                try {
+                    medication = MedicationManager.findMedication(request.getMedicationID());
+                } catch (ModelNotFoundException e) {
+                    System.out.println("No medication found.");
+                }
+
+                if (medication == null) {
+                    System.out.println("No medication found.");
+                } else {
+                    System.out.printf("| %-36s | %-25s | %-10s | %-10s | %-20s | %-10s | %n", request
+                            .getRequestID(),
+                            medication.getName(),
+                            +medication.getStock(),
+                            request.getStatus(),
+                            request.getDateOfRequest());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("No pending requests found.");
+        }
+
+        System.out.println(fiveColBorder);
     }
 
     public static void viewPendingMedicationReplenishmentRequest() throws PageBackException {
         ClearDisplay.ClearConsole();
-        System.out.println("============== PENDING REPLENISHMENT REQUEST ==============");
+        System.out.println(fiveColBorder);
+        System.out.printf("| %-123s |%n", " " + "PENDING REPLENISHMENT REQUEST ");
+        System.out.println(fiveColBorder);
+        viewPendingRequests();
         System.out.println();
-        System.out.println("Request ID\tMedication Name\tCurrent Quantity\tStatus\tDate of Request");
-        System.out.println("==========================================================");
-        ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest();
-        for (int i = 0; i < ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest().size(); i++) {
-            ReplenishmentRequest request = ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest()
-                    .get(i);
-            Medication medication = null;
-            try {
-                medication = MedicationManager.findMedication(request.getMedicationID());
-            } catch (ModelNotFoundException e) {
-                System.out.println("Medication not found.");
-                return;
-            }
-
-            if (medication == null) {
-                System.out.println("Medication not found.");
-                return;
-            } else {
-                System.out.println(request
-                        .getRequestID()
-                        + "\t"
-                        + medication.getName()
-                        + "\t"
-                        + medication.getStock()
-                        + "\t"
-                        + request.getStatus()
-                        + "\t"
-                        + request.getDateOfRequest());
-            }
-        }
-
         System.out.println("Press enter to go back.");
         if (CustScanner.getStrChoice().equals("")) {
             throw new PageBackException();
@@ -310,7 +317,18 @@ public class AdministratorDisplay {
 
     public static void approveMedicationReplenishmentRequest(Administrator user) throws PageBackException {
         ClearDisplay.ClearConsole();
-        System.out.println("============== APPROVE OF REPLENISHMENT REQUEST ==============");
+        System.out.println("============== APPROVE REPLENISHMENT REQUEST ==============");
+        System.out.println();
+
+        if (!ReplenishmentRequestManager.isThereAnyPendingRequests()) {
+            System.out.println("No pending requests found.");
+            System.out.println("Press enter to go back.");
+            if (CustScanner.getStrChoice().equals("")) {
+                throw new PageBackException();
+            }
+        }
+
+        viewPendingRequests();
         System.out.println();
         System.out.print("Enter request ID: ");
         String requestId = CustScanner.getStrChoice();
