@@ -57,6 +57,16 @@ public class MedicationManager {
             System.out.println(medicationID + " not found.");
         }
     }
+    public static void reduceMedicationStock(String medicationID) {
+        try {
+            Medication medication = findMedication(medicationID);
+            medication.setStock(medication.getStock() -1);
+            updateMedication(medication);
+        } catch (ModelNotFoundException e) {
+            System.out.println(medicationID + " not found.");
+        }
+    }
+
 
     public static void deleteMedication(String medicationID) {
         try {

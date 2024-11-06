@@ -82,13 +82,13 @@ public class PharmacistDisplay {
             int i = CustScanner.getIntChoice();
             switch (i) {
                 case 1:
-                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.PENDING);
+                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), prescriptionID, PrescriptionStatus.PENDING);
                     break;
                 case 2:
-                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.DISPENSED);
+                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), prescriptionID, PrescriptionStatus.DISPENSED);
                     break;
                 case 3:
-                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.DECLINED);
+                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), prescriptionID, PrescriptionStatus.DECLINED);
                     break;
                 default:
                     System.out.println("INVALID CHOICE");

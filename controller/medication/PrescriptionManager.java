@@ -1,16 +1,8 @@
 package controller.medication;
 
-import database.user.PatientDatabase;
-import controller.user.UserManager;
-import model.user.Patient;
-import model.user.User;
-import model.user.enums.UserType;
 import model.diagnosis.Diagnosis;
+import model.medication.Medication;
 import model.prescription.*;
-import utils.exceptions.ModelAlreadyExistsException;
-import utils.exceptions.ModelNotFoundException;
-import utils.iocontrol.CSVReader;
-import java.util.UUID;
 
 import java.util.ArrayList;
 
@@ -61,6 +53,12 @@ public class PrescriptionManager {
     
         public static void updatePrescriptionStatus(Diagnosis diagnosis, String prescriptionID, PrescriptionStatus status){
             getPresciption(diagnosis, prescriptionID).setPrescriptionStatus(status);
-
-    }
+            if (status.equals(PrescriptionStatus.DISPENSED)) {
+                for (Medication medication : getPresciption(diagnosis, prescriptionID).getMedication()) {
+                    MedicationManager.reduceMedicationStock(medication.getModelID());
+                }
+            }
+        }
+    
+    
 }
