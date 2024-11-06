@@ -79,19 +79,30 @@ public class AdministratorDisplay {
         System.out.println();
         System.out.println("ID\tName\tEmail");
         System.out.println("=====================================");
-        List<Doctor> doctors = UserManager.getDoctors();
-        for (Doctor doctor : doctors) {
-            System.out.println(doctor.getModelID() + "\t" + doctor.getEmail() + "\t" + doctor.getEmail());
+        try {
+            List<Doctor> doctors = UserManager.getDoctors();
+            for (Doctor doctor : doctors) {
+                System.out.println(doctor.getModelID() + "\t" + doctor.getEmail() + "\t" + doctor.getEmail());
+            }
+        } catch (Exception e) {
+            System.out.println("No doctors found.");
         }
+
         System.out.println();
 
         System.out.println("============== PHARMACISTS ==============");
         System.out.println();
         System.out.println("ID\tName\tEmail");
         System.out.println("=========================================");
-        List<Pharmacist> pharmacists = UserManager.getPharmacists();
-        for (Pharmacist pharmacist : pharmacists) {
-            System.out.println(pharmacist.getModelID() + "\t" + pharmacist.getEmail() + "\t" + pharmacist.getEmail());
+
+        try {
+            List<Pharmacist> pharmacists = UserManager.getPharmacists();
+            for (Pharmacist pharmacist : pharmacists) {
+                System.out
+                        .println(pharmacist.getModelID() + "\t" + pharmacist.getEmail() + "\t" + pharmacist.getEmail());
+            }
+        } catch (Exception e) {
+            System.out.println("No pharmacists found.");
         }
         System.out.println();
 
@@ -99,14 +110,18 @@ public class AdministratorDisplay {
         System.out.println();
         System.out.println("ID\tName\tEmail");
         System.out.println("============================================");
-        List<Administrator> administrators = UserManager.getAdministrators();
-        for (Administrator administrator : administrators) {
-            System.out.println(
-                    administrator.getModelID() + "\t" + administrator.getEmail() + "\t" + administrator.getEmail());
+
+        try {
+            List<Administrator> administrators = UserManager.getAdministrators();
+            for (Administrator administrator : administrators) {
+                System.out.println(
+                        administrator.getModelID() + "\t" + administrator.getEmail() + "\t" + administrator.getEmail());
+            }
+        } catch (Exception e) {
+            System.out.println("No administrators found.");
         }
 
         System.out.println("Press enter to go back.");
-        CustScanner.getStrChoice();
         if (CustScanner.getStrChoice().equals("")) {
             throw new PageBackException();
         }
@@ -203,7 +218,6 @@ public class AdministratorDisplay {
         }
 
         System.out.println("Press enter to go back.");
-        CustScanner.getStrChoice();
         if (CustScanner.getStrChoice().equals("")) {
             throw new PageBackException();
         }
@@ -248,7 +262,7 @@ public class AdministratorDisplay {
 
     }
 
-    private static void viewMedicationInventory(Administrator administrator) {
+    private static void viewMedicationInventory(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== MEDICATION INVENTORY ==============");
         System.out.println();
@@ -259,6 +273,11 @@ public class AdministratorDisplay {
             System.out.println(medication.getModelID() + "\t" + medication.getName() +
                     "\t"
                     + medication.getStock() + "\t" + medication.getLowStockLevelAlert());
+        }
+
+        System.out.println("Press enter to go back.");
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
         }
     }
 
@@ -298,7 +317,6 @@ public class AdministratorDisplay {
         }
 
         System.out.println("Press enter to go back.");
-        CustScanner.getStrChoice();
         if (CustScanner.getStrChoice().equals("")) {
             throw new PageBackException();
         }
@@ -316,7 +334,6 @@ public class AdministratorDisplay {
             System.out.println("Request not found.");
         }
         System.out.println("Press enter to go back.");
-        CustScanner.getStrChoice();
         if (CustScanner.getStrChoice().equals("")) {
             throw new PageBackException();
         }

@@ -1,14 +1,11 @@
 package display.user;
 
-import controller.user.UserManager;
 import controller.medication.PrescriptionManager;
 import model.user.User;
 import model.user.enums.UserType;
 import display.ClearDisplay;
-import display.MedicationDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
-import model.diagnosis.Diagnosis;
 import model.prescription.PrescriptionStatus;
 import model.user.Patient;
 import model.user.Pharmacist;
@@ -62,9 +59,9 @@ public class PharmacistDisplay {
 
     }
 
-    public static void updatePrescriptionStatus(User user){
+    public static void updatePrescriptionStatus(User user) {
         try {
-            System.out.println("Enter Patient's email : ");   
+            System.out.println("Enter Patient's email : ");
             String email = CustScanner.getStrChoice();
             Patient patient = PatientDatabase.getDB().getByEmail(email);
             patient.printAllDiagnosis();
@@ -80,18 +77,21 @@ public class PharmacistDisplay {
             int i = CustScanner.getIntChoice();
             switch (i) {
                 case 1:
-                    PrescriptionManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.PENDING);
+                    PrescriptionManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), prescriptionID,
+                            PrescriptionStatus.PENDING);
                     break;
                 case 2:
-                    PrescriptionManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.DISPENSED);
+                    PrescriptionManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), prescriptionID,
+                            PrescriptionStatus.DISPENSED);
                     break;
                 case 3:
-                    PrescriptionManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),prescriptionID,PrescriptionStatus.DECLINED);
+                    PrescriptionManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), prescriptionID,
+                            PrescriptionStatus.DECLINED);
                     break;
                 default:
-                    System.out.println("INVALID CHOICE");                    
+                    System.out.println("INVALID CHOICE");
             }
-            
+
         } catch (ModelNotFoundException e) {
             pharmacistDisplay(user);
         }
@@ -99,4 +99,3 @@ public class PharmacistDisplay {
     }
 
 }
-

@@ -4,6 +4,9 @@ import controller.account.AccountManager;
 import display.ClearDisplay;
 import display.WelcomeDisplay;
 import display.user.AdministratorDisplay;
+import display.user.PharmacistDisplay;
+import model.user.Administrator;
+import model.user.Pharmacist;
 import model.user.User;
 import model.user.enums.UserType;
 import utils.exceptions.PasswordIncorrectException;
@@ -30,7 +33,6 @@ public class LoginDisplay {
         }
 
         // if user exists, check the password
-        System.out.println();
         System.out.print("Enter your password: ");
         String password = CustScanner.getPassword();
 
@@ -44,16 +46,9 @@ public class LoginDisplay {
             User user = AccountManager.login(userType, email, password);
 
             switch (userType) {
-                case ADMINISTRATOR -> AdministratorDisplay.administratorDisplay(user);
-                // case DOCTOR:
-                // // DoctorDisplay.DoctorDisplay(user);
-                // break;
-                // case PATIENT:
-                // // PatientDisplay.PatientDisplay(user);
-                // break;
-                // case PHARMACIST:
-                // // PharmacistDisplay.PharmacistDisplay(user);
-                // break;
+                case ADMINISTRATOR -> AdministratorDisplay.administratorDisplay((Administrator) user);
+                case PHARMACIST -> PharmacistDisplay.pharmacistDisplay((Pharmacist) user);
+
                 default -> throw new IllegalStateException("Unexpected value: " + userType);
             }
         } catch (PasswordIncorrectException e) {
