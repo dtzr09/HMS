@@ -11,12 +11,14 @@ public class WelcomeDisplay {
         System.out.println("========================================");
         System.out.println("HOSPITAL MANAGEMENT SYSTEM");
         System.out.println("========================================");
-
+        System.out.println();
         // Check if user is new
-        System.out.print("Are you a new user? [y/n] ");
+        System.out.print("Are you a new user? [y/n], or 'q' to quit: ");
         String strChoice = CustScanner.getStrChoice();
         if (strChoice.equalsIgnoreCase("y")) {
             RegisterDisplay.registerDisplay();
+        } else if (strChoice.equalsIgnoreCase("q")) {
+            System.exit(0);
         } else if (strChoice.equalsIgnoreCase("n")) {
             System.out.println();
             System.out.println("Who are you logging in as?");
@@ -25,13 +27,16 @@ public class WelcomeDisplay {
             System.out.println("3. Pharmacist");
             System.out.println("4. Administrator");
             System.out.println("5. Exit");
-
+            System.out.println();
             System.out.print("Enter your choice: ");
             try {
                 int choice = CustScanner.getIntChoice();
                 if (choice < 1 || choice > 5) {
                     System.out.println("Invalid choice. Please try again.");
                     throw new Exception();
+                }
+                if (choice == 5) {
+                    System.exit(0);
                 }
                 UserType userType = switch (choice) {
                     case 1 -> UserType.DOCTOR;

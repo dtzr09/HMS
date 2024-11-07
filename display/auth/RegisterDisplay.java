@@ -4,6 +4,7 @@ import controller.account.AccountManager;
 import controller.authentication.PasswordManager;
 import controller.user.UserManager;
 import display.ClearDisplay;
+import display.WelcomeDisplay;
 import display.user.AdministratorDisplay;
 import model.user.User;
 import model.user.enums.Gender;
@@ -12,6 +13,49 @@ import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
 public class RegisterDisplay {
+
+    public static void registerDisplay() {
+        ClearDisplay.ClearConsole();
+        System.out.println("========================================");
+        System.out.println("HOSPITAL MANAGEMENT SYSTEM");
+        System.out.println("========================================");
+        System.out.println();
+        System.out.println("Registering as a new user");
+        System.out.println("1. Doctor");
+        System.out.println("2. Patient");
+        System.out.println("3. Pharmacist");
+        System.out.println("4. Administrator");
+        System.out.println("5. Go back to login page");
+        System.out.println("6. Exit");
+        System.out.println();
+        System.out.print("Enter your choice: ");
+
+        UserType userType = null;
+        try {
+            int choice = CustScanner.getIntChoice();
+            if (choice < 1 || choice > 6) {
+                System.out.println("Invalid choice. Please try again.");
+                throw new Exception();
+            }
+            if (choice == 5) {
+                WelcomeDisplay.welcome();
+            } else if (choice == 6) {
+                System.exit(0);
+            }
+            userType = switch (choice) {
+                case 1 -> UserType.DOCTOR;
+                case 2 -> UserType.PATIENT;
+                case 3 -> UserType.PHARMACIST;
+                case 4 -> UserType.ADMINISTRATOR;
+                default -> throw new IllegalStateException("Unexpected value: " + choice);
+            };
+            registerUserDisplay(userType);
+        } catch (Exception e) {
+            System.out.println("Please try again.");
+            registerDisplay();
+        }
+
+    }
 
     private static void registerUserDisplay(UserType userType) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -91,38 +135,4 @@ public class RegisterDisplay {
         }
     }
 
-    public static void registerDisplay() {
-        ClearDisplay.ClearConsole();
-        System.out.println("========================================");
-        System.out.println("HOSPITAL MANAGEMENT SYSTEM");
-        System.out.println("========================================");
-        System.out.println("Register as a new user");
-        System.out.println("1. Doctor");
-        System.out.println("2. Patient");
-        System.out.println("3. Pharmacist");
-        System.out.println("4. Administrator");
-        System.out.println("5. Exit");
-        System.out.print("Enter your choice: ");
-
-        UserType userType = null;
-        try {
-            int choice = CustScanner.getIntChoice();
-            if (choice < 1 || choice > 5) {
-                System.out.println("Invalid choice. Please try again.");
-                throw new Exception();
-            }
-            userType = switch (choice) {
-                case 1 -> UserType.DOCTOR;
-                case 2 -> UserType.PATIENT;
-                case 3 -> UserType.PHARMACIST;
-                case 4 -> UserType.ADMINISTRATOR;
-                default -> throw new IllegalStateException("Unexpected value: " + choice);
-            };
-            registerUserDisplay(userType);
-        } catch (Exception e) {
-            System.out.println("Please try again.");
-            registerDisplay();
-        }
-
-    }
 }

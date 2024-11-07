@@ -11,11 +11,12 @@ import model.user.Doctor;
 import model.user.Pharmacist;
 import model.user.User;
 import model.user.enums.UserType;
+import utils.exceptions.PageBackException;
 import utils.exceptions.PasswordIncorrectException;
 import utils.iocontrol.CustScanner;
 
 public class LoginDisplay {
-    public static void login(UserType userType) {
+    public static void login(UserType userType) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("========================================");
         System.out.println("You are logging in as a " + userType.toString().toLowerCase());
@@ -30,7 +31,14 @@ public class LoginDisplay {
         }
 
         if (!AccountManager.userExist(email, userType)) {
-            System.out.println("User does not exist. Please register.");
+            System.out.printf(
+                    "Email does not exist. Press q to quit, r to retry, else any other key to register.");
+            String choice = CustScanner.getStrChoice();
+            if (choice.equalsIgnoreCase("q")) {
+                System.exit(0);
+            } else if (choice.equalsIgnoreCase("r")) {
+                login(userType);
+            }
             RegisterDisplay.registerDisplay();
         }
 

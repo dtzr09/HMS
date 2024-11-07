@@ -45,6 +45,7 @@ public class AppointmentDisplay {
         System.out.printf("| %-100s |%n", " " + "All Appointment Requests");
         System.out.println(fourColBorder);
         System.out.printf("| %-36s | %-20s | %-15s | %-20s|%n", "ID", "Date", "Time", "Patient ID");
+        System.out.println(fourColBorder);
 
         try {
             List<Appointment> appointmentRequests = doctor.getAppointmentRequests();
