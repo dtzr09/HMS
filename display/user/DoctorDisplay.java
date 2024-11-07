@@ -1,6 +1,8 @@
 package display.user;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import controller.appointment.AppointmentManager;
@@ -23,7 +25,7 @@ import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
 public class DoctorDisplay {
-    public static void doctorDisplay(User user) {
+    public static void doctorDisplay(User user) throws PageBackException {
         ClearDisplay.ClearConsole();
         if (user instanceof Doctor doctor) {
             System.out.println("===================================");
@@ -40,7 +42,7 @@ public class DoctorDisplay {
             System.out.println("\t8. View my profile");
             System.out.println("\t9. Change my password");
             System.out.println("\t10. Logout");
-
+            System.out.println();
             System.out.println("===================================");
 
             System.out.println();
@@ -52,7 +54,7 @@ public class DoctorDisplay {
                     case 1 -> displayMyPatients(doctor);
                     case 2 -> displayPatientsMenu(doctor, MedicalRecordsActions.VIEW);
                     case 3 -> displayPatientsMenu(doctor, MedicalRecordsActions.UPDATE);
-                    // case 4 -> CalendarDisplay.calendarDisplay();
+                    case 4 -> appointmentAvailabilityDisplay(doctor);
                     case 5 -> AppointmentDisplay.appointmentRequestsDisplay(doctor);
                     case 6 -> viewUpcomingAppointments(doctor);
                     case 7 -> recordAppointmentOutcome(doctor);
@@ -73,9 +75,42 @@ public class DoctorDisplay {
 
     }
 
+    private static void appointmentAvailabilityDisplay(Doctor doctor) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Set Availability for Appointments");
+        System.out.println("----------------------------------");
+
+        Map<String, List<String>> currentAvailability = doctor.getAppointmentAvailability();
+        if (currentAvailability == null) {
+            System.out.printf(
+                    "You have not set your availability for appointments. Would you like to set it now? [Y/N] ");
+            String choice = CustScanner.getStrChoice();
+            if (choice.equalsIgnoreCase("Y")) {
+                Map<String, List<String>> newAvailabilities = AppointmentDisplay.setAppointmentAvailability(doctor);
+                try {
+                    DoctorManager.setAppointmentAvailability(doctor, newAvailabilities);
+                } catch (Exception e) {
+                    System.out.println("Error setting availability. Please try again later.");
+                    System.out.println();
+                    System.out.println("Press Enter to go back.");
+                    if (CustScanner.getStrChoice().equals(""))
+                        throw new PageBackException();
+                }
+            } else {
+                System.out.println("Press Enter to go back.");
+                if (CustScanner.getStrChoice().equals(""))
+                    throw new PageBackException();
+            }
+        } else {
+            AppointmentDisplay.displayAppointmentAvailability(doctor, currentAvailability);
+        }
+    }
+
     private static void displayMyPatients(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
-        PatientDisplay.displayPatients(doctor);
+        List<Patient> patients = PatientManager.getPatientsOfDoctor(doctor.getModelID());
+
+        PatientDisplay.displayPatients(patients);
         System.out.println();
 
         System.out.println("Press Enter to go back.");
@@ -86,9 +121,22 @@ public class DoctorDisplay {
     private static void displayPatientsMenu(Doctor doctor, MedicalRecordsActions actions) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("These are your current patients.");
-        PatientDisplay.displayPatients(doctor);
+        System.out.println();
+
+        List<Patient> patients = PatientManager.getPatientsOfDoctor(doctor.getModelID());
+
+        PatientDisplay.displayPatients(patients);
+        System.out.println();
+
+        if (patients.isEmpty()) {
+            System.out.println("Press Enter to go back.");
+            if (CustScanner.getStrChoice().equals(""))
+                throw new PageBackException();
+        }
+
         System.out.println("Please enter the ID of the patient you would like to " + actions.toString().toLowerCase()
                 + " the medical record of.");
+
         String patientID = CustScanner.getStrChoice();
 
         Patient patient = PatientManager.getPatientById(patientID);
@@ -124,6 +172,7 @@ public class DoctorDisplay {
         List<Appointment> upcomingAppointments = DoctorManager.getUpcomingAppointments(doctor);
         if (upcomingAppointments == null) {
             System.out.println("No upcoming appointments found.");
+            System.out.println();
             System.out.println("Press Enter to go back.");
             if (CustScanner.getStrChoice().equals(""))
                 throw new PageBackException();
@@ -186,7 +235,18 @@ public class DoctorDisplay {
         ClearDisplay.ClearConsole();
         System.out.println("Record Appointment Outcome");
         System.out.println("----------------------------------");
-        AppointmentDisplay.viewScheduledAppointments(doctor.getAppointments());
+
+        List<Appointment> appointments = doctor.getAppointments();
+
+        if (appointments == null) {
+            System.out.println("No appointments found.");
+            System.out.println();
+            System.out.println("Press Enter to go back.");
+            if (CustScanner.getStrChoice().equals(""))
+                throw new PageBackException();
+        }
+
+        AppointmentDisplay.viewScheduledAppointments(appointments);
         System.out.println("Please enter the ID of the appointment you would like to record the outcome of.");
         String appointmentID = CustScanner.getStrChoice();
 

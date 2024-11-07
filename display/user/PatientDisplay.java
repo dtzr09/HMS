@@ -3,7 +3,6 @@ package display.user;
 import java.util.List;
 
 import controller.user.DoctorManager;
-import controller.user.PatientManager;
 import display.ClearDisplay;
 import display.medication.DiagnosisDisplay;
 import model.appointment.Appointment;
@@ -46,16 +45,14 @@ public class PatientDisplay {
 
     }
 
-    public static void displayPatients(Doctor doctor) {
+    public static void displayPatients(List<Patient> patients) {
         String threeColBorder = "+--------------------------------------+----------------------+------------------------------+";
 
         System.out.println(threeColBorder);
-        System.out.printf("| %-90s |%n", " " + "My Patients");
+        System.out.printf("| %-90s |%n", "My Patients");
         System.out.println(threeColBorder);
         System.out.printf("| %-36s | %-20s | %-28s |%n", "ID", "Name", "Email");
         System.out.println(threeColBorder);
-
-        List<Patient> patients = PatientManager.getPatientsOfDoctor(doctor.getModelID());
 
         if (patients.isEmpty()) {
             System.out.printf("| %-90s |%n", "No patient found.");

@@ -13,15 +13,18 @@ public class Doctor implements User {
     private int numOfPatients = 0;
     private List<Appointment> appointments = null;
     private List<Appointment> appointmentRequests = null;
+    private Map<String, List<String>> appointmentAvailability;
 
     public Doctor(String doctorID, String password, PersonalInfo personalInfo, List<Appointment> appointments,
-            int numOfPatients, List<Appointment> appointmentRequests) {
+            int numOfPatients, List<Appointment> appointmentRequests,
+            Map<String, List<String>> appointmentAvailability) {
         this.doctorID = doctorID;
         this.password = password;
         this.personalInfo = personalInfo;
         this.appointments = appointments;
         this.numOfPatients = numOfPatients;
         this.appointmentRequests = appointmentRequests;
+        this.appointmentAvailability = appointmentAvailability;
     }
 
     public Doctor(String doctorID, PersonalInfo personalInfo, String password) {
@@ -76,6 +79,10 @@ public class Doctor implements User {
         return numOfPatients;
     }
 
+    public Map<String, List<String>> getAppointmentAvailability() {
+        return appointmentAvailability;
+    }
+
     // setters
     public void setPassword(String password) {
         this.password = password;
@@ -95,6 +102,10 @@ public class Doctor implements User {
 
     public void setAppointmentRequests(List<Appointment> appointmentRequests) {
         this.appointmentRequests = appointmentRequests;
+    }
+
+    public void setAppointmentAvailability(Map<String, List<String>> appointmentAvailability) {
+        this.appointmentAvailability = appointmentAvailability;
     }
 
 }

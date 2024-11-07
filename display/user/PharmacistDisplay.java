@@ -1,13 +1,11 @@
 package display.user;
 
 import controller.user.PharmacistManager;
-import controller.medication.PrescriptionManager;
 import model.user.User;
 import model.user.enums.UserType;
 import display.ClearDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
-import model.prescription.PrescriptionStatus;
 import model.user.Patient;
 import model.user.Pharmacist;
 import utils.exceptions.ModelNotFoundException;

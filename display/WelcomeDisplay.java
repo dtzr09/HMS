@@ -43,6 +43,7 @@ public class WelcomeDisplay {
                 LoginDisplay.login(userType);
 
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("Invalid choice. Please try again.");
                 welcome();
             }

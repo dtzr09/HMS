@@ -2,6 +2,7 @@ package controller.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import controller.appointment.AppointmentStatus;
 import database.user.DoctorDatabase;
@@ -39,6 +40,15 @@ public class DoctorManager {
 
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    public static void setAppointmentAvailability(Doctor doctor, Map<String, List<String>> appointmentAvailability) {
+        doctor.setAppointmentAvailability(appointmentAvailability);
+        try {
+            UserManager.updateUser(doctor);
+        } catch (Exception e) {
+            System.out.println("Error updating appointment availability.");
         }
     }
 

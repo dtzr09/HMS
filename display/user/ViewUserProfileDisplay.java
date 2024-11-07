@@ -1,11 +1,10 @@
 package display.user;
 
-import java.util.Scanner;
-
 import display.ClearDisplay;
 import model.user.User;
 import model.user.enums.UserType;
 import utils.exceptions.PageBackException;
+import utils.iocontrol.CustScanner;
 
 public class ViewUserProfileDisplay {
     /**
@@ -14,12 +13,15 @@ public class ViewUserProfileDisplay {
      * @param user the user whose profile is to be displayed.
      */
     public static void viewUserProfile(User user, UserType userType) {
-        System.out.println("Welcome to View " + userType + " Profile");
-        System.out.println("┌--------------------------------------------------------------------┐");
-        System.out.printf("| %-15s | %-30s | %-15s |\n", "Name", "Email", userType + " ID");
-        System.out.println("|-----------------|--------------------------------|-----------------|");
-        System.out.printf("| %-15s | %-30s | %-15s |\n", user.getName(), user.getEmail(), user.getModelID());
-        System.out.println("└--------------------------------------------------------------------┘");
+        System.out.println("Welcome to view " + user.getName() + " Profile");
+        System.out.println(
+                "┌-----------------------------------------------------------------------------------------┐");
+        System.out.printf("| %-15s | %-30s | %-36s |\n", "Name", "Email", userType.toString().toLowerCase() + " ID");
+        System.out.println(
+                "|-----------------|--------------------------------|--------------------------------------|");
+        System.out.printf("| %-15s | %-30s | %-36s |\n", user.getName(), user.getEmail(), user.getModelID());
+        System.out.println(
+                "└-----------------------------------------------------------------------------------------┘");
     }
 
     /**
@@ -33,8 +35,7 @@ public class ViewUserProfileDisplay {
         ClearDisplay.ClearConsole();
         viewUserProfile(user, userType);
         System.out.println("Press enter to go back.");
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-        throw new PageBackException();
+        if (CustScanner.getStrChoice().equals(""))
+            throw new PageBackException();
     }
 }
