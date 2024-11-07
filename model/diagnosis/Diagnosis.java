@@ -5,23 +5,23 @@ import java.util.Date;
 import model.prescription.Prescription;
 
 public class Diagnosis {
-    private String dianosisID;
+    private String diagnosisID;
     private String disease;
     private String doctorID;
     private Prescription prescription;
     private Date dateOfDiagnosis;
 
-    public Diagnosis(String diagnosisID, String disease, String doctorID, Prescription prescriptions,
+    public Diagnosis(String diagnosisID, String disease, String doctorID, Prescription prescription,
             Date dateOfDiagnosis) {
-        this.dianosisID = diagnosisID;
+        this.diagnosisID = diagnosisID;
         this.disease = disease;
         this.doctorID = doctorID;
-        this.prescription = prescriptions;
+        this.prescription = prescription;
         this.dateOfDiagnosis = dateOfDiagnosis;
     }
 
     public String getDiagnosisID() {
-        return dianosisID;
+        return diagnosisID;
     }
 
     public String getDateOfDiagnosis() {
@@ -32,8 +32,8 @@ public class Diagnosis {
         this.dateOfDiagnosis = dateOfDiagnosis;
     }
 
-    public void setDianosisID(String dianosisID) {
-        this.dianosisID = dianosisID;
+    public void setDiagnosisID(String diagnosisID) {
+        this.diagnosisID = diagnosisID;
     }
 
     public String getDisease() {

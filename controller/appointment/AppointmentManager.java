@@ -20,4 +20,14 @@ public class AppointmentManager {
         return appointments;
     }
 
+    public static Appointment getAppointmentByID(String patientID, String appointmentID) {
+        try {
+            Appointment appointment = PatientManager.getAppointmentByID(patientID, appointmentID);
+            return appointment;
+        } catch (Exception e) {
+            System.out.println("Appointment not found.");
+        }
+        return null;
+    }
+
 }

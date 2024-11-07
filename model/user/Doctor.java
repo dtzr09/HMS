@@ -12,14 +12,16 @@ public class Doctor implements User {
     private PersonalInfo personalInfo;
     private int numOfPatients = 0;
     private List<Appointment> appointments = null;
+    private List<Appointment> appointmentRequests = null;
 
     public Doctor(String doctorID, String password, PersonalInfo personalInfo, List<Appointment> appointments,
-            int numOfPatients) {
+            int numOfPatients, List<Appointment> appointmentRequests) {
         this.doctorID = doctorID;
         this.password = password;
         this.personalInfo = personalInfo;
         this.appointments = appointments;
         this.numOfPatients = numOfPatients;
+        this.appointmentRequests = appointmentRequests;
     }
 
     public Doctor(String doctorID, PersonalInfo personalInfo, String password) {
@@ -66,6 +68,10 @@ public class Doctor implements User {
         return appointments;
     }
 
+    public List<Appointment> getAppointmentRequests() {
+        return appointmentRequests;
+    }
+
     public int getNumOfPatients() {
         return numOfPatients;
     }
@@ -85,6 +91,10 @@ public class Doctor implements User {
 
     public void setNumOfPatients(int numOfPatients) {
         this.numOfPatients = numOfPatients;
+    }
+
+    public void setAppointmentRequests(List<Appointment> appointmentRequests) {
+        this.appointmentRequests = appointmentRequests;
     }
 
 }

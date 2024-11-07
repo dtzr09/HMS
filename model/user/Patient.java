@@ -2,7 +2,7 @@ package model.user;
 
 import model.appointment.Appointment;
 import model.diagnosis.Diagnosis;
-import model.medicalHistory.*;
+import model.user.enums.BloodType;
 
 import java.util.Map;
 import java.util.NoSuchElementException;

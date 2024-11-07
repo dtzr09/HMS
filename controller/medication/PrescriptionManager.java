@@ -28,6 +28,28 @@ public class PrescriptionManager {
         return prescription;
     }
 
+    public static Prescription updatePrescription(Prescription oldPrescription, ArrayList<String> MedicationIDs,
+            String drugInstructions) {
+        ArrayList<Medication> medications = new ArrayList<Medication>();
+        for (String id : MedicationIDs) {
+            try {
+                Medication medication = MedicationManager.findMedication(id);
+                medications.add(medication);
+            } catch (Exception e) {
+                System.out.println("Medication not found.");
+            }
+        }
+
+        Date newDateOfPrescription = new Date();
+        Prescription prescription = new Prescription(oldPrescription.getPrescriptionID(),
+                oldPrescription.getPatientID(),
+                oldPrescription.getdoctorID(), medications, newDateOfPrescription,
+                drugInstructions,
+                PrescriptionStatus.PENDING);
+
+        return prescription;
+    }
+
     // Get List of Prescriptions obj of a Diagnosis
     // public static ArrayList<Prescription>
     // getAllPrescriptionsOfDiagnosis(Diagnosis diagnosis) {

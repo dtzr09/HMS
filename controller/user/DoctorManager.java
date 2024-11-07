@@ -1,6 +1,11 @@
 package controller.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import controller.appointment.AppointmentStatus;
 import database.user.DoctorDatabase;
+import model.appointment.Appointment;
 import model.user.Doctor;
 import model.user.Patient;
 
@@ -19,6 +24,21 @@ public class DoctorManager {
             PatientManager.addAllergy(patient, newAllergy);
         } catch (Exception e) {
             System.out.println("No allergies found.");
+        }
+    }
+
+    public static List<Appointment> getUpcomingAppointments(Doctor doctor) {
+        ArrayList<Appointment> upcomingAppointments = new ArrayList<Appointment>();
+        try {
+            List<Appointment> appointments = doctor.getAppointments();
+            for (Appointment appointment : appointments) {
+                if (appointment.getAppointmentStatus().equals(AppointmentStatus.SCHEDULED))
+                    upcomingAppointments.add(appointment);
+            }
+            return upcomingAppointments;
+
+        } catch (Exception e) {
+            return null;
         }
     }
 

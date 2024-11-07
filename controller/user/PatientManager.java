@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import controller.medication.PrescriptionManager;
 import database.user.PatientDatabase;
+import model.appointment.Appointment;
 import model.diagnosis.Diagnosis;
 import model.prescription.Prescription;
 import model.user.Patient;
@@ -59,4 +61,97 @@ public class PatientManager {
         }
     }
 
+    public static Diagnosis getDiagnosisByID(Patient patient, String diagnosisID) {
+        try {
+            List<Diagnosis> diagnoses = patient.getDiagnosis();
+            Diagnosis diagnosis = null;
+
+            for (Diagnosis d : diagnoses) {
+                if (d.getDiagnosisID().equals(diagnosisID)) {
+                    diagnosis = d;
+                    break;
+                }
+            }
+
+            if (diagnosis == null) {
+                throw new ModelNotFoundException();
+            }
+
+            return diagnosis;
+        } catch (ModelNotFoundException e) {
+            System.out.println("Diagnosis not found.");
+        }
+        return null;
+    }
+
+    public static void updateDignosis(String diagnosisID, String patientID, Prescription newPrescription) {
+        try {
+            Patient patient = getPatientById(patientID);
+            List<Diagnosis> diagnoses = patient.getDiagnosis();
+            for (Diagnosis diagnosis : diagnoses) {
+                if (diagnosis.getDiagnosisID().equals(diagnosisID)) {
+                    diagnosis.setPrescription(newPrescription);
+                    break;
+                }
+            }
+            UserManager.updateUser(patient);
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+        }
+    }
+
+    public static void updateDisease(String newDisease, String patientID, String diagnosisID) {
+        try {
+            Patient patient = getPatientById(patientID);
+            List<Diagnosis> diagnoses = patient.getDiagnosis();
+            for (Diagnosis diagnosis : diagnoses) {
+                if (diagnosis.getDiagnosisID().equals(diagnosisID)) {
+                    diagnosis.setDisease(newDisease);
+                    break;
+                }
+            }
+            UserManager.updateUser(patient);
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+        }
+    }
+
+    public static void updatePrescription(Diagnosis diagnosis, Patient patient, Prescription oldPrescription,
+            ArrayList<String> MedicationIDs,
+            String drugInstructions) {
+        try {
+            Prescription newPrescription = PrescriptionManager.updatePrescription(oldPrescription, MedicationIDs,
+                    drugInstructions);
+            updateDignosis(diagnosis.getDiagnosisID(), patient.getPatientID(), newPrescription);
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+        }
+    }
+
+    public static Appointment getAppointmentByID(String patientID, String appointmentID) {
+        try {
+            Patient patient = getPatientById(patientID);
+            if (patient == null) {
+                throw new ModelNotFoundException("Patient not found.");
+            }
+            List<Appointment> appointments = patient.getAppointments();
+            Appointment appointment = null;
+
+            for (Appointment a : appointments) {
+                if (a.getAppointmentID().equals(appointmentID)) {
+                    appointment = a;
+                    break;
+                }
+            }
+
+            if (appointment == null) {
+                throw new ModelNotFoundException("Appointment not found.");
+            }
+
+            return appointment;
+        } catch (ModelNotFoundException e) {
+            System.out.println("Appointment not found.");
+        }
+        return null;
+    }
 }

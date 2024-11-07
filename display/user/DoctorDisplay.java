@@ -1,9 +1,20 @@
 package display.user;
 
+import java.util.List;
+import java.util.UUID;
+
+import controller.appointment.AppointmentManager;
+import controller.appointment.AppointmentOutcomeManager;
+import controller.user.DoctorManager;
 import controller.user.PatientManager;
 import display.ClearDisplay;
+import display.appointment.AppointmentDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
+import display.medication.PrescriptionDisplay;
+import model.appointment.Appointment;
+import model.appointment.AppointmentOutcome;
+import model.prescription.Prescription;
 import model.user.Doctor;
 import model.user.Patient;
 import model.user.User;
@@ -22,14 +33,13 @@ public class DoctorDisplay {
             System.out.println("\t1. View my patients");
             System.out.println("\t2. View patient medical record");
             System.out.println("\t3. Update patient medical record");
-            System.out.println("\t4. View calendar");
-            System.out.println("\t5. Set availability for appointments");
-            System.out.println("\t6. Accept or Decline Appointment Requests");
-            System.out.println("\t7. View Upcoming Appointments");
-            System.out.println("\t8. Record Appointment Outcome ");
-            System.out.println("\t9. View my profile");
-            System.out.println("\t10. Change my password");
-            System.out.println("\t11. Logout");
+            System.out.println("\t4. Set availability for appointments");
+            System.out.println("\t5. Manage Appointment Requests");
+            System.out.println("\t6. View Upcoming Appointments");
+            System.out.println("\t7. Record Appointment Outcome ");
+            System.out.println("\t8. View my profile");
+            System.out.println("\t9. Change my password");
+            System.out.println("\t10. Logout");
 
             System.out.println("===================================");
 
@@ -42,9 +52,13 @@ public class DoctorDisplay {
                     case 1 -> displayMyPatients(doctor);
                     case 2 -> displayPatientsMenu(doctor, MedicalRecordsActions.VIEW);
                     case 3 -> displayPatientsMenu(doctor, MedicalRecordsActions.UPDATE);
-                    case 9 -> ViewUserProfileDisplay.viewUserProfilePage(doctor, UserType.DOCTOR);
-                    case 10 -> ChangePasswordDisplay.changePassword(doctor, UserType.DOCTOR);
-                    case 11 -> LogoutDisplay.logout();
+                    // case 4 -> CalendarDisplay.calendarDisplay();
+                    case 5 -> AppointmentDisplay.appointmentRequestsDisplay(doctor);
+                    case 6 -> viewUpcomingAppointments(doctor);
+                    case 7 -> recordAppointmentOutcome(doctor);
+                    case 8 -> ViewUserProfileDisplay.viewUserProfilePage(doctor, UserType.DOCTOR);
+                    case 9 -> ChangePasswordDisplay.changePassword(doctor, UserType.DOCTOR);
+                    case 10 -> LogoutDisplay.logout();
                     default -> {
                         System.out.println("Invalid choice. Please try again.");
                         doctorDisplay(user);
@@ -103,6 +117,83 @@ public class DoctorDisplay {
         System.out.println("Press Enter to go back.");
         if (CustScanner.getStrChoice().equals(""))
             throw new PageBackException();
+    }
+
+    private static void viewUpcomingAppointments(Doctor doctor) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        List<Appointment> upcomingAppointments = DoctorManager.getUpcomingAppointments(doctor);
+        if (upcomingAppointments == null) {
+            System.out.println("No upcoming appointments found.");
+            System.out.println("Press Enter to go back.");
+            if (CustScanner.getStrChoice().equals(""))
+                throw new PageBackException();
+        }
+
+        AppointmentDisplay.upcomingAppointmentsDisplay(upcomingAppointments);
+    }
+
+    private static void displayRecordAppointmentOutcomePrompts(Doctor doctor, String appointmentID, String patientID)
+            throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Record Appointment Outcome");
+        System.out.println("----------------------------------");
+
+        Patient patient = PatientManager.getPatientById(patientID);
+
+        if (patient == null) {
+            System.out.println("Patient not found.");
+            System.out.println("Press Enter to go back.");
+            if (CustScanner.getStrChoice().equals(""))
+                throw new PageBackException();
+        }
+
+        Appointment appointment = AppointmentManager.getAppointmentByID(patientID, appointmentID);
+        if (appointment == null) {
+            System.out.println("Appointment not found.");
+            System.out.println("Press Enter to go back.");
+            if (CustScanner.getStrChoice().equals(""))
+                throw new PageBackException();
+        }
+
+        System.out.println("Please enter the type of service provided.");
+        String typeOfService = CustScanner.getStrChoice();
+
+        System.out.println("Please enter the consultation notes.");
+        String consultationNotes = CustScanner.getStrChoice();
+
+        String appointmentOutcomeID = UUID.randomUUID().toString();
+        Prescription prescription = PrescriptionDisplay.displayAddNewPresciption(patient, doctor);
+        try {
+            AppointmentOutcomeManager.createNewAppointmentOutcome(new AppointmentOutcome(
+                    appointmentOutcomeID, patientID, appointment.getTimeSlot(), doctor.getModelID(), typeOfService,
+                    consultationNotes,
+                    prescription, appointmentID));
+        } catch (Exception e) {
+            System.out.println("Appointment Outcome not added. Please try again later");
+            System.out.println("Press Enter to go back.");
+            if (CustScanner.getStrChoice().equals(""))
+                throw new PageBackException();
+        }
+
+        System.out.println("Appointment Outcome added successfully.");
+        System.out.println("Press Enter to go back.");
+        if (CustScanner.getStrChoice().equals(""))
+            throw new PageBackException();
+
+    }
+
+    private static void recordAppointmentOutcome(Doctor doctor) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Record Appointment Outcome");
+        System.out.println("----------------------------------");
+        AppointmentDisplay.viewScheduledAppointments(doctor.getAppointments());
+        System.out.println("Please enter the ID of the appointment you would like to record the outcome of.");
+        String appointmentID = CustScanner.getStrChoice();
+
+        System.out.println("Please enter the ID of the patient for this appointment.");
+        String patientID = CustScanner.getStrChoice();
+
+        displayRecordAppointmentOutcomePrompts(doctor, appointmentID, patientID);
     }
 
 }

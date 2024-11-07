@@ -1,9 +1,10 @@
-package display;
+package display.medication;
 
 import java.util.List;
 import java.util.UUID;
 
 import controller.medication.MedicationManager;
+import display.ClearDisplay;
 import display.user.AdministratorDisplay;
 import model.medication.Medication;
 import model.user.Administrator;
@@ -131,7 +132,7 @@ public class MedicationDisplay {
         }
     }
 
-    private static void displayMedicationInventory() {
+    public static void displayMedicationInventory() {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+";
         System.out.println(fourColBorder);
         System.out.printf("| %-100s |%n", " " + "MEDICATION INVENTORY");
