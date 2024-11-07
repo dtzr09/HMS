@@ -10,7 +10,6 @@ import display.auth.LogoutDisplay;
 import model.prescription.PrescriptionStatus;
 import model.user.Patient;
 import model.user.Pharmacist;
-import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
@@ -79,7 +78,8 @@ public class PharmacistDisplay {
             System.out.println("Enter the diagnosis ID ");
             String diagnosisID = CustScanner.getStrChoice();
             try {
-                System.out.println("The status for the diagnosis prescription is: "+patient.getOneDiagnosis(diagnosisID).getPrescription().getPrescriptionStatus());
+                System.out.println("The status for the diagnosis prescription is: "
+                        + patient.getOneDiagnosis(diagnosisID).getPrescription().getPrescriptionStatus());
             } catch (Exception e) {
                 System.out.println("Diagnosis ID not found, check ID entered.");
                 pharmacistDisplay(user);
@@ -90,18 +90,21 @@ public class PharmacistDisplay {
             System.out.println("3. DECLINED");
             int i = CustScanner.getIntChoice();
             switch (i) {
-            case 1:
-            PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), PrescriptionStatus.PENDING);
-            break;
-            case 2:
-            PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), PrescriptionStatus.DISPENSED);
-            break;
-            case 3:
-            PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), PrescriptionStatus.DECLINED);
-            break;
-            default:
-            System.out.println("INVALID CHOICE");
-            updatePrescriptionStatus(user);
+                case 1:
+                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
+                            PrescriptionStatus.PENDING);
+                    break;
+                case 2:
+                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
+                            PrescriptionStatus.DISPENSED);
+                    break;
+                case 3:
+                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
+                            PrescriptionStatus.DECLINED);
+                    break;
+                default:
+                    System.out.println("INVALID CHOICE");
+                    updatePrescriptionStatus(user);
             }
             UserManager.updateUser(patient);
         } catch (Exception e) {

@@ -1,9 +1,7 @@
 package display.medication;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import controller.medication.PrescriptionManager;
 import controller.user.PatientManager;
 import display.ClearDisplay;
 import model.diagnosis.Diagnosis;
