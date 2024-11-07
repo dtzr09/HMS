@@ -12,7 +12,7 @@
 
 ## To Start:
 
-- Compile and run `Main.java`
+- In terminal: `./run.sh`
 
 ## All functionalities
 
