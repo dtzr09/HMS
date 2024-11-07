@@ -8,6 +8,7 @@ import java.util.Map;
 import controller.user.DoctorManager;
 import display.ClearDisplay;
 import model.appointment.Appointment;
+import model.appointment.enums.Weekdays;
 import model.user.Doctor;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
@@ -23,15 +24,15 @@ public class AppointmentDisplay {
         timeSlotMap.put(5, "11:00 - 11:30");
         timeSlotMap.put(6, "11:30 - 12:00");
         timeSlotMap.put(7, "12:00 - 12:30");
-        timeSlotMap.put(8, "12:30 - 1:00");
-        timeSlotMap.put(9, "1:00 - 1:30");
-        timeSlotMap.put(10, "1:30 - 2:00");
-        timeSlotMap.put(11, "2:00 - 2:30");
-        timeSlotMap.put(12, "2:30 - 3:00");
-        timeSlotMap.put(13, "3:00 - 3:30");
-        timeSlotMap.put(14, "3:30 - 4:00");
-        timeSlotMap.put(15, "4:00 - 4:30");
-        timeSlotMap.put(16, "4:30 - 5:00");
+        timeSlotMap.put(8, "12:30 - 13:00");
+        timeSlotMap.put(9, "13:00 - 13:30");
+        timeSlotMap.put(10, "13:30 - 14:00");
+        timeSlotMap.put(11, "14:00 - 14:30");
+        timeSlotMap.put(12, "14:30 - 15:00");
+        timeSlotMap.put(13, "15:00 - 15:30");
+        timeSlotMap.put(14, "15:30 - 16:00");
+        timeSlotMap.put(15, "16:00 - 16:30");
+        timeSlotMap.put(16, "16:30 - 17:00");
     }
 
     public static void setAppointmentAvailability() {
@@ -135,8 +136,10 @@ public class AppointmentDisplay {
             timeSlotDisplay();
             System.out.println();
             System.out
-                    .println("Enter a list of time slots separated by commas (e.g. 1, 2, 3) base on the above menu. ");
+                    .printf("Enter a list of time slots separated by commas (e.g. 1, 2, 3) base on the above menu. ");
+            System.out.println();
             String timeSlots = CustScanner.getStrChoice();
+
             List<String> timeSlotList = new ArrayList<>();
             try {
                 for (String slot : timeSlots.split(",")) {
@@ -147,9 +150,10 @@ public class AppointmentDisplay {
             }
             appointmentAvailability.put(Integer.toString(day), timeSlotList);
 
-            System.out.println("Would you like to set availability for another day? (Y/N)");
-            if (CustScanner.getStrChoice().equalsIgnoreCase("n"))
+            System.out.printf("Would you like to set availability for another day? (Y/N) ");
+            if (CustScanner.getStrChoice().equalsIgnoreCase("n")) {
                 break;
+            }
         }
 
         return appointmentAvailability;
@@ -168,7 +172,7 @@ public class AppointmentDisplay {
 
             timeSlotDisplay();
             System.out.println();
-            System.out.println("Enter a list of time slots separated by commas (e.g. 1, 2, 3) base on the above menu:");
+            System.out.printf("Enter a list of time slots separated by commas (e.g. 1, 2, 3) base on the above menu:");
             String timeSlots = CustScanner.getStrChoice();
             List<String> timeSlotList = new ArrayList<>();
             try {
@@ -181,6 +185,7 @@ public class AppointmentDisplay {
 
             oldAppointmentAvailability.put(Integer.toString(day), timeSlotList);
 
+            System.out.println();
             System.out.println("Would you like to set availability for another day? (Y/N) ");
             if (CustScanner.getStrChoice().equalsIgnoreCase("n")) {
                 break;
@@ -210,35 +215,51 @@ public class AppointmentDisplay {
             Map<String, List<String>> appointmentAvailability) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Current Appointment Availability");
-        System.out.println("---------------------------");
+        System.out.println("-----------------------------------");
         System.out.println();
 
         for (Map.Entry<String, List<String>> entry : appointmentAvailability.entrySet()) {
-            System.out.printf("Day: %s\n", entry.getKey());
+            try {
+                Weekdays day = null;
+                switch (entry.getKey()) {
+                    case "1" -> day = Weekdays.MONDAY;
+                    case "2" -> day = Weekdays.TUESDAY;
+                    case "3" -> day = Weekdays.WEDNESDAY;
+                    case "4" -> day = Weekdays.THURSDAY;
+                    case "5" -> day = Weekdays.FRIDAY;
+                    default -> {
+                        System.out.println("Something went wrong. Press enter to go back.");
+                        if (CustScanner.getStrChoice().equals("")) {
+                            throw new PageBackException();
+                        }
+                    }
+                }
 
-            List<String> timeSlotStrings = new ArrayList<>();
-            for (String slot : entry.getValue()) {
-                int slotNumber = Integer.parseInt(slot.trim());
-                timeSlotStrings.add(timeSlotMap.get(slotNumber));
+                System.out.printf("Day: %s\n", day.toCamelCase());
+                List<String> timeSlotStrings = new ArrayList<>();
+                for (String slot : entry.getValue()) {
+                    int slotNumber = Integer.parseInt(slot.trim());
+                    timeSlotStrings.add(timeSlotMap.get(slotNumber));
+                }
+                System.out.println("Appointment Slots:");
+                for (String slot : timeSlotStrings) {
+                    System.out.println("    " + slot);
+                }
+                System.out.println();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            for (String slot : timeSlotStrings) {
-                System.out.printf("\t%s\n", slot);
-            }
-            System.out.println();
         }
 
         System.out.println();
-        System.out.println("Do you want to update your availability? (Y/N)");
+        System.out.printf("Do you want to update your availability? (Y/N)");
         if (CustScanner.getStrChoice().equalsIgnoreCase("y")) {
             updateAppointmentAvailabilityDisplay(doctor, appointmentAvailability);
-        } else {
-            System.out.println("Press enter to go back.");
-            if (CustScanner.getStrChoice().equals("")) {
-                return;
-            }
         }
-
+        System.out.println("Press enter to go back.");
+        if (CustScanner.getStrChoice().equals("")) {
+            throw new PageBackException();
+        }
     }
 
 }

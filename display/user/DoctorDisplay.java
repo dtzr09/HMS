@@ -1,6 +1,5 @@
 package display.user;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -89,6 +88,9 @@ public class DoctorDisplay {
                 Map<String, List<String>> newAvailabilities = AppointmentDisplay.setAppointmentAvailability(doctor);
                 try {
                     DoctorManager.setAppointmentAvailability(doctor, newAvailabilities);
+                    System.out.println();
+                    System.out.println("You have successfully set your availability for appointments.");
+                    System.out.println();
                 } catch (Exception e) {
                     System.out.println("Error setting availability. Please try again later.");
                     System.out.println();
@@ -96,11 +98,11 @@ public class DoctorDisplay {
                     if (CustScanner.getStrChoice().equals(""))
                         throw new PageBackException();
                 }
-            } else {
-                System.out.println("Press Enter to go back.");
-                if (CustScanner.getStrChoice().equals(""))
-                    throw new PageBackException();
             }
+
+            System.out.println("Press Enter to go back.");
+            if (CustScanner.getStrChoice().equals(""))
+                throw new PageBackException();
         } else {
             AppointmentDisplay.displayAppointmentAvailability(doctor, currentAvailability);
         }
