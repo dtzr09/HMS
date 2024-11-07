@@ -10,15 +10,17 @@ import java.util.ArrayList;
 
 public class Patient implements User {
     private String patientID;
+    private String doctorID;
     private String password;
     private PersonalInfo personalInfo;
-    private String allergies;
+    private ArrayList<String> allergies;
     private BloodType bloodType;
     private ArrayList<Appointment> appointments = null;
     private ArrayList<Diagnosis> diagnosis = null;
 
-    public Patient(String patientID, String password, PersonalInfo personalInfo, String allergies, BloodType bloodType,
-            ArrayList<Appointment> appointments, ArrayList<Diagnosis> diagnosis) {
+    public Patient(String patientID, String password, PersonalInfo personalInfo, ArrayList<String> allergies,
+            BloodType bloodType,
+            ArrayList<Appointment> appointments, ArrayList<Diagnosis> diagnosis, String doctorID) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
@@ -26,6 +28,7 @@ public class Patient implements User {
         this.bloodType = bloodType;
         this.appointments = appointments;
         this.diagnosis = diagnosis;
+        this.doctorID = doctorID;
     }
 
     public Patient(String patientID, PersonalInfo personalInfo, String password) {
@@ -45,6 +48,10 @@ public class Patient implements User {
 
     // getters
     public String getModelID() {
+        return this.patientID;
+    }
+
+    public String getPatientID() {
         return this.patientID;
     }
 
@@ -72,7 +79,7 @@ public class Patient implements User {
         return appointments;
     }
 
-    public String getAllergies() {
+    public ArrayList<String> getAllergies() {
         return allergies;
     }
 
@@ -83,14 +90,20 @@ public class Patient implements User {
     public ArrayList<Diagnosis> getDiagnosis() {
         return diagnosis;
     }
-    public void printAllDiagnosis(){
+
+    public String getDoctorID() {
+        return doctorID;
+    }
+
+    public void printAllDiagnosis() {
         for (Diagnosis diagnosis : this.diagnosis) {
-            System.out.println("Diagnosis ID: "+diagnosis.getDianosisID()+" , "+diagnosis.getDisease());
+            System.out.println("Diagnosis ID: " + diagnosis.getDiagnosisID() + " , " + diagnosis.getDisease());
         }
     }
-    public Diagnosis getOneDiagnosis(String id){
+
+    public Diagnosis getOneDiagnosis(String id) {
         for (Diagnosis oneDiagnosis : this.diagnosis) {
-            if (oneDiagnosis.getDianosisID().equals(id)) {
+            if (oneDiagnosis.getDiagnosisID().equals(id)) {
                 return oneDiagnosis;
             }
         }
@@ -102,6 +115,10 @@ public class Patient implements User {
         this.password = password;
     }
 
+    public void setDoctorID(String doctorID) {
+        this.doctorID = doctorID;
+    }
+
     public void setPersonalInfo(PersonalInfo personalInfo) {
         this.personalInfo = personalInfo;
     }
@@ -110,7 +127,7 @@ public class Patient implements User {
         this.appointments = appointments;
     }
 
-    public void setAllergies(String allergies) {
+    public void setAllergies(ArrayList<String> allergies) {
         this.allergies = allergies;
     }
 

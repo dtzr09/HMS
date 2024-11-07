@@ -1,6 +1,10 @@
 package database.user;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import database.Database;
@@ -43,18 +47,28 @@ public class PharmacistDatabase extends Database<Pharmacist> {
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+
             String name = map.get("personalInfo_name");
             String emailAddress = map.get("personalInfo_emailAddress");
             String phoneNumber = map.get("personalInfo_phoneNumber");
             String ageStr = map.get("personalInfo_age");
             Integer age = ageStr != null ? Integer.parseInt(ageStr) : null;
             String dateOfBirth = map.get("personalInfo_dateOfBirth");
-            String dateOfModification = map.get("personalInfo_dateOfModification");
+            String dateOfRegistration = map.get("personalInfo_dateOfRegistration");
             String genderStr = map.get("personalInfo_gender");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
 
+            // convert dateOfRegistration to Date
+            Date registrationDate;
+            try {
+                registrationDate = formatter.parse(dateOfRegistration);
+            } catch (ParseException e) {
+                registrationDate = null;
+            }
+
             PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
-                    dateOfModification);
+                    registrationDate);
 
             String pharmacistID = map.get("pharmacistID");
             String password = map.get("password");

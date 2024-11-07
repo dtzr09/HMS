@@ -4,29 +4,38 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import model.medication.Medication;
-import model.user.Doctor;
-import model.user.Patient;
-import model.user.Pharmacist;
 
 public class Prescription {
     private String prescriptionID;
-    private Patient patient;
-    private Pharmacist pharmacist;
-    private Doctor doctor;
+    private String patientID;
+    private String pharmacistID;
+    private String doctorID;
     private ArrayList<Medication> medication;
     private Date dateOfPrescription;
     private String drugInstructions;
     private PrescriptionStatus prescriptionStatus;
 
-    public Prescription() {
+    public Prescription(String prescriptionID, String patientID, String pharmacistID, String doctorID,
+            ArrayList<Medication> medication, Date dateOfPrescription, String drugInstructions,
+            PrescriptionStatus prescriptionStatus) {
+        this.prescriptionID = prescriptionID;
+        this.patientID = patientID;
+        this.pharmacistID = pharmacistID;
+        this.doctorID = doctorID;
+        this.medication = medication;
+        this.dateOfPrescription = dateOfPrescription;
+        this.drugInstructions = drugInstructions;
+        this.prescriptionStatus = prescriptionStatus;
     }
 
-    public Prescription(String prescriptionID, Patient patient, Pharmacist pharmacist, Doctor doctor, ArrayList<Medication> medication
-                        , Date dateOfPrescription, String drugInstructions, PrescriptionStatus prescriptionStatus) {
+    public Prescription(String prescriptionID, String patientID,
+            String doctorID,
+            ArrayList<Medication> medication, Date dateOfPrescription,
+            String drugInstructions,
+            PrescriptionStatus prescriptionStatus) {
         this.prescriptionID = prescriptionID;
-        this.patient = patient;
-        this.pharmacist = pharmacist;
-        this.doctor = doctor;
+        this.patientID = patientID;
+        this.doctorID = doctorID;
         this.medication = medication;
         this.dateOfPrescription = dateOfPrescription;
         this.drugInstructions = drugInstructions;
@@ -41,28 +50,28 @@ public class Prescription {
         this.prescriptionID = prescriptionID;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public String getPatientID() {
+        return patientID;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setPatient(String patientID) {
+        this.patientID = patientID;
     }
 
-    public Pharmacist getPharmacist() {
-        return pharmacist;
+    public String getPharmacist() {
+        return pharmacistID;
     }
 
-    public void setPharmacist(Pharmacist pharmacist) {
-        this.pharmacist = pharmacist;
+    public void setPharmacist(String pharmacistID) {
+        this.pharmacistID = pharmacistID;
     }
 
-    public Doctor getdoctor() {
-        return doctor;
+    public String getdoctorID() {
+        return doctorID;
     }
 
-    public void setdoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setdoctor(String doctorID) {
+        this.doctorID = doctorID;
     }
 
     public ArrayList<Medication> getMedication() {

@@ -3,23 +3,21 @@ package model.appointment;
 import java.util.Date;
 
 import model.appointment.enums.AppointmentStatus;
-import model.user.Doctor;
-import model.user.Patient;
 
 public class Appointment {
     private String appointmentID;
     private AppointmentStatus appointmentStatus;
     private TimeSlot timeSlot;
-    private Patient patient;
-    private Doctor doctor;
+    private String patientID;
+    private String doctorID;
 
-    public Appointment(String appointmentID, AppointmentStatus appointmentStatus, TimeSlot timeSlot, Patient patient,
-            Doctor doctor) {
+    public Appointment(String appointmentID, AppointmentStatus appointmentStatus, TimeSlot timeSlot, String patientID,
+            String doctorID) {
         this.appointmentID = appointmentID;
         this.appointmentStatus = appointmentStatus;
         this.timeSlot = timeSlot;
-        this.patient = patient;
-        this.doctor = doctor;
+        this.patientID = patientID;
+        this.doctorID = doctorID;
     }
 
     public String getAppointmentID() {
@@ -57,18 +55,16 @@ public class Appointment {
         return timeSlot;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public String getPatientID() {
+        return patientID;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public String getDoctorID() {
+        return doctorID;
     }
 
-    public void displayAppointment() {
-        System.out.println("Appointment ID: " + appointmentID);
-        System.out.println("Status: " + appointmentStatus);
-        System.out.println("Time Slot: " + timeSlot.toString());
+    public void setDoctorID(String doctorID) {
+        this.doctorID = doctorID;
     }
 
 }

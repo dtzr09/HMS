@@ -13,17 +13,17 @@ public class PersonalInfo implements Mappable {
     private String dateOfBirth;
     private String emailAddress;
     private String phoneNumber;
-    private String dateOfModification;
+    private Date dateOfRegistration;
 
     public PersonalInfo(String name, Gender gender, int age, String dateOfBirth, String emailAddress,
-            String phoneNumber, String dateOfModification) {
+            String phoneNumber, Date dateOfRegistration) {
         this.name = name;
         this.gender = gender;
         this.age = age;
         this.dateOfBirth = dateOfBirth;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
-        this.dateOfModification = dateOfModification;
+        this.dateOfRegistration = dateOfRegistration;
     }
 
     public PersonalInfo(String name, String emailAddress, Gender gender, int age) {
@@ -58,8 +58,8 @@ public class PersonalInfo implements Mappable {
         return phoneNumber;
     }
 
-    public String getDateOfModification() {
-        return dateOfModification;
+    public Date getDateOfRegistration() {
+        return dateOfRegistration;
     }
 
     // Display personal information
@@ -70,7 +70,7 @@ public class PersonalInfo implements Mappable {
         System.out.println("Date of Birth: " + dateOfBirth);
         System.out.println("Email Address: " + emailAddress);
         System.out.println("Phone Number: " + phoneNumber);
-        System.out.println("Date of Modification: " + dateOfModification);
+        System.out.println("Date of Registration: " + dateOfRegistration.toString());
     }
 
     // Setters
@@ -98,11 +98,7 @@ public class PersonalInfo implements Mappable {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setDateOfModification(String dateOfModification) {
-        this.dateOfModification = dateOfModification;
-    }
-
-    public void setDateOfModification(Date date) {
-        this.dateOfModification = date.toString();
+    public void setDateOfRegistration(Date dateOfRegistration) {
+        this.dateOfRegistration = dateOfRegistration;
     }
 }

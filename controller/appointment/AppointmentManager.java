@@ -3,40 +3,21 @@ package controller.appointment;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.user.PatientManager;
 import model.appointment.Appointment;
-
-enum Status {
-    SCHEDULED, COMPLETED, CANCELLED
-}
+import model.user.Patient;
 
 public class AppointmentManager {
-    private List<Appointment> appointments = new ArrayList<>();
+    public List<Appointment> getAppointmentsOfPatient(String patientID) {
+        List<Appointment> appointments = new ArrayList<Appointment>();
+        Patient patient = PatientManager.getPatientById(patientID);
+        try {
+            appointments = patient.getAppointments();
+        } catch (Exception e) {
+            System.out.println("No appointments found for this patient.");
+        }
 
-    // public Appointment scheduleAppointment(String doctorID, String patientID,
-    // TimeSlot timeSlot) {
-    // Appointment appointment = new Appointment("appt" + (appointments.size() + 1),
-    // doctorID, patientID, timeSlot);
-    // appointments.add(appointment);
-    // return appointment;
-    // }
+        return appointments;
+    }
 
-    // public List<Appointment> getAppointmentsForPatient(String patientID) {
-    // List<Appointment> patientAppointments = new ArrayList<>();
-    // for (Appointment appointment : appointments) {
-    // if (appointment.getPatientID().equals(patientID)) {
-    // patientAppointments.add(appointment);
-    // }
-    // }
-    // return patientAppointments;
-    // }
-
-    // public void cancelAppointment(Appointment appointment) {
-    // appointment.setStatus(Status.CANCELLED);
-    // System.out.println("Appointment cancelled: " + appointment);
-    // }
-
-    // public void completeAppointment(Appointment appointment) {
-    // appointment.setStatus(Status.COMPLETED);
-    // System.out.println("Appointment completed: " + appointment);
-    // }
 }

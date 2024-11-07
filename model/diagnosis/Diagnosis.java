@@ -1,7 +1,6 @@
 package model.diagnosis;
 
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
+import java.util.Date;
 
 import model.prescription.Prescription;
 
@@ -9,20 +8,28 @@ public class Diagnosis {
     private String dianosisID;
     private String disease;
     private String doctorID;
-    private ArrayList<Prescription> prescriptions = null;
+    private Prescription prescription;
+    private Date dateOfDiagnosis;
 
-    public Diagnosis(){
-
-    }
-    public Diagnosis(String diagnosisID, String disease, String doctorID, ArrayList<Prescription> prescriptions){
+    public Diagnosis(String diagnosisID, String disease, String doctorID, Prescription prescriptions,
+            Date dateOfDiagnosis) {
         this.dianosisID = diagnosisID;
         this.disease = disease;
         this.doctorID = doctorID;
-        this.prescriptions = prescriptions;
+        this.prescription = prescriptions;
+        this.dateOfDiagnosis = dateOfDiagnosis;
     }
 
-    public String getDianosisID() {
+    public String getDiagnosisID() {
         return dianosisID;
+    }
+
+    public String getDateOfDiagnosis() {
+        return dateOfDiagnosis.toString();
+    }
+
+    public void setDateOfDiagnosis(Date dateOfDiagnosis) {
+        this.dateOfDiagnosis = dateOfDiagnosis;
     }
 
     public void setDianosisID(String dianosisID) {
@@ -32,6 +39,7 @@ public class Diagnosis {
     public String getDisease() {
         return disease;
     }
+
     public void setDisease(String disease) {
         this.disease = disease;
     }
@@ -39,25 +47,32 @@ public class Diagnosis {
     public String getDoctorID() {
         return doctorID;
     }
+
     public void setDoctorID(String doctorID) {
         this.doctorID = doctorID;
     }
 
-    public ArrayList<Prescription> getPrescriptions() {
-        return prescriptions;
+    public Prescription getPrescription() {
+        return prescription;
     }
-    public void setPrescriptions(ArrayList<Prescription> prescriptions) {
-        this.prescriptions = prescriptions;
-    }
-    public Prescription findPrescription(String prescriptionid){
-        for (Prescription prescription : this.prescriptions) {
-            if (prescription.getPrescriptionID().equals(prescriptionid)) {
-                return prescription;
-            }
-        } throw new NoSuchElementException("Prescription with ID " + prescriptionid + " not found!");
 
+    public void setPrescription(Prescription prescription) {
+        this.prescription = prescription;
     }
-    public void addPrescriptions(Prescription prescription){    // Adding one prescription object
-        this.prescriptions.add(prescription);
-    }
+
+    // public Prescription findPrescription(String prescriptionid) {
+    // for (Prescription prescription : this.prescriptions) {
+    // if (prescription.getPrescriptionID().equals(prescriptionid)) {
+    // return prescription;
+    // }
+    // }
+    // throw new NoSuchElementException("Prescription with ID " + prescriptionid + "
+    // not found!");
+
+    // }
+
+    // public void addPrescriptions(Prescription prescription) { // Adding one
+    // prescription object
+    // this.prescriptions.add(prescription);
+    // }
 }

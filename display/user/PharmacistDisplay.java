@@ -1,9 +1,7 @@
 package display.user;
 
-import controller.user.UserManager;
 import controller.user.PharmacistManager;
 import controller.medication.PrescriptionManager;
-import controller.medication.MedicationManager;
 import model.user.User;
 import model.user.enums.UserType;
 import display.ClearDisplay;
@@ -73,26 +71,32 @@ public class PharmacistDisplay {
             System.out.println("Choose the diagnosis ID ");
             String diagnosisID = CustScanner.getStrChoice();
             System.out.println("Choose Prescription ID to change status ");
-            PrescriptionManager.printAllPendingPrescriptioinsIDs(patient.getOneDiagnosis(diagnosisID));
+            // PrescriptionManager.printAllPendingPrescriptioinsIDs(patient.getOneDiagnosis(diagnosisID));
             String prescriptionID = CustScanner.getStrChoice();
             System.out.println("Choose the options below to change the status");
             System.out.println("1. PENDING");
             System.out.println("2. DISPENSED");
             System.out.println("3. DECLINED");
             int i = CustScanner.getIntChoice();
-            switch (i) {
-                case 1:
-                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), prescriptionID, PrescriptionStatus.PENDING);
-                    break;
-                case 2:
-                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), prescriptionID, PrescriptionStatus.DISPENSED);
-                    break;
-                case 3:
-                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), prescriptionID, PrescriptionStatus.DECLINED);
-                    break;
-                default:
-                    System.out.println("INVALID CHOICE");
-            }
+            // switch (i) {
+            // case 1:
+            // PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
+            // prescriptionID,
+            // PrescriptionStatus.PENDING);
+            // break;
+            // case 2:
+            // PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
+            // prescriptionID,
+            // PrescriptionStatus.DISPENSED);
+            // break;
+            // case 3:
+            // PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
+            // prescriptionID,
+            // PrescriptionStatus.DECLINED);
+            // break;
+            // default:
+            // System.out.println("INVALID CHOICE");
+            // }
 
         } catch (ModelNotFoundException e) {
             pharmacistDisplay(user);
@@ -100,7 +104,7 @@ public class PharmacistDisplay {
 
     }
 
-    public static void submitRequest(User user){
+    public static void submitRequest(User user) {
         try {
             PharmacistManager.viewMedicationInventory();
             System.out.println("Enter the medication ID that you want to restock");
