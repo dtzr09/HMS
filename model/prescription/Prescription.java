@@ -15,6 +15,8 @@ public class Prescription {
     private String drugInstructions;
     private PrescriptionStatus prescriptionStatus;
 
+    public Prescription(){}
+    
     public Prescription(String prescriptionID, String patientID, String pharmacistID, String doctorID,
             ArrayList<Medication> medication, Date dateOfPrescription, String drugInstructions,
             PrescriptionStatus prescriptionStatus) {
@@ -99,7 +101,7 @@ public class Prescription {
     }
 
     public PrescriptionStatus getPrescriptionStatus() {
-        return prescriptionStatus;
+        return this.prescriptionStatus;
     }
 
     public void setPrescriptionStatus(PrescriptionStatus prescriptionStatus) {

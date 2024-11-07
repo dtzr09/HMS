@@ -50,6 +50,15 @@ public class PrescriptionManager {
         return prescription;
     }
 
+    public static void updatePrescriptionStatus(Prescription prescription, PrescriptionStatus status){
+        prescription.setPrescriptionStatus(status);
+        if (status.equals(PrescriptionStatus.DISPENSED)) {
+            for (Medication medication : prescription.getMedication()) {
+                MedicationManager.reduceMedicationStock(medication.getModelID());
+            }
+        }
+    }
+
     // Get List of Prescriptions obj of a Diagnosis
     // public static ArrayList<Prescription>
     // getAllPrescriptionsOfDiagnosis(Diagnosis diagnosis) {

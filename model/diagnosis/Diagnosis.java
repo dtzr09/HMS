@@ -11,6 +11,8 @@ public class Diagnosis {
     private Prescription prescription;
     private Date dateOfDiagnosis;
 
+    public Diagnosis(){}
+    
     public Diagnosis(String diagnosisID, String disease, String doctorID, Prescription prescription,
             Date dateOfDiagnosis) {
         this.diagnosisID = diagnosisID;

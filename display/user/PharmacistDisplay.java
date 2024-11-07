@@ -1,11 +1,13 @@
 package display.user;
 
 import controller.user.PharmacistManager;
+import controller.user.UserManager;
 import model.user.User;
 import model.user.enums.UserType;
 import display.ClearDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
+import model.prescription.PrescriptionStatus;
 import model.user.Patient;
 import model.user.Pharmacist;
 import utils.exceptions.ModelNotFoundException;
@@ -62,49 +64,55 @@ public class PharmacistDisplay {
 
     public static void updatePrescriptionStatus(User user) {
         try {
+            System.out.println("");
             System.out.println("Enter Patient's email : ");
             String email = CustScanner.getStrChoice();
-            Patient patient = PatientDatabase.getDB().getByEmail(email);
+            Patient patient = new Patient();
+            try {
+                patient = PatientDatabase.getDB().getByEmail(email);
+            } catch (Exception e) {
+                System.out.println("Patient email not found");
+                pharmacistDisplay(user);
+            }
             patient.printAllDiagnosis();
-            System.out.println("Choose the diagnosis ID ");
+            System.out.println("");
+            System.out.println("Enter the diagnosis ID ");
             String diagnosisID = CustScanner.getStrChoice();
-            System.out.println("Choose Prescription ID to change status ");
-            // PrescriptionManager.printAllPendingPrescriptioinsIDs(patient.getOneDiagnosis(diagnosisID));
-            String prescriptionID = CustScanner.getStrChoice();
-            System.out.println("Choose the options below to change the status");
+            try {
+                System.out.println("The status for the diagnosis prescription is: "+patient.getOneDiagnosis(diagnosisID).getPrescription().getPrescriptionStatus());
+            } catch (Exception e) {
+                System.out.println("Diagnosis ID not found, check ID entered.");
+                pharmacistDisplay(user);
+            }
+            System.out.println("Choose the options below to change to the new status: ");
             System.out.println("1. PENDING");
             System.out.println("2. DISPENSED");
             System.out.println("3. DECLINED");
             int i = CustScanner.getIntChoice();
-            // switch (i) {
-            // case 1:
-            // PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
-            // prescriptionID,
-            // PrescriptionStatus.PENDING);
-            // break;
-            // case 2:
-            // PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
-            // prescriptionID,
-            // PrescriptionStatus.DISPENSED);
-            // break;
-            // case 3:
-            // PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
-            // prescriptionID,
-            // PrescriptionStatus.DECLINED);
-            // break;
-            // default:
-            // System.out.println("INVALID CHOICE");
-            // }
-
-        } catch (ModelNotFoundException e) {
+            switch (i) {
+            case 1:
+            PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), PrescriptionStatus.PENDING);
+            break;
+            case 2:
+            PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), PrescriptionStatus.DISPENSED);
+            break;
+            case 3:
+            PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID), PrescriptionStatus.DECLINED);
+            break;
+            default:
+            System.out.println("INVALID CHOICE");
+            updatePrescriptionStatus(user);
+            }
+            UserManager.updateUser(patient);
+        } catch (Exception e) {
             pharmacistDisplay(user);
         }
-
     }
 
     public static void submitRequest(User user) {
         try {
             PharmacistManager.viewMedicationInventory();
+            System.out.println("");
             System.out.println("Enter the medication ID that you want to restock");
             System.out.println("");
             String id = CustScanner.getStrChoice();

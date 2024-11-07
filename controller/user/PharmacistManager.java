@@ -14,11 +14,11 @@ import java.util.Date;
 import java.util.UUID;
 
 public class PharmacistManager {
-    // public static void updatePrescriptionStatus(Diagnosis diagnosis, String
-    // prescriptionID, PrescriptionStatus status) {
-    // PrescriptionManager.updatePrescriptionStatus(diagnosis, prescriptionID,
-    // status);
-    // }
+
+    public static void updatePrescriptionStatus(Diagnosis diagnosis, PrescriptionStatus status) {
+        PrescriptionManager.updatePrescriptionStatus(diagnosis.getPrescription(), status);
+        System.out.println("Diagnosis [ "+diagnosis.getDiagnosisID()+" ] Prescription status has been updated.");
+    }
 
     public static ArrayList<Medication> getMedicationInventory() {
         return (ArrayList<Medication>) MedicationManager.getMedications();

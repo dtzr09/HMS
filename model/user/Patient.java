@@ -18,6 +18,8 @@ public class Patient implements User {
     private ArrayList<Appointment> appointments = null;
     private ArrayList<Diagnosis> diagnosis = null;
 
+    public Patient(){}
+
     public Patient(String patientID, String password, PersonalInfo personalInfo, ArrayList<String> allergies,
             BloodType bloodType,
             ArrayList<Appointment> appointments, ArrayList<Diagnosis> diagnosis, String doctorID) {
