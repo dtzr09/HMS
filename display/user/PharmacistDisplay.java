@@ -14,7 +14,6 @@ import model.medication.Medication;
 import model.prescription.PrescriptionStatus;
 import model.user.Patient;
 import model.user.Pharmacist;
-import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
@@ -46,7 +45,7 @@ public class PharmacistDisplay {
 
             try {
                 switch (choice) {
-                    case 1 -> viewAppointmentOutcomeRecords(user); 
+                    case 1 -> viewAppointmentOutcomeRecords(user);
                     case 2 -> updatePrescriptionStatus(user);
                     case 3 -> PharmacistManager.viewMedicationInventory();
                     case 4 -> PharmacistManager.viewLowStockMedicationInventory();
@@ -69,36 +68,51 @@ public class PharmacistDisplay {
 
     }
 
-
-    public static void viewAppointmentOutcomeRecords(User user){
-        System.out.println("");
-        System.out.println("Please enter patient email: ");
+    public static void viewAppointmentOutcomeRecords(User user) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("View Appointment Outcome Records");
+        System.out.println("--------------------------------------");
+        System.out.println();
+        System.out.printf("Please enter patient email: ");
         String email = CustScanner.getStrChoice();
-        Patient patient = new Patient();
+        System.out.println();
+
         try {
-            patient = PatientDatabase.getDB().getByEmail(email);
-        } catch (ModelNotFoundException e) {
-            System.out.println("EMAIL NOT FOUND!!");
-            pharmacistDisplay(user);
-        }
-        String patientID = patient.getModelID();
-        ArrayList<AppointmentOutcome> recordList = PharmacistManager.getAppointmentOutcomeRecords(patientID);
-        for (AppointmentOutcome outcome : recordList) {
-            System.out.println("================================================================================");
-            System.out.println(outcome.getDateOfAppointment()+"   "+outcome.getTypeOfService());
-            System.out.println("");
-            System.out.println(outcome.getConsultationNotes());
-            System.out.println("");
-            for (Medication meds : outcome.getPrescription().getMedication()) {
-                System.out.println(meds.getName()+"   "+meds.getModelID());
+            Patient patient = PatientDatabase.getDB().getByEmail(email);
+            String patientID = patient.getPatientID();
+            ArrayList<AppointmentOutcome> recordList = PharmacistManager.getAppointmentOutcomeRecords(patientID);
+
+            if (recordList.isEmpty() || recordList == null) {
+                System.out.println("No appointment outcome records found for this patient.");
+                System.out.println();
+                System.out.printf("Press Enter to go back.");
+                if (CustScanner.getStrChoice().equals(""))
+                    throw new PageBackException();
             }
+
+            for (AppointmentOutcome outcome : recordList) {
+                System.out.println("================================================================================");
+                System.out.println(outcome.getDateOfAppointment() + "   " + outcome.getTypeOfService());
+                System.out.println();
+                System.out.println(outcome.getConsultationNotes());
+                System.out.println();
+                for (Medication meds : outcome.getPrescription().getMedication()) {
+                    System.out.println(meds.getName() + "   " + meds.getModelID());
+                }
+            }
+        } catch (PageBackException e) {
+            throw new PageBackException();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Email not found!");
         }
+
     }
 
     public static void updatePrescriptionStatus(User user) {
         try {
             System.out.println("");
-            System.out.println("Enter Patient's email : ");
+            System.out.printf("Enter patient's email : ");
             String email = CustScanner.getStrChoice();
             Patient patient = new Patient();
             try {
