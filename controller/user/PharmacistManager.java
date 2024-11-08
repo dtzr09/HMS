@@ -4,12 +4,14 @@ import controller.medication.PrescriptionManager;
 import controller.medication.MedicationManager;
 import controller.request.ReplenishmentRequestManager;
 import database.appointment.AppointmentOutcomeDatabase;
+import database.medication.MedicationDatabase;
 import model.appointment.AppointmentOutcome;
 import model.diagnosis.Diagnosis;
 import model.medication.Medication;
 import model.prescription.PrescriptionStatus;
 import model.request.enums.RequestStatus;
 import utils.exceptions.ModelNotFoundException;
+import utils.exceptions.PageBackException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +31,7 @@ public class PharmacistManager {
     }
 
     public static ArrayList<Medication> getMedicationInventory() {
-        return (ArrayList<Medication>) MedicationManager.getMedications();
+        return (ArrayList<Medication>) MedicationDatabase.getDB().getAllMedications();
     }
 
     public static ArrayList<String> getLowStockIDs() {

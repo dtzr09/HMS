@@ -47,8 +47,8 @@ public class PharmacistDisplay {
                 switch (choice) {
                     case 1 -> viewAppointmentOutcomeRecords(user);
                     case 2 -> updatePrescriptionStatus(user);
-                    case 3 -> PharmacistManager.viewMedicationInventory();
-                    case 4 -> PharmacistManager.viewLowStockMedicationInventory();
+                    case 3 -> viewMedInv();
+                    case 4 -> viewLowMedInv();
                     case 5 -> submitRequest(user);
                     case 6 -> UserProfileDisplay.viewUserProfilePage(pharmacist, userType);
                     case 7 -> UserProfileDisplay.updateUserProfile(pharmacist, userType);
@@ -65,8 +65,8 @@ public class PharmacistDisplay {
         } else {
             throw new IllegalArgumentException("User is not a Pharmacist.");
         }
-
     }
+
 
     public static void viewAppointmentOutcomeRecords(User user) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -99,6 +99,10 @@ public class PharmacistDisplay {
                 for (Medication meds : outcome.getPrescription().getMedication()) {
                     System.out.println(meds.getName() + "   " + meds.getModelID());
                 }
+                System.out.println("================================================================================");
+                System.out.printf("Press Enter to go back.");
+                if (CustScanner.getStrChoice().equals(""))
+                    throw new PageBackException();
             }
         } catch (PageBackException e) {
             throw new PageBackException();
@@ -109,7 +113,21 @@ public class PharmacistDisplay {
 
     }
 
-    public static void updatePrescriptionStatus(User user) {
+    public static void viewMedInv() throws PageBackException {
+        PharmacistManager.viewMedicationInventory();
+        System.out.println("Press Enter to go back.");
+        if (CustScanner.getStrChoice().equals(""))
+            throw new PageBackException();
+    }
+
+    public static void viewLowMedInv() throws PageBackException{
+        PharmacistManager.viewLowStockMedicationInventory();
+        System.out.println("Press Enter to go back.");
+        if (CustScanner.getStrChoice().equals(""))
+            throw new PageBackException();
+    }
+
+    public static void updatePrescriptionStatus(User user) throws PageBackException{
         try {
             System.out.println("");
             System.out.printf("Enter patient's email : ");
@@ -159,12 +177,13 @@ public class PharmacistDisplay {
                     updatePrescriptionStatus(user);
             }
             UserManager.updateUser(patient);
+            pharmacistDisplay(user);
         } catch (Exception e) {
             pharmacistDisplay(user);
         }
     }
 
-    public static void submitRequest(User user) {
+    public static void submitRequest(User user) throws PageBackException{
         try {
             ClearDisplay.ClearConsole();
             PharmacistManager.viewMedicationInventory();
@@ -173,8 +192,12 @@ public class PharmacistDisplay {
             System.out.println("");
             String id = CustScanner.getStrChoice();
             PharmacistManager.submitReplenishmentRequest(id);
+            System.out.println("Press Enter to go back.");
+            if (CustScanner.getStrChoice().equals(""))
+                throw new PageBackException();    
         } catch (Exception e) {
             System.out.println("No such medication ID!");
+            pharmacistDisplay(user);
         }
     }
 }
