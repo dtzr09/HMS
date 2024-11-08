@@ -1,6 +1,7 @@
 package display.user;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import controller.user.PharmacistManager;
 import controller.user.UserManager;
@@ -198,7 +199,7 @@ public class PharmacistDisplay {
             String id = CustScanner.getStrChoice();
             PharmacistManager.submitReplenishmentRequest(id);
             EnterToGoBackDisplay.display();
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             System.out.println("No such medication ID!");
             EnterToGoBackDisplay.display();
         }
