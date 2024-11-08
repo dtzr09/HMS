@@ -16,6 +16,14 @@ import utils.exceptions.UserCannotBeFoundException;
 import utils.iocontrol.CSVReader;
 
 public class AccountManager {
+
+    /**
+     * Check if user exists
+     * 
+     * @param email
+     * @param userType
+     * @return
+     */
     public static boolean userExist(String email, UserType userType) {
         try {
             User user = UserManager.findUser(email, userType);
@@ -29,6 +37,16 @@ public class AccountManager {
 
     }
 
+    /**
+     * Login
+     * 
+     * @param userType
+     * @param email
+     * @param password
+     * @return
+     * @throws PasswordIncorrectException
+     * @throws ModelNotFoundException
+     */
     public static User login(UserType userType, String email, String password)
             throws PasswordIncorrectException, ModelNotFoundException {
         User user = UserManager.findUser(email, userType);
@@ -39,6 +57,12 @@ public class AccountManager {
         }
     }
 
+    /**
+     * Register
+     * 
+     * @param email
+     * @param name
+     */
     public static User register(String email, String name, Gender gender, int age, UserType userType)
             throws ModelNotFoundException, UserAlreadyExistsException {
         try {
@@ -50,6 +74,17 @@ public class AccountManager {
         return null;
     }
 
+    /**
+     * Change password
+     * 
+     * @param userType
+     * @param email
+     * @param oldPassword
+     * @param newPassword
+     * @throws PasswordIncorrectException
+     * @throws ModelNotFoundException
+     * @throws PasswordDoesNotFulfilCriteriaException
+     */
     public static void changePassword(UserType userType, String email, String oldPassword, String newPassword)
             throws PasswordIncorrectException, ModelNotFoundException, PasswordDoesNotFulfilCriteriaException {
         User user = UserManager.findUser(email, userType);
@@ -57,6 +92,14 @@ public class AccountManager {
         UserManager.updateUser(user);
     }
 
+    /**
+     * Remove user
+     * 
+     * @param staffID
+     * @param userType
+     * @throws ModelNotFoundException
+     * @throws UserCannotBeFoundException
+     */
     public static void removeUser(String staffID, UserType userType)
             throws ModelNotFoundException, UserCannotBeFoundException {
         try {
@@ -68,18 +111,16 @@ public class AccountManager {
         }
     }
 
-    public void logout() {
-        // logout
-    }
-
-    public void updateProfile() {
-        // updateProfile
-    }
-
+    /**
+     * Load patient
+     */
     public void loadPatient() {
         // loadPatient
     }
 
+    /**
+     * Load hospital staffs
+     */
     public static void loadHospitalStaffs() {
         List<List<String>> hospitalStaffs = CSVReader.read("./resources/Staff_List.csv", true);
         for (List<String> hospitalStaff : hospitalStaffs) {
@@ -110,10 +151,6 @@ public class AccountManager {
             }
         }
 
-    }
-
-    public void loadMedicine() {
-        // loadMedicine
     }
 
 }
