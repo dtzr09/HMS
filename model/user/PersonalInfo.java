@@ -10,12 +10,12 @@ public class PersonalInfo implements Mappable {
     private String name;
     private Gender gender;
     private int age;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String emailAddress;
     private String phoneNumber;
     private Date dateOfRegistration;
 
-    public PersonalInfo(String name, Gender gender, int age, String dateOfBirth, String emailAddress,
+    public PersonalInfo(String name, Gender gender, int age, Date dateOfBirth, String emailAddress,
             String phoneNumber, Date dateOfRegistration) {
         this.name = name;
         this.gender = gender;
@@ -46,7 +46,7 @@ public class PersonalInfo implements Mappable {
         return age;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -67,7 +67,7 @@ public class PersonalInfo implements Mappable {
         System.out.println("Name: " + name);
         System.out.println("Gender: " + gender);
         System.out.println("Age: " + age);
-        System.out.println("Date of Birth: " + dateOfBirth);
+        System.out.println("Date of Birth: " + dateOfBirth.toString());
         System.out.println("Email Address: " + emailAddress);
         System.out.println("Phone Number: " + phoneNumber);
         System.out.println("Date of Registration: " + dateOfRegistration.toString());
@@ -86,7 +86,7 @@ public class PersonalInfo implements Mappable {
         this.age = age;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

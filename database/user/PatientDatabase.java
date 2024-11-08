@@ -1,16 +1,14 @@
 package database.user;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import database.Database;
 import model.user.Patient;
 import model.user.PersonalInfo;
 import model.user.enums.Gender;
+import utils.utils.FormatDateTime;
 
 public class PatientDatabase extends Database<Patient> {
 
@@ -47,7 +45,6 @@ public class PatientDatabase extends Database<Patient> {
      */
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 
         for (Map<String, String> map : listOfMappableObjects) {
             String name = map.get("personalInfo_name");
@@ -60,16 +57,12 @@ public class PatientDatabase extends Database<Patient> {
             String genderStr = map.get("personalInfo_gender");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
 
-            // convert dateOfRegistration to Date
-            Date registrationDate;
-            try {
-                registrationDate = formatter.parse(dateOfRegistration);
-            } catch (ParseException e) {
-                registrationDate = null;
-            }
+            Date birthDate = FormatDateTime.convertStringToDate(dateOfBirth);
+            Date registrationDate = FormatDateTime.convertStringToDate(dateOfRegistration);
 
-            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
+            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
                     registrationDate);
+
             String patientID = map.get("patientID");
             String password = map.get("password");
 

@@ -3,7 +3,9 @@ package model.user;
 import java.util.Map;
 
 import model.appointment.Appointment;
+import model.user.enums.Gender;
 
+import java.util.Date;
 import java.util.List;
 
 public class Doctor implements User {
@@ -83,6 +85,22 @@ public class Doctor implements User {
         return appointmentAvailability;
     }
 
+    public Date getDateOfBirth() {
+        return personalInfo.getDateOfBirth();
+    }
+
+    public int getAge() {
+        return personalInfo.getAge();
+    }
+
+    public String getPhoneNumber() {
+        return personalInfo.getPhoneNumber();
+    }
+
+    public Gender getGender() {
+        return personalInfo.getGender();
+    }
+
     // setters
     public void setPassword(String password) {
         this.password = password;
@@ -108,4 +126,23 @@ public class Doctor implements User {
         this.appointmentAvailability = appointmentAvailability;
     }
 
+    public void setEmail(String email) {
+        personalInfo.setEmail(email);
+    }
+
+    public void setName(String name) {
+        personalInfo.setName(name);
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        personalInfo.setPhoneNumber(phoneNumber);
+    }
+
+    public void setAge(int age) {
+        personalInfo.setAge(age);
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        personalInfo.setDateOfBirth(dateOfBirth);
+    }
 }

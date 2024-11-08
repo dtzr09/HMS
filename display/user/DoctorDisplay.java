@@ -39,14 +39,16 @@ public class DoctorDisplay {
             System.out.println("\t6. View Upcoming Appointments");
             System.out.println("\t7. Record Appointment Outcome ");
             System.out.println("\t8. View my profile");
-            System.out.println("\t9. Change my password");
-            System.out.println("\t10. Logout");
+            System.out.println("\t9. Update my profile");
+            System.out.println("\t10. Change my password");
+            System.out.println("\t11. Logout");
             System.out.println();
             System.out.println("===================================");
 
             System.out.println();
             System.out.print("What would you like to do? ");
             int choice = CustScanner.getIntChoice();
+            UserType userType = UserType.DOCTOR;
 
             try {
                 switch (choice) {
@@ -57,9 +59,10 @@ public class DoctorDisplay {
                     case 5 -> AppointmentDisplay.appointmentRequestsDisplay(doctor);
                     case 6 -> viewUpcomingAppointments(doctor);
                     case 7 -> recordAppointmentOutcome(doctor);
-                    case 8 -> ViewUserProfileDisplay.viewUserProfilePage(doctor, UserType.DOCTOR);
-                    case 9 -> ChangePasswordDisplay.changePassword(doctor, UserType.DOCTOR);
-                    case 10 -> LogoutDisplay.logout();
+                    case 8 -> UserProfileDisplay.viewUserProfilePage(doctor, userType);
+                    case 9 -> UserProfileDisplay.updateUserProfile(doctor, userType);
+                    case 10 -> ChangePasswordDisplay.changePassword(doctor, userType);
+                    case 11 -> LogoutDisplay.logout();
                     default -> {
                         System.out.println("Invalid choice. Please try again.");
                         doctorDisplay(user);

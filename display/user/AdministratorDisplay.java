@@ -42,14 +42,16 @@ public class AdministratorDisplay {
             System.out.println("\t5. View pending medication replenisment request");
             System.out.println("\t6. Manage medication replenishment request");
             System.out.println("\t7. View my profile");
-            System.out.println("\t8. Change my password");
-            System.out.println("\t9. Logout");
+            System.out.println("\t8. Update my profile");
+            System.out.println("\t9. Change my password");
+            System.out.println("\t10. Logout");
             System.out.println();
             System.out.println("===================================");
 
             System.out.println();
             System.out.print("What would you like to do? ");
             int choice = CustScanner.getIntChoice();
+            UserType userType = UserType.ADMINISTRATOR;
 
             try {
                 switch (choice) {
@@ -60,9 +62,10 @@ public class AdministratorDisplay {
                     case 5 ->
                         viewPendingMedicationReplenishmentRequest();
                     case 6 -> manageMedicationReplenishmentRequest(administrator);
-                    case 7 -> ViewUserProfileDisplay.viewUserProfilePage(administrator, UserType.ADMINISTRATOR);
-                    case 8 -> ChangePasswordDisplay.changePassword(administrator, UserType.ADMINISTRATOR);
-                    case 9 -> LogoutDisplay.logout();
+                    case 7 -> UserProfileDisplay.viewUserProfilePage(administrator, userType);
+                    case 8 -> UserProfileDisplay.updateUserProfile(administrator, userType);
+                    case 9 -> ChangePasswordDisplay.changePassword(administrator, userType);
+                    case 10 -> LogoutDisplay.logout();
                     default -> {
                         System.out.println("Invalid choice. Please try again.");
                         administratorDisplay(user);

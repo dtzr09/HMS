@@ -3,6 +3,7 @@ package database.user;
 import model.user.Doctor;
 import model.user.PersonalInfo;
 import model.user.enums.Gender;
+import utils.utils.FormatDateTime;
 
 import java.util.Date;
 import java.util.List;
@@ -53,12 +54,14 @@ public class DoctorDatabase extends Database<Doctor> {
             Integer age = ageStr != null ? Integer.parseInt(ageStr) : null;
             String dateOfBirth = map.get("personalInfo_dateOfBirth");
             String genderStr = map.get("personalInfo_gender");
+            String dateOfRegistration = map.get("personalInfo_dateOfRegistration");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
-            Date dateOfRegistration = new Date();
 
-            // convert dateOfRegistration to Date
-            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
-                    dateOfRegistration);
+            Date birthDate = FormatDateTime.convertStringToDate(dateOfBirth);
+            Date registrationDate = FormatDateTime.convertStringToDate(dateOfRegistration);
+
+            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
+                    registrationDate);
 
             String doctorID = map.get("doctorID");
             String password = map.get("password");

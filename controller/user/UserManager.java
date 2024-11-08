@@ -1,6 +1,8 @@
 package controller.user;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import database.user.AdministratorDatabase;
@@ -18,6 +20,7 @@ import model.user.enums.UserType;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.UserCannotBeFoundException;
+import utils.utils.FormatDateTime;
 
 public class UserManager {
 
@@ -96,6 +99,32 @@ public class UserManager {
             updatePharmacist(pharmacist);
         } else if (user instanceof Administrator administrator) {
             updateAdministrator(administrator);
+        }
+    }
+
+    public static void updateUserProfile(User user, UserType userType, Map<String, String> updatedValues)
+            throws ModelNotFoundException {
+        for (Map.Entry<String, String> entry : updatedValues.entrySet()) {
+            switch (entry.getKey()) {
+                case "Name" -> user.setName(entry.getValue());
+                case "Email" -> user.setEmail(entry.getValue());
+                case "Phone Number" -> user.setPhoneNumber(entry.getValue());
+                case "Age" -> user.setAge(Integer.parseInt(entry.getValue()));
+                case "Date of Birth" -> {
+                    Date dob = FormatDateTime.convertStringToDate(entry.getValue());
+                    user.setDateOfBirth(dob);
+                }
+            }
+        }
+        switch (userType) {
+            case UserType.DOCTOR ->
+                updateDoctor((Doctor) user);
+            case UserType.PATIENT ->
+                updatePatient((Patient) user);
+            case UserType.PHARMACIST ->
+                updatePharmacist((Pharmacist) user);
+            case UserType.ADMINISTRATOR ->
+                updateAdministrator((Administrator) user);
         }
     }
 

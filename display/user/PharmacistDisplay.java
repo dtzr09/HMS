@@ -30,12 +30,14 @@ public class PharmacistDisplay {
             System.out.println("\t4. View low stock medication inventory");
             System.out.println("\t5. Submit medication replenishment request");
             System.out.println("\t6. View my profile");
-            System.out.println("\t7. Change my password");
-            System.out.println("\t8. Logout");
+            System.out.println("\t7. Update my profile");
+            System.out.println("\t8. Change my password");
+            System.out.println("\t9. Logout");
             System.out.println("===================================");
             System.out.println();
             System.out.print("What would you like to do? ");
             int choice = CustScanner.getIntChoice();
+            UserType userType = UserType.PHARMACIST;
 
             try {
                 switch (choice) {
@@ -44,9 +46,10 @@ public class PharmacistDisplay {
                     case 3 -> PharmacistManager.viewMedicationInventory();
                     case 4 -> PharmacistManager.viewLowStockMedicationInventory();
                     case 5 -> submitRequest(user);
-                    case 6 -> ViewUserProfileDisplay.viewUserProfilePage(pharmacist, UserType.PHARMACIST);
-                    case 7 -> ChangePasswordDisplay.changePassword(pharmacist, UserType.PHARMACIST);
-                    case 8 -> LogoutDisplay.logout();
+                    case 6 -> UserProfileDisplay.viewUserProfilePage(pharmacist, userType);
+                    case 7 -> UserProfileDisplay.updateUserProfile(pharmacist, userType);
+                    case 8 -> ChangePasswordDisplay.changePassword(pharmacist, userType);
+                    case 9 -> LogoutDisplay.logout();
                     default -> {
                         System.out.println("Invalid choice. Please try again.");
                         pharmacistDisplay(user);

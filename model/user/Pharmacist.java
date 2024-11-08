@@ -1,6 +1,9 @@
 package model.user;
 
+import java.util.Date;
 import java.util.Map;
+
+import model.user.enums.Gender;
 
 public class Pharmacist implements User {
     private String pharmacistID;
@@ -48,6 +51,22 @@ public class Pharmacist implements User {
         return personalInfo.getEmail();
     }
 
+    public Date getDateOfBirth() {
+        return personalInfo.getDateOfBirth();
+    }
+
+    public int getAge() {
+        return personalInfo.getAge();
+    }
+
+    public String getPhoneNumber() {
+        return personalInfo.getPhoneNumber();
+    }
+
+    public Gender getGender() {
+        return personalInfo.getGender();
+    }
+
     // setters
     public void setName(String name) {
         personalInfo.setName(name);
@@ -59,5 +78,21 @@ public class Pharmacist implements User {
 
     public void setPersonalInfo(PersonalInfo personalInfo) {
         this.personalInfo = personalInfo;
+    }
+
+    public void setEmail(String email) {
+        personalInfo.setEmail(email);
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        personalInfo.setPhoneNumber(phoneNumber);
+    }
+
+    public void setAge(int age) {
+        personalInfo.setAge(age);
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        personalInfo.setDateOfBirth(dateOfBirth);
     }
 }

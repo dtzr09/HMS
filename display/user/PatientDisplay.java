@@ -4,17 +4,20 @@ import java.util.List;
 
 import controller.user.DoctorManager;
 import display.ClearDisplay;
+import display.auth.ChangePasswordDisplay;
+import display.auth.LogoutDisplay;
 import display.medication.DiagnosisDisplay;
 import model.appointment.Appointment;
 import model.diagnosis.Diagnosis;
 import model.user.Doctor;
 import model.user.Patient;
 import model.user.User;
+import model.user.enums.UserType;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
 public class PatientDisplay {
-    public static void display(User user) {
+    public static void patientDisplay(User user) {
         ClearDisplay.ClearConsole();
         if (user instanceof Patient patient) {
             System.out.println("===================================");
@@ -30,17 +33,28 @@ public class PatientDisplay {
             System.out.println("\t7. View scheduled appointments");
             System.out.println("\t8. View Past Appointment Outcome Records");
             System.out.println("\t9. View my profile");
-            System.out.println("\t10. Change my password");
-            System.out.println("\t11. Logout");
-
+            System.out.println("\t10. Update my profile");
+            System.out.println("\t11. Change my password");
+            System.out.println("\t12. Logout");
             System.out.println("===================================");
-        }
-
-        int choice = 0;
-        while (choice < 1 || choice > 12) {
             System.out.println();
             System.out.print("What would you like to do? ");
-            choice = CustScanner.getIntChoice();
+            int choice = CustScanner.getIntChoice();
+            UserType userType = UserType.PATIENT;
+
+            try {
+                switch (choice) {
+                    case 9 -> UserProfileDisplay.viewUserProfilePage(patient, userType);
+                    case 10 -> UserProfileDisplay.updateUserProfile(patient, userType);
+                    case 11 -> ChangePasswordDisplay.changePassword(patient, userType);
+                    case 12 -> LogoutDisplay.logout();
+                }
+            } catch (PageBackException e) {
+                patientDisplay(user);
+            }
+
+        } else {
+            throw new IllegalArgumentException("User is not a Patient.");
         }
 
     }

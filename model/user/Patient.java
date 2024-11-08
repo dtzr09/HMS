@@ -3,10 +3,12 @@ package model.user;
 import model.appointment.Appointment;
 import model.diagnosis.Diagnosis;
 import model.user.enums.BloodType;
+import model.user.enums.Gender;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Patient implements User {
     private String patientID;
@@ -18,7 +20,8 @@ public class Patient implements User {
     private ArrayList<Appointment> appointments = null;
     private ArrayList<Diagnosis> diagnosis = null;
 
-    public Patient(){}
+    public Patient() {
+    }
 
     public Patient(String patientID, String password, PersonalInfo personalInfo, ArrayList<String> allergies,
             BloodType bloodType,
@@ -112,6 +115,22 @@ public class Patient implements User {
         throw new NoSuchElementException("Diagnosis with ID " + id + " not found!");
     }
 
+    public Date getDateOfBirth() {
+        return personalInfo.getDateOfBirth();
+    }
+
+    public int getAge() {
+        return personalInfo.getAge();
+    }
+
+    public String getPhoneNumber() {
+        return personalInfo.getPhoneNumber();
+    }
+
+    public Gender getGender() {
+        return personalInfo.getGender();
+    }
+
     // setters
     public void setPassword(String password) {
         this.password = password;
@@ -143,5 +162,25 @@ public class Patient implements User {
 
     public void addDiagnosis(Diagnosis diagnosis) { // For adding one new diagnosis
         this.diagnosis.add(diagnosis);
+    }
+
+    public void setEmail(String email) {
+        personalInfo.setEmail(email);
+    }
+
+    public void setName(String name) {
+        personalInfo.setName(name);
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        personalInfo.setPhoneNumber(phoneNumber);
+    }
+
+    public void setAge(int age) {
+        personalInfo.setAge(age);
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        personalInfo.setDateOfBirth(dateOfBirth);
     }
 }

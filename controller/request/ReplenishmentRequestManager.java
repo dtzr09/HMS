@@ -5,9 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import controller.medication.MedicationManager;
-import database.medication.MedicationDatabase;
 import database.request.ReplenishmentRequestDatabase;
-import model.medication.Medication;
 import model.request.ReplenishmentRequest;
 import model.request.enums.RequestStatus;
 import utils.exceptions.ModelAlreadyExistsException;

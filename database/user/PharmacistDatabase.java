@@ -1,16 +1,14 @@
 package database.user;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import database.Database;
 import model.user.PersonalInfo;
 import model.user.Pharmacist;
 import model.user.enums.Gender;
+import utils.utils.FormatDateTime;
 
 public class PharmacistDatabase extends Database<Pharmacist> {
     private static final String FILE_PATH = "./data/user/pharmacist.txt";
@@ -47,7 +45,6 @@ public class PharmacistDatabase extends Database<Pharmacist> {
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 
             String name = map.get("personalInfo_name");
             String emailAddress = map.get("personalInfo_emailAddress");
@@ -59,15 +56,10 @@ public class PharmacistDatabase extends Database<Pharmacist> {
             String genderStr = map.get("personalInfo_gender");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
 
-            // convert dateOfRegistration to Date
-            Date registrationDate;
-            try {
-                registrationDate = formatter.parse(dateOfRegistration);
-            } catch (ParseException e) {
-                registrationDate = null;
-            }
+            Date birthDate = FormatDateTime.convertStringToDate(dateOfBirth);
+            Date registrationDate = FormatDateTime.convertStringToDate(dateOfRegistration);
 
-            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
+            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
                     registrationDate);
 
             String pharmacistID = map.get("pharmacistID");
