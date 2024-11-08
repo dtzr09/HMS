@@ -5,6 +5,7 @@ import controller.medication.MedicationManager;
 import controller.request.ReplenishmentRequestManager;
 import database.appointment.AppointmentOutcomeDatabase;
 import database.medication.MedicationDatabase;
+import display.ClearDisplay;
 import model.appointment.AppointmentOutcome;
 import model.diagnosis.Diagnosis;
 import model.medication.Medication;
@@ -14,6 +15,7 @@ import utils.exceptions.ModelNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class PharmacistManager {
@@ -56,26 +58,47 @@ public class PharmacistManager {
         return medList;
     }
 
-    public static void viewInventory(ArrayList<Medication> medications) {
-        for (Medication medication : medications) {
-            System.out.println("ID: " + medication.getModelID() + "--- Name: " + medication.getName() + "--- Stock: "
-                    + medication.getStock());
+    public static void viewInventory(ArrayList<Medication> medications, String title) {
+        String threeColBorder = "+--------------------------------------+----------------------+------------+";
+
+        ClearDisplay.ClearConsole();
+        System.out.printf("%-20s%n", title);
+        System.out.println("----------------------------------------------------");
+        System.out.println();
+        System.out.println(threeColBorder);
+        System.out.printf("| %-36s | %-20s | %-10s | %n", "ID", "Name", "Stock");
+        System.out.println(threeColBorder);
+        if (medications.isEmpty()) {
+            System.out.println("| No medications found in inventory.       ");
+            System.out.println(threeColBorder);
+            System.out.println();
+            return;
         }
+        for (Medication medication : medications) {
+            System.out.printf("| %-36s | %-20s | %-10s | %n", medication.getModelID(), medication.getName(),
+                    medication.getStock());
+        }
+        System.out.println(threeColBorder);
+        System.out.println();
     }
 
     public static void viewMedicationInventory() {
-        viewInventory(getMedicationInventory());
+        viewInventory(getMedicationInventory(), "Medication Inventory");
     }
 
     public static void viewLowStockMedicationInventory() {
-        viewInventory(getLowStockMedicationInventory());
+        viewInventory(getLowStockMedicationInventory(), "Low Stock Medication Inventory");
     }
 
     public static void submitReplenishmentRequest(String medicationID) {
         String replenishmentRequestID = UUID.randomUUID().toString();
         Date dateOfRequest = new Date();
-        ReplenishmentRequestManager.addReplenishmentRequest(replenishmentRequestID, RequestStatus.PENDING,
-                dateOfRequest, dateOfRequest, medicationID);
+        try {
+            ReplenishmentRequestManager.addReplenishmentRequest(replenishmentRequestID, RequestStatus.PENDING,
+                    dateOfRequest, dateOfRequest, medicationID);
+        } catch (Exception e) {
+            throw new NoSuchElementException();
+        }
     }
 
 }

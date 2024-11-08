@@ -337,12 +337,11 @@ public class AdministratorDisplay {
                 manageMedicationReplenishmentRequest(user);
             }
         }
-        viewPendingRequests();
         EnterToGoBackDisplay.display();
-
     }
 
     private static void approveMedicationReplenishmentRequestDisplay() {
+        ClearDisplay.ClearConsole();
         System.out.println("============== APPROVE REPLENISHMENT REQUEST ==============");
         System.out.println();
         viewPendingRequests();
@@ -357,6 +356,7 @@ public class AdministratorDisplay {
     }
 
     private static void declineMedicationReplenishmentRequestDisplay() {
+        ClearDisplay.ClearConsole();
         System.out.println("============== APPROVE REPLENISHMENT REQUEST ==============");
         System.out.println();
         viewPendingRequests();

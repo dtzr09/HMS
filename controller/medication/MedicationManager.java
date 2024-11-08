@@ -36,10 +36,9 @@ public class MedicationManager {
                 String medicationName = medication.get(0);
                 int medicationStock = Integer.parseInt(medication.get(1));
                 int lowStockLevelAlert = Integer.parseInt(medication.get(2));
-
                 addMedication(new Medication(medicationID, medicationName, medicationStock, lowStockLevelAlert));
             } catch (ModelAlreadyExistsException e) {
-                e.printStackTrace();
+                System.out.println("Medication already exists.");
             }
         }
     }
@@ -57,16 +56,16 @@ public class MedicationManager {
             System.out.println(medicationID + " not found.");
         }
     }
+
     public static void reduceMedicationStock(String medicationID) {
         try {
             Medication medication = findMedication(medicationID);
-            medication.setStock(medication.getStock() -1);
+            medication.setStock(medication.getStock() - 1);
             updateMedication(medication);
         } catch (ModelNotFoundException e) {
             System.out.println(medicationID + " not found.");
         }
     }
-
 
     public static void deleteMedication(String medicationID) {
         try {

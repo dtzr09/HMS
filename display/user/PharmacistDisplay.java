@@ -11,6 +11,7 @@ import display.EnterToGoBackDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import model.appointment.AppointmentOutcome;
+import model.diagnosis.Diagnosis;
 import model.medication.Medication;
 import model.prescription.PrescriptionStatus;
 import model.user.Patient;
@@ -85,9 +86,7 @@ public class PharmacistDisplay {
             if (recordList.isEmpty() || recordList == null) {
                 System.out.println("No appointment outcome records found for this patient.");
                 System.out.println();
-                System.out.printf("Press Enter to go back.");
-                if (CustScanner.getStrChoice().equals(""))
-                    throw new PageBackException();
+                EnterToGoBackDisplay.display();
             }
 
             for (AppointmentOutcome outcome : recordList) {
@@ -100,9 +99,9 @@ public class PharmacistDisplay {
                     System.out.println(meds.getName() + "   " + meds.getModelID());
                 }
                 System.out.println("================================================================================");
-                System.out.printf("Press Enter to go back.");
-                if (CustScanner.getStrChoice().equals(""))
-                    throw new PageBackException();
+                System.out.println();
+                EnterToGoBackDisplay.display();
+
             }
         } catch (PageBackException e) {
             throw new PageBackException();
@@ -124,59 +123,69 @@ public class PharmacistDisplay {
     }
 
     public static void updatePrescriptionStatus(User user) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println();
+        System.out.println("Update Prescription Status");
+        System.out.println("-------------------------------");
+        System.out.println();
+        System.out.printf("Enter patient's email: ");
+        String email = CustScanner.getStrChoice();
+        Patient patient = null;
         try {
-            System.out.println("");
-            System.out.printf("Enter patient's email : ");
-            String email = CustScanner.getStrChoice();
-            Patient patient = new Patient();
-            try {
-                patient = PatientDatabase.getDB().getByEmail(email);
-            } catch (Exception e) {
-                System.out.println("Patient email not found");
-                pharmacistDisplay(user);
-            }
-            ClearDisplay.ClearConsole();
-            patient.printAllDiagnosis();
-            System.out.println("");
-            System.out.println("Enter the diagnosis ID: ");
-            String diagnosisID = CustScanner.getStrChoice();
-            try {
-                System.out.println("The status for the diagnosis prescription is: "
-                        + patient.getOneDiagnosis(diagnosisID).getPrescription().getPrescriptionStatus());
-            } catch (Exception e) {
-                System.out.println("Diagnosis ID not found, check ID entered.");
-                pharmacistDisplay(user);
-            }
-            System.out.println("Choose the options below to change to the new status: ");
-            System.out.println("1. PENDING");
-            System.out.println("2. DISPENSED");
-            System.out.println("3. DECLINED");
-            System.out.println("4. Go back");
-            int i = CustScanner.getIntChoice();
-            switch (i) {
-                case 1:
-                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
-                            PrescriptionStatus.PENDING);
-                    break;
-                case 2:
-                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
-                            PrescriptionStatus.DISPENSED);
-                    break;
-                case 3:
-                    PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
-                            PrescriptionStatus.DECLINED);
-                    break;
-                case 4:
-                    throw new PageBackException();
-                default:
-                    System.out.println("INVALID CHOICE");
-                    updatePrescriptionStatus(user);
-            }
-            UserManager.updateUser(patient);
-            pharmacistDisplay(user);
+            patient = PatientDatabase.getDB().getByEmail(email);
         } catch (Exception e) {
-            pharmacistDisplay(user);
+            System.out.println("Patient email not found");
+            EnterToGoBackDisplay.display();
         }
+
+        ClearDisplay.ClearConsole();
+        try {
+            PatientDisplay.displayAllDiagnosis(patient);
+        } catch (PageBackException e) {
+            System.out.println("No diagnosis found for this patient.");
+            EnterToGoBackDisplay.display();
+        }
+
+        System.out.println("");
+        System.out.println("Enter the diagnosis ID: ");
+        String diagnosisID = CustScanner.getStrChoice();
+        Diagnosis patientDiagnosis = null;
+
+        try {
+            patientDiagnosis = patient.getOneDiagnosis(diagnosisID);
+            System.out.println("The status for the diagnosis prescription is: "
+                    + patientDiagnosis.getPrescription().getPrescriptionStatus());
+        } catch (Exception e) {
+            System.out.println("Diagnosis ID not found, check ID entered.");
+            EnterToGoBackDisplay.display();
+        }
+
+        System.out.println("1. Pending");
+        System.out.println("2. Dispense");
+        System.out.println("3. Decline");
+        System.out.println("4. Go back");
+        System.out.printf("Choose from the options above to change to the new status: ");
+        int i = CustScanner.getIntChoice();
+        PrescriptionStatus newStatus = null;
+        switch (i) {
+            case 1 ->
+                newStatus = PrescriptionStatus.PENDING;
+            case 2 -> newStatus = PrescriptionStatus.DISPENSED;
+            case 3 -> newStatus = PrescriptionStatus.DECLINED;
+            case 4 -> throw new PageBackException();
+            default -> {
+                System.out.println("Invalid choice. Please try again.");
+                updatePrescriptionStatus(user);
+            }
+        }
+        try {
+            PharmacistManager.updatePrescriptionStatus(patientDiagnosis, newStatus);
+            UserManager.updateUser(patient);
+        } catch (Exception e) {
+            System.out.println("Error updating prescription status");
+        }
+
+        EnterToGoBackDisplay.display();
     }
 
     public static void submitRequest(User user) throws PageBackException {

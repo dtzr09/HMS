@@ -100,12 +100,6 @@ public class Patient implements User {
         return doctorID;
     }
 
-    public void printAllDiagnosis() {
-        for (Diagnosis diagnosis : this.diagnosis) {
-            System.out.println("Diagnosis ID: " + diagnosis.getDiagnosisID() + " , " + diagnosis.getDisease());
-        }
-    }
-
     public Diagnosis getOneDiagnosis(String id) {
         for (Diagnosis oneDiagnosis : this.diagnosis) {
             if (oneDiagnosis.getDiagnosisID().equals(id)) {

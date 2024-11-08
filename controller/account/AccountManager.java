@@ -153,7 +153,6 @@ public class AccountManager {
 
                 UserManager.createPatient(newPatient);
             } catch (Exception e) {
-                e.printStackTrace();
                 System.out.println("Something went wrong with loading patients data");
             }
         }

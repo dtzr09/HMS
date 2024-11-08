@@ -1,5 +1,6 @@
 package display.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import controller.user.DoctorManager;
@@ -194,5 +195,15 @@ public class PatientDisplay {
         }
 
         EnterToGoBackDisplay.display();
+    }
+
+    public static void displayAllDiagnosis(Patient patient) throws PageBackException {
+        ArrayList<Diagnosis> diagnoses = patient.getDiagnosis();
+        if (diagnoses == null) {
+            throw new PageBackException();
+        }
+        for (Diagnosis diagnosis : diagnoses) {
+            System.out.println("Diagnosis ID: " + diagnosis.getDiagnosisID() + " , " + diagnosis.getDisease());
+        }
     }
 }
