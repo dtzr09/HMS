@@ -197,7 +197,9 @@ public class PharmacistDisplay {
                 throw new PageBackException();    
         } catch (Exception e) {
             System.out.println("No such medication ID!");
-            pharmacistDisplay(user);
+            System.out.println("Press Enter to go back.");
+            if (CustScanner.getStrChoice().equals(""))
+                throw new PageBackException();    
         }
     }
 }
