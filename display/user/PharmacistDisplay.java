@@ -7,6 +7,7 @@ import controller.user.UserManager;
 import model.user.User;
 import model.user.enums.UserType;
 import display.ClearDisplay;
+import display.EnterToGoBackDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import model.appointment.AppointmentOutcome;
@@ -67,7 +68,6 @@ public class PharmacistDisplay {
         }
     }
 
-
     public static void viewAppointmentOutcomeRecords(User user) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("View Appointment Outcome Records");
@@ -115,19 +115,15 @@ public class PharmacistDisplay {
 
     public static void viewMedInv() throws PageBackException {
         PharmacistManager.viewMedicationInventory();
-        System.out.println("Press Enter to go back.");
-        if (CustScanner.getStrChoice().equals(""))
-            throw new PageBackException();
+        EnterToGoBackDisplay.display();
     }
 
-    public static void viewLowMedInv() throws PageBackException{
+    public static void viewLowMedInv() throws PageBackException {
         PharmacistManager.viewLowStockMedicationInventory();
-        System.out.println("Press Enter to go back.");
-        if (CustScanner.getStrChoice().equals(""))
-            throw new PageBackException();
+        EnterToGoBackDisplay.display();
     }
 
-    public static void updatePrescriptionStatus(User user) throws PageBackException{
+    public static void updatePrescriptionStatus(User user) throws PageBackException {
         try {
             System.out.println("");
             System.out.printf("Enter patient's email : ");
@@ -183,23 +179,19 @@ public class PharmacistDisplay {
         }
     }
 
-    public static void submitRequest(User user) throws PageBackException{
+    public static void submitRequest(User user) throws PageBackException {
         try {
             ClearDisplay.ClearConsole();
             PharmacistManager.viewMedicationInventory();
             System.out.println("============================================================================");
-            System.out.println("Enter the medication ID that you want to restock");
-            System.out.println("");
+            System.out.printf("Enter the medication ID that you want to restock");
+            System.out.println();
             String id = CustScanner.getStrChoice();
             PharmacistManager.submitReplenishmentRequest(id);
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();    
+            EnterToGoBackDisplay.display();
         } catch (Exception e) {
             System.out.println("No such medication ID!");
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();    
+            EnterToGoBackDisplay.display();
         }
     }
 }

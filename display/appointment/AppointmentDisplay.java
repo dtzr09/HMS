@@ -7,6 +7,7 @@ import java.util.Map;
 
 import controller.user.DoctorManager;
 import display.ClearDisplay;
+import display.EnterToGoBackDisplay;
 import model.appointment.Appointment;
 import model.appointment.enums.Weekdays;
 import model.user.Doctor;
@@ -59,10 +60,7 @@ public class AppointmentDisplay {
         }
         System.out.println(fourColBorder);
         System.out.println();
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     public static void upcomingAppointmentsDisplay(List<Appointment> upcomingAppointments) throws PageBackException {
@@ -81,10 +79,7 @@ public class AppointmentDisplay {
 
         System.out.println(fourColBorder);
         System.out.println();
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     public static void viewScheduledAppointments(List<Appointment> appointments) throws PageBackException {
@@ -206,10 +201,7 @@ public class AppointmentDisplay {
             System.out.println("Error updating appointment availability.");
         }
 
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     public static void displayAppointmentAvailability(Doctor doctor,
@@ -257,10 +249,7 @@ public class AppointmentDisplay {
         if (CustScanner.getStrChoice().equalsIgnoreCase("y")) {
             updateAppointmentAvailabilityDisplay(doctor, appointmentAvailability);
         }
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
 }

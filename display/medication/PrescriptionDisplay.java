@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import controller.medication.PrescriptionManager;
 import controller.user.PatientManager;
+import display.EnterToGoBackDisplay;
 import model.diagnosis.Diagnosis;
 import model.prescription.Prescription;
 import model.user.Doctor;
@@ -60,9 +61,7 @@ public class PrescriptionDisplay {
             }
         }
 
-        System.out.println("Press Enter to go back.");
-        if (CustScanner.getStrChoice().equals(""))
-            throw new PageBackException();
+        EnterToGoBackDisplay.display();
     }
 
     public static Prescription displayAddNewPresciption(Patient patient, Doctor doctor) throws PageBackException {

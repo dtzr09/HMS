@@ -11,7 +11,6 @@ import model.medication.Medication;
 import model.prescription.PrescriptionStatus;
 import model.request.enums.RequestStatus;
 import utils.exceptions.ModelNotFoundException;
-import utils.exceptions.PageBackException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,15 +18,16 @@ import java.util.UUID;
 
 public class PharmacistManager {
 
-    public static ArrayList <AppointmentOutcome> getAppointmentOutcomeRecords(String patientID){
-        ArrayList <AppointmentOutcome> recordList = (ArrayList<AppointmentOutcome>) AppointmentOutcomeDatabase.getDB().findByRules(
-            AppointmentOutcome -> AppointmentOutcome.getPatientID().equals(patientID));
+    public static ArrayList<AppointmentOutcome> getAppointmentOutcomeRecords(String patientID) {
+        ArrayList<AppointmentOutcome> recordList = (ArrayList<AppointmentOutcome>) AppointmentOutcomeDatabase.getDB()
+                .findByRules(
+                        AppointmentOutcome -> AppointmentOutcome.getPatientID().equals(patientID));
         return recordList;
     }
 
     public static void updatePrescriptionStatus(Diagnosis diagnosis, PrescriptionStatus status) {
         PrescriptionManager.updatePrescriptionStatus(diagnosis.getPrescription(), status);
-        System.out.println("Diagnosis [ "+diagnosis.getDiagnosisID()+" ] Prescription status has been updated.");
+        System.out.println("Diagnosis [ " + diagnosis.getDiagnosisID() + " ] Prescription status has been updated.");
     }
 
     public static ArrayList<Medication> getMedicationInventory() {

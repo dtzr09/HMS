@@ -11,6 +11,11 @@ public class FormatDateTime {
         return formatter.format(date);
     }
 
+    public static String formatDateSimple(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
+    }
+
     public static Date convertStringToDateSimple(String dateString) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         formatter.setLenient(false);

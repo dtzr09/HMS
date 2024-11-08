@@ -1,6 +1,8 @@
 package database.request;
 
 import model.request.ReplenishmentRequest;
+import model.request.enums.RequestStatus;
+import utils.utils.FormatDateTime;
 
 import java.util.List;
 import java.util.Map;
@@ -43,7 +45,20 @@ public class ReplenishmentRequestDatabase extends Database<ReplenishmentRequest>
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
-            getAll().add(new ReplenishmentRequest(map));
+            String replenishmentRequestID = map.get("replenishmentRequestID");
+            String dateOfModification = map.get("dateOfModification");
+            String medicationID = map.get("medicationID");
+            String dateOfRequest = map.get("dateOfRequest");
+            String status = map.get("status");
+
+            RequestStatus requestStatus = RequestStatus.fromString(status);
+
+            ReplenishmentRequest replenishmentRequest = new ReplenishmentRequest(replenishmentRequestID, requestStatus,
+                    FormatDateTime.convertStringToDate(dateOfRequest),
+                    FormatDateTime.convertStringToDate(dateOfModification),
+                    medicationID);
+
+            getAll().add(replenishmentRequest);
         }
     }
 

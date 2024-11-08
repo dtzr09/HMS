@@ -4,6 +4,7 @@ import java.util.List;
 
 import controller.user.DoctorManager;
 import display.ClearDisplay;
+import display.EnterToGoBackDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import display.medication.DiagnosisDisplay;
@@ -192,8 +193,6 @@ public class PatientDisplay {
             }
         }
 
-        System.out.println("Press Enter to go back.");
-        if (CustScanner.getStrChoice().equals(""))
-            throw new PageBackException();
+        EnterToGoBackDisplay.display();
     }
 }

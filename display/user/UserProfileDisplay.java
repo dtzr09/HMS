@@ -5,6 +5,7 @@ import java.util.Map;
 
 import controller.user.UserManager;
 import display.ClearDisplay;
+import display.EnterToGoBackDisplay;
 import model.user.User;
 import model.user.enums.UserType;
 import utils.exceptions.PageBackException;
@@ -43,9 +44,7 @@ public class UserProfileDisplay {
         public static void viewUserProfilePage(User user, UserType userType) throws PageBackException {
                 ClearDisplay.ClearConsole();
                 viewUserProfile(user, userType);
-                System.out.println("Press enter to go back.");
-                if (CustScanner.getStrChoice().equals(""))
-                        throw new PageBackException();
+                EnterToGoBackDisplay.display();
         }
 
         public static void updateUserProfile(User user, UserType userType) throws PageBackException {
@@ -109,9 +108,7 @@ public class UserProfileDisplay {
                         }
 
                 }
-                System.out.println("Press enter to go back.");
-                if (CustScanner.getStrChoice().equals(""))
-                        throw new PageBackException();
+                EnterToGoBackDisplay.display();
 
         }
 }

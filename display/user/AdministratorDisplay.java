@@ -7,6 +7,7 @@ import controller.request.ReplenishmentRequestManager;
 import controller.user.AdministratorManager;
 import controller.user.UserManager;
 import display.ClearDisplay;
+import display.EnterToGoBackDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import display.medication.MedicationDisplay;
@@ -21,6 +22,7 @@ import utils.exceptions.PageBackException;
 import utils.exceptions.UserAlreadyExistsException;
 import utils.exceptions.UserCannotBeFoundException;
 import utils.iocontrol.CustScanner;
+import utils.utils.FormatDateTime;
 
 public class AdministratorDisplay {
 
@@ -111,10 +113,7 @@ public class AdministratorDisplay {
         displayUserTable("PHARMACISTS", UserManager.getPharmacists());
         displayUserTable("ADMINISTRATORS", UserManager.getAdministrators());
 
-        System.out.println("Press Enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     private static void viewHospitalStaffsByUsertype(UserType userType) {
@@ -217,10 +216,7 @@ public class AdministratorDisplay {
             System.out.println(e.getMessage());
         }
 
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     private static void removeHospitalStaff(Administrator administrator) throws PageBackException {
@@ -262,10 +258,7 @@ public class AdministratorDisplay {
             System.out.println(e.getMessage());
         }
 
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
 
     }
 
@@ -275,21 +268,28 @@ public class AdministratorDisplay {
             System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", "ID", "Name", "Current Quantity",
                     "Status", "Date of Request");
             System.out.println(fiveColBorder);
-            ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest();
-            for (int i = 0; i < ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest().size(); i++) {
-                ReplenishmentRequest request = ReplenishmentRequestManager.viewPendingMedicationReplenishmentRequest()
+            List<ReplenishmentRequest> pendingRequest = ReplenishmentRequestManager
+                    .viewPendingMedicationReplenishmentRequest();
+            if (pendingRequest.isEmpty() || pendingRequest == null) {
+                System.out.printf("%-36s", "No pending requests found.");
+                System.out.println(fiveColBorder);
+                System.out.println();
+                EnterToGoBackDisplay.display();
+            }
+            for (int i = 0; i < pendingRequest.size(); i++) {
+                ReplenishmentRequest request = pendingRequest
                         .get(i);
                 Medication medication = MedicationManager.findMedication(request.getMedicationID());
                 if (medication == null) {
                     System.out.println("Something went wrong. No medication found.");
                     throw new PageBackException();
                 } else {
-                    System.out.printf("| %-36s | %-25s | %-10s | %-10s | %-20s | %-10s | %n", request
+                    System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", request
                             .getRequestID(),
                             medication.getName(),
                             +medication.getStock(),
                             request.getStatus(),
-                            request.getDateOfRequest());
+                            FormatDateTime.formatDateSimple(request.getDateOfRequest()));
                 }
             }
         } catch (Exception e) {
@@ -307,10 +307,7 @@ public class AdministratorDisplay {
         System.out.println(fiveColBorder);
         viewPendingRequests();
         System.out.println();
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     public static void manageMedicationReplenishmentRequest(Administrator user) throws PageBackException {
@@ -319,10 +316,7 @@ public class AdministratorDisplay {
 
         if (!ReplenishmentRequestManager.isThereAnyPendingRequests()) {
             System.out.println("No pending requests found.");
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals("")) {
-                throw new PageBackException();
-            }
+            EnterToGoBackDisplay.display();
         }
 
         System.out.println();
@@ -344,10 +338,7 @@ public class AdministratorDisplay {
             }
         }
         viewPendingRequests();
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
 
     }
 

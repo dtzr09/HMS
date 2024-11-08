@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import controller.medication.MedicationManager;
 import display.ClearDisplay;
+import display.EnterToGoBackDisplay;
 import display.user.AdministratorDisplay;
 import model.medication.Medication;
 import model.user.Administrator;
@@ -60,10 +61,7 @@ public class MedicationDisplay {
         System.out.println(
                 "Medication " + selectedMed.getName() + " has been removed from the inventory.");
         System.out.println();
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     private static void addMedicationStock() throws PageBackException {
@@ -90,10 +88,7 @@ public class MedicationDisplay {
                 "Medication stock updated! The current stock for the medication " + selectedMed.getName() + " is now "
                         + selectedMed.getStock());
         System.out.println();
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     private static void addNewMedication() throws PageBackException {
@@ -116,20 +111,14 @@ public class MedicationDisplay {
         System.out.println();
         System.out.println("Medication " + medicationName + " has been added to the inventory.");
         System.out.println();
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     public static void viewMedicationInventory() throws PageBackException {
         ClearDisplay.ClearConsole();
         displayMedicationInventory();
         System.out.println();
-        System.out.println("Press enter to go back.");
-        if (CustScanner.getStrChoice().equals("")) {
-            throw new PageBackException();
-        }
+        EnterToGoBackDisplay.display();
     }
 
     public static void displayMedicationInventory() {

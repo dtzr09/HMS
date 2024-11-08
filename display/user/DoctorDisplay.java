@@ -9,6 +9,7 @@ import controller.appointment.AppointmentOutcomeManager;
 import controller.user.DoctorManager;
 import controller.user.PatientManager;
 import display.ClearDisplay;
+import display.EnterToGoBackDisplay;
 import display.appointment.AppointmentDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
@@ -97,15 +98,11 @@ public class DoctorDisplay {
                 } catch (Exception e) {
                     System.out.println("Error setting availability. Please try again later.");
                     System.out.println();
-                    System.out.println("Press Enter to go back.");
-                    if (CustScanner.getStrChoice().equals(""))
-                        throw new PageBackException();
+                    EnterToGoBackDisplay.display();
                 }
             }
 
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();
+            EnterToGoBackDisplay.display();
         } else {
             AppointmentDisplay.displayAppointmentAvailability(doctor, currentAvailability);
         }
@@ -118,9 +115,7 @@ public class DoctorDisplay {
         PatientDisplay.displayPatients(patients);
         System.out.println();
 
-        System.out.println("Press Enter to go back.");
-        if (CustScanner.getStrChoice().equals(""))
-            throw new PageBackException();
+        EnterToGoBackDisplay.display();
     }
 
     private static void displayPatientsMenu(Doctor doctor, MedicalRecordsActions actions) throws PageBackException {
@@ -134,9 +129,7 @@ public class DoctorDisplay {
         System.out.println();
 
         if (patients.isEmpty()) {
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();
+            EnterToGoBackDisplay.display();
         }
 
         System.out.println("Please enter the ID of the patient you would like to " + actions.toString().toLowerCase()
@@ -148,9 +141,7 @@ public class DoctorDisplay {
 
         if (patient == null) {
             System.out.println("Patient not found.");
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();
+            EnterToGoBackDisplay.display();
         }
 
         switch (actions) {
@@ -167,9 +158,7 @@ public class DoctorDisplay {
         ClearDisplay.ClearConsole();
         PatientDisplay.displayPatientInfo(patient);
         System.out.println();
-        System.out.println("Press Enter to go back.");
-        if (CustScanner.getStrChoice().equals(""))
-            throw new PageBackException();
+        EnterToGoBackDisplay.display();
     }
 
     private static void viewUpcomingAppointments(Doctor doctor) throws PageBackException {
@@ -178,9 +167,7 @@ public class DoctorDisplay {
         if (upcomingAppointments == null) {
             System.out.println("No upcoming appointments found.");
             System.out.println();
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();
+            EnterToGoBackDisplay.display();
         }
 
         AppointmentDisplay.upcomingAppointmentsDisplay(upcomingAppointments);
@@ -196,17 +183,13 @@ public class DoctorDisplay {
 
         if (patient == null) {
             System.out.println("Patient not found.");
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();
+            EnterToGoBackDisplay.display();
         }
 
         Appointment appointment = AppointmentManager.getAppointmentByID(patientID, appointmentID);
         if (appointment == null) {
             System.out.println("Appointment not found.");
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();
+            EnterToGoBackDisplay.display();
         }
 
         System.out.println("Please enter the type of service provided.");
@@ -224,15 +207,11 @@ public class DoctorDisplay {
                     prescription, appointmentID));
         } catch (Exception e) {
             System.out.println("Appointment Outcome not added. Please try again later");
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();
+            EnterToGoBackDisplay.display();
         }
 
         System.out.println("Appointment Outcome added successfully.");
-        System.out.println("Press Enter to go back.");
-        if (CustScanner.getStrChoice().equals(""))
-            throw new PageBackException();
+        EnterToGoBackDisplay.display();
 
     }
 
@@ -246,9 +225,7 @@ public class DoctorDisplay {
         if (appointments == null) {
             System.out.println("No appointments found.");
             System.out.println();
-            System.out.println("Press Enter to go back.");
-            if (CustScanner.getStrChoice().equals(""))
-                throw new PageBackException();
+            EnterToGoBackDisplay.display();
         }
 
         AppointmentDisplay.viewScheduledAppointments(appointments);
