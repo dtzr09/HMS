@@ -1,5 +1,7 @@
 package display.user;
 
+import java.util.ArrayList;
+
 import controller.user.PharmacistManager;
 import controller.user.UserManager;
 import model.user.User;
@@ -7,9 +9,12 @@ import model.user.enums.UserType;
 import display.ClearDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
+import model.appointment.AppointmentOutcome;
+import model.medication.Medication;
 import model.prescription.PrescriptionStatus;
 import model.user.Patient;
 import model.user.Pharmacist;
+import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
@@ -41,7 +46,7 @@ public class PharmacistDisplay {
 
             try {
                 switch (choice) {
-                    // case 1 -> ; ////ToDo Add appointment parts and implement function here
+                    case 1 -> viewAppointmentOutcomeRecords(user); 
                     case 2 -> updatePrescriptionStatus(user);
                     case 3 -> PharmacistManager.viewMedicationInventory();
                     case 4 -> PharmacistManager.viewLowStockMedicationInventory();
@@ -62,6 +67,32 @@ public class PharmacistDisplay {
             throw new IllegalArgumentException("User is not a Pharmacist.");
         }
 
+    }
+
+
+    public static void viewAppointmentOutcomeRecords(User user){
+        System.out.println("");
+        System.out.println("Please enter patient email: ");
+        String email = CustScanner.getStrChoice();
+        Patient patient = new Patient();
+        try {
+            patient = PatientDatabase.getDB().getByEmail(email);
+        } catch (ModelNotFoundException e) {
+            System.out.println("EMAIL NOT FOUND!!");
+            pharmacistDisplay(user);
+        }
+        String patientID = patient.getModelID();
+        ArrayList<AppointmentOutcome> recordList = PharmacistManager.getAppointmentOutcomeRecords(patientID);
+        for (AppointmentOutcome outcome : recordList) {
+            System.out.println("================================================================================");
+            System.out.println(outcome.getDateOfAppointment()+"   "+outcome.getTypeOfService());
+            System.out.println("");
+            System.out.println(outcome.getConsultationNotes());
+            System.out.println("");
+            for (Medication meds : outcome.getPrescription().getMedication()) {
+                System.out.println(meds.getName()+"   "+meds.getModelID());
+            }
+        }
     }
 
     public static void updatePrescriptionStatus(User user) {

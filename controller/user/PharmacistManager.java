@@ -3,6 +3,8 @@ package controller.user;
 import controller.medication.PrescriptionManager;
 import controller.medication.MedicationManager;
 import controller.request.ReplenishmentRequestManager;
+import database.appointment.AppointmentOutcomeDatabase;
+import model.appointment.AppointmentOutcome;
 import model.diagnosis.Diagnosis;
 import model.medication.Medication;
 import model.prescription.PrescriptionStatus;
@@ -14,6 +16,12 @@ import java.util.Date;
 import java.util.UUID;
 
 public class PharmacistManager {
+
+    public static ArrayList <AppointmentOutcome> getAppointmentOutcomeRecords(String patientID){
+        ArrayList <AppointmentOutcome> recordList = (ArrayList<AppointmentOutcome>) AppointmentOutcomeDatabase.getDB().findByRules(
+            AppointmentOutcome -> AppointmentOutcome.getPatientID().equals(patientID));
+        return recordList;
+    }
 
     public static void updatePrescriptionStatus(Diagnosis diagnosis, PrescriptionStatus status) {
         PrescriptionManager.updatePrescriptionStatus(diagnosis.getPrescription(), status);
