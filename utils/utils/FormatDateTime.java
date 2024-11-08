@@ -11,7 +11,7 @@ public class FormatDateTime {
         return formatter.format(date);
     }
 
-    public static Date convertStringToDate(String dateString) {
+    public static Date convertStringToDateSimple(String dateString) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         formatter.setLenient(false);
 
@@ -19,6 +19,17 @@ public class FormatDateTime {
             return formatter.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Date convertStringToDate(String dateString) {
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+        formatter.setLenient(false);
+
+        try {
+            return formatter.parse(dateString);
+        } catch (ParseException e) {
             return null;
         }
     }

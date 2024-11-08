@@ -18,6 +18,10 @@ public class PatientManager {
         return PatientDatabase.getDB().getAllPatients();
     }
 
+    public static boolean isRepositoryEmpty() {
+        return PatientDatabase.getDB().isEmpty();
+    }
+
     public static List<Patient> getPatientsOfDoctor(String doctorId) {
         List<Patient> patients = new ArrayList<>();
         List<Patient> allPatients = getAllPatients();

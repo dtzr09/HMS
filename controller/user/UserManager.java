@@ -132,7 +132,7 @@ public class UserManager {
         DoctorDatabase.getDB().add(doctor);
     }
 
-    private static void createPatient(Patient patient) throws ModelAlreadyExistsException {
+    public static void createPatient(Patient patient) throws ModelAlreadyExistsException {
         PatientDatabase.getDB().add(patient);
     }
 

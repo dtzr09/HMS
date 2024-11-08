@@ -1,10 +1,18 @@
 package controller.account;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import controller.authentication.PasswordManager;
 import controller.user.UserManager;
+import database.user.AdministratorDatabase;
+import database.user.DoctorDatabase;
+import database.user.PharmacistDatabase;
+import model.user.Patient;
+import model.user.PersonalInfo;
 import model.user.User;
+import model.user.enums.BloodType;
 import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.exceptions.ModelAlreadyExistsException;
@@ -14,6 +22,7 @@ import utils.exceptions.PasswordIncorrectException;
 import utils.exceptions.UserAlreadyExistsException;
 import utils.exceptions.UserCannotBeFoundException;
 import utils.iocontrol.CSVReader;
+import utils.utils.FormatDateTime;
 
 public class AccountManager {
 
@@ -114,8 +123,40 @@ public class AccountManager {
     /**
      * Load patient
      */
-    public void loadPatient() {
-        // loadPatient
+    public static void loadPatient() {
+        List<List<String>> patients = CSVReader.read("./resources/Patient_List.csv", true);
+        for (List<String> patient : patients) {
+            try {
+                String patientID = UUID.randomUUID().toString();
+                String patientName = patient.get(1);
+                String patientDateOfBirth = patient.get(2);
+                String patientGender = patient.get(3);
+                String patientBloodType = patient.get(4);
+                String patientEmail = patient.get(5);
+                String patientAge = patient.get(6);
+
+                Gender gender = null;
+                switch (patientGender) {
+                    case "Male" -> gender = Gender.MALE;
+                    case "Female" -> gender = Gender.FEMALE;
+                }
+
+                Date birthDate = FormatDateTime.convertStringToDateSimple(patientDateOfBirth);
+                Date dateOfRegistration = new Date();
+                BloodType bloodType = BloodType.fromString(patientBloodType);
+
+                PersonalInfo personalInfo = new PersonalInfo(patientName, gender, Integer.parseInt(patientAge),
+                        birthDate,
+                        patientEmail, null, dateOfRegistration);
+                Patient newPatient = new Patient(patientID, "password", personalInfo, null, bloodType, null, null,
+                        null);
+
+                UserManager.createPatient(newPatient);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Something went wrong with loading patients data");
+            }
+        }
     }
 
     /**
@@ -151,6 +192,11 @@ public class AccountManager {
             }
         }
 
+    }
+
+    public static boolean isHospitalStaffsRepositoryEmpty() {
+        return AdministratorDatabase.getDB().isEmpty() || DoctorDatabase.getDB().isEmpty()
+                || PharmacistDatabase.getDB().isEmpty();
     }
 
 }

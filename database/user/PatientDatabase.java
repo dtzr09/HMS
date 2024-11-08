@@ -57,8 +57,9 @@ public class PatientDatabase extends Database<Patient> {
             String genderStr = map.get("personalInfo_gender");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
 
-            Date birthDate = FormatDateTime.convertStringToDate(dateOfBirth);
-            Date registrationDate = FormatDateTime.convertStringToDate(dateOfRegistration);
+            Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDate(dateOfBirth);
+            Date registrationDate = dateOfRegistration == null ? null
+                    : FormatDateTime.convertStringToDate(dateOfRegistration);
 
             PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
                     registrationDate);

@@ -1,4 +1,4 @@
-﻿Patient ID,Name,Date of Birth,Gender,Blood Type,Contact Information
-P1001,Alice Brown,1980-05-14,Female,A+,alice.brown@example.com
-P1002,Bob Stone,1975-11-22,Male,B+,bob.stone@example.com
-P1003,Charlie White,1990-07-08,Male,O-,charlie.white@example.com
+﻿Patient ID,Name,Date of Birth,Gender,Blood Type,Email,Age
+P1001,Alice Brown,5/14/80,Female,A+,alice_brown@hotmail.com,10
+P1002,Bob Stone,11/22/75,Male,B+,bob_stone@hotmail.com,10
+P1003,Charlie White,7/8/90,Male,O-,charlie_white@hotmail.com,10
