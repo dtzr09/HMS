@@ -121,9 +121,10 @@ public class PharmacistDisplay {
                 System.out.println("Patient email not found");
                 pharmacistDisplay(user);
             }
+            ClearDisplay.ClearConsole();
             patient.printAllDiagnosis();
             System.out.println("");
-            System.out.println("Enter the diagnosis ID ");
+            System.out.println("Enter the diagnosis ID: ");
             String diagnosisID = CustScanner.getStrChoice();
             try {
                 System.out.println("The status for the diagnosis prescription is: "
@@ -136,6 +137,7 @@ public class PharmacistDisplay {
             System.out.println("1. PENDING");
             System.out.println("2. DISPENSED");
             System.out.println("3. DECLINED");
+            System.out.println("4. Go back");
             int i = CustScanner.getIntChoice();
             switch (i) {
                 case 1:
@@ -150,6 +152,8 @@ public class PharmacistDisplay {
                     PharmacistManager.updatePrescriptionStatus(patient.getOneDiagnosis(diagnosisID),
                             PrescriptionStatus.DECLINED);
                     break;
+                case 4:
+                    throw new PageBackException();
                 default:
                     System.out.println("INVALID CHOICE");
                     updatePrescriptionStatus(user);
@@ -162,8 +166,9 @@ public class PharmacistDisplay {
 
     public static void submitRequest(User user) {
         try {
+            ClearDisplay.ClearConsole();
             PharmacistManager.viewMedicationInventory();
-            System.out.println("");
+            System.out.println("============================================================================");
             System.out.println("Enter the medication ID that you want to restock");
             System.out.println("");
             String id = CustScanner.getStrChoice();
