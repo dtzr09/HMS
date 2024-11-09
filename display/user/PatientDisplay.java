@@ -19,24 +19,22 @@ import utils.iocontrol.CustScanner;
 public class PatientDisplay {
     public static void patientDisplay(User user) {
         ClearDisplay.ClearConsole();
-
         if (user instanceof Patient patient) {
             System.out.println("===================================");
             System.out.println("Welcome to Patient Main Page");
             System.out.println("Hello, " + patient.getName() + "!");
             System.out.println();
             System.out.println("\t1. View medical record");
-            System.out.println("\t2. Update personal information");
-            System.out.println("\t3. View available appointment slots");
-            System.out.println("\t4. Schedule an appointment");
-            System.out.println("\t5. Reschedule an appointment");
-            System.out.println("\t6. Cancel an appointment");
-            System.out.println("\t7. View scheduled appointments");
-            System.out.println("\t8. View Past Appointment Outcome Records");
-            System.out.println("\t9. View my profile");
-            System.out.println("\t10. Update my profile");
-            System.out.println("\t11. Change my password");
-            System.out.println("\t12. Logout");
+            System.out.println("\t2. View available appointment slots");
+            System.out.println("\t3. Schedule an appointment");
+            System.out.println("\t4. Reschedule an appointment");
+            System.out.println("\t5. Cancel an appointment");
+            System.out.println("\t6. View scheduled appointments");
+            System.out.println("\t7. View Past Appointment Outcome Records");
+            System.out.println("\t8. View my profile");
+            System.out.println("\t9. Update my profile");
+            System.out.println("\t10. Change my password");
+            System.out.println("\t11. Logout");
             System.out.println("===================================");
             System.out.println();
             System.out.print("What would you like to do? ");
@@ -46,17 +44,16 @@ public class PatientDisplay {
             try {
                 switch (choice) {
                     case 1 -> displayPatientInfo(patient);
-                    // case 2 -> updatePersonalInfo(patient);
-                    case 3 -> displayAvailableAppointmentSlots(patient);
+                    case 2 -> displayAvailableAppointmentSlots(patient);
                     // case 4 -> scheduleAppointment(patient);
                     // case 5 -> rescheduleAppointment(patient);
                     // case 6 -> cancelAppointment(patient);
                     // case 7 -> viewScheduledAppointments(patient);
-                    case 8 -> displayPastAppointmentRecords(patient);
-                    case 9 -> UserProfileDisplay.viewUserProfilePage(patient, userType);
-                    case 10 -> UserProfileDisplay.updateUserProfile(patient, userType);
-                    case 11 -> ChangePasswordDisplay.changePassword(patient, userType);
-                    case 12 -> LogoutDisplay.logout();
+                    case 7 -> displayPastAppointmentRecords(patient);
+                    case 8 -> UserProfileDisplay.viewUserProfilePage(patient, userType);
+                    case 9 -> UserProfileDisplay.updateUserProfile(patient, userType);
+                    case 10 -> ChangePasswordDisplay.changePassword(patient, userType);
+                    case 11 -> LogoutDisplay.logout();
                     default -> System.out.println("Invalid option, please try again.");
                 }
             } catch (PageBackException e) {
@@ -89,7 +86,7 @@ public class PatientDisplay {
     }
 
     public static void displayPatientInfo(Patient patient) throws PageBackException {
-
+        ClearDisplay.ClearConsole();
         System.out.println("Medical Record of " + patient.getName());
         System.out.println("--------------------------------------------");
         System.out.println("Personal Information");
@@ -218,7 +215,6 @@ public class PatientDisplay {
     // EnterToGoBackDisplay.display();
     // }
 
-    // Display Past Appointment Outcome Records
     private static void displayPastAppointmentRecords(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Past Appointment Outcome Records:");
@@ -252,11 +248,7 @@ public class PatientDisplay {
         System.out.println("What would you like to update?");
         System.out.println("\t1. Add allergies");
         System.out.println("\t2. Add new diagnosis");
-        System.out.println("\t3. Update diagnosis");
-        System.out.println("\t4. Create new appointment");
-        System.out.println("\t5. Update appointment");
-        System.out.println("\t6. Delete appointment");
-        System.out.println("\t7. Go back");
+        System.out.println("\t3. Go back");
 
         System.out.print("What would you like to do? ");
         int choice = CustScanner.getIntChoice();
@@ -264,11 +256,7 @@ public class PatientDisplay {
         switch (choice) {
             case 1 -> addAllergyDisplay(patient);
             case 2 -> DiagnosisDisplay.addDiagnosisDisplay(patient, doctor);
-            // case 3 -> updateDiagnosis(patient);
-            // case 4 -> scheduleAppointment(patient);
-            // case 5 -> rescheduleAppointment(patient);
-            // case 6 -> cancelAppointment(patient);
-            case 7 -> throw new PageBackException();
+            case 3 -> throw new PageBackException();
             default -> System.out.println("Invalid option. Please try again.");
         }
     }
@@ -306,20 +294,4 @@ public class PatientDisplay {
         EnterToGoBackDisplay.display();
     }
 
-    // private static void updateDiagnosis(Patient patient) {
-    // System.out.print("Enter the Diagnosis ID to update: ");
-    // String diagnosisID = CustScanner.getStrChoice();
-    // Diagnosis diagnosis = PatientManager.getDiagnosisByID(patient, diagnosisID);
-
-    // if (diagnosis == null) {
-    // System.out.println("Diagnosis not found.");
-    // return;
-    // }
-
-    // System.out.print("Enter new details for the diagnosis: ");
-    // String newDetails = CustScanner.getStrChoice();
-    // diagnosis.setDisease(newDetails);
-    // PatientManager.updateDiagnosis(diagnosisID, patient.getModelID(), diagnosis);
-    // System.out.println("Diagnosis updated successfully.");
-    // }
 }
