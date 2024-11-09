@@ -278,7 +278,7 @@ public class AdministratorDisplay {
             for (int i = 0; i < pendingRequest.size(); i++) {
                 ReplenishmentRequest request = pendingRequest
                         .get(i);
-                Medication medication = MedicationManager.findMedication(request.getMedicationID());
+                Medication medication = MedicationManager.getMedicationsById(request.getMedicationID());
                 if (medication == null) {
                     System.out.println("Something went wrong. No medication found.");
                     throw new PageBackException();

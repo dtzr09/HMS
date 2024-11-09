@@ -2,62 +2,101 @@ package controller.medication;
 
 import model.medication.Medication;
 import model.prescription.*;
+import utils.exceptions.ModelAlreadyExistsException;
+import utils.exceptions.ModelNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
+import java.util.List;
+
+import database.medicalRecords.PrescriptionDatabase;
 
 public class PrescriptionManager {
+    public static void createPrescription(Prescription prescription) throws ModelAlreadyExistsException {
+        PrescriptionDatabase.getDB().add(prescription);
+    }
 
-    public static Prescription createNewPrescription(ArrayList<String> MedicationIDs, String drugInstructions,
+    public static void updatePrescription(Prescription newPrescription) throws ModelNotFoundException {
+        PrescriptionDatabase.getDB().update(newPrescription);
+    }
+
+    public static List<Prescription> getAllPrescription() {
+        return PrescriptionDatabase.getDB().getAllPrescriptions();
+    }
+
+    public static Prescription getPrescriptionByID(String prescriptionID) throws ModelNotFoundException {
+        return PrescriptionDatabase.getDB().getByID(prescriptionID);
+    }
+
+    public static void createNewPrescription(String prescriptionID, ArrayList<String> MedicationIDs,
+            String drugInstructions,
             String patientID,
-            String doctorID) {
+            String doctorID) throws ModelAlreadyExistsException {
         ArrayList<Medication> medications = new ArrayList<Medication>();
         for (String id : MedicationIDs) {
             try {
-                Medication medication = MedicationManager.findMedication(id);
+                Medication medication = MedicationManager.getMedicationsById(id);
                 medications.add(medication);
             } catch (Exception e) {
                 System.out.println("Medication not found.");
             }
         }
-        String prescriptionID = UUID.randomUUID().toString();
         Date dateOfPrescription = new Date();
-        Prescription prescription = new Prescription(prescriptionID, patientID, doctorID, medications,
+        Prescription prescription = new Prescription(prescriptionID, patientID,
+                doctorID, medications,
                 dateOfPrescription, drugInstructions, PrescriptionStatus.PENDING);
-        return prescription;
+
+        createPrescription(prescription);
     }
 
-    public static Prescription updatePrescription(Prescription oldPrescription, ArrayList<String> MedicationIDs,
-            String drugInstructions) {
-        ArrayList<Medication> medications = new ArrayList<Medication>();
-        for (String id : MedicationIDs) {
-            try {
-                Medication medication = MedicationManager.findMedication(id);
-                medications.add(medication);
-            } catch (Exception e) {
-                System.out.println("Medication not found.");
+    public static void updatePrescriptionStatus(String prescriptionID, PrescriptionStatus status) {
+        try {
+            Prescription prescription = getPrescriptionByID(prescriptionID);
+            prescription.setPrescriptionStatus(status);
+            if (status.equals(PrescriptionStatus.DISPENSED)) {
+                for (Medication medication : prescription.getMedication()) {
+                    MedicationManager.updateMedicationStock(medication.getModelID());
+                }
             }
-        }
-
-        Date newDateOfPrescription = new Date();
-        Prescription prescription = new Prescription(oldPrescription.getPrescriptionID(),
-                oldPrescription.getPatientID(),
-                oldPrescription.getdoctorID(), medications, newDateOfPrescription,
-                drugInstructions,
-                PrescriptionStatus.PENDING);
-
-        return prescription;
-    }
-
-    public static void updatePrescriptionStatus(Prescription prescription, PrescriptionStatus status){
-        prescription.setPrescriptionStatus(status);
-        if (status.equals(PrescriptionStatus.DISPENSED)) {
-            for (Medication medication : prescription.getMedication()) {
-                MedicationManager.reduceMedicationStock(medication.getModelID());
-            }
+            updatePrescription(prescription);
+        } catch (ModelNotFoundException e) {
+            System.out.println("Prescription not found.");
         }
     }
+
+    // public static Prescription updatePrescription(Prescription oldPrescription,
+    // ArrayList<String> MedicationIDs,
+    // String drugInstructions) {
+    // ArrayList<Medication> medications = new ArrayList<Medication>();
+    // for (String id : MedicationIDs) {
+    // try {
+    // Medication medication = MedicationManager.findMedication(id);
+    // medications.add(medication);
+    // } catch (Exception e) {
+    // System.out.println("Medication not found.");
+    // }
+    // }
+
+    // Date newDateOfPrescription = new Date();
+    // Prescription prescription = new
+    // Prescription(oldPrescription.getPrescriptionID(),
+    // oldPrescription.getPatientID(),
+    // oldPrescription.getdoctorID(), medications, newDateOfPrescription,
+    // drugInstructions,
+    // PrescriptionStatus.PENDING);
+
+    // return prescription;
+    // }
+
+    // public static void updatePrescriptionStatus(Prescription prescription,
+    // PrescriptionStatus status) {
+    // prescription.setPrescriptionStatus(status);
+    // if (status.equals(PrescriptionStatus.DISPENSED)) {
+    // for (Medication medication : prescription.getMedication()) {
+    // MedicationManager.reduceMedicationStock(medication.getModelID());
+    // }
+    // }
+    // }
 
     // Get List of Prescriptions obj of a Diagnosis
     // public static ArrayList<Prescription>

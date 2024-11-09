@@ -6,13 +6,13 @@ import utils.exceptions.ModelNotFoundException;
 import utils.iocontrol.CSVReader;
 import java.util.UUID;
 
-import database.medication.MedicationDatabase;
+import database.medicalRecords.MedicationDatabase;
 
 import java.util.List;
 
 public class MedicationManager {
 
-    public static Medication findMedication(String medicationID) throws ModelNotFoundException {
+    public static Medication getMedicationsById(String medicationID) throws ModelNotFoundException {
         return MedicationDatabase.getDB().getByID(medicationID);
     }
 
@@ -49,7 +49,7 @@ public class MedicationManager {
 
     public static void updateMedicationStock(String medicationID) {
         try {
-            Medication medication = findMedication(medicationID);
+            Medication medication = getMedicationsById(medicationID);
             medication.setStock(medication.getStock() + 10);
             updateMedication(medication);
         } catch (ModelNotFoundException e) {
@@ -59,7 +59,7 @@ public class MedicationManager {
 
     public static void reduceMedicationStock(String medicationID) {
         try {
-            Medication medication = findMedication(medicationID);
+            Medication medication = getMedicationsById(medicationID);
             medication.setStock(medication.getStock() - 1);
             updateMedication(medication);
         } catch (ModelNotFoundException e) {

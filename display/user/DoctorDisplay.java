@@ -1,11 +1,13 @@
 package display.user;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import controller.appointment.AppointmentManager;
 import controller.appointment.AppointmentOutcomeManager;
+import controller.medication.DiagnosisManager;
 import controller.user.DoctorManager;
 import controller.user.PatientManager;
 import display.ClearDisplay;
@@ -16,7 +18,7 @@ import display.auth.LogoutDisplay;
 import display.medication.PrescriptionDisplay;
 import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
-import model.prescription.Prescription;
+import model.diagnosis.Diagnosis;
 import model.user.Doctor;
 import model.user.Patient;
 import model.user.User;
@@ -169,19 +171,15 @@ public class DoctorDisplay {
         EnterToGoBackDisplay.display();
     }
 
-    private static void viewUpcomingAppointments(Doctor doctor) {
+    private static void viewUpcomingAppointments(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
-        try {
-            List<Appointment> upcomingAppointments = AppointmentManager.getDoctorAppointments(doctor.getModelID());
-            if (upcomingAppointments == null || upcomingAppointments.isEmpty() || upcomingAppointments.size() == 0) {
-                System.out.println("No upcoming appointments found.");
-                System.out.println();
-                EnterToGoBackDisplay.display();
-            }
-            AppointmentDisplay.upcomingAppointmentsDisplay(upcomingAppointments);
-        } catch (Exception e) {
-            e.printStackTrace();
+        List<Appointment> upcomingAppointments = AppointmentManager.getDoctorAppointments(doctor.getModelID());
+        if (upcomingAppointments == null || upcomingAppointments.isEmpty() || upcomingAppointments.size() == 0) {
+            System.out.println("No upcoming appointments found.");
+            System.out.println();
+            EnterToGoBackDisplay.display();
         }
+        AppointmentDisplay.upcomingAppointmentsDisplay(upcomingAppointments);
 
     }
 
@@ -190,6 +188,7 @@ public class DoctorDisplay {
         ClearDisplay.ClearConsole();
         System.out.println("Record Appointment Outcome");
         System.out.println("----------------------------------");
+        System.out.println();
 
         Patient patient = PatientManager.getPatientById(patientID);
 
@@ -204,19 +203,27 @@ public class DoctorDisplay {
             EnterToGoBackDisplay.display();
         }
 
-        System.out.println("Please enter the type of service provided.");
+        System.out.printf("Please enter the type of service provided. ");
         String typeOfService = CustScanner.getStrChoice();
 
-        System.out.println("Please enter the consultation notes.");
+        System.out.printf("Please enter the consultation notes. ");
         String consultationNotes = CustScanner.getStrChoice();
 
+        System.out.printf("Please enter the disease. ");
+        String disease = CustScanner.getStrChoice();
+
         String appointmentOutcomeID = UUID.randomUUID().toString();
-        Prescription prescription = PrescriptionDisplay.displayAddNewPresciption(patient, doctor);
+        String prescriptionID = UUID.randomUUID().toString();
         try {
-            AppointmentOutcomeManager.createNewAppointmentOutcome(new AppointmentOutcome(
+            PrescriptionDisplay.displayAddNewPresciption(patient, doctor, prescriptionID);
+            String diagnosisID = UUID.randomUUID().toString();
+            Diagnosis diagnosis = new Diagnosis(
+                    diagnosisID, disease, doctor.getModelID(), prescriptionID, new Date(), patientID);
+            AppointmentOutcome outcomeAppointment = new AppointmentOutcome(
                     appointmentOutcomeID, patientID, doctor.getModelID(), typeOfService,
                     consultationNotes,
-                    prescription, appointmentID));
+                    diagnosisID, appointmentID);
+            AppointmentOutcomeManager.createNewAppointmentOutcome(outcomeAppointment, diagnosis);
         } catch (Exception e) {
             System.out.println("Appointment Outcome not added. Please try again later");
             EnterToGoBackDisplay.display();
@@ -232,19 +239,20 @@ public class DoctorDisplay {
         System.out.println("Record Appointment Outcome");
         System.out.println("----------------------------------");
 
-        List<Appointment> appointments = doctor.getAppointments();
+        List<Appointment> appointments = AppointmentManager.getDoctorAppointments(doctor.getModelID());
 
-        if (appointments == null) {
+        if (appointments == null || appointments.isEmpty() || appointments.size() == 0) {
             System.out.println("No appointments found.");
             System.out.println();
             EnterToGoBackDisplay.display();
         }
 
         AppointmentDisplay.viewScheduledAppointments(appointments);
-        System.out.println("Please enter the ID of the appointment you would like to record the outcome of.");
+        System.out.printf("Please enter the ID of the appointment you would like to record the outcome of. ");
         String appointmentID = CustScanner.getStrChoice();
+        System.out.println();
 
-        System.out.println("Please enter the ID of the patient for this appointment.");
+        System.out.printf("Please enter the ID of the patient for this appointment. ");
         String patientID = CustScanner.getStrChoice();
 
         displayRecordAppointmentOutcomePrompts(doctor, appointmentID, patientID);

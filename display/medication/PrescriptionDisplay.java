@@ -2,10 +2,12 @@ package display.medication;
 
 import java.util.ArrayList;
 
+import controller.medication.MedicationManager;
 import controller.medication.PrescriptionManager;
 import controller.user.PatientManager;
 import display.EnterToGoBackDisplay;
 import model.diagnosis.Diagnosis;
+import model.medication.Medication;
 import model.prescription.Prescription;
 import model.user.Doctor;
 import model.user.Patient;
@@ -18,14 +20,14 @@ public class PrescriptionDisplay {
             throws PageBackException {
 
         Diagnosis diagnosis = null;
+        Prescription oldPrescription = null;
         try {
             diagnosis = PatientManager.getDiagnosisByID(patient, diagnosisId);
+            oldPrescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
         } catch (Exception e) {
             System.out.println("Diagnosis not found.");
             throw new PageBackException();
         }
-
-        Prescription oldPrescription = diagnosis.getPrescription();
 
         System.out.println("Current prescription for diagnosis id " + diagnosisId + " :");
         System.out.println("--------------------------------------------");
@@ -35,12 +37,18 @@ public class PrescriptionDisplay {
         System.out.println("Would you like to update the prescription? (Y/N)");
         String choice = CustScanner.getStrChoice();
         if (choice.equalsIgnoreCase("Y")) {
-            ArrayList<String> medicationIDs = new ArrayList<>();
-
+            ArrayList<Medication> medications = new ArrayList<>();
+            MedicationDisplay.displayMedicationInventory();
+            System.out.println();
             while (true) {
                 System.out.println("Enter the medication ID: ");
                 String medicationID = CustScanner.getStrChoice();
-                medicationIDs.add(medicationID);
+                try {
+                    Medication medication = MedicationManager.getMedicationsById(medicationID);
+                    medications.add(medication);
+                } catch (Exception e) {
+                    System.out.println("Medication not found.");
+                }
 
                 System.out.println("Would you like to add another medication? (Y/N)");
                 choice = CustScanner.getStrChoice();
@@ -53,7 +61,9 @@ public class PrescriptionDisplay {
             String drugInstructions = CustScanner.getStrChoice();
 
             try {
-                PatientManager.updatePrescription(diagnosis, patient, oldPrescription, medicationIDs, drugInstructions);
+                oldPrescription.setDrugInstructions(drugInstructions);
+                oldPrescription.setMedication(medications);
+                PrescriptionManager.updatePrescription(oldPrescription);
                 System.out.println("Prescription updated successfully.");
             } catch (Exception e) {
                 System.out.println("Something went wrong.");
@@ -64,7 +74,8 @@ public class PrescriptionDisplay {
         EnterToGoBackDisplay.display();
     }
 
-    public static Prescription displayAddNewPresciption(Patient patient, Doctor doctor) throws PageBackException {
+    public static void displayAddNewPresciption(Patient patient, Doctor doctor, String prescriptionID)
+            throws PageBackException {
         System.out.println("Select the medications for the diagnosis.");
         System.out.println();
         MedicationDisplay.displayMedicationInventory();
@@ -74,6 +85,7 @@ public class PrescriptionDisplay {
             System.out.printf("Enter the medication ID: ");
             String medicationID = CustScanner.getStrChoice();
             medicationIDs.add(medicationID);
+            System.out.println();
 
             System.out.printf("Would you like to add another medication? (Y/N) ");
             String choice = CustScanner.getStrChoice();
@@ -85,17 +97,13 @@ public class PrescriptionDisplay {
         System.out.printf("Enter the instructions for drugs usage. ");
         String drugInstructions = CustScanner.getStrChoice();
 
-        Prescription prescription = null;
-
         try {
-            prescription = PrescriptionManager.createNewPrescription(
+            PrescriptionManager.createNewPrescription(prescriptionID,
                     medicationIDs, drugInstructions, patient.getPatientID(), doctor.getModelID());
         } catch (Exception e) {
             System.out.println("Something went wrong.");
             throw new PageBackException();
         }
-
-        return prescription;
     }
 
 }

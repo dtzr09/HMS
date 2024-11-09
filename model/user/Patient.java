@@ -18,21 +18,21 @@ public class Patient implements User {
     private ArrayList<String> allergies;
     private BloodType bloodType;
     private ArrayList<Appointment> appointments = new ArrayList<>();
-    private ArrayList<Diagnosis> diagnosis = new ArrayList<>();
+    private ArrayList<String> diagnosisIDs = new ArrayList<>();
 
     public Patient() {
     }
 
     public Patient(String patientID, String password, PersonalInfo personalInfo, ArrayList<String> allergies,
             BloodType bloodType,
-            ArrayList<Appointment> appointments, ArrayList<Diagnosis> diagnosis, String doctorID) {
+            ArrayList<Appointment> appointments, ArrayList<String> diagnosisIDs, String doctorID) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
         this.allergies = allergies;
         this.bloodType = bloodType;
         this.appointments = appointments;
-        this.diagnosis = diagnosis;
+        this.diagnosisIDs = diagnosisIDs;
         this.doctorID = doctorID;
     }
 
@@ -93,22 +93,22 @@ public class Patient implements User {
         return bloodType;
     }
 
-    public ArrayList<Diagnosis> getDiagnosis() {
-        return diagnosis;
+    public ArrayList<String> getDiagnosisID() {
+        return diagnosisIDs;
     }
 
     public String getDoctorID() {
         return doctorID;
     }
 
-    public Diagnosis getOneDiagnosis(String id) {
-        for (Diagnosis oneDiagnosis : this.diagnosis) {
-            if (oneDiagnosis.getDiagnosisID().equals(id)) {
-                return oneDiagnosis;
-            }
-        }
-        throw new NoSuchElementException("Diagnosis with ID " + id + " not found!");
-    }
+    // public Diagnosis getOneDiagnosis(String id) {
+    // for (Diagnosis oneDiagnosis : this.diagnosis) {
+    // if (oneDiagnosis.getDiagnosisID().equals(id)) {
+    // return oneDiagnosis;
+    // }
+    // }
+    // throw new NoSuchElementException("Diagnosis with ID " + id + " not found!");
+    // }
 
     public Date getDateOfBirth() {
         return personalInfo.getDateOfBirth();
@@ -151,12 +151,12 @@ public class Patient implements User {
         this.bloodType = bloodType;
     }
 
-    public void setDiagnosis(ArrayList<Diagnosis> diagnosis) {
-        this.diagnosis = diagnosis;
+    public void setDiagnosisID(ArrayList<String> diagnosisIDs) {
+        this.diagnosisIDs = diagnosisIDs;
     }
 
-    public void addDiagnosis(Diagnosis diagnosis) { // For adding one new diagnosis
-        this.diagnosis.add(diagnosis);
+    public void addDiagnosisID(String diagnosisID) { // For adding one new diagnosis
+        this.diagnosisIDs.add(diagnosisID);
     }
 
     public void setEmail(String email) {

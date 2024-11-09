@@ -4,6 +4,7 @@ import java.util.List;
 
 import controller.appointment.AppointmentManager;
 import controller.user.DoctorManager;
+import controller.user.PatientManager;
 import display.ClearDisplay;
 import display.EnterToGoBackDisplay;
 import display.appointment.AppointmentDisplay;
@@ -218,8 +219,31 @@ public class PatientDisplay {
 
     private static void displayPastAppointmentRecords(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
-        System.out.println("Past Appointment Outcome Records:");
-        AppointmentOutcomeDisplay.viewAppointmentOutcomeRecordsForPatient(patient.getEmail());
+        AppointmentOutcomeDisplay.viewAppointmentOutcomeRecordsForPatient(patient);
+    }
+
+    public static void viewAllPatients() throws PageBackException {
+        String threeColBorder = "+--------------------------------------+----------------------+------------------------------+";
+        List<Patient> patients = PatientManager.getAllPatients();
+
+        System.out.println(threeColBorder);
+        System.out.printf("| %-90s |%n", "All Patients");
+        System.out.println(threeColBorder);
+        System.out.printf("| %-36s | %-20s | %-28s |%n", "ID", "Name", "Email");
+        System.out.println(threeColBorder);
+        if (patients.isEmpty()) {
+            System.out.printf("| %-90s |%n", "No patient found.");
+            System.out.println();
+            EnterToGoBackDisplay.display();
+        } else {
+            for (Patient patient : patients) {
+                System.out.printf("| %-36s | %-20s | %-28s |%n",
+                        patient.getModelID() != null ? patient.getModelID() : "N/A",
+                        patient.getName() != null ? patient.getName() : "N/A",
+                        patient.getEmail() != null ? patient.getEmail() : "N/A");
+            }
+        }
+        System.out.println(threeColBorder);
     }
 
     public static void displayPatients(List<Patient> patients) {

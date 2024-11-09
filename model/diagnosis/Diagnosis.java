@@ -1,35 +1,54 @@
 package model.diagnosis;
 
 import java.util.Date;
+import java.util.Map;
 
 import model.Model;
-import model.prescription.Prescription;
 
 public class Diagnosis implements Model {
+    private String patientID;
     private String diagnosisID;
     private String disease;
     private String doctorID;
-    private Prescription prescription;
+    private String prescriptionID;
     private Date dateOfDiagnosis;
 
     public Diagnosis() {
     }
 
-    public Diagnosis(String diagnosisID, String disease, String doctorID, Prescription prescription,
-            Date dateOfDiagnosis) {
+    public Diagnosis(String diagnosisID, String disease, String doctorID, String prescriptionID,
+            Date dateOfDiagnosis, String patientID) {
         this.diagnosisID = diagnosisID;
         this.disease = disease;
         this.doctorID = doctorID;
-        this.prescription = prescription;
+        this.prescriptionID = prescriptionID;
         this.dateOfDiagnosis = dateOfDiagnosis;
+        this.patientID = patientID;
+    }
+
+    /**
+     * Converts the map to a Administrator object
+     *
+     * @param map the map
+     */
+    public Diagnosis(Map<String, String> map) {
+        this.convertToObject(map);
     }
 
     public String getModelID() {
         return diagnosisID;
     }
 
+    public String getPatientID() {
+        return patientID;
+    }
+
     public String getDiagnosisID() {
         return diagnosisID;
+    }
+
+    public String getPrescriptionID() {
+        return prescriptionID;
     }
 
     public String getDateOfDiagnosis() {
@@ -60,27 +79,12 @@ public class Diagnosis implements Model {
         this.doctorID = doctorID;
     }
 
-    public Prescription getPrescription() {
-        return prescription;
+    public void setPrescription(String prescriptionID) {
+        this.prescriptionID = prescriptionID;
     }
 
-    public void setPrescription(Prescription prescription) {
-        this.prescription = prescription;
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
     }
 
-    // public Prescription findPrescription(String prescriptionid) {
-    // for (Prescription prescription : this.prescriptions) {
-    // if (prescription.getPrescriptionID().equals(prescriptionid)) {
-    // return prescription;
-    // }
-    // }
-    // throw new NoSuchElementException("Prescription with ID " + prescriptionid + "
-    // not found!");
-
-    // }
-
-    // public void addPrescriptions(Prescription prescription) { // Adding one
-    // prescription object
-    // this.prescriptions.add(prescription);
-    // }
 }

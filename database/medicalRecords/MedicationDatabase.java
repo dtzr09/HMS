@@ -1,4 +1,4 @@
-package database.medication;
+package database.medicalRecords;
 
 import model.medication.Medication;
 

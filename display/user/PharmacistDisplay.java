@@ -2,6 +2,8 @@ package display.user;
 
 import java.util.NoSuchElementException;
 
+import controller.medication.DiagnosisManager;
+import controller.medication.PrescriptionManager;
 import controller.user.PharmacistManager;
 import controller.user.UserManager;
 import model.user.User;
@@ -13,6 +15,7 @@ import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import display.medication.DiagnosisDisplay;
 import model.diagnosis.Diagnosis;
+import model.prescription.Prescription;
 import model.prescription.PrescriptionStatus;
 import model.user.Patient;
 import model.user.Pharmacist;
@@ -74,10 +77,15 @@ public class PharmacistDisplay {
         System.out.println("View Appointment Outcome Records");
         System.out.println("--------------------------------------");
         System.out.println();
-        System.out.printf("Please enter patient email: ");
-        String email = CustScanner.getStrChoice();
+        PatientDisplay.viewAllPatients();
+        System.out.printf("Please enter patient ID: ");
+        String patientID = CustScanner.getStrChoice();
         System.out.println();
-        AppointmentOutcomeDisplay.viewAppointmentOutcomeRecordsForPharmacist(email);
+        try {
+            AppointmentOutcomeDisplay.viewAppointmentOutcomeRecordsForPharmacist(patientID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void viewMedInv() throws PageBackException {
@@ -114,9 +122,11 @@ public class PharmacistDisplay {
         Diagnosis patientDiagnosis = null;
 
         try {
-            patientDiagnosis = patient.getOneDiagnosis(diagnosisID);
+            patientDiagnosis = DiagnosisManager.getDiagnosisByPatientIDAndDiagnosisID(patient.getPatientID(),
+                    diagnosisID);
+            Prescription prescription = PrescriptionManager.getPrescriptionByID(patientDiagnosis.getPrescriptionID());
             System.out.println("The status for the diagnosis prescription is: "
-                    + patientDiagnosis.getPrescription().getPrescriptionStatus());
+                    + prescription.getPrescriptionStatus());
         } catch (Exception e) {
             System.out.println("Diagnosis ID not found, check ID entered.");
             EnterToGoBackDisplay.display();

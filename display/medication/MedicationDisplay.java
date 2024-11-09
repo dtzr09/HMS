@@ -50,7 +50,7 @@ public class MedicationDisplay {
 
         Medication selectedMed = null;
         try {
-            selectedMed = MedicationManager.findMedication(medicationID);
+            selectedMed = MedicationManager.getMedicationsById(medicationID);
         } catch (Exception e) {
             System.out.println("Medication not found.");
             throw new PageBackException();
@@ -76,7 +76,7 @@ public class MedicationDisplay {
         String medicationID = CustScanner.getStrChoice();
         Medication selectedMed = null;
         try {
-            selectedMed = MedicationManager.findMedication(medicationID);
+            selectedMed = MedicationManager.getMedicationsById(medicationID);
         } catch (Exception e) {
             System.out.println("Medication not found.");
             throw new PageBackException();

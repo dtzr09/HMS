@@ -139,16 +139,16 @@ public class AppointmentDisplay {
     }
 
     public static void upcomingAppointmentsDisplay(List<Appointment> upcomingAppointments) throws PageBackException {
-        String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+";
+        String fourColBorder = "+--------------------------------------+----------------------+-----------------+--------------------------------------+";
 
         System.out.println(fourColBorder);
-        System.out.printf("| %-100s |%n", " " + "Upcoming Appointments");
+        System.out.printf("| %-110s |%n", " " + "Upcoming Appointments");
         System.out.println(fourColBorder);
-        System.out.printf("| %-36s | %-20s | %-15s | %-20s|%n", "ID", "Date", "Time", "Patient ID");
+        System.out.printf("| %-36s | %-20s | %-15s | %-37s|%n", "ID", "Date", "Time", "Patient ID");
+        System.out.println(fourColBorder);
 
         for (Appointment upcomingAppointment : upcomingAppointments) {
-            System.out.println(upcomingAppointment.getAppointmentID());
-            System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
+            System.out.printf("| %-36s | %-20s | %-15s | %-36s |%n",
                     upcomingAppointment.getAppointmentID(),
                     upcomingAppointment.getDateOfAppointment(),
                     getTimeSlot(upcomingAppointment.getTimeOfAppointment()), upcomingAppointment.getPatientID());
@@ -160,20 +160,19 @@ public class AppointmentDisplay {
     }
 
     public static void viewScheduledAppointments(List<Appointment> appointments) throws PageBackException {
-        String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+";
+        String fourColBorder = "+--------------------------------------+----------------------+-----------------+--------------------------------------+";
 
         System.out.println(fourColBorder);
-        System.out.printf("| %-100s |%n", " " + "All Appointments");
+        System.out.printf("| %-115s |%n", " " + "All Appointments");
         System.out.println(fourColBorder);
-        System.out.printf("| %-36s | %-20s | %-15s | %-20s|%n", "ID", "Date", "Time", "Patient ID");
-
+        System.out.printf("| %-36s | %-20s | %-15s | %-37s|%n", "ID", "Date", "Time", "Patient ID");
+        System.out.println(fourColBorder);
         for (Appointment appointment : appointments) {
-            System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
+            System.out.printf("| %-36s | %-20s | %-15s | %-36s |%n",
                     appointment.getAppointmentID(),
                     appointment.getDateOfAppointment(),
                     getTimeSlot(appointment.getTimeOfAppointment()), appointment.getPatientID());
         }
-
         System.out.println(fourColBorder);
         System.out.println();
     }

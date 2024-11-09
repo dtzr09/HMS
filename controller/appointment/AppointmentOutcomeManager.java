@@ -3,10 +3,10 @@ package controller.appointment;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.user.PatientManager;
+import controller.medication.DiagnosisManager;
 import database.appointment.AppointmentOutcomeDatabase;
-import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
+import model.diagnosis.Diagnosis;
 
 public class AppointmentOutcomeManager {
 
@@ -26,15 +26,16 @@ public class AppointmentOutcomeManager {
         }
     }
 
-    public static void updateAppointmentOutcome(AppointmentOutcome appointmentOutcome) {
+    public static void updateAppointmentOutcome(AppointmentOutcome appointmentOutcome, Diagnosis diagnosis) {
         try {
             AppointmentOutcomeDatabase.getDB().update(appointmentOutcome);
+            DiagnosisManager.addDiagnosis(diagnosis);
         } catch (Exception e) {
             System.out.println("Appointment Outcome not updated.");
         }
     }
 
-    private static List<AppointmentOutcome> getAllAppointmentOutcome() {
+    public static List<AppointmentOutcome> getAllAppointmentOutcome() {
         try {
             return AppointmentOutcomeDatabase.getDB().getAllAppointmentOutcomes();
         } catch (Exception e) {
@@ -57,14 +58,11 @@ public class AppointmentOutcomeManager {
 
     public static List<AppointmentOutcome> getPatientsAppointmentOutcomeRecords(String patientID) {
         ArrayList<AppointmentOutcome> recordList = new ArrayList<>();
+
         try {
-            List<Appointment> appointments = PatientManager.getAppointmentsOfPatient(patientID);
-            if (appointments == null) {
-                return null;
-            }
-            for (Appointment apt : appointments) {
-                AppointmentOutcome outcome = getAppointmentOutcomeByAppointmentID(apt.getAppointmentID());
-                if (outcome != null) {
+            List<AppointmentOutcome> outcomes = getAllAppointmentOutcome();
+            for (AppointmentOutcome outcome : outcomes) {
+                if (outcome.getPatientID().equals(patientID)) {
                     recordList.add(outcome);
                 }
             }

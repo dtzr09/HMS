@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import controller.medication.DiagnosisManager;
 import controller.medication.PrescriptionManager;
 import database.user.PatientDatabase;
 import model.appointment.Appointment;
@@ -52,14 +53,13 @@ public class PatientManager {
         }
     }
 
-    public static void addDiagnosis(String diagnosis, String patientID, String doctorID, Prescription prescription) {
+    public static void addDiagnosis(String diagnosis, String patientID, String doctorID, String prescriptionID) {
         String diagnosisID = UUID.randomUUID().toString();
         Date dateOfDiagnosis = new Date();
         try {
-            Diagnosis newDiagnosis = new Diagnosis(diagnosisID, diagnosis, doctorID, prescription, dateOfDiagnosis);
-            Patient patient = getPatientById(patientID);
-            patient.addDiagnosis(newDiagnosis);
-            UserManager.updateUser(patient);
+            Diagnosis newDiagnosis = new Diagnosis(diagnosisID, diagnosis, doctorID, prescriptionID, dateOfDiagnosis,
+                    patientID);
+            DiagnosisManager.addDiagnosis(newDiagnosis);
         } catch (Exception e) {
             System.out.println("Something went wrong.");
         }
@@ -67,7 +67,7 @@ public class PatientManager {
 
     public static Diagnosis getDiagnosisByID(Patient patient, String diagnosisID) {
         try {
-            List<Diagnosis> diagnoses = patient.getDiagnosis();
+            List<Diagnosis> diagnoses = DiagnosisManager.getDiagnosisByPatientID(patient.getPatientID());
             Diagnosis diagnosis = null;
 
             for (Diagnosis d : diagnoses) {
@@ -88,26 +88,28 @@ public class PatientManager {
         return null;
     }
 
-    public static void updateDignosis(String diagnosisID, String patientID, Prescription newPrescription) {
-        try {
-            Patient patient = getPatientById(patientID);
-            List<Diagnosis> diagnoses = patient.getDiagnosis();
-            for (Diagnosis diagnosis : diagnoses) {
-                if (diagnosis.getDiagnosisID().equals(diagnosisID)) {
-                    diagnosis.setPrescription(newPrescription);
-                    break;
-                }
-            }
-            UserManager.updateUser(patient);
-        } catch (Exception e) {
-            System.out.println("Something went wrong.");
-        }
-    }
+    // public static void updateDignosis(String diagnosisID, String patientID,
+    // Prescription newPrescription) {
+    // try {
+    // Patient patient = getPatientById(patientID);
+    // List<Diagnosis> diagnoses =
+    // DiagnosisManager.getDiagnosisByPatientID(patientID);
+    // for (Diagnosis diagnosis : diagnoses) {
+    // if (diagnosis.getDiagnosisID().equals(diagnosisID)) {
+    // diagnosis.setPrescription(newPrescription);
+    // break;
+    // }
+    // }
+    // UserManager.updateUser(patient);
+    // } catch (Exception e) {
+    // System.out.println("Something went wrong.");
+    // }
+    // }
 
     public static void updateDisease(String newDisease, String patientID, String diagnosisID) {
         try {
             Patient patient = getPatientById(patientID);
-            List<Diagnosis> diagnoses = patient.getDiagnosis();
+            List<Diagnosis> diagnoses = DiagnosisManager.getDiagnosisByPatientID(patientID);
             for (Diagnosis diagnosis : diagnoses) {
                 if (diagnosis.getDiagnosisID().equals(diagnosisID)) {
                     diagnosis.setDisease(newDisease);
@@ -120,17 +122,20 @@ public class PatientManager {
         }
     }
 
-    public static void updatePrescription(Diagnosis diagnosis, Patient patient, Prescription oldPrescription,
-            ArrayList<String> MedicationIDs,
-            String drugInstructions) {
-        try {
-            Prescription newPrescription = PrescriptionManager.updatePrescription(oldPrescription, MedicationIDs,
-                    drugInstructions);
-            updateDignosis(diagnosis.getDiagnosisID(), patient.getPatientID(), newPrescription);
-        } catch (Exception e) {
-            System.out.println("Something went wrong.");
-        }
-    }
+    // public static void updatePrescription(Diagnosis diagnosis, Patient patient,
+    // Prescription oldPrescription,
+    // ArrayList<String> MedicationIDs,
+    // String drugInstructions) {
+    // try {
+    // Prescription newPrescription =
+    // PrescriptionManager.updatePrescription(oldPrescription, MedicationIDs,
+    // drugInstructions);
+    // updateDignosis(diagnosis.getDiagnosisID(), patient.getPatientID(),
+    // newPrescription);
+    // } catch (Exception e) {
+    // System.out.println("Something went wrong.");
+    // }
+    // }
 
     public static Appointment getAppointmentByID(String patientID, String appointmentID) {
         try {

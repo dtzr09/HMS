@@ -3,7 +3,6 @@ package model.appointment;
 import java.util.Map;
 
 import model.Model;
-import model.prescription.Prescription;
 
 public class AppointmentOutcome implements Model {
     private String appointmentOutcomeID;
@@ -11,18 +10,18 @@ public class AppointmentOutcome implements Model {
     private String doctorID;
     private String typeOfService;
     private String consultationNotes;
-    private Prescription prescription;
+    private String diagnosisID;
     private String appointmentID;
 
     public AppointmentOutcome(String appointmentOutcomeID, String patientID,
             String doctorID,
-            String typeOfService, String consultationNotes, Prescription prescription, String appointmentID) {
+            String typeOfService, String consultationNotes, String diagnosisID, String appointmentID) {
         this.appointmentOutcomeID = appointmentOutcomeID;
         this.patientID = patientID;
         this.doctorID = doctorID;
         this.typeOfService = typeOfService;
         this.consultationNotes = consultationNotes;
-        this.prescription = prescription;
+        this.diagnosisID = diagnosisID;
         this.appointmentID = appointmentID;
     }
 
@@ -59,8 +58,8 @@ public class AppointmentOutcome implements Model {
         return consultationNotes;
     }
 
-    public Prescription getPrescription() {
-        return prescription;
+    public String getDiagnosisID() {
+        return diagnosisID;
     }
 
     public String getAppointmentID() {
@@ -71,8 +70,8 @@ public class AppointmentOutcome implements Model {
         this.consultationNotes = consultationNotes;
     }
 
-    public void setPrescription(Prescription prescription) {
-        this.prescription = prescription;
+    public void setDiagnosisID(String diagnosisID) {
+        this.diagnosisID = diagnosisID;
     }
 
     public void setTypeOfService(String typeOfService) {

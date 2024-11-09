@@ -2,10 +2,12 @@ package model.prescription;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
+import model.Model;
 import model.medication.Medication;
 
-public class Prescription {
+public class Prescription implements Model {
     private String prescriptionID;
     private String patientID;
     private String pharmacistID;
@@ -15,8 +17,9 @@ public class Prescription {
     private String drugInstructions;
     private PrescriptionStatus prescriptionStatus;
 
-    public Prescription(){}
-    
+    public Prescription() {
+    }
+
     public Prescription(String prescriptionID, String patientID, String pharmacistID, String doctorID,
             ArrayList<Medication> medication, Date dateOfPrescription, String drugInstructions,
             PrescriptionStatus prescriptionStatus) {
@@ -42,6 +45,19 @@ public class Prescription {
         this.dateOfPrescription = dateOfPrescription;
         this.drugInstructions = drugInstructions;
         this.prescriptionStatus = prescriptionStatus;
+    }
+
+    /**
+     * Converts the map to a Medication object
+     *
+     * @param map the map
+     */
+    public Prescription(Map<String, String> map) {
+        this.convertToObject(map);
+    }
+
+    public String getModelID() {
+        return prescriptionID;
     }
 
     public String getPrescriptionID() {

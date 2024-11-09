@@ -4,7 +4,7 @@ import controller.medication.PrescriptionManager;
 import controller.medication.MedicationManager;
 import controller.request.ReplenishmentRequestManager;
 import database.appointment.AppointmentOutcomeDatabase;
-import database.medication.MedicationDatabase;
+import database.medicalRecords.MedicationDatabase;
 import display.ClearDisplay;
 import model.appointment.AppointmentOutcome;
 import model.diagnosis.Diagnosis;
@@ -28,9 +28,10 @@ public class PharmacistManager {
 
     public static void updatePrescriptionStatus(Diagnosis diagnosis,
             PrescriptionStatus status) {
-        PrescriptionManager.updatePrescriptionStatus(diagnosis.getPrescription(),
+
+        PrescriptionManager.updatePrescriptionStatus(diagnosis.getPrescriptionID(),
                 status);
-        System.out.println("Diagnosis [ " + diagnosis.getDiagnosisID() + " ] Prescription status has been updated.");
+        System.out.println("Diagnosis " + diagnosis.getDiagnosisID() + " Prescription status has been updated.");
     }
 
     public static ArrayList<Medication> getMedicationInventory() {
@@ -51,7 +52,7 @@ public class PharmacistManager {
         ArrayList<Medication> medList = new ArrayList<Medication>();
         for (String id : getLowStockIDs()) {
             try {
-                medList.add(MedicationManager.findMedication(id));
+                medList.add(MedicationManager.getMedicationsById(id));
             } catch (ModelNotFoundException e) {
                 e.printStackTrace();
             }

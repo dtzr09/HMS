@@ -1,7 +1,10 @@
 package display.medication;
 
 import java.util.List;
+import java.util.UUID;
 
+import controller.medication.DiagnosisManager;
+import controller.medication.PrescriptionManager;
 import controller.user.DoctorManager;
 import controller.user.PatientManager;
 import display.ClearDisplay;
@@ -22,10 +25,10 @@ public class DiagnosisDisplay {
         String diagnosis = CustScanner.getStrChoice();
         System.out.println();
 
-        Prescription prescription = PrescriptionDisplay.displayAddNewPresciption(patient, doctor);
-
+        String prescriptionID = UUID.randomUUID().toString();
         try {
-            PatientManager.addDiagnosis(diagnosis, patient.getPatientID(), patient.getDoctorID(), prescription);
+            PrescriptionDisplay.displayAddNewPresciption(patient, doctor, prescriptionID);
+            PatientManager.addDiagnosis(diagnosis, patient.getPatientID(), patient.getDoctorID(), prescriptionID);
             System.out.println("Diagnosis added successfully.");
         } catch (Exception e) {
             System.out.println("Something went wrong.");
@@ -38,15 +41,21 @@ public class DiagnosisDisplay {
         System.out.printf("| %-100s |%n", " " + "Diagnosis history of " + patient.getName());
         System.out.println(fourColBorder);
         System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n", "ID", "Diagnosis", "Doctor Name",
-                "Prescription", "Date of Diagnosis");
+                "Medication", "Date of Diagnosis");
         System.out.println(fourColBorder);
         try {
-            List<Diagnosis> diagnoses = patient.getDiagnosis();
-            for (Diagnosis diagnosis : diagnoses) {
-                System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n",
-                        diagnosis.getDiagnosisID(), diagnosis.getDisease(),
-                        doctor.getName(), diagnosis.getPrescription(), diagnosis.getDateOfDiagnosis());
+            List<Diagnosis> diagnoses = DiagnosisManager.getDiagnosisByPatientID(patient.getPatientID());
+            if (diagnoses.size() == 0 || diagnoses == null) {
+                System.out.printf("| %115s | %n", "No diagnosis found. ");
+            } else {
+                for (Diagnosis diagnosis : diagnoses) {
+                    Prescription prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
+                    System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n",
+                            diagnosis.getDiagnosisID(), diagnosis.getDisease(),
+                            doctor.getName(), prescription.getMedication(), diagnosis.getDateOfDiagnosis());
+                }
             }
+
         } catch (Exception e) {
             System.out.println("No diagnosis found.");
             throw new PageBackException();
@@ -92,8 +101,10 @@ public class DiagnosisDisplay {
     private static void displaySingleDiagnosis(Patient patient, Doctor doctor, String diagnosisId)
             throws PageBackException {
         Diagnosis diagnosis = null;
+        Prescription prescription = null;
         try {
             diagnosis = PatientManager.getDiagnosisByID(patient, diagnosisId);
+            prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
         } catch (Exception e) {
             System.out.println("Diagnosis not found.");
             throw new PageBackException();
@@ -103,7 +114,7 @@ public class DiagnosisDisplay {
         System.out.println("Diagnosis ID: " + diagnosis.getDiagnosisID());
         System.out.println("Diagnosis: " + diagnosis.getDisease());
         System.out.println("Doctor: " + doctor.getName());
-        System.out.println("Prescription: " + diagnosis.getPrescription());
+        System.out.println("Medications: " + prescription.getMedication());
         System.out.println("Date of Diagnosis: " + diagnosis.getDateOfDiagnosis());
         System.out.println();
     }
@@ -126,10 +137,10 @@ public class DiagnosisDisplay {
         System.out.printf("| %-115s | %n", " " + "Diagnosis history of " + patient.getName());
         System.out.println(fourColBorder);
         System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n", "ID", "Diagnosis", "Doctor Name",
-                "Prescription", "Date of Diagnosis");
+                "Medications", "Date of Diagnosis");
         System.out.println(fourColBorder);
         try {
-            List<Diagnosis> diagnoses = patient.getDiagnosis();
+            List<Diagnosis> diagnoses = DiagnosisManager.getDiagnosisByPatientID(patient.getPatientID());
             if (diagnoses.size() == 0 || diagnoses == null) {
                 System.out.printf("| %115s | %n", "No diagnosis found. ");
             }
@@ -139,9 +150,10 @@ public class DiagnosisDisplay {
                 if (doctorID != null) {
                     doctor = DoctorManager.getDoctorByID(doctorID);
                 }
+                Prescription prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
                 System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n",
                         diagnosis.getDiagnosisID(), diagnosis.getDisease(),
-                        doctor.getName(), diagnosis.getPrescription(), diagnosis.getDateOfDiagnosis());
+                        doctor.getName(), prescription.getMedication(), diagnosis.getDateOfDiagnosis());
             }
         } catch (Exception e) {
             System.out.println("| No diagnosis found.");
