@@ -1,11 +1,12 @@
 package model.appointment;
 
 import java.util.Date;
+import java.util.Map;
 
+import model.Model;
 import model.appointment.enums.AppointmentStatus;
-import utils.iocontrol.Mappable;
 
-public class Appointment implements Mappable {
+public class Appointment implements Model {
     private String appointmentID;
     private AppointmentStatus appointmentStatus;
     private Date dateOfAppointment;
@@ -21,6 +22,14 @@ public class Appointment implements Mappable {
         this.dateOfAppointment = dateOfAppointment;
         this.timeOfAppointment = appointmentTime;
         this.doctorID = doctorID;
+    }
+
+    public Appointment(Map<String, String> map) {
+        this.convertToObject(map);
+    }
+
+    public String getModelID() {
+        return appointmentID;
     }
 
     public String getAppointmentID() {

@@ -6,7 +6,6 @@ import java.util.Map;
 import controller.account.AccountManager;
 import controller.medication.MedicationManager;
 import controller.user.PatientManager;
-import controller.user.UserManager;
 import database.user.DoctorDatabase;
 import database.user.PatientDatabase;
 import display.WelcomeDisplay;

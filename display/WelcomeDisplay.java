@@ -12,6 +12,7 @@ public class WelcomeDisplay {
         System.out.println("HOSPITAL MANAGEMENT SYSTEM");
         System.out.println("========================================");
         System.out.println();
+
         // Check if user is new
         System.out.print("Are you a new user? [y/n], or 'q' to quit: ");
         String strChoice = CustScanner.getStrChoice();

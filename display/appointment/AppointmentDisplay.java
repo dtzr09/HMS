@@ -59,21 +59,27 @@ public class AppointmentDisplay {
         monthMap.put(12, "December");
     }
 
+    private static String getTimeSlot(int timeSlotID) {
+        return timeSlotMap.get(timeSlotID);
+    }
+
     public static void appointmentRequestsDisplay(Doctor doctor) throws PageBackException {
-        String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+";
+        String fourColBorder = "+--------------------------------------+----------------------+-----------------+--------------------------------------+";
         ClearDisplay.ClearConsole();
         System.out.println(fourColBorder);
-        System.out.printf("| %-100s |%n", " " + "All Appointment Requests");
+        System.out.printf("| %-116s |%n", " " + "All Appointment Requests");
         System.out.println(fourColBorder);
-        System.out.printf("| %-36s | %-20s | %-15s | %-20s|%n", "ID", "Date", "Time", "Patient ID");
+        System.out.printf("| %-36s | %-20s | %-15s | %-37s|%n", "ID", "Date", "Time", "Patient ID");
         System.out.println(fourColBorder);
 
         try {
-            List<Appointment> appointmentRequests = doctor.getAppointmentRequests();
+            List<Appointment> appointmentRequests = AppointmentManager
+                    .getDoctorAppointmentsRequests(doctor.getModelID());
             for (Appointment appointmentReq : appointmentRequests) {
                 System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
-                        appointmentReq.getAppointmentID(), appointmentReq.getDateOfAppointment(),
-                        appointmentReq.getTimeOfAppointment(), appointmentReq.getPatientID());
+                        appointmentReq.getAppointmentID(),
+                        FormatDateTime.toDateOnly(appointmentReq.getDateOfAppointment()),
+                        getTimeSlot(appointmentReq.getTimeOfAppointment()), appointmentReq.getPatientID());
             }
         } catch (Exception e) {
             System.out.printf("| %-100s |%n", "No appointment requests found.");

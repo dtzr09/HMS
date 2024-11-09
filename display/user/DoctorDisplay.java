@@ -163,7 +163,7 @@ public class DoctorDisplay {
 
     private static void viewUpcomingAppointments(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
-        List<Appointment> upcomingAppointments = DoctorManager.getUpcomingAppointments(doctor);
+        List<Appointment> upcomingAppointments = AppointmentManager.getDoctorAppointments(doctor.getModelID());
         if (upcomingAppointments == null) {
             System.out.println("No upcoming appointments found.");
             System.out.println();

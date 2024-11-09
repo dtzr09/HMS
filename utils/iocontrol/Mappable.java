@@ -2,7 +2,9 @@ package utils.iocontrol;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,14 +90,25 @@ public interface Mappable {
                             } else if (listClass.equals(Integer.class)) {
                                 list.add(Integer.parseInt(item.trim()));
                             }
-                            // Add more type checks as needed for other types
                         }
 
-                        // Set the populated list to the field
                         field.set(this, list);
                     } else {
-                        // Set an empty list if no data is found in the map
                         field.set(this, new ArrayList<>());
+                    }
+                } else if (field.getType().equals(Date.class)) {
+                    String dateString = map.get(field.getName());
+                    if (dateString != null) {
+                        Date dateValue = null;
+                        try {
+                            SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+                            dateValue = DATE_FORMAT.parse(dateString);
+                        } catch (Exception e) {
+                            dateValue = null;
+                        }
+                        field.set(this, dateValue);
+                    } else {
+                        field.set(this, null); // Set to null if the date is not available
                     }
                 } else {
                     field.set(this, map.get(field.getName()));

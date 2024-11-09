@@ -2,17 +2,19 @@ package model.diagnosis;
 
 import java.util.Date;
 
+import model.Model;
 import model.prescription.Prescription;
 
-public class Diagnosis {
+public class Diagnosis implements Model {
     private String diagnosisID;
     private String disease;
     private String doctorID;
     private Prescription prescription;
     private Date dateOfDiagnosis;
 
-    public Diagnosis(){}
-    
+    public Diagnosis() {
+    }
+
     public Diagnosis(String diagnosisID, String disease, String doctorID, Prescription prescription,
             Date dateOfDiagnosis) {
         this.diagnosisID = diagnosisID;
@@ -20,6 +22,10 @@ public class Diagnosis {
         this.doctorID = doctorID;
         this.prescription = prescription;
         this.dateOfDiagnosis = dateOfDiagnosis;
+    }
+
+    public String getModelID() {
+        return diagnosisID;
     }
 
     public String getDiagnosisID() {
