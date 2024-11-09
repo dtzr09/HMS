@@ -2,6 +2,7 @@ package display.medication;
 
 import java.util.List;
 
+import controller.user.DoctorManager;
 import controller.user.PatientManager;
 import display.ClearDisplay;
 import model.diagnosis.Diagnosis;
@@ -85,7 +86,6 @@ public class DiagnosisDisplay {
                 throw new PageBackException();
             }
         }
-
     }
 
     private static void displaySingleDiagnosis(Patient patient, Doctor doctor, String diagnosisId)
@@ -117,6 +117,31 @@ public class DiagnosisDisplay {
         System.out.println("Enter the diagnosis id you would like to update.");
         String diagnosisId = CustScanner.getStrChoice();
         updateDiagnosisMenu(patient, doctor, diagnosisId);
+    }
+
+    public static void displayAllDiagnosisOfPatient(Patient patient) {
+        String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-----------------+";
+        System.out.printf("| %-100s |%n", " " + "Diagnosis history of " + patient.getName());
+        System.out.println(fourColBorder);
+        System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n", "ID", "Diagnosis", "Doctor Name",
+                "Prescription", "Date of Diagnosis");
+        System.out.println(fourColBorder);
+        try {
+            List<Diagnosis> diagnoses = patient.getDiagnosis();
+
+            for (Diagnosis diagnosis : diagnoses) {
+                String doctorID = diagnosis.getDoctorID();
+                Doctor doctor = null;
+                if (doctorID != null) {
+                    doctor = DoctorManager.getDoctorByID(doctorID);
+                }
+                System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n",
+                        diagnosis.getDiagnosisID(), diagnosis.getDisease(),
+                        doctor.getName(), diagnosis.getPrescription(), diagnosis.getDateOfDiagnosis());
+            }
+        } catch (Exception e) {
+            System.out.println("No diagnosis found.");
+        }
     }
 
 }

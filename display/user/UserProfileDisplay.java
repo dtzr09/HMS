@@ -13,7 +13,7 @@ import utils.iocontrol.CustScanner;
 
 public class UserProfileDisplay {
 
-        private static void profileFields(User user) {
+        public static void profileFields(User user) {
                 System.out.printf("User ID: %s\n", user.getModelID());
                 System.out.printf("Name: %s\n", user.getName());
                 System.out.printf("Email: %s\n", user.getEmail());

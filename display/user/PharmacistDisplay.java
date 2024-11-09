@@ -1,23 +1,18 @@
 package display.user;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
-import controller.appointment.AppointmentManager;
-import controller.appointment.AppointmentOutcomeManager;
 import controller.user.PharmacistManager;
 import controller.user.UserManager;
 import model.user.User;
 import model.user.enums.UserType;
 import display.ClearDisplay;
 import display.EnterToGoBackDisplay;
+import display.appointment.AppointmentOutcomeDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
-import model.appointment.Appointment;
-import model.appointment.AppointmentOutcome;
+import display.medication.DiagnosisDisplay;
 import model.diagnosis.Diagnosis;
-import model.medication.Medication;
 import model.prescription.PrescriptionStatus;
 import model.user.Patient;
 import model.user.Pharmacist;
@@ -52,7 +47,7 @@ public class PharmacistDisplay {
 
             try {
                 switch (choice) {
-                    case 1 -> viewAppointmentOutcomeRecords(user);
+                    case 1 -> viewAppointmentOutcomeRecords();
                     case 2 -> updatePrescriptionStatus(user);
                     case 3 -> viewMedInv();
                     case 4 -> viewLowMedInv();
@@ -74,7 +69,7 @@ public class PharmacistDisplay {
         }
     }
 
-    public static void viewAppointmentOutcomeRecords(User user) throws PageBackException {
+    private static void viewAppointmentOutcomeRecords() throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("View Appointment Outcome Records");
         System.out.println("--------------------------------------");
@@ -82,44 +77,7 @@ public class PharmacistDisplay {
         System.out.printf("Please enter patient email: ");
         String email = CustScanner.getStrChoice();
         System.out.println();
-
-        try {
-            Patient patient = PatientDatabase.getDB().getByEmail(email);
-            String patientID = patient.getPatientID();
-            ArrayList<AppointmentOutcome> recordList = PharmacistManager.getAppointmentOutcomeRecords(patientID);
-
-            if (recordList.isEmpty() || recordList == null) {
-                System.out.println("No appointment outcome records found for this patient.");
-                System.out.println();
-                EnterToGoBackDisplay.display();
-            }
-
-            List<AppointmentOutcome> outcomes = AppointmentOutcomeManager
-                    .getPatientsAppointmentOutcomeRecords(patientID);
-
-            for (AppointmentOutcome outcome : outcomes) {
-                Appointment appointment = AppointmentManager.getAppointmentByID(patientID, outcome.getAppointmentID());
-                System.out.println("================================================================================");
-                System.out.println(appointment.getDateOfAppointment() + " " + appointment.getTimeOfAppointment() + "   "
-                        + outcome.getTypeOfService());
-                System.out.println();
-                System.out.println(outcome.getConsultationNotes());
-                System.out.println();
-                for (Medication meds : outcome.getPrescription().getMedication()) {
-                    System.out.println(meds.getName() + "   " + meds.getModelID());
-                }
-                System.out.println("================================================================================");
-                System.out.println();
-                EnterToGoBackDisplay.display();
-
-            }
-        } catch (PageBackException e) {
-            throw new PageBackException();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Email not found!");
-        }
-
+        AppointmentOutcomeDisplay.viewAppointmentOutcomeRecordsForPharmacist(email);
     }
 
     public static void viewMedInv() throws PageBackException {
@@ -149,14 +107,8 @@ public class PharmacistDisplay {
         }
 
         ClearDisplay.ClearConsole();
-        try {
-            PatientDisplay.displayAllDiagnosis(patient);
-        } catch (PageBackException e) {
-            System.out.println("No diagnosis found for this patient.");
-            EnterToGoBackDisplay.display();
-        }
-
-        System.out.println("");
+        DiagnosisDisplay.displayAllDiagnosisOfPatient(patient);
+        System.out.println();
         System.out.println("Enter the diagnosis ID: ");
         String diagnosisID = CustScanner.getStrChoice();
         Diagnosis patientDiagnosis = null;
