@@ -77,8 +77,8 @@ public class AccountManager {
         try {
             User user = UserManager.createUser(email, name, gender, age, userType, "password");
             return user;
-        } catch (Exception e) {
-            System.out.println("Error registering user");
+        } catch (ModelAlreadyExistsException e) {
+            System.out.println("Error registering user, user already exist");
         }
         return null;
     }
