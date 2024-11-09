@@ -5,9 +5,11 @@ import display.ClearDisplay;
 import display.WelcomeDisplay;
 import display.user.AdministratorDisplay;
 import display.user.DoctorDisplay;
+import display.user.PatientDisplay;
 import display.user.PharmacistDisplay;
 import model.user.Administrator;
 import model.user.Doctor;
+import model.user.Patient;
 import model.user.Pharmacist;
 import model.user.User;
 import model.user.enums.UserType;
@@ -58,6 +60,7 @@ public class LoginDisplay {
             switch (userType) {
                 case ADMINISTRATOR ->
                     AdministratorDisplay.administratorDisplay((Administrator) user);
+                case PATIENT -> PatientDisplay.patientDisplay((Patient)user);
                 case PHARMACIST -> PharmacistDisplay.pharmacistDisplay((Pharmacist) user);
                 case DOCTOR -> DoctorDisplay.doctorDisplay((Doctor) user);
 
