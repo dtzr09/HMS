@@ -132,8 +132,9 @@ public class DoctorDisplay {
             EnterToGoBackDisplay.display();
         }
 
-        System.out.println("Please enter the ID of the patient you would like to " + actions.toString().toLowerCase()
-                + " the medical record of.");
+        System.out
+                .printf("Please enter the ID of the patient you would like to " + actions.toString().toLowerCase()
+                        + " the medical record of. ");
 
         String patientID = CustScanner.getStrChoice();
 
@@ -145,13 +146,20 @@ public class DoctorDisplay {
         }
 
         switch (actions) {
-            case MedicalRecordsActions.VIEW -> viewPatientMedicalRecord(patient);
-            case MedicalRecordsActions.UPDATE -> PatientDisplay.updatePatientMedicalRecord(patient, doctor);
+            case MedicalRecordsActions.VIEW -> {
+                viewPatientMedicalRecord(patient);
+                EnterToGoBackDisplay.display();
+            }
+            case MedicalRecordsActions.UPDATE -> {
+                PatientDisplay.updatePatientMedicalRecord(patient, doctor);
+                EnterToGoBackDisplay.display();
+            }
             default -> {
                 System.out.println("Invalid action.");
                 throw new PageBackException();
             }
         }
+
     }
 
     private static void viewPatientMedicalRecord(Patient patient) throws PageBackException {

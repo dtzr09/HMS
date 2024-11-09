@@ -206,8 +206,6 @@ public class PatientDisplay {
         System.out.println();
         AppointmentDisplay.displayPatientsAppointment(patient);
         System.out.println();
-
-        EnterToGoBackDisplay.display();
     }
 
     private static void viewScheduledAppointments(Patient patient) throws PageBackException {
@@ -252,7 +250,7 @@ public class PatientDisplay {
         System.out.println("\t1. Add allergies");
         System.out.println("\t2. Add new diagnosis");
         System.out.println("\t3. Go back");
-
+        System.out.println();
         System.out.print("What would you like to do? ");
         int choice = CustScanner.getIntChoice();
 

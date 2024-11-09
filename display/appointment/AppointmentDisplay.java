@@ -112,6 +112,12 @@ public class AppointmentDisplay {
         try {
             List<Appointment> appointmentRequests = AppointmentManager
                     .getDoctorAppointmentsRequests(doctor.getModelID());
+            if (appointmentRequests.isEmpty() || appointmentRequests == null) {
+                System.out.printf("| %-100s |%n", "No appointment requests found.");
+                System.out.println(fourColBorder);
+                System.out.println();
+                EnterToGoBackDisplay.display();
+            }
             for (Appointment appointmentReq : appointmentRequests) {
                 System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
                         appointmentReq.getAppointmentID(),
@@ -473,20 +479,27 @@ public class AppointmentDisplay {
         DayOfWeek day = fullDate.getDayOfWeek();
         displayAppointmentAvailabilityForADay(doctor, day);
         Date appointmentDate = FormatDateTime.convertDMYToTime(date, month, year);
+        String appointmentDateStr = FormatDateTime.formatDate(appointmentDate);
 
         System.out.println();
         System.out.println();
         System.out.printf("Enter the time slot that you would like to make an appointment for: ");
         int timeSlotID = CustScanner.getIntChoice();
         try {
-            if (action == "reschedule") {
-                AppointmentManager.rescheduleAppointment(patientID, appointmentID, timeSlotID,
-                        appointmentDate);
+            Boolean available = AppointmentManager.isAppointmentAvailable(patientID, appointmentID,
+                    appointmentDateStr, timeSlotID);
+            if (!available) {
+                System.out.println("This appointment has been booked. Please select another appointment.");
             } else {
-                AppointmentManager.scheduleNewAppointment(patientID, doctor.getModelID(),
-                        timeSlotID, appointmentDate);
+                if (action == "reschedule") {
+                    AppointmentManager.rescheduleAppointment(patientID, appointmentID, timeSlotID,
+                            appointmentDateStr);
+                } else {
+                    AppointmentManager.scheduleNewAppointment(patientID, doctor.getModelID(),
+                            timeSlotID, appointmentDateStr);
+                }
+                System.out.println("Appointment scheduled.");
             }
-            System.out.println("Appointment scheduled.");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Something went wrong.");

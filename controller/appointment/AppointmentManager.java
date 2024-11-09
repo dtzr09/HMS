@@ -68,16 +68,35 @@ public class AppointmentManager {
         return patientAppointments;
     }
 
+    public static Boolean isAppointmentAvailable(String patientID, String appointmentID, String appointmentDate,
+            int timeSlotID) {
+        try {
+            List<Appointment> appointments = getPatientAppointment(patientID);
+            if (appointments == null || appointments.isEmpty())
+                return true;
+            for (Appointment appointment : appointments) {
+                if (appointment.getDateOfAppointment().equals(appointmentDate)
+                        && appointment.getTimeOfAppointment() == timeSlotID) {
+
+                    return false;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void createAppointment(Appointment appointment) throws ModelAlreadyExistsException {
         AppointmentDatabase.getDB().add(appointment);
     }
 
     public static void scheduleNewAppointment(String patientID, String doctorID, int timeSlotID,
-            Date appointmentDate) throws ModelAlreadyExistsException {
+            String appointmentDate) throws ModelAlreadyExistsException {
         String appointmentID = UUID.randomUUID().toString();
-        String appointmentDateStr = FormatDateTime.formatDate(appointmentDate);
         Appointment newAppointment = new Appointment(appointmentID, AppointmentStatus.PENDING, patientID,
-                appointmentDateStr,
+                appointmentDate,
                 timeSlotID, doctorID);
         createAppointment(newAppointment);
     }
@@ -122,12 +141,11 @@ public class AppointmentManager {
         }
     }
 
-    public static void rescheduleAppointment(String patientID, String appointmentID, int timeSlotID, Date newDate)
+    public static void rescheduleAppointment(String patientID, String appointmentID, int timeSlotID, String newDate)
             throws ModelNotFoundException {
         try {
             Appointment appointment = getAppointmentByPatientAndID(patientID, appointmentID);
-            String appointmentDateStr = FormatDateTime.formatDate(newDate);
-            appointment.setDateOfAppointment(appointmentDateStr);
+            appointment.setDateOfAppointment(newDate);
             appointment.setTimeOfAppointment(timeSlotID);
             appointment.setAppointmentStatus(AppointmentStatus.PENDING);
             updateAppointment(appointment);

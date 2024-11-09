@@ -20,6 +20,7 @@ public class DiagnosisDisplay {
         System.out.println("--------------------------------------------");
         System.out.printf("Enter the diagnosis of the patient: ");
         String diagnosis = CustScanner.getStrChoice();
+        System.out.println();
 
         Prescription prescription = PrescriptionDisplay.displayAddNewPresciption(patient, doctor);
 
@@ -122,7 +123,7 @@ public class DiagnosisDisplay {
     public static void displayAllDiagnosisOfPatient(Patient patient) {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-------------------+";
         System.out.println(fourColBorder);
-        System.out.printf("| %-100s |%n", " " + "Diagnosis history of " + patient.getName());
+        System.out.printf("| %-115s | %n", " " + "Diagnosis history of " + patient.getName());
         System.out.println(fourColBorder);
         System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n", "ID", "Diagnosis", "Doctor Name",
                 "Prescription", "Date of Diagnosis");
@@ -130,7 +131,7 @@ public class DiagnosisDisplay {
         try {
             List<Diagnosis> diagnoses = patient.getDiagnosis();
             if (diagnoses.size() == 0 || diagnoses == null) {
-                System.out.println("| No diagnosis found.");
+                System.out.printf("| %115s | %n", "No diagnosis found. ");
             }
             for (Diagnosis diagnosis : diagnoses) {
                 String doctorID = diagnosis.getDoctorID();

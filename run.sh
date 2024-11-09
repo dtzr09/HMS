@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -rf bin data
+rm -rf bin 
 
 
 # Create the bin directory if it doesn't exist

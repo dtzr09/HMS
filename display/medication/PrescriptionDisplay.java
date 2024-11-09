@@ -66,22 +66,23 @@ public class PrescriptionDisplay {
 
     public static Prescription displayAddNewPresciption(Patient patient, Doctor doctor) throws PageBackException {
         System.out.println("Select the medications for the diagnosis.");
+        System.out.println();
         MedicationDisplay.displayMedicationInventory();
         ArrayList<String> medicationIDs = new ArrayList<>();
 
         while (true) {
-            System.out.println("Enter the medication ID: ");
+            System.out.printf("Enter the medication ID: ");
             String medicationID = CustScanner.getStrChoice();
             medicationIDs.add(medicationID);
 
-            System.out.println("Would you like to add another medication? (Y/N)");
+            System.out.printf("Would you like to add another medication? (Y/N) ");
             String choice = CustScanner.getStrChoice();
             if (choice.equalsIgnoreCase("N")) {
                 break;
             }
         }
 
-        System.out.println("Enter the instructions for drugs usage.");
+        System.out.printf("Enter the instructions for drugs usage. ");
         String drugInstructions = CustScanner.getStrChoice();
 
         Prescription prescription = null;

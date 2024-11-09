@@ -75,7 +75,11 @@ public class PersonalInfo implements Mappable {
         }
         System.out.println("Email Address: " + emailAddress);
         System.out.println("Phone Number: " + phoneNumber);
-        System.out.println("Date of Registration: " + dateOfRegistration.toString());
+        if (dateOfBirth == null) {
+            System.out.println("Date of Birth: Not available");
+        } else {
+            System.out.println("Date of Birth: " + FormatDateTime.toDateOnly(dateOfBirth));
+        }
     }
 
     // Setters
