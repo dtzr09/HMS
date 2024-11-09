@@ -1,8 +1,11 @@
 package display.user;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
+import controller.appointment.AppointmentManager;
+import controller.appointment.AppointmentOutcomeManager;
 import controller.user.PharmacistManager;
 import controller.user.UserManager;
 import model.user.User;
@@ -11,6 +14,7 @@ import display.ClearDisplay;
 import display.EnterToGoBackDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
+import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
 import model.diagnosis.Diagnosis;
 import model.medication.Medication;
@@ -90,9 +94,14 @@ public class PharmacistDisplay {
                 EnterToGoBackDisplay.display();
             }
 
-            for (AppointmentOutcome outcome : recordList) {
+            List<AppointmentOutcome> outcomes = AppointmentOutcomeManager
+                    .getPatientsAppointmentOutcomeRecords(patientID);
+
+            for (AppointmentOutcome outcome : outcomes) {
+                Appointment appointment = AppointmentManager.getAppointmentByID(patientID, outcome.getAppointmentID());
                 System.out.println("================================================================================");
-                System.out.println(outcome.getDateOfAppointment() + "   " + outcome.getTypeOfService());
+                System.out.println(appointment.getDateOfAppointment() + " " + appointment.getTimeOfAppointment() + "   "
+                        + outcome.getTypeOfService());
                 System.out.println();
                 System.out.println(outcome.getConsultationNotes());
                 System.out.println();

@@ -158,4 +158,17 @@ public class PatientManager {
         }
         return null;
     }
+
+    public static List<Appointment> getAppointmentsOfPatient(String patientID) {
+        try {
+            Patient patient = getPatientById(patientID);
+            if (patient == null) {
+                throw new ModelNotFoundException("Patient not found.");
+            }
+            return patient.getAppointments();
+        } catch (ModelNotFoundException e) {
+            System.out.println("No appointments found for this patient.");
+        }
+        return null;
+    }
 }

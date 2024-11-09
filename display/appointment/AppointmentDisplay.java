@@ -52,8 +52,8 @@ public class AppointmentDisplay {
             List<Appointment> appointmentRequests = doctor.getAppointmentRequests();
             for (Appointment appointmentReq : appointmentRequests) {
                 System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
-                        appointmentReq.getAppointmentID(), appointmentReq.getTimeSlot().getDate(),
-                        appointmentReq.getTimeSlot().getTime(), appointmentReq.getPatientID());
+                        appointmentReq.getAppointmentID(), appointmentReq.getDateOfAppointment(),
+                        appointmentReq.getTimeOfAppointment(), appointmentReq.getPatientID());
             }
         } catch (Exception e) {
             System.out.printf("| %-100s |%n", "No appointment requests found.");
@@ -73,8 +73,8 @@ public class AppointmentDisplay {
 
         for (Appointment upcomingAppointment : upcomingAppointments) {
             System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
-                    upcomingAppointment.getAppointmentID(), upcomingAppointment.getTimeSlot().getDate(),
-                    upcomingAppointment.getTimeSlot().getTime(), upcomingAppointment.getPatientID());
+                    upcomingAppointment.getAppointmentID(), upcomingAppointment.getDateOfAppointment(),
+                    upcomingAppointment.getTimeOfAppointment(), upcomingAppointment.getPatientID());
         }
 
         System.out.println(fourColBorder);
@@ -92,8 +92,8 @@ public class AppointmentDisplay {
 
         for (Appointment appointment : appointments) {
             System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
-                    appointment.getAppointmentID(), appointment.getTimeSlot().getDate(),
-                    appointment.getTimeSlot().getTime(), appointment.getPatientID());
+                    appointment.getAppointmentID(), appointment.getDateOfAppointment(),
+                    appointment.getTimeOfAppointment(), appointment.getPatientID());
         }
 
         System.out.println(fourColBorder);

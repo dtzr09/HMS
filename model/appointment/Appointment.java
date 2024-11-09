@@ -7,16 +7,18 @@ import model.appointment.enums.AppointmentStatus;
 public class Appointment {
     private String appointmentID;
     private AppointmentStatus appointmentStatus;
-    private TimeSlot timeSlot;
+    private Date dateOfAppointment;
+    private int timeOfAppointment;
     private String patientID;
     private String doctorID;
 
-    public Appointment(String appointmentID, AppointmentStatus appointmentStatus, TimeSlot timeSlot, String patientID,
-            String doctorID) {
+    public Appointment(String appointmentID, AppointmentStatus appointmentStatus, String patientID,
+            Date dateOfAppointment, int appointmentTime, String doctorID) {
         this.appointmentID = appointmentID;
         this.appointmentStatus = appointmentStatus;
-        this.timeSlot = timeSlot;
         this.patientID = patientID;
+        this.dateOfAppointment = dateOfAppointment;
+        this.timeOfAppointment = appointmentTime;
         this.doctorID = doctorID;
     }
 
@@ -38,21 +40,20 @@ public class Appointment {
         return true;
     }
 
-    public Date setDateOfAppointment(Date date) {
-        timeSlot.setDate(date);
-        return timeSlot.getDate();
+    public void setDateOfAppointment(Date date) {
+        this.dateOfAppointment = date;
     }
 
     public Date getDateOfAppointment() {
-        return timeSlot.getDate();
+        return dateOfAppointment;
     }
 
-    public void setTimeSlot(TimeSlot timeSlot) {
-        this.timeSlot = timeSlot;
+    public void setTimeOfAppointment(int time) {
+        this.timeOfAppointment = time;
     }
 
-    public TimeSlot getTimeSlot() {
-        return timeSlot;
+    public int getTimeOfAppointment() {
+        return timeOfAppointment;
     }
 
     public String getPatientID() {

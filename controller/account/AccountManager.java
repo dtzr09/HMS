@@ -129,11 +129,10 @@ public class AccountManager {
             try {
                 String patientID = UUID.randomUUID().toString();
                 String patientName = patient.get(1);
-                String patientDateOfBirth = patient.get(2);
-                String patientGender = patient.get(3);
-                String patientBloodType = patient.get(4);
-                String patientEmail = patient.get(5);
-                String patientAge = patient.get(6);
+                String patientGender = patient.get(2);
+                String patientBloodType = patient.get(3);
+                String patientEmail = patient.get(4);
+                String patientAge = patient.get(5);
 
                 Gender gender = null;
                 switch (patientGender) {
@@ -141,17 +140,16 @@ public class AccountManager {
                     case "Female" -> gender = Gender.FEMALE;
                 }
 
-                Date birthDate = FormatDateTime.convertStringToDateSimple(patientDateOfBirth);
                 Date dateOfRegistration = new Date();
                 BloodType bloodType = BloodType.fromString(patientBloodType);
 
                 PersonalInfo personalInfo = new PersonalInfo(patientName, gender, Integer.parseInt(patientAge),
-                        birthDate,
+                        null,
                         patientEmail, null, dateOfRegistration);
                 Patient newPatient = new Patient(patientID, "password", personalInfo, null, bloodType, null, null,
                         null);
 
-                UserManager.createPatient(newPatient);
+                UserManager.loadPatient(newPatient);
             } catch (Exception e) {
                 System.out.println("Something went wrong with loading patients data");
             }

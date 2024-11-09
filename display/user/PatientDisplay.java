@@ -91,6 +91,7 @@ public class PatientDisplay {
         System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s |%n", "ID", "Doctor", "Diagnosis",
                 "Prescriptions", "Date of Diagnosis");
 
+<<<<<<< HEAD
         List<Diagnosis> diagnoses = patient.getDiagnosis();
         for (Diagnosis diagnosis : diagnoses) {
             System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s |%n", diagnosis.getDiagnosisID(),
@@ -106,6 +107,26 @@ public class PatientDisplay {
             System.out.printf("| %-36s | %-20s | %-10s | %-20s | %-15s |%n", appointment.getAppointmentID(),
                     appointment.getTimeSlot().getDate(), appointment.getTimeSlot().getTime(),
                     doctor.getName(), appointment.getAppointmentStatus());
+=======
+        System.out.println(fourColBorder);
+        System.out.printf("| %-90s |%n", " " + "Appointments");
+        System.out.println(fourColBorder);
+        System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", "ID", "Date", "Time", "Doctor Name",
+                "Status");
+        try {
+            List<Appointment> appointments = patient.getAppointments();
+            for (Appointment appointment : appointments) {
+                Doctor doctor = DoctorManager.getDoctorByID(appointment.getDoctorID());
+                System.out.printf("| %-36s | %-25s | %-15s | %-10s | %-20s | %n", appointment
+                        .getAppointmentID(),
+                        appointment.getDateOfAppointment(),
+                        appointment.getTimeOfAppointment(),
+                        doctor.getName(),
+                        appointment.getAppointmentStatus());
+            }
+        } catch (Exception e) {
+            System.out.println("No appointment found.");
+>>>>>>> 0cd05dc138f15385f56a569d11e9f183138af3dc
         }
         System.out.println(fourColBorder);
     }

@@ -5,6 +5,7 @@ import java.util.Map;
 import model.appointment.Appointment;
 import model.user.enums.Gender;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,12 +14,12 @@ public class Doctor implements User {
     private String password;
     private PersonalInfo personalInfo;
     private int numOfPatients = 0;
-    private List<Appointment> appointments = null;
-    private List<Appointment> appointmentRequests = null;
+    private ArrayList<Appointment> appointments = null;
+    private ArrayList<Appointment> appointmentRequests = null;
     private Map<String, List<String>> appointmentAvailability;
 
-    public Doctor(String doctorID, String password, PersonalInfo personalInfo, List<Appointment> appointments,
-            int numOfPatients, List<Appointment> appointmentRequests,
+    public Doctor(String doctorID, String password, PersonalInfo personalInfo, ArrayList<Appointment> appointments,
+            int numOfPatients, ArrayList<Appointment> appointmentRequests,
             Map<String, List<String>> appointmentAvailability) {
         this.doctorID = doctorID;
         this.password = password;
@@ -69,11 +70,11 @@ public class Doctor implements User {
         return this.password;
     }
 
-    public List<Appointment> getAppointments() {
+    public ArrayList<Appointment> getAppointments() {
         return appointments;
     }
 
-    public List<Appointment> getAppointmentRequests() {
+    public ArrayList<Appointment> getAppointmentRequests() {
         return appointmentRequests;
     }
 
@@ -110,7 +111,7 @@ public class Doctor implements User {
         this.personalInfo = personalInfo;
     }
 
-    public void setAppointments(List<Appointment> appointments) {
+    public void setAppointments(ArrayList<Appointment> appointments) {
         this.appointments = appointments;
     }
 
@@ -118,7 +119,7 @@ public class Doctor implements User {
         this.numOfPatients = numOfPatients;
     }
 
-    public void setAppointmentRequests(List<Appointment> appointmentRequests) {
+    public void setAppointmentRequests(ArrayList<Appointment> appointmentRequests) {
         this.appointmentRequests = appointmentRequests;
     }
 

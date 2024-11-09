@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import controller.appointment.AppointmentStatus;
 import database.user.DoctorDatabase;
 import model.appointment.Appointment;
+import model.appointment.enums.AppointmentStatus;
 import model.user.Doctor;
 import model.user.Patient;
 
@@ -33,7 +33,7 @@ public class DoctorManager {
         try {
             List<Appointment> appointments = doctor.getAppointments();
             for (Appointment appointment : appointments) {
-                if (appointment.getAppointmentStatus().equals(AppointmentStatus.SCHEDULED))
+                if (appointment.getAppointmentStatus().equals(AppointmentStatus.APPROVED))
                     upcomingAppointments.add(appointment);
             }
             return upcomingAppointments;

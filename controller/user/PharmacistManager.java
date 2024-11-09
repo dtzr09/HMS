@@ -27,8 +27,10 @@ public class PharmacistManager {
         return recordList;
     }
 
-    public static void updatePrescriptionStatus(Diagnosis diagnosis, PrescriptionStatus status) {
-        PrescriptionManager.updatePrescriptionStatus(diagnosis.getPrescription(), status);
+    public static void updatePrescriptionStatus(Diagnosis diagnosis,
+            PrescriptionStatus status) {
+        PrescriptionManager.updatePrescriptionStatus(diagnosis.getPrescription(),
+                status);
         System.out.println("Diagnosis [ " + diagnosis.getDiagnosisID() + " ] Prescription status has been updated.");
     }
 
