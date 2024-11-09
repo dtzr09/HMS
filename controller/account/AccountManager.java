@@ -147,7 +147,7 @@ public class AccountManager {
                         null,
                         patientEmail, null, dateOfRegistration);
                 Patient newPatient = new Patient(patientID, "password", personalInfo, new ArrayList<>(), bloodType,
-                        new ArrayList<>(), new ArrayList<>(),
+                        new ArrayList<>(),
                         null);
 
                 UserManager.loadPatient(newPatient);

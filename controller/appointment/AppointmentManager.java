@@ -1,18 +1,14 @@
 package controller.appointment;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import controller.user.PatientManager;
 import database.appointment.AppointmentDatabase;
 import model.appointment.Appointment;
 import model.appointment.enums.AppointmentStatus;
-import model.user.Patient;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
-import utils.utils.FormatDateTime;
 
 public class AppointmentManager {
 
@@ -22,18 +18,6 @@ public class AppointmentManager {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public List<Appointment> getAppointmentsOfPatient(String patientID) {
-        List<Appointment> appointments = new ArrayList<Appointment>();
-        Patient patient = PatientManager.getPatientById(patientID);
-        try {
-            appointments = patient.getAppointments();
-        } catch (Exception e) {
-            System.out.println("No appointments found for this patient.");
-        }
-
-        return appointments;
     }
 
     public static Appointment getAppointmentByPatientAndID(String patientID, String appointmentID) {

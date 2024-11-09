@@ -7,7 +7,6 @@ import java.util.UUID;
 
 import controller.appointment.AppointmentManager;
 import controller.appointment.AppointmentOutcomeManager;
-import controller.medication.DiagnosisManager;
 import controller.user.DoctorManager;
 import controller.user.PatientManager;
 import display.ClearDisplay;

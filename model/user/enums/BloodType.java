@@ -8,7 +8,8 @@ public enum BloodType {
     O_POSITIVE, // O+
     O_NEGATIVE, // O-
     AB_POSITIVE, // AB+
-    AB_NEGATIVE; // AB-
+    AB_NEGATIVE, // AB-
+    NOT_AVAILABLE;
 
     public static BloodType fromString(String bloodType) {
         switch (bloodType) {
@@ -28,6 +29,9 @@ public enum BloodType {
                 return AB_POSITIVE;
             case "AB-":
                 return AB_NEGATIVE;
+            case "null":
+            case "NOT_AVAILABLE":
+                return NOT_AVAILABLE;
             default:
                 throw new IllegalArgumentException("Unknown blood type: " + bloodType);
         }

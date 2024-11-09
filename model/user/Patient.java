@@ -1,12 +1,9 @@
 package model.user;
 
-import model.appointment.Appointment;
-import model.diagnosis.Diagnosis;
 import model.user.enums.BloodType;
 import model.user.enums.Gender;
 
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,7 +14,6 @@ public class Patient implements User {
     private PersonalInfo personalInfo;
     private ArrayList<String> allergies;
     private BloodType bloodType;
-    private ArrayList<Appointment> appointments = new ArrayList<>();
     private ArrayList<String> diagnosisIDs = new ArrayList<>();
 
     public Patient() {
@@ -25,13 +21,12 @@ public class Patient implements User {
 
     public Patient(String patientID, String password, PersonalInfo personalInfo, ArrayList<String> allergies,
             BloodType bloodType,
-            ArrayList<Appointment> appointments, ArrayList<String> diagnosisIDs, String doctorID) {
+            ArrayList<String> diagnosisIDs, String doctorID) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
         this.allergies = allergies;
         this.bloodType = bloodType;
-        this.appointments = appointments;
         this.diagnosisIDs = diagnosisIDs;
         this.doctorID = doctorID;
     }
@@ -81,10 +76,6 @@ public class Patient implements User {
         return personalInfo;
     }
 
-    public ArrayList<Appointment> getAppointments() {
-        return appointments;
-    }
-
     public ArrayList<String> getAllergies() {
         return allergies;
     }
@@ -100,15 +91,6 @@ public class Patient implements User {
     public String getDoctorID() {
         return doctorID;
     }
-
-    // public Diagnosis getOneDiagnosis(String id) {
-    // for (Diagnosis oneDiagnosis : this.diagnosis) {
-    // if (oneDiagnosis.getDiagnosisID().equals(id)) {
-    // return oneDiagnosis;
-    // }
-    // }
-    // throw new NoSuchElementException("Diagnosis with ID " + id + " not found!");
-    // }
 
     public Date getDateOfBirth() {
         return personalInfo.getDateOfBirth();
@@ -137,10 +119,6 @@ public class Patient implements User {
 
     public void setPersonalInfo(PersonalInfo personalInfo) {
         this.personalInfo = personalInfo;
-    }
-
-    public void setAppointments(ArrayList<Appointment> appointments) {
-        this.appointments = appointments;
     }
 
     public void setAllergies(ArrayList<String> allergies) {
@@ -177,10 +155,6 @@ public class Patient implements User {
 
     public void setDateOfBirth(Date dateOfBirth) {
         personalInfo.setDateOfBirth(dateOfBirth);
-    }
-
-    public void addAppointment(Appointment appointment) {
-        this.appointments.add(appointment);
     }
 
     public void addAllergy(String allergy) {

@@ -23,8 +23,6 @@ import model.user.Pharmacist;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
-import database.user.PatientDatabase;
-
 public class PharmacistDisplay {
 
     public static void pharmacistDisplay(User user) {

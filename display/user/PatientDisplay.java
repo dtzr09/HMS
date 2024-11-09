@@ -277,6 +277,7 @@ public class PatientDisplay {
         System.out.println();
         System.out.print("What would you like to do? ");
         int choice = CustScanner.getIntChoice();
+        System.out.println();
 
         switch (choice) {
             case 1 -> addAllergyDisplay(patient);
@@ -287,8 +288,12 @@ public class PatientDisplay {
     }
 
     private static void handleAddAllergy(Patient patient) throws PageBackException {
-        System.out.println("Enter the allergy you would like to add.");
+        System.out.printf("Enter the allergy you would like to add. ");
         String allergy = CustScanner.getStrChoice();
+        if (allergy == null || allergy == "") {
+            System.out.println("Invalid allergy. Please try again.");
+            handleAddAllergy(patient);
+        }
         try {
             DoctorManager.addPatientAllergies(patient, allergy);
             System.out.println("Allergy added successfully.");
@@ -299,23 +304,35 @@ public class PatientDisplay {
     }
 
     private static void addAllergyDisplay(Patient patient) throws PageBackException {
+        ClearDisplay.ClearConsole();
         System.out.println("Add Allergy");
         System.out.println("--------------------------------------------");
         System.out.println("Current allergies");
-        List<String> allergies = patient.getAllergies();
-        for (String allergy : allergies) {
-            System.out.println("\t" + allergy);
-        }
-        while (true) {
-            handleAddAllergy(patient);
-            System.out.println("Allergy added successfully.");
-
-            System.out.println("Would you like to add another allergy? (Y/N)");
-            String choice = CustScanner.getStrChoice();
-            if (choice.equalsIgnoreCase("N")) {
-                break;
+        try {
+            List<String> allergies = patient.getAllergies();
+            if (allergies.isEmpty() || allergies == null || allergies.size() == 0) {
+                System.out.println("No allergies found.");
+            } else {
+                for (String allergy : allergies) {
+                    System.out.println("\t" + allergy);
+                }
             }
+            System.out.println();
+
+            while (true) {
+                handleAddAllergy(patient);
+                System.out.println("Allergy added successfully.");
+
+                System.out.println("Would you like to add another allergy? (Y/N)");
+                String choice = CustScanner.getStrChoice();
+                if (choice.equalsIgnoreCase("N")) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         EnterToGoBackDisplay.display();
     }
 

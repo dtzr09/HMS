@@ -1,5 +1,6 @@
 package database.user;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +8,9 @@ import java.util.Map;
 import database.Database;
 import model.user.Patient;
 import model.user.PersonalInfo;
+import model.user.enums.BloodType;
 import model.user.enums.Gender;
+import utils.utils.ConvertToArrayList;
 import utils.utils.FormatDateTime;
 
 public class PatientDatabase extends Database<Patient> {
@@ -56,6 +59,17 @@ public class PatientDatabase extends Database<Patient> {
             String dateOfRegistration = map.get("personalInfo_dateOfRegistration");
             String genderStr = map.get("personalInfo_gender");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
+            String allergiesStr = String.join(",", map.get("allergies"));
+            String bloodTypeStr = map.get("bloodType");
+            BloodType bloodType = BloodType.NOT_AVAILABLE;
+            if (bloodTypeStr != "null") {
+                bloodType = BloodType.fromString(bloodTypeStr);
+            }
+            ArrayList<String> allergies = new ArrayList<>();
+            if (allergiesStr != null) {
+                allergies = ConvertToArrayList.convertToArrayList(allergiesStr);
+                System.out.println(allergies);
+            }
 
             Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDateTime(dateOfBirth);
             Date registrationDate = dateOfRegistration == null ? null
@@ -68,7 +82,8 @@ public class PatientDatabase extends Database<Patient> {
             String password = map.get("password");
             String doctorID = map.get("doctorID");
 
-            Patient patient = new Patient(patientID, personalInfo, password, doctorID);
+            Patient patient = new Patient(patientID, password, personalInfo, allergies, bloodType, new ArrayList<>(),
+                    doctorID);
 
             getAll().add(patient);
         }

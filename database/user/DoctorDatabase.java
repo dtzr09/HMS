@@ -4,6 +4,7 @@ import model.appointment.Appointment;
 import model.user.Doctor;
 import model.user.PersonalInfo;
 import model.user.enums.Gender;
+import utils.utils.ConvertToArrayList;
 import utils.utils.FormatDateTime;
 import utils.utils.StringToMap;
 
