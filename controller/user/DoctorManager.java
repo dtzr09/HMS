@@ -52,4 +52,9 @@ public class DoctorManager {
         }
     }
 
+    public static void addAppointmentRequest(String doctorID, Appointment appointment) throws Exception {
+        Doctor doctor = getDoctorByID(doctorID);
+        doctor.addAppointmentRequest(appointment);
+        UserManager.updateUser(doctor);
+    }
 }

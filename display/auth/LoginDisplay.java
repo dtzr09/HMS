@@ -60,9 +60,9 @@ public class LoginDisplay {
             switch (userType) {
                 case ADMINISTRATOR ->
                     AdministratorDisplay.administratorDisplay((Administrator) user);
-                case PATIENT -> PatientDisplay.patientDisplay((Patient)user);
                 case PHARMACIST -> PharmacistDisplay.pharmacistDisplay((Pharmacist) user);
                 case DOCTOR -> DoctorDisplay.doctorDisplay((Doctor) user);
+                case PATIENT -> PatientDisplay.patientDisplay((Patient) user);
 
                 default -> throw new IllegalStateException("Unexpected value: " + userType);
             }

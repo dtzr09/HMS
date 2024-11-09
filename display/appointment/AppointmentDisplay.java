@@ -1,22 +1,29 @@
 package display.appointment;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import controller.appointment.AppointmentManager;
 import controller.user.DoctorManager;
 import display.ClearDisplay;
 import display.EnterToGoBackDisplay;
+import display.user.PatientDisplay;
 import model.appointment.Appointment;
 import model.appointment.enums.Weekdays;
 import model.user.Doctor;
 import model.user.Patient;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
+import utils.utils.FormatDateTime;
 
 public class AppointmentDisplay {
     private static final Map<Integer, String> timeSlotMap = new HashMap<>();
+    private static final Map<Integer, String> monthMap = new HashMap<>();
 
     static {
         timeSlotMap.put(1, "9:00 - 9:30");
@@ -35,6 +42,21 @@ public class AppointmentDisplay {
         timeSlotMap.put(14, "15:30 - 16:00");
         timeSlotMap.put(15, "16:00 - 16:30");
         timeSlotMap.put(16, "16:30 - 17:00");
+    }
+
+    static {
+        monthMap.put(1, "January");
+        monthMap.put(2, "February");
+        monthMap.put(3, "March");
+        monthMap.put(4, "April");
+        monthMap.put(5, "May");
+        monthMap.put(6, "June");
+        monthMap.put(7, "July");
+        monthMap.put(8, "August");
+        monthMap.put(9, "September");
+        monthMap.put(10, "October");
+        monthMap.put(11, "November");
+        monthMap.put(12, "December");
     }
 
     public static void appointmentRequestsDisplay(Doctor doctor) throws PageBackException {
@@ -202,39 +224,72 @@ public class AppointmentDisplay {
         EnterToGoBackDisplay.display();
     }
 
-    public static void displayDoctorTimeSlots(Doctor doctor) {
-        Map<String, List<String>> appointmentAvailability = doctor.getAppointmentAvailability();
-        for (Map.Entry<String, List<String>> entry : appointmentAvailability.entrySet()) {
-            try {
-                Weekdays day = null;
-                switch (entry.getKey()) {
-                    case "1" -> day = Weekdays.MONDAY;
-                    case "2" -> day = Weekdays.TUESDAY;
-                    case "3" -> day = Weekdays.WEDNESDAY;
-                    case "4" -> day = Weekdays.THURSDAY;
-                    case "5" -> day = Weekdays.FRIDAY;
-                    default -> {
-                        System.out.println("Something went wrong. Press enter to go back.");
-                        if (CustScanner.getStrChoice().equals("")) {
-                            throw new PageBackException();
+    public static void displayDoctorTimeSlots(Doctor doctor) throws PageBackException {
+        try {
+            Map<String, List<String>> appointmentAvailability = doctor.getAppointmentAvailability();
+            if (appointmentAvailability.isEmpty() || appointmentAvailability == null) {
+                System.out.println("The doctor has not set his availability.");
+                EnterToGoBackDisplay.display();
+            }
+            for (Map.Entry<String, List<String>> entry : appointmentAvailability.entrySet()) {
+                try {
+                    Weekdays day = null;
+                    switch (entry.getKey()) {
+                        case "1" -> day = Weekdays.MONDAY;
+                        case "2" -> day = Weekdays.TUESDAY;
+                        case "3" -> day = Weekdays.WEDNESDAY;
+                        case "4" -> day = Weekdays.THURSDAY;
+                        case "5" -> day = Weekdays.FRIDAY;
+                        default -> {
+                            System.out.println("Something went wrong. Press enter to go back.");
+                            if (CustScanner.getStrChoice().equals("")) {
+                                throw new PageBackException();
+                            }
                         }
                     }
-                }
 
-                System.out.printf("Day: %s\n", day.toCamelCase());
-                List<String> timeSlotStrings = new ArrayList<>();
-                for (String slot : entry.getValue()) {
-                    int slotNumber = Integer.parseInt(slot.trim());
-                    timeSlotStrings.add(timeSlotMap.get(slotNumber));
+                    System.out.printf("Day: %s\n", day.toCamelCase());
+                    Map<String, String> timeSlots = new HashMap<>();
+                    for (String slot : entry.getValue()) {
+                        int slotNumber = Integer.parseInt(slot.trim());
+                        timeSlots.put(Integer.toString(slotNumber), timeSlotMap.get(slotNumber));
+                    }
+                    System.out.println("Appointment Slots:");
+                    if (timeSlots.isEmpty()) {
+                        System.out.println("The doctor has not set his availability.");
+                        EnterToGoBackDisplay.display();
+                    }
+                    for (Map.Entry<String, String> slot : timeSlots.entrySet()) {
+                        System.out.printf("\t%s: %s\n", slot.getKey(), slot.getValue());
+                    }
+                    System.out.println();
+                } catch (Exception e) {
+                    EnterToGoBackDisplay.display();
                 }
-                System.out.println("Appointment Slots:");
-                for (String slot : timeSlotStrings) {
-                    System.out.println("    " + slot);
-                }
-                System.out.println();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void displayAppointmentAvailabilityForADay(Doctor doctor, DayOfWeek day)
+            throws PageBackException {
+        Map<String, List<String>> appointmentAvailability = doctor.getAppointmentAvailability();
+        try {
+            System.out.printf("Selected Day: %s\n", day);
+            Map<String, String> timeSlots = new HashMap<>();
+            for (String slot : appointmentAvailability.get(Integer.toString(day.getValue()))) {
+                int slotNumber = Integer.parseInt(slot.trim());
+                timeSlots.put(Integer.toString(slotNumber), timeSlotMap.get(slotNumber));
+            }
+            System.out.println("Available Appointment Slots:");
+            for (Map.Entry<String, String> slot : timeSlots.entrySet()) {
+                System.out.printf("\t%s: %s\n", slot.getKey(), slot.getValue());
+            }
+        } catch (Exception e) {
+            System.out.println("No availability set for this day. Press choose another day.");
+            displayAppointmentAvailabilityForADay(doctor, day);
         }
     }
 
@@ -263,14 +318,14 @@ public class AppointmentDisplay {
                 }
 
                 System.out.printf("Day: %s\n", day.toCamelCase());
-                List<String> timeSlotStrings = new ArrayList<>();
+                Map<String, String> timeSlots = new HashMap<>();
                 for (String slot : entry.getValue()) {
                     int slotNumber = Integer.parseInt(slot.trim());
-                    timeSlotStrings.add(timeSlotMap.get(slotNumber));
+                    timeSlots.put(Integer.toString(slotNumber), timeSlotMap.get(slotNumber));
                 }
                 System.out.println("Appointment Slots:");
-                for (String slot : timeSlotStrings) {
-                    System.out.println("    " + slot);
+                for (Map.Entry<String, String> slot : timeSlots.entrySet()) {
+                    System.out.printf("\t%s: %s\n", slot.getKey(), slot.getValue());
                 }
                 System.out.println();
             } catch (Exception e) {
@@ -288,12 +343,12 @@ public class AppointmentDisplay {
 
     public static void displayPatientsAppointment(Patient patient) {
         String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
-        ClearDisplay.ClearConsole();
         System.out.println(fiveColBorder);
-        System.out.printf("| %-90s |%n", " " + "Appointments");
+        System.out.printf("| %-110s |%n", " " + "Appointments");
         System.out.println(fiveColBorder);
         System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", "ID", "Date", "Time", "Doctor Name",
                 "Status");
+        System.out.println(fiveColBorder);
         try {
             List<Appointment> appointments = patient.getAppointments();
             for (Appointment appointment : appointments) {
@@ -309,8 +364,73 @@ public class AppointmentDisplay {
             System.out.printf("| %-90s %n", "No appointment found.");
         }
         System.out.println(fiveColBorder);
+    }
+
+    public static void scheduleAppointmentDisplay(Patient patient, String doctorId) throws PageBackException {
+        Doctor doctor = null;
+        try {
+            doctor = DoctorManager.getDoctorByID(doctorId);
+        } catch (Exception e) {
+            throw new PageBackException();
+        }
+
+        System.out.printf("Enter the month (1 for Jan, etc) that you would like to make an appointment for: ");
+        int month = CustScanner.getIntChoice();
+        if (month < 1 || month > 12) {
+            System.out.println("Invalid month. \n");
+            System.out.println("Press enter to retry or type b to go back to main menu.");
+            if (CustScanner.getStrChoice().equalsIgnoreCase("b")) {
+                PatientDisplay.patientDisplay(doctor);
+            } else {
+                throw new PageBackException();
+            }
+        }
+        scheduleAppointment(patient.getPatientID(), doctor, month);
+    }
+
+    private static void scheduleAppointment(String patientID, Doctor doctor, int month) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Schedule an Appointment");
+        System.out.println("----------------------------");
         System.out.println();
-        System.out.println("--------------------------------------------");
+        int year = 2024;
+        CalendarDisplay.calendarView(year, month);
+        System.out.println();
+
+        System.out.printf("Enter the date of the month that you would like to make an appointment for: ");
+        int date = CustScanner.getIntChoice();
+        if (date < 1 || date > 31) {
+            System.out.println("Invalid date. \n");
+            System.out.println("Press enter to retry or type b to go back to main menu.");
+            if (CustScanner.getStrChoice().equalsIgnoreCase("b")) {
+                PatientDisplay.patientDisplay(doctor);
+            } else {
+                throw new PageBackException();
+            }
+        }
+
+        System.out.println();
+        LocalDate fullDate = LocalDate.of(year, month, date);
+        DayOfWeek day = fullDate.getDayOfWeek();
+        displayAppointmentAvailabilityForADay(doctor, day);
+        Date appointmentDate = FormatDateTime.convertDMYToTime(date, month, year);
+
+        System.out.println();
+        System.out.println();
+        System.out.printf("Enter the time slot that you would like to make an appointment for: ");
+        int timeSlotID = CustScanner.getIntChoice();
+
+        try {
+            AppointmentManager.scheduleNewAppointment(patientID, doctor.getModelID(),
+                    timeSlotID, appointmentDate);
+            System.out.println("Appointment scheduled successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error scheduling appointment.");
+        }
+        System.out.println();
+        EnterToGoBackDisplay.display();
+
     }
 
 }

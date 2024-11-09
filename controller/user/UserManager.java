@@ -159,7 +159,7 @@ public class UserManager {
         String userID = UUID.randomUUID().toString();
         User user = switch (userType) {
             case DOCTOR -> new Doctor(userID, personalInfo, password);
-            case PATIENT -> new Patient(userID, personalInfo, password);
+            case PATIENT -> new Patient(userID, personalInfo, password, null);
             case PHARMACIST -> new Pharmacist(userID, personalInfo, password);
             case ADMINISTRATOR -> new Administrator(userID, personalInfo, password);
         };
@@ -183,7 +183,7 @@ public class UserManager {
         PersonalInfo personalInfo = new PersonalInfo(name, email, gender, age);
         User user = switch (userType) {
             case DOCTOR -> new Doctor(userID, personalInfo, password);
-            case PATIENT -> new Patient(userID, personalInfo, password);
+            case PATIENT -> new Patient(userID, personalInfo, password, null);
             case PHARMACIST -> new Pharmacist(userID, personalInfo, password);
             case ADMINISTRATOR -> new Administrator(userID, personalInfo, password);
         };

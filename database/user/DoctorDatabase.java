@@ -1,10 +1,13 @@
 package database.user;
 
+import model.appointment.Appointment;
 import model.user.Doctor;
 import model.user.PersonalInfo;
 import model.user.enums.Gender;
 import utils.utils.FormatDateTime;
+import utils.utils.StringToMap;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +59,9 @@ public class DoctorDatabase extends Database<Doctor> {
             String genderStr = map.get("personalInfo_gender");
             String dateOfRegistration = map.get("personalInfo_dateOfRegistration");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
+            String appointmentAvailabilityStr = map.get("appointmentAvailability");
+
+            Map<String, List<String>> apppointmentAvailability = StringToMap.ToMap(appointmentAvailabilityStr);
 
             Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDate(dateOfBirth);
             Date registrationDate = dateOfRegistration == null ? null
@@ -67,7 +73,14 @@ public class DoctorDatabase extends Database<Doctor> {
             String doctorID = map.get("doctorID");
             String password = map.get("password");
 
-            Doctor doctor = new Doctor(doctorID, personalInfo, password);
+            List<Appointment> appointmentRequests = new ArrayList<>();
+            String appointmentRequestsStr = map.get("appointmentRequests");
+            // if (appointmentRequestsStr != null && !appointmentRequestsStr.isEmpty()) {
+            // System.out.println(appointmentRequestsStr);
+            // }
+
+            Doctor doctor = new Doctor(doctorID, password, personalInfo, new ArrayList<>(), 0, new ArrayList<>(),
+                    apppointmentAvailability);
             getAll().add(doctor);
         }
     }

@@ -1,5 +1,6 @@
 package controller.account;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,6 @@ import utils.exceptions.PasswordIncorrectException;
 import utils.exceptions.UserAlreadyExistsException;
 import utils.exceptions.UserCannotBeFoundException;
 import utils.iocontrol.CSVReader;
-import utils.utils.FormatDateTime;
 
 public class AccountManager {
 
@@ -146,7 +146,8 @@ public class AccountManager {
                 PersonalInfo personalInfo = new PersonalInfo(patientName, gender, Integer.parseInt(patientAge),
                         null,
                         patientEmail, null, dateOfRegistration);
-                Patient newPatient = new Patient(patientID, "password", personalInfo, null, bloodType, null, null,
+                Patient newPatient = new Patient(patientID, "password", personalInfo, new ArrayList<>(), bloodType,
+                        new ArrayList<>(), new ArrayList<>(),
                         null);
 
                 UserManager.loadPatient(newPatient);

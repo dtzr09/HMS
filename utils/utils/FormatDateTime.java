@@ -2,6 +2,8 @@ package utils.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class FormatDateTime {
@@ -37,6 +39,11 @@ public class FormatDateTime {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    public static Date convertDMYToTime(int date, int month, int year) {
+        LocalDate fullDate = LocalDate.of(year, month, date);
+        return java.sql.Date.valueOf(fullDate);
     }
 
 }

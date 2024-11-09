@@ -44,7 +44,7 @@ public class CalendarDisplay {
 
     }
 
-    private static void calendarView(int year, int month) {
+    public static void calendarView(int year, int month) {
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate firstDayOfMonth = yearMonth.atDay(1);
         int daysInMonth = yearMonth.lengthOfMonth();
@@ -68,5 +68,4 @@ public class CalendarDisplay {
 
         System.out.println();
     }
-
 }

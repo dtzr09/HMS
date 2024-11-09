@@ -38,6 +38,9 @@ public abstract class Savable<MappableObject extends Mappable> {
         try (PrintWriter printWriter = new PrintWriter(new FileWriter(FILE_PATH))) {
             final List<MappableObject> listOfMappableObjects = getAll();
             for (MappableObject mappableObject : listOfMappableObjects) {
+                System.out.println("TEST 1" + mappableObject.convertToMap());
+                System.out.println("TEST 2" + mappableObject);
+                System.out.println("\n\n");
                 printWriter.println(StringAndMapConvertor.mapToString(mappableObject.convertToMap()));
             }
         } catch (IOException e) {

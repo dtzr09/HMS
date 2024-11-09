@@ -171,4 +171,14 @@ public class PatientManager {
         }
         return null;
     }
+
+    public static void addAppointment(String patientID, Appointment newAppointment) throws ModelNotFoundException {
+        Patient patient = getPatientById(patientID);
+        if (patient == null) {
+            throw new ModelNotFoundException("Patient not found.");
+        }
+        patient.addAppointment(newAppointment);
+        UserManager.updateUser(patient);
+
+    }
 }

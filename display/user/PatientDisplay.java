@@ -35,6 +35,7 @@ public class PatientDisplay {
             System.out.println("\t9. Update my profile");
             System.out.println("\t10. Change my password");
             System.out.println("\t11. Logout");
+            System.out.println();
             System.out.println("===================================");
             System.out.println();
             System.out.print("What would you like to do? ");
@@ -45,7 +46,7 @@ public class PatientDisplay {
                 switch (choice) {
                     case 1 -> displayPatientInfo(patient);
                     case 2 -> displayAvailableAppointmentSlots(patient);
-                    // case 4 -> scheduleAppointment(patient);
+                    case 3 -> scheduleAppointment(patient);
                     // case 5 -> rescheduleAppointment(patient);
                     // case 6 -> cancelAppointment(patient);
                     // case 7 -> viewScheduledAppointments(patient);
@@ -64,15 +65,29 @@ public class PatientDisplay {
         }
     }
 
+    private static void scheduleAppointment(Patient patient) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Schedule an Appointment");
+        System.out.println("--------------------------------------------");
+        String doctorID = patient.getDoctorID();
+        if (doctorID == null) {
+            System.out.println("You do not have a doctor assigned to you. Please contact the admin.");
+            EnterToGoBackDisplay.display();
+            return;
+        }
+        AppointmentDisplay.scheduleAppointmentDisplay(patient, doctorID);
+        EnterToGoBackDisplay.display();
+    }
+
     private static void displayAvailableAppointmentSlots(Patient patient) throws PageBackException {
+        ClearDisplay.ClearConsole();
         Doctor doctor = null;
         try {
             String doctorID = patient.getDoctorID();
-            if (doctorID == null) {
-                throw new Exception();
-            }
+            System.out.println(doctorID);
             doctor = DoctorManager.getDoctorByID(doctorID);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("You do not have a doctor assigned to you. Please contact the admin.");
             EnterToGoBackDisplay.display();
         }
@@ -81,6 +96,7 @@ public class PatientDisplay {
         System.out.println("--------------------------------------------");
         System.out.println();
         System.out.println("This is your Dr. " + doctor.getName() + "'s available time slots.");
+        System.out.println();
         AppointmentDisplay.displayDoctorTimeSlots(doctor);
         EnterToGoBackDisplay.display();
     }
@@ -89,13 +105,17 @@ public class PatientDisplay {
         ClearDisplay.ClearConsole();
         System.out.println("Medical Record of " + patient.getName());
         System.out.println("--------------------------------------------");
-        System.out.println("Personal Information");
-        patient.getPersonalInfo().displayPersonalInfo();
-        System.out.println("--------------------------------------------");
+        System.out.println();
 
-        System.out.println("Medical Records");
+        System.out.println("Personal Information ----------------------------");
+        System.out.println();
+        patient.getPersonalInfo().displayPersonalInfo();
+        System.out.println();
+        System.out.println("Medical Records ----------------------------");
+        System.out.println();
         System.out.println("Allergies: " + patient.getAllergies());
         System.out.println("Blood Type: " + patient.getBloodType());
+        System.out.println();
 
         DiagnosisDisplay.displayAllDiagnosisOfPatient(patient);
 
@@ -105,31 +125,6 @@ public class PatientDisplay {
 
         EnterToGoBackDisplay.display();
     }
-    // private static void updatePersonalInfo(Patient patient) {
-    // System.out.print("Enter new email: ");
-    // String newEmail = CustScanner.getStrChoice();
-    // System.out.print("Enter new contact number: ");
-    // String newContact = CustScanner.getStrChoice();
-
-    // patient.setEmail(newEmail);
-    // patient.setContactInfo(newContact);
-    // PatientManager.updateUser(patient);
-    // System.out.println("Personal information updated successfully.");
-    // EnterToGoBackDisplay.display();
-    // }
-
-    // // Display Available Appointment Slots with Calendar
-    // private static void displayAvailableAppointmentSlots() {
-    // ClearDisplay.ClearConsole();
-    // System.out.println("Available Appointment Slots:");
-
-    // // Display calendar for slot navigation if needed
-    // CalendarDisplay.calendarDisplay();
-
-    // // Display available slots per `AppointmentDisplay`
-    // AppointmentDisplay.timeSlotDisplay();
-    // EnterToGoBackDisplay.display();
-    // }
 
     // // Schedule an Appointment for the Patient
     // private static void scheduleAppointment(Patient patient) {

@@ -120,7 +120,8 @@ public class DiagnosisDisplay {
     }
 
     public static void displayAllDiagnosisOfPatient(Patient patient) {
-        String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-----------------+";
+        String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-------------------+";
+        System.out.println(fourColBorder);
         System.out.printf("| %-100s |%n", " " + "Diagnosis history of " + patient.getName());
         System.out.println(fourColBorder);
         System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n", "ID", "Diagnosis", "Doctor Name",
@@ -139,9 +140,11 @@ public class DiagnosisDisplay {
                         diagnosis.getDiagnosisID(), diagnosis.getDisease(),
                         doctor.getName(), diagnosis.getPrescription(), diagnosis.getDateOfDiagnosis());
             }
+
         } catch (Exception e) {
-            System.out.println("No diagnosis found.");
+            System.out.println("| No diagnosis found.");
         }
+        System.out.println(fourColBorder);
     }
 
 }

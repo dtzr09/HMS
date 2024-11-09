@@ -14,8 +14,8 @@ public class Doctor implements User {
     private String password;
     private PersonalInfo personalInfo;
     private int numOfPatients = 0;
-    private ArrayList<Appointment> appointments = null;
-    private ArrayList<Appointment> appointmentRequests = null;
+    private ArrayList<Appointment> appointments = new ArrayList<>();
+    private ArrayList<Appointment> appointmentRequests = new ArrayList<>();
     private Map<String, List<String>> appointmentAvailability;
 
     public Doctor(String doctorID, String password, PersonalInfo personalInfo, ArrayList<Appointment> appointments,
@@ -146,4 +146,13 @@ public class Doctor implements User {
     public void setDateOfBirth(Date dateOfBirth) {
         personalInfo.setDateOfBirth(dateOfBirth);
     }
+
+    public void addAppointment(Appointment appointment) {
+        this.appointments.add(appointment);
+    }
+
+    public void addAppointmentRequest(Appointment appointment) {
+        this.appointmentRequests.add(appointment);
+    }
+
 }

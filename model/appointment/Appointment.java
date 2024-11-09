@@ -3,8 +3,9 @@ package model.appointment;
 import java.util.Date;
 
 import model.appointment.enums.AppointmentStatus;
+import utils.iocontrol.Mappable;
 
-public class Appointment {
+public class Appointment implements Mappable {
     private String appointmentID;
     private AppointmentStatus appointmentStatus;
     private Date dateOfAppointment;

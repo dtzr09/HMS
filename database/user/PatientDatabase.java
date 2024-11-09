@@ -66,8 +66,9 @@ public class PatientDatabase extends Database<Patient> {
 
             String patientID = map.get("patientID");
             String password = map.get("password");
+            String doctorID = map.get("doctorID");
 
-            Patient patient = new Patient(patientID, personalInfo, password);
+            Patient patient = new Patient(patientID, personalInfo, password, doctorID);
 
             getAll().add(patient);
         }

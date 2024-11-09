@@ -17,8 +17,8 @@ public class Patient implements User {
     private PersonalInfo personalInfo;
     private ArrayList<String> allergies;
     private BloodType bloodType;
-    private ArrayList<Appointment> appointments = null;
-    private ArrayList<Diagnosis> diagnosis = null;
+    private ArrayList<Appointment> appointments = new ArrayList<>();
+    private ArrayList<Diagnosis> diagnosis = new ArrayList<>();
 
     public Patient() {
     }
@@ -36,10 +36,11 @@ public class Patient implements User {
         this.doctorID = doctorID;
     }
 
-    public Patient(String patientID, PersonalInfo personalInfo, String password) {
+    public Patient(String patientID, PersonalInfo personalInfo, String password, String doctorID) {
         this.patientID = patientID;
         this.password = password;
         this.personalInfo = personalInfo;
+        this.doctorID = doctorID;
     }
 
     /**
@@ -177,4 +178,13 @@ public class Patient implements User {
     public void setDateOfBirth(Date dateOfBirth) {
         personalInfo.setDateOfBirth(dateOfBirth);
     }
+
+    public void addAppointment(Appointment appointment) {
+        this.appointments.add(appointment);
+    }
+
+    public void addAllergy(String allergy) {
+        this.allergies.add(allergy);
+    }
+
 }
