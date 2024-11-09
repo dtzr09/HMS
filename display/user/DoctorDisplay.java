@@ -202,7 +202,7 @@ public class DoctorDisplay {
         Prescription prescription = PrescriptionDisplay.displayAddNewPresciption(patient, doctor);
         try {
             AppointmentOutcomeManager.createNewAppointmentOutcome(new AppointmentOutcome(
-                    appointmentOutcomeID, patientID, appointment.getTimeSlot(), doctor.getModelID(), typeOfService,
+                    appointmentOutcomeID, patientID, doctor.getModelID(), typeOfService,
                     consultationNotes,
                     prescription, appointmentID));
         } catch (Exception e) {

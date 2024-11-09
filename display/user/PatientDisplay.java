@@ -128,8 +128,8 @@ public class PatientDisplay {
                 Doctor doctor = DoctorManager.getDoctorByID(appointment.getDoctorID());
                 System.out.printf("| %-36s | %-25s | %-15s | %-10s | %-20s | %n", appointment
                         .getAppointmentID(),
-                        appointment.getTimeSlot().getDate(),
-                        appointment.getTimeSlot().getTime(),
+                        appointment.getDateOfAppointment(),
+                        appointment.getTimeOfAppointment(),
                         doctor.getName(),
                         appointment.getAppointmentStatus());
             }

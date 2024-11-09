@@ -132,7 +132,15 @@ public class UserManager {
         DoctorDatabase.getDB().add(doctor);
     }
 
-    public static void createPatient(Patient patient) throws ModelAlreadyExistsException {
+    public static void loadDoctor(Doctor doctor) throws ModelAlreadyExistsException {
+        createDoctor(doctor);
+    }
+
+    public static void loadPatient(Patient patient) throws ModelAlreadyExistsException {
+        createPatient(patient);
+    }
+
+    private static void createPatient(Patient patient) throws ModelAlreadyExistsException {
         PatientDatabase.getDB().add(patient);
     }
 
@@ -149,6 +157,30 @@ public class UserManager {
 
         PersonalInfo personalInfo = new PersonalInfo(name, email, gender, age);
         String userID = UUID.randomUUID().toString();
+        User user = switch (userType) {
+            case DOCTOR -> new Doctor(userID, personalInfo, password);
+            case PATIENT -> new Patient(userID, personalInfo, password);
+            case PHARMACIST -> new Pharmacist(userID, personalInfo, password);
+            case ADMINISTRATOR -> new Administrator(userID, personalInfo, password);
+        };
+        if (user instanceof Doctor doctor) {
+            createDoctor(doctor);
+        } else if (user instanceof Patient patient) {
+            createPatient(patient);
+        } else if (user instanceof Pharmacist pharmacist) {
+            createPharmacist(pharmacist);
+        } else if (user instanceof Administrator administrator) {
+            createAdministrator(administrator);
+        }
+        return user;
+
+    }
+
+    public static User createUserWithUUID(String userID, String email, String name, Gender gender, int age,
+            UserType userType, String password)
+            throws ModelNotFoundException, ModelAlreadyExistsException {
+
+        PersonalInfo personalInfo = new PersonalInfo(name, email, gender, age);
         User user = switch (userType) {
             case DOCTOR -> new Doctor(userID, personalInfo, password);
             case PATIENT -> new Patient(userID, personalInfo, password);

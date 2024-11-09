@@ -8,19 +8,17 @@ import model.prescription.Prescription;
 public class AppointmentOutcome implements Model {
     private String appointmentOutcomeID;
     private String patientID;
-    private TimeSlot dateOfAppointment;
     private String doctorID;
     private String typeOfService;
     private String consultationNotes;
     private Prescription prescription;
     private String appointmentID;
 
-    public AppointmentOutcome(String appointmentOutcomeID, String patientID, TimeSlot dateOfAppointment,
+    public AppointmentOutcome(String appointmentOutcomeID, String patientID,
             String doctorID,
             String typeOfService, String consultationNotes, Prescription prescription, String appointmentID) {
         this.appointmentOutcomeID = appointmentOutcomeID;
         this.patientID = patientID;
-        this.dateOfAppointment = dateOfAppointment;
         this.doctorID = doctorID;
         this.typeOfService = typeOfService;
         this.consultationNotes = consultationNotes;
@@ -47,10 +45,6 @@ public class AppointmentOutcome implements Model {
 
     public String getPatientID() {
         return patientID;
-    }
-
-    public TimeSlot getDateOfAppointment() {
-        return dateOfAppointment;
     }
 
     public String getDoctorID() {
@@ -83,10 +77,6 @@ public class AppointmentOutcome implements Model {
 
     public void setTypeOfService(String typeOfService) {
         this.typeOfService = typeOfService;
-    }
-
-    public void setDateOfAppointment(TimeSlot dateOfAppointment) {
-        this.dateOfAppointment = dateOfAppointment;
     }
 
     public void setDoctorID(String doctorID) {

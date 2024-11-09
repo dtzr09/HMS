@@ -33,9 +33,9 @@ public class MedicationManager {
         for (List<String> medication : medications) {
             try {
                 String medicationID = UUID.randomUUID().toString();
-                String medicationName = medication.get(0);
-                int medicationStock = Integer.parseInt(medication.get(1));
-                int lowStockLevelAlert = Integer.parseInt(medication.get(2));
+                String medicationName = medication.get(1);
+                int medicationStock = Integer.parseInt(medication.get(2));
+                int lowStockLevelAlert = Integer.parseInt(medication.get(3));
                 addMedication(new Medication(medicationID, medicationName, medicationStock, lowStockLevelAlert));
             } catch (ModelAlreadyExistsException e) {
                 System.out.println("Medication already exists.");
