@@ -5,14 +5,13 @@ import java.util.Date;
 import java.util.Map;
 
 import model.Model;
-import model.medication.Medication;
 
 public class Prescription implements Model {
     private String prescriptionID;
     private String patientID;
     private String pharmacistID;
     private String doctorID;
-    private ArrayList<Medication> medication;
+    private ArrayList<String> medicationIDs;
     private Date dateOfPrescription;
     private String drugInstructions;
     private PrescriptionStatus prescriptionStatus;
@@ -21,13 +20,13 @@ public class Prescription implements Model {
     }
 
     public Prescription(String prescriptionID, String patientID, String pharmacistID, String doctorID,
-            ArrayList<Medication> medication, Date dateOfPrescription, String drugInstructions,
+            ArrayList<String> medicationIDs, Date dateOfPrescription, String drugInstructions,
             PrescriptionStatus prescriptionStatus) {
         this.prescriptionID = prescriptionID;
         this.patientID = patientID;
         this.pharmacistID = pharmacistID;
         this.doctorID = doctorID;
-        this.medication = medication;
+        this.medicationIDs = medicationIDs;
         this.dateOfPrescription = dateOfPrescription;
         this.drugInstructions = drugInstructions;
         this.prescriptionStatus = prescriptionStatus;
@@ -35,13 +34,13 @@ public class Prescription implements Model {
 
     public Prescription(String prescriptionID, String patientID,
             String doctorID,
-            ArrayList<Medication> medication, Date dateOfPrescription,
+            ArrayList<String> medicationIDs, Date dateOfPrescription,
             String drugInstructions,
             PrescriptionStatus prescriptionStatus) {
         this.prescriptionID = prescriptionID;
         this.patientID = patientID;
         this.doctorID = doctorID;
-        this.medication = medication;
+        this.medicationIDs = medicationIDs;
         this.dateOfPrescription = dateOfPrescription;
         this.drugInstructions = drugInstructions;
         this.prescriptionStatus = prescriptionStatus;
@@ -92,12 +91,12 @@ public class Prescription implements Model {
         this.doctorID = doctorID;
     }
 
-    public ArrayList<Medication> getMedication() {
-        return medication;
+    public ArrayList<String> getMedicationIDs() {
+        return medicationIDs;
     }
 
-    public void setMedication(ArrayList<Medication> medication) {
-        this.medication = medication;
+    public void setMedicationIDs(ArrayList<String> medicationIDs) {
+        this.medicationIDs = medicationIDs;
     }
 
     public Date getDateOfPrescription() {

@@ -31,7 +31,7 @@ public class PharmacistManager {
 
         PrescriptionManager.updatePrescriptionStatus(diagnosis.getPrescriptionID(),
                 status);
-        System.out.println("Diagnosis " + diagnosis.getDiagnosisID() + " Prescription status has been updated.");
+        System.out.println("Prescription status has been updated.");
     }
 
     public static ArrayList<Medication> getMedicationInventory() {

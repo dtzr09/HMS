@@ -1,14 +1,18 @@
 package display.medication;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import controller.medication.DiagnosisManager;
+import controller.medication.MedicationManager;
 import controller.medication.PrescriptionManager;
 import controller.user.DoctorManager;
 import controller.user.PatientManager;
 import display.ClearDisplay;
+import display.EnterToGoBackDisplay;
 import model.diagnosis.Diagnosis;
+import model.medication.Medication;
 import model.prescription.Prescription;
 import model.user.Doctor;
 import model.user.Patient;
@@ -50,9 +54,16 @@ public class DiagnosisDisplay {
             } else {
                 for (Diagnosis diagnosis : diagnoses) {
                     Prescription prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
+                    ArrayList<Medication> medication = MedicationManager
+                            .getMedicationsByIDs(prescription.getMedicationIDs());
+                    List<String> medicationNames = new ArrayList<>();
+                    for (Medication med : medication) {
+                        medicationNames.add(med.getName());
+                    }
+                    String medicationsStr = String.join(",", medicationNames);
                     System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n",
                             diagnosis.getDiagnosisID(), diagnosis.getDisease(),
-                            doctor.getName(), prescription.getMedication(), diagnosis.getDateOfDiagnosis());
+                            doctor.getName(), medicationsStr, diagnosis.getDateOfDiagnosis());
                 }
             }
 
@@ -102,19 +113,28 @@ public class DiagnosisDisplay {
             throws PageBackException {
         Diagnosis diagnosis = null;
         Prescription prescription = null;
+        String medicationsStr = "";
         try {
             diagnosis = PatientManager.getDiagnosisByID(patient, diagnosisId);
             prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
+            ArrayList<Medication> medication = MedicationManager
+                    .getMedicationsByIDs(prescription.getMedicationIDs());
+            List<String> medicationNames = new ArrayList<>();
+            for (Medication med : medication) {
+                medicationNames.add(med.getName());
+            }
+            medicationsStr = String.join(",", medicationNames);
         } catch (Exception e) {
             System.out.println("Diagnosis not found.");
             throw new PageBackException();
         }
+
         System.out.println("Diagnosis of " + patient.getName());
         System.out.println("--------------------------------------------");
         System.out.println("Diagnosis ID: " + diagnosis.getDiagnosisID());
         System.out.println("Diagnosis: " + diagnosis.getDisease());
         System.out.println("Doctor: " + doctor.getName());
-        System.out.println("Medications: " + prescription.getMedication());
+        System.out.println("Medications: " + medicationsStr);
         System.out.println("Date of Diagnosis: " + diagnosis.getDateOfDiagnosis());
         System.out.println();
     }
@@ -131,10 +151,10 @@ public class DiagnosisDisplay {
         updateDiagnosisMenu(patient, doctor, diagnosisId);
     }
 
-    public static void displayAllDiagnosisOfPatient(Patient patient) {
+    public static void displayAllDiagnosisOfPatient(Patient patient) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-------------------+";
         System.out.println(fourColBorder);
-        System.out.printf("| %-115s | %n", " " + "Diagnosis history of " + patient.getName());
+        System.out.printf("| %-120s | %n", " " + "Diagnosis history of " + patient.getName());
         System.out.println(fourColBorder);
         System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n", "ID", "Diagnosis", "Doctor Name",
                 "Medications", "Date of Diagnosis");
@@ -151,14 +171,24 @@ public class DiagnosisDisplay {
                     doctor = DoctorManager.getDoctorByID(doctorID);
                 }
                 Prescription prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
-                System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-15s |%n",
+                ArrayList<Medication> medication = MedicationManager
+                        .getMedicationsByIDs(prescription.getMedicationIDs());
+                List<String> medicationNames = new ArrayList<>();
+                for (Medication med : medication) {
+                    medicationNames.add(med.getName());
+                }
+                String medicationsStr = String.join(",", medicationNames);
+                System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-17s |%n",
                         diagnosis.getDiagnosisID(), diagnosis.getDisease(),
-                        doctor.getName(), prescription.getMedication(), diagnosis.getDateOfDiagnosis());
+                        doctor.getName(), medicationsStr, "N/A");
             }
+            System.out.println(fourColBorder);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("| No diagnosis found.");
+            System.out.println(fourColBorder);
+            EnterToGoBackDisplay.display();
         }
-        System.out.println(fourColBorder);
     }
 
 }

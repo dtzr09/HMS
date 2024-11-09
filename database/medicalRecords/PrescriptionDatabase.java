@@ -1,10 +1,14 @@
 package database.medicalRecords;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import database.Database;
 import model.prescription.Prescription;
+import model.prescription.PrescriptionStatus;
+import utils.utils.ConvertToArrayList;
 
 public class PrescriptionDatabase extends Database<Prescription> {
     private static final String FILE_PATH = "./data/user/prescription.txt";
@@ -41,7 +45,21 @@ public class PrescriptionDatabase extends Database<Prescription> {
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
-            getAll().add(new Prescription(map));
+            String prescriptionID = map.get("prescriptionID");
+            String patientID = map.get("patientID");
+            String pharmacistID = map.get("pharmacistID");
+            String doctorID = map.get("doctorID");
+            String dateOfPrescription = map.get("dateOfPrescription");
+            String drugInstructions = map.get("drugInstructions");
+            String prescriptionStatus = map.get("prescriptionStatus");
+            String medicationIDsStr = map.get("medicationIDs");
+            ArrayList<String> medicationIDs = ConvertToArrayList.convertToArrayList(medicationIDsStr);
+
+            PrescriptionStatus status = PrescriptionStatus.fromString(prescriptionStatus);
+            Prescription prescription = new Prescription(prescriptionID, patientID, pharmacistID, doctorID,
+                    medicationIDs, null, drugInstructions, status);
+
+            getAll().add(prescription);
         }
     }
 

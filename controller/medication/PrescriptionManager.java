@@ -1,6 +1,5 @@
 package controller.medication;
 
-import model.medication.Medication;
 import model.prescription.*;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
@@ -28,22 +27,13 @@ public class PrescriptionManager {
         return PrescriptionDatabase.getDB().getByID(prescriptionID);
     }
 
-    public static void createNewPrescription(String prescriptionID, ArrayList<String> MedicationIDs,
+    public static void createNewPrescription(String prescriptionID, ArrayList<String> medicationIDs,
             String drugInstructions,
             String patientID,
             String doctorID) throws ModelAlreadyExistsException {
-        ArrayList<Medication> medications = new ArrayList<Medication>();
-        for (String id : MedicationIDs) {
-            try {
-                Medication medication = MedicationManager.getMedicationsById(id);
-                medications.add(medication);
-            } catch (Exception e) {
-                System.out.println("Medication not found.");
-            }
-        }
         Date dateOfPrescription = new Date();
         Prescription prescription = new Prescription(prescriptionID, patientID,
-                doctorID, medications,
+                doctorID, medicationIDs,
                 dateOfPrescription, drugInstructions, PrescriptionStatus.PENDING);
 
         createPrescription(prescription);
@@ -54,8 +44,8 @@ public class PrescriptionManager {
             Prescription prescription = getPrescriptionByID(prescriptionID);
             prescription.setPrescriptionStatus(status);
             if (status.equals(PrescriptionStatus.DISPENSED)) {
-                for (Medication medication : prescription.getMedication()) {
-                    MedicationManager.updateMedicationStock(medication.getModelID());
+                for (String medicationID : prescription.getMedicationIDs()) {
+                    MedicationManager.updateMedicationStock(medicationID);
                 }
             }
             updatePrescription(prescription);

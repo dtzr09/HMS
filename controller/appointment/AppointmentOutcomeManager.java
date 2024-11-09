@@ -18,9 +18,10 @@ public class AppointmentOutcomeManager {
         }
     }
 
-    public static void createNewAppointmentOutcome(AppointmentOutcome appointmentOutcome) {
+    public static void createNewAppointmentOutcome(AppointmentOutcome appointmentOutcome, Diagnosis diagnosis) {
         try {
             AppointmentOutcomeDatabase.getDB().add(appointmentOutcome);
+            DiagnosisManager.addDiagnosis(diagnosis);
         } catch (Exception e) {
             System.out.println("Appointment Outcome not added.");
         }

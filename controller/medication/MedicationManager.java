@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import database.medicalRecords.MedicationDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicationManager {
@@ -73,5 +74,14 @@ public class MedicationManager {
         } catch (ModelNotFoundException e) {
             System.out.println(medicationID + " not found.");
         }
+    }
+
+    public static ArrayList<Medication> getMedicationsByIDs(ArrayList<String> medicationIDs)
+            throws ModelNotFoundException {
+        ArrayList<Medication> medications = new ArrayList<>();
+        for (String medicationID : medicationIDs) {
+            medications.add(getMedicationsById(medicationID));
+        }
+        return medications;
     }
 }

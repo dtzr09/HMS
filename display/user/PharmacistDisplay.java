@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import controller.medication.DiagnosisManager;
 import controller.medication.PrescriptionManager;
+import controller.user.PatientManager;
 import controller.user.PharmacistManager;
 import controller.user.UserManager;
 import model.user.User;
@@ -81,11 +82,7 @@ public class PharmacistDisplay {
         System.out.printf("Please enter patient ID: ");
         String patientID = CustScanner.getStrChoice();
         System.out.println();
-        try {
-            AppointmentOutcomeDisplay.viewAppointmentOutcomeRecordsForPharmacist(patientID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        AppointmentOutcomeDisplay.viewAppointmentOutcomeRecordsForPharmacist(patientID);
     }
 
     public static void viewMedInv() throws PageBackException {
@@ -104,11 +101,13 @@ public class PharmacistDisplay {
         System.out.println("Update Prescription Status");
         System.out.println("-------------------------------");
         System.out.println();
-        System.out.printf("Enter patient's email: ");
-        String email = CustScanner.getStrChoice();
+        PatientDisplay.viewAllPatients();
+        System.out.println();
+        System.out.printf("Enter patient's ID: ");
+        String patientID = CustScanner.getStrChoice();
         Patient patient = null;
         try {
-            patient = PatientDatabase.getDB().getByEmail(email);
+            patient = PatientManager.getPatientById(patientID);
         } catch (Exception e) {
             System.out.println("Patient email not found");
             EnterToGoBackDisplay.display();
@@ -117,9 +116,10 @@ public class PharmacistDisplay {
         ClearDisplay.ClearConsole();
         DiagnosisDisplay.displayAllDiagnosisOfPatient(patient);
         System.out.println();
-        System.out.println("Enter the diagnosis ID: ");
+        System.out.printf("Enter the diagnosis ID: ");
         String diagnosisID = CustScanner.getStrChoice();
         Diagnosis patientDiagnosis = null;
+        System.out.println();
 
         try {
             patientDiagnosis = DiagnosisManager.getDiagnosisByPatientIDAndDiagnosisID(patient.getPatientID(),

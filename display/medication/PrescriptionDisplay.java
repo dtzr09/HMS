@@ -1,6 +1,7 @@
 package display.medication;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import controller.medication.MedicationManager;
 import controller.medication.PrescriptionManager;
@@ -21,9 +22,17 @@ public class PrescriptionDisplay {
 
         Diagnosis diagnosis = null;
         Prescription oldPrescription = null;
+        String medicationsStr = "";
         try {
             diagnosis = PatientManager.getDiagnosisByID(patient, diagnosisId);
             oldPrescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
+            ArrayList<Medication> medication = MedicationManager
+                    .getMedicationsByIDs(oldPrescription.getMedicationIDs());
+            List<String> medicationNames = new ArrayList<>();
+            for (Medication med : medication) {
+                medicationNames.add(med.getName());
+            }
+            medicationsStr = String.join(",", medicationNames);
         } catch (Exception e) {
             System.out.println("Diagnosis not found.");
             throw new PageBackException();
@@ -31,25 +40,20 @@ public class PrescriptionDisplay {
 
         System.out.println("Current prescription for diagnosis id " + diagnosisId + " :");
         System.out.println("--------------------------------------------");
-        System.out.println("\t Medications" + oldPrescription.getMedication().toString());
+        System.out.println("\t Medications" + medicationsStr);
         System.out.println("\t Drug Instructions: " + oldPrescription.getDrugInstructions());
 
         System.out.println("Would you like to update the prescription? (Y/N)");
         String choice = CustScanner.getStrChoice();
         if (choice.equalsIgnoreCase("Y")) {
-            ArrayList<Medication> medications = new ArrayList<>();
+            ArrayList<String> medicationIDs = new ArrayList<>();
             MedicationDisplay.displayMedicationInventory();
             System.out.println();
             while (true) {
                 System.out.println("Enter the medication ID: ");
                 String medicationID = CustScanner.getStrChoice();
-                try {
-                    Medication medication = MedicationManager.getMedicationsById(medicationID);
-                    medications.add(medication);
-                } catch (Exception e) {
-                    System.out.println("Medication not found.");
-                }
-
+                medicationIDs.add(medicationID);
+                System.out.println();
                 System.out.println("Would you like to add another medication? (Y/N)");
                 choice = CustScanner.getStrChoice();
                 if (choice.equalsIgnoreCase("N")) {
@@ -62,7 +66,7 @@ public class PrescriptionDisplay {
 
             try {
                 oldPrescription.setDrugInstructions(drugInstructions);
-                oldPrescription.setMedication(medications);
+                oldPrescription.setMedicationIDs(medicationIDs);
                 PrescriptionManager.updatePrescription(oldPrescription);
                 System.out.println("Prescription updated successfully.");
             } catch (Exception e) {

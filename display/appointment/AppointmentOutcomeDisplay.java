@@ -6,6 +6,7 @@ import java.util.List;
 import controller.appointment.AppointmentManager;
 import controller.appointment.AppointmentOutcomeManager;
 import controller.medication.DiagnosisManager;
+import controller.medication.MedicationManager;
 import controller.medication.PrescriptionManager;
 import controller.user.PatientManager;
 import display.ClearDisplay;
@@ -23,7 +24,8 @@ public class AppointmentOutcomeDisplay {
     public static void viewAppointmentOutcomeRecordsForPharmacist(String patientID) throws PageBackException {
         ClearDisplay.ClearConsole();
         String sevenColBorder = "+--------------------------------------+--------------------+--------------------+--------------------+--------------------+--------------------+";
-        List<AppointmentOutcome> recordList = AppointmentOutcomeManager.getPatientsAppointmentOutcomeRecords(patientID);
+        List<AppointmentOutcome> recordList = AppointmentOutcomeManager
+                .getPatientsAppointmentOutcomeRecords(patientID);
         if (recordList.isEmpty() || recordList == null) {
             System.out.println();
             System.out.println("No appointment outcome records found for this patient.");
@@ -36,23 +38,30 @@ public class AppointmentOutcomeDisplay {
         System.out.println("----------------------------------------------------");
         System.out.println();
         System.out.println(sevenColBorder);
-        System.out.printf("| %-36s | %-20s | %-20s | %-20s | %20s | %-20s | %n", "Appointment Outcome ID",
+        System.out.printf("| %-36s | %-18s | %-17s | %-18s | %18s | %-18s | %n", "Appointment Outcome ID",
                 "Type of Service", "Consultation Notes", "Medications", "Appointment Date",
                 "Prescription Status");
         System.out.println(sevenColBorder);
+
         for (AppointmentOutcome outcome : recordList) {
             try {
                 Appointment appointment = AppointmentManager.getAppointmentByID(outcome.getAppointmentID());
                 Diagnosis diagnosis = DiagnosisManager.getDiagnosisByPatientIDAndDiagnosisID(patientID,
                         outcome.getDiagnosisID());
                 Prescription prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
-                ArrayList<Medication> medication = prescription.getMedication();
-                System.out.printf("| %-36s | %-20s | %-20s | %-20s | %20s | %-20s |%n",
+                ArrayList<Medication> medication = MedicationManager
+                        .getMedicationsByIDs(prescription.getMedicationIDs());
+                ArrayList<String> medicationNames = new ArrayList<>();
+                for (Medication med : medication) {
+                    medicationNames.add(med.getName());
+                }
+                System.out.printf("| %-36s | %-18s | %-17s | %-18s | %18s | %-18s | %n",
                         outcome.getAppointmentOutcomeID(),
                         outcome.getTypeOfService(), outcome.getConsultationNotes(),
-                        String.join(", ", medication.toString()),
+                        String.join(", ", medicationNames),
                         appointment.getDateOfAppointment(), prescription.getPrescriptionStatus());
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("Error geting appointment outcome records.");
             }
 
@@ -93,14 +102,19 @@ public class AppointmentOutcomeDisplay {
                     Diagnosis diagnosis = DiagnosisManager.getDiagnosisByPatientIDAndDiagnosisID(patientID,
                             outcome.getDiagnosisID());
                     Prescription prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
-                    ArrayList<Medication> medication = prescription.getMedication();
-                    System.out.printf("| %-36s | %-36s | %-36s | %-36s | %-36s | %-36s |%n",
+                    ArrayList<Medication> medication = MedicationManager
+                            .getMedicationsByIDs(prescription.getMedicationIDs());
+                    ArrayList<String> medicationNames = new ArrayList<>();
+                    for (Medication med : medication) {
+                        medicationNames.add(med.getName());
+                    }
+                    System.out.printf("| %-36s |  %-35s | %-35s | %-35s | %n",
                             outcome.getAppointmentOutcomeID(),
                             outcome.getPatientID(),
                             outcome.getDoctorID(),
                             outcome.getTypeOfService(),
                             outcome.getConsultationNotes(),
-                            String.join(", ", medication.toString()),
+                            String.join(", ", medicationNames),
                             outcome.getAppointmentID());
                 } catch (Exception e) {
                     e.printStackTrace();
