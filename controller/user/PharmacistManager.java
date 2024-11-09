@@ -22,8 +22,7 @@ public class PharmacistManager {
 
     public static ArrayList<AppointmentOutcome> getAppointmentOutcomeRecords(String patientID) {
         ArrayList<AppointmentOutcome> recordList = (ArrayList<AppointmentOutcome>) AppointmentOutcomeDatabase.getDB()
-                .findByRules(
-                        AppointmentOutcome -> AppointmentOutcome.getPatientID().equals(patientID));
+                .findByRules(AppointmentOutcome -> AppointmentOutcome.getPatientID().equals(patientID));
         return recordList;
     }
 

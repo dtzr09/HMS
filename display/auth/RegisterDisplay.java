@@ -4,6 +4,7 @@ import controller.account.AccountManager;
 import controller.authentication.PasswordManager;
 import controller.user.UserManager;
 import display.ClearDisplay;
+import display.EnterToGoBackDisplay;
 import display.WelcomeDisplay;
 import display.user.AdministratorDisplay;
 import model.user.User;
@@ -109,10 +110,12 @@ public class RegisterDisplay {
                         PasswordManager.changePassword(user, "password", CustScanner.getPassword());
                     } catch (Exception e) {
                         System.out.println("Password change failed. Please try again.");
+                        // e.printStackTrace();
                         PasswordManager.changePassword(user, "password", CustScanner.getPassword());
                     }
                     UserManager.updateUser(user);
                     System.out.println("Password changed successfully.");
+                    EnterToGoBackDisplay.display();
                 }
                 switch (userType) {
                     case ADMINISTRATOR -> AdministratorDisplay.administratorDisplay(user);

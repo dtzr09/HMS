@@ -11,6 +11,7 @@ import model.appointment.AppointmentOutcome;
 import model.medication.Medication;
 import model.prescription.PrescriptionStatus;
 import model.user.Patient;
+import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
 
 public class AppointmentOutcomeDisplay {
@@ -57,7 +58,7 @@ public class AppointmentOutcomeDisplay {
             System.out.println(eightColBorder);
             System.out.println();
             EnterToGoBackDisplay.display();
-        } catch (Exception e) {
+        } catch (ModelNotFoundException e) {
             System.out.println("Email not found!");
             EnterToGoBackDisplay.display();
         }

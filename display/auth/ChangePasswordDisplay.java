@@ -31,7 +31,7 @@ public class ChangePasswordDisplay {
         }
 
         try {
-            AccountManager.changePassword(userType, confirmPassword, oldPassword, newPassword);
+            AccountManager.changePassword(userType, user.getModelEmail(), oldPassword, newPassword);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Please try again or type 'exit' to exit.");
