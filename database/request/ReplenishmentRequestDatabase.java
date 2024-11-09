@@ -54,8 +54,8 @@ public class ReplenishmentRequestDatabase extends Database<ReplenishmentRequest>
             RequestStatus requestStatus = RequestStatus.fromString(status);
 
             ReplenishmentRequest replenishmentRequest = new ReplenishmentRequest(replenishmentRequestID, requestStatus,
-                    FormatDateTime.convertStringToDate(dateOfRequest),
-                    FormatDateTime.convertStringToDate(dateOfModification),
+                    FormatDateTime.convertStringToDateTime(dateOfRequest),
+                    FormatDateTime.convertStringToDateTime(dateOfModification),
                     medicationID);
 
             getAll().add(replenishmentRequest);

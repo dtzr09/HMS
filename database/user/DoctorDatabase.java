@@ -63,21 +63,15 @@ public class DoctorDatabase extends Database<Doctor> {
 
             Map<String, List<String>> apppointmentAvailability = StringToMap.ToMap(appointmentAvailabilityStr);
 
-            Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDate(dateOfBirth);
+            Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDateTime(dateOfBirth);
             Date registrationDate = dateOfRegistration == null ? null
-                    : FormatDateTime.convertStringToDate(dateOfRegistration);
+                    : FormatDateTime.convertStringToDateTime(dateOfRegistration);
 
             PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
                     registrationDate);
 
             String doctorID = map.get("doctorID");
             String password = map.get("password");
-
-            List<Appointment> appointmentRequests = new ArrayList<>();
-            String appointmentRequestsStr = map.get("appointmentRequests");
-            // if (appointmentRequestsStr != null && !appointmentRequestsStr.isEmpty()) {
-            // System.out.println(appointmentRequestsStr);
-            // }
 
             Doctor doctor = new Doctor(doctorID, password, personalInfo, new ArrayList<>(), 0, new ArrayList<>(),
                     apppointmentAvailability);

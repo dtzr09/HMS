@@ -4,6 +4,7 @@ import java.util.Date;
 
 import model.user.enums.Gender;
 import utils.iocontrol.Mappable;
+import utils.utils.FormatDateTime;
 
 public class PersonalInfo implements Mappable {
 
@@ -70,7 +71,7 @@ public class PersonalInfo implements Mappable {
         if (dateOfBirth == null) {
             System.out.println("Date of Birth: Not available");
         } else {
-            System.out.println("Date of Birth: " + dateOfBirth.toString());
+            System.out.println("Date of Birth: " + FormatDateTime.toDateOnly(dateOfBirth));
         }
         System.out.println("Email Address: " + emailAddress);
         System.out.println("Phone Number: " + phoneNumber);

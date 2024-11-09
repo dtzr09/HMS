@@ -56,8 +56,8 @@ public class PharmacistDatabase extends Database<Pharmacist> {
             String genderStr = map.get("personalInfo_gender");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
 
-            Date birthDate = FormatDateTime.convertStringToDate(dateOfBirth);
-            Date registrationDate = FormatDateTime.convertStringToDate(dateOfRegistration);
+            Date birthDate = FormatDateTime.convertStringToDateTime(dateOfBirth);
+            Date registrationDate = FormatDateTime.convertStringToDateTime(dateOfRegistration);
 
             PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
                     registrationDate);

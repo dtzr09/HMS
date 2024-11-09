@@ -15,6 +15,7 @@ import utils.utils.EmptyID;
  * Interface for objects that can be mapped to/from a Map.
  */
 public interface Mappable {
+    static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Converts the object to a map
@@ -95,20 +96,6 @@ public interface Mappable {
                         field.set(this, list);
                     } else {
                         field.set(this, new ArrayList<>());
-                    }
-                } else if (field.getType().equals(Date.class)) {
-                    String dateString = map.get(field.getName());
-                    if (dateString != null) {
-                        Date dateValue = null;
-                        try {
-                            SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-                            dateValue = DATE_FORMAT.parse(dateString);
-                        } catch (Exception e) {
-                            dateValue = null;
-                        }
-                        field.set(this, dateValue);
-                    } else {
-                        field.set(this, null); // Set to null if the date is not available
                     }
                 } else {
                     field.set(this, map.get(field.getName()));

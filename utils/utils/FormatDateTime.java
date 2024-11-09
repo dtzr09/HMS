@@ -9,29 +9,12 @@ public class FormatDateTime {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String formatDate(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return formatter.format(date);
-    }
-
-    public static String formatDateSimple(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(date);
     }
 
-    public static Date convertStringToDateSimple(String dateString) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        formatter.setLenient(false);
-
-        try {
-            return formatter.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Date convertStringToDate(String dateString) {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+    public static Date convertStringToDateTime(String dateString) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss a");
         formatter.setLenient(false);
 
         try {

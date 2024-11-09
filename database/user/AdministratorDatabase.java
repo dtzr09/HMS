@@ -56,9 +56,9 @@ public class AdministratorDatabase extends Database<Administrator> {
             String genderStr = map.get("personalInfo_gender");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
 
-            Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDate(dateOfBirth);
+            Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDateTime(dateOfBirth);
             Date registrationDate = dateOfRegistration == null ? null
-                    : FormatDateTime.convertStringToDate(dateOfRegistration);
+                    : FormatDateTime.convertStringToDateTime(dateOfRegistration);
 
             PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
                     registrationDate);

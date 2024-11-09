@@ -129,7 +129,9 @@ public class DiagnosisDisplay {
         System.out.println(fourColBorder);
         try {
             List<Diagnosis> diagnoses = patient.getDiagnosis();
-
+            if (diagnoses.size() == 0 || diagnoses == null) {
+                System.out.println("| No diagnosis found.");
+            }
             for (Diagnosis diagnosis : diagnoses) {
                 String doctorID = diagnosis.getDoctorID();
                 Doctor doctor = null;
@@ -140,7 +142,6 @@ public class DiagnosisDisplay {
                         diagnosis.getDiagnosisID(), diagnosis.getDisease(),
                         doctor.getName(), diagnosis.getPrescription(), diagnosis.getDateOfDiagnosis());
             }
-
         } catch (Exception e) {
             System.out.println("| No diagnosis found.");
         }

@@ -1,6 +1,8 @@
 package display.user;
 
 import java.util.List;
+
+import controller.appointment.AppointmentManager;
 import controller.user.DoctorManager;
 import display.ClearDisplay;
 import display.EnterToGoBackDisplay;
@@ -9,6 +11,7 @@ import display.appointment.AppointmentOutcomeDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import display.medication.DiagnosisDisplay;
+import model.appointment.Appointment;
 import model.user.Doctor;
 import model.user.Patient;
 import model.user.User;
@@ -46,10 +49,10 @@ public class PatientDisplay {
                 switch (choice) {
                     case 1 -> displayPatientInfo(patient);
                     case 2 -> displayAvailableAppointmentSlots(patient);
-                    case 3 -> scheduleAppointment(patient);
-                    // case 5 -> rescheduleAppointment(patient);
-                    // case 6 -> cancelAppointment(patient);
-                    // case 7 -> viewScheduledAppointments(patient);
+                    case 3 -> scheduleAppointment(patient, "schedule", null);
+                    case 4 -> rescheduleAppointment(patient);
+                    case 5 -> cancelAppointment(patient);
+                    case 6 -> viewScheduledAppointments(patient);
                     case 7 -> displayPastAppointmentRecords(patient);
                     case 8 -> UserProfileDisplay.viewUserProfilePage(patient, userType);
                     case 9 -> UserProfileDisplay.updateUserProfile(patient, userType);
@@ -65,7 +68,83 @@ public class PatientDisplay {
         }
     }
 
-    private static void scheduleAppointment(Patient patient) throws PageBackException {
+    private static void rescheduleAppointment(Patient patient) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Reschedule an Appointment");
+        System.out.println("--------------------------------------------");
+        System.out.println();
+        System.out.println("Your scheduled appointments:");
+        AppointmentDisplay.displayPatientsAppointment(patient);
+        System.out.println();
+        List<Appointment> appointments = AppointmentManager.getPatientAppointment(patient.getPatientID());
+        if (appointments.isEmpty() || appointments == null || appointments.size() == 0) {
+            System.out.println("You do not have any appointments scheduled.");
+            EnterToGoBackDisplay.display();
+        }
+
+        System.out.printf("Enter the appointment ID you would like to reschedule. ");
+        String appointmentID = CustScanner.getStrChoice();
+
+        if (appointmentID == null || appointmentID == "") {
+            System.out.println("Invalid appointment ID.");
+            EnterToGoBackDisplay.display();
+        }
+
+        try {
+            AppointmentManager.doesAppointmentExist(appointmentID);
+            System.out.println("Appointment cancelled successfully.");
+        } catch (Exception e) {
+            System.out.println("Appointment does not exist.");
+            EnterToGoBackDisplay.display();
+        }
+        try {
+            scheduleAppointment(patient, "reschedule", appointmentID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Something went wrong.");
+        }
+        System.out.println();
+        EnterToGoBackDisplay.display();
+    }
+
+    private static void cancelAppointment(Patient patient) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Cancel an Appointment");
+        System.out.println("--------------------------------------------");
+        System.out.println();
+        System.out.println("Your scheduled appointments:");
+        AppointmentDisplay.displayPatientsAppointment(patient);
+        System.out.println();
+
+        System.out.printf("Enter the appointment ID you would like to cancel.");
+        String appointmentID = CustScanner.getStrChoice();
+
+        if (appointmentID == null || appointmentID == "") {
+            System.out.println("Invalid appointment ID.");
+            EnterToGoBackDisplay.display();
+        }
+
+        try {
+            AppointmentManager.doesAppointmentExist(appointmentID);
+            System.out.println("Appointment cancelled successfully.");
+        } catch (Exception e) {
+            System.out.println("Appointment does not exist.");
+            EnterToGoBackDisplay.display();
+        }
+
+        try {
+            AppointmentManager.cancelAppointment(patient.getPatientID(), appointmentID);
+            System.out.println("Appointment cancelled successfully.");
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+        }
+
+        System.out.println();
+        EnterToGoBackDisplay.display();
+    }
+
+    private static void scheduleAppointment(Patient patient, String action, String appointmentID)
+            throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Schedule an Appointment");
         System.out.println("--------------------------------------------");
@@ -75,7 +154,12 @@ public class PatientDisplay {
             EnterToGoBackDisplay.display();
             return;
         }
-        AppointmentDisplay.scheduleAppointmentDisplay(patient, doctorID);
+        try {
+            AppointmentDisplay.scheduleAppointmentDisplay(patient, doctorID, action, appointmentID);
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+            EnterToGoBackDisplay.display();
+        }
         EnterToGoBackDisplay.display();
     }
 
@@ -126,89 +210,13 @@ public class PatientDisplay {
         EnterToGoBackDisplay.display();
     }
 
-    // // Schedule an Appointment for the Patient
-    // private static void scheduleAppointment(Patient patient) {
-    // ClearDisplay.ClearConsole();
-    // System.out.println("Scheduling an Appointment");
-
-    // System.out.print("Enter Doctor ID to schedule with: ");
-    // String doctorID = CustScanner.getStrChoice();
-    // Doctor doctor = DoctorManager.getDoctorByID(doctorID);
-
-    // if (doctor == null) {
-    // System.out.println("Invalid Doctor ID. Please try again.");
-    // EnterToGoBackDisplay.display();
-    // return;
-    // }
-
-    // AppointmentDisplay.timeSlotDisplay(); // Show available slots for the
-    // selected doctor
-    // System.out.print("Enter time slot number: ");
-    // int timeSlotNumber = CustScanner.getIntChoice();
-
-    // Appointment appointment = AppointmentManager.createAppointment(patient,
-    // doctor, timeSlotNumber);
-    // if (appointment != null) {
-    // System.out.println("Appointment scheduled successfully.");
-    // } else {
-    // System.out.println("Failed to schedule appointment.");
-    // }
-    // EnterToGoBackDisplay.display();
-    // }
-
-    // // Reschedule an Existing Appointment
-    // private static void rescheduleAppointment(Patient patient) {
-    // ClearDisplay.ClearConsole();
-    // System.out.println("Rescheduling an Appointment");
-
-    // viewScheduledAppointments(patient);
-
-    // System.out.print("Enter the appointment ID to reschedule: ");
-    // String appointmentID = CustScanner.getStrChoice();
-    // Appointment appointment =
-    // AppointmentManager.getAppointmentByID(patient.getModelID(), appointmentID);
-
-    // if (appointment == null) {
-    // System.out.println("Appointment not found.");
-    // EnterToGoBackDisplay.display();
-    // return;
-    // }
-
-    // AppointmentDisplay.timeSlotDisplay();
-    // System.out.print("Enter new time slot number: ");
-    // int newTimeSlotNumber = CustScanner.getIntChoice();
-
-    // boolean success = AppointmentManager.rescheduleAppointment(appointment,
-    // newTimeSlotNumber);
-    // System.out.println(success ? "Appointment rescheduled successfully." :
-    // "Failed to reschedule appointment.");
-    // EnterToGoBackDisplay.display();
-    // }
-
-    // // Cancel an Appointment
-    // private static void cancelAppointment(Patient patient) {
-    // ClearDisplay.ClearConsole();
-    // System.out.println("Cancelling an Appointment");
-
-    // viewScheduledAppointments(patient);
-
-    // System.out.print("Enter the appointment ID to cancel: ");
-    // String appointmentID = CustScanner.getStrChoice();
-    // boolean success = AppointmentManager.cancelAppointment(appointmentID);
-
-    // System.out.println(success ? "Appointment cancelled successfully." : "Failed
-    // to cancel appointment.");
-    // EnterToGoBackDisplay.display();
-    // }
-
-    // // View All Scheduled Appointments
-    // private static void viewScheduledAppointments(Patient patient) {
-    // ClearDisplay.ClearConsole();
-    // System.out.println("Scheduled Appointments:");
-    // AppointmentDisplay.viewScheduledAppointments(patient.getAppointments()); //
-    // Assumes this displays appointments
-    // EnterToGoBackDisplay.display();
-    // }
+    private static void viewScheduledAppointments(Patient patient) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Scheduled Appointments");
+        System.out.println();
+        AppointmentDisplay.displayPatientsAppointment(patient);
+        EnterToGoBackDisplay.display();
+    }
 
     private static void displayPastAppointmentRecords(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();

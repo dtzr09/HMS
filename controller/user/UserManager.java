@@ -111,7 +111,7 @@ public class UserManager {
                 case "Phone Number" -> user.setPhoneNumber(entry.getValue());
                 case "Age" -> user.setAge(Integer.parseInt(entry.getValue()));
                 case "Date of Birth" -> {
-                    Date dob = FormatDateTime.convertStringToDate(entry.getValue());
+                    Date dob = FormatDateTime.convertStringToDateTime(entry.getValue());
                     user.setDateOfBirth(dob);
                 }
             }

@@ -22,7 +22,6 @@ import utils.exceptions.PageBackException;
 import utils.exceptions.UserAlreadyExistsException;
 import utils.exceptions.UserCannotBeFoundException;
 import utils.iocontrol.CustScanner;
-import utils.utils.FormatDateTime;
 
 public class AdministratorDisplay {
 
@@ -289,7 +288,7 @@ public class AdministratorDisplay {
                             medication.getName(),
                             +medication.getStock(),
                             request.getStatus(),
-                            FormatDateTime.formatDateSimple(request.getDateOfRequest()));
+                            request.getDateOfRequest());
                 }
             }
         } catch (Exception e) {

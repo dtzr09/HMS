@@ -89,6 +89,19 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
     }
 
     /**
+     * Updates the specified model object in the Database.
+     *
+     * @param modelObject the model object to update
+     * @throws ModelNotFoundException if the specified model object is not found in
+     *                                the Database
+     */
+    public void update(ModelObject modelObject) throws ModelNotFoundException {
+        ModelObject oldModelObject = getByID(modelObject.getModelID());
+        listOfModelObjects.set(listOfModelObjects.indexOf(oldModelObject), modelObject);
+        save(getFilePath());
+    }
+
+    /**
      * Removes a model object from the Database by ID.
      *
      * @param modelObjectID the ID of the model object to remove
@@ -123,19 +136,6 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
      */
     public void clear() {
         listOfModelObjects.clear();
-        save(getFilePath());
-    }
-
-    /**
-     * Updates the specified model object in the Database.
-     *
-     * @param modelObject the model object to update
-     * @throws ModelNotFoundException if the specified model object is not found in
-     *                                the Database
-     */
-    public void update(ModelObject modelObject) throws ModelNotFoundException {
-        ModelObject oldModelObject = getByID(modelObject.getModelID());
-        listOfModelObjects.set(listOfModelObjects.indexOf(oldModelObject), modelObject);
         save(getFilePath());
     }
 

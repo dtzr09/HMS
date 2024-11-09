@@ -11,8 +11,19 @@ import model.appointment.Appointment;
 import model.appointment.enums.AppointmentStatus;
 import model.user.Patient;
 import utils.exceptions.ModelAlreadyExistsException;
+import utils.exceptions.ModelNotFoundException;
+import utils.utils.FormatDateTime;
 
 public class AppointmentManager {
+
+    public static Boolean doesAppointmentExist(String appointmentID) {
+        try {
+            return AppointmentDatabase.getDB().getByID(appointmentID) != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public List<Appointment> getAppointmentsOfPatient(String patientID) {
         List<Appointment> appointments = new ArrayList<Appointment>();
         Patient patient = PatientManager.getPatientById(patientID);
@@ -25,7 +36,21 @@ public class AppointmentManager {
         return appointments;
     }
 
-    public static Appointment getAppointmentByID(String patientID, String appointmentID) {
+    public static Appointment getAppointmentByPatientAndID(String patientID, String appointmentID) {
+        try {
+            List<Appointment> appointments = getAllAppointments();
+            for (Appointment appointment : appointments) {
+                if (appointment.getPatientID().equals(patientID)
+                        && appointment.getAppointmentID().equals(appointmentID))
+                    return appointment;
+            }
+        } catch (Exception e) {
+            System.out.println("Appointment not found.");
+        }
+        return null;
+    }
+
+    public static Appointment getAppointmentByID(String appointmentID) {
         try {
             return AppointmentDatabase.getDB().getByID(appointmentID);
         } catch (Exception e) {
@@ -34,15 +59,25 @@ public class AppointmentManager {
         return null;
     }
 
+    public static List<Appointment> getPatientAppointment(String patientID) {
+        List<Appointment> patientAppointments = new ArrayList<>();
+        for (Appointment appointment : getAllAppointments()) {
+            if (appointment.getPatientID().equals(patientID))
+                patientAppointments.add(appointment);
+        }
+        return patientAppointments;
+    }
+
     public static void createAppointment(Appointment appointment) throws ModelAlreadyExistsException {
         AppointmentDatabase.getDB().add(appointment);
     }
 
     public static void scheduleNewAppointment(String patientID, String doctorID, int timeSlotID,
-            Date appointmentDate) throws Exception {
+            Date appointmentDate) throws ModelAlreadyExistsException {
         String appointmentID = UUID.randomUUID().toString();
+        String appointmentDateStr = FormatDateTime.formatDate(appointmentDate);
         Appointment newAppointment = new Appointment(appointmentID, AppointmentStatus.PENDING, patientID,
-                appointmentDate,
+                appointmentDateStr,
                 timeSlotID, doctorID);
         createAppointment(newAppointment);
     }
@@ -71,6 +106,66 @@ public class AppointmentManager {
                 doctorAppointments.add(appointment);
         }
         return doctorAppointments;
+    }
+
+    public static void updateAppointment(Appointment newAppointment) throws ModelNotFoundException {
+        AppointmentDatabase.getDB().update(newAppointment);
+    }
+
+    public static void cancelAppointment(String patientID, String appointmentID) {
+        try {
+            Appointment appointment = getAppointmentByPatientAndID(patientID, appointmentID);
+            appointment.setAppointmentStatus(AppointmentStatus.CANCELLED);
+            updateAppointment(appointment);
+        } catch (Exception e) {
+            System.out.println("Appointment not found.");
+        }
+    }
+
+    public static void rescheduleAppointment(String patientID, String appointmentID, int timeSlotID, Date newDate)
+            throws ModelNotFoundException {
+        try {
+            Appointment appointment = getAppointmentByPatientAndID(patientID, appointmentID);
+            String appointmentDateStr = FormatDateTime.formatDate(newDate);
+            appointment.setDateOfAppointment(appointmentDateStr);
+            appointment.setTimeOfAppointment(timeSlotID);
+            appointment.setAppointmentStatus(AppointmentStatus.PENDING);
+            updateAppointment(appointment);
+        } catch (Exception e) {
+            throw new ModelNotFoundException("Appointment not found.");
+        }
+    }
+
+    private static Appointment getAppointmentByDoctorAndID(String doctorID, String appointmentID)
+            throws ModelNotFoundException {
+        List<Appointment> appointments = getAllAppointments();
+        Appointment appointment = null;
+        for (Appointment apt : appointments) {
+            if (apt.getDoctorID().equals(doctorID)
+                    && apt.getAppointmentID().equals(appointmentID))
+                appointment = apt;
+        }
+        return appointment;
+    }
+
+    public static void approveAppointment(String doctorID, String appointmentID) throws ModelNotFoundException {
+        try {
+            Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
+            appointment.setAppointmentStatus(AppointmentStatus.APPROVED);
+            updateAppointment(appointment);
+        } catch (Exception e) {
+            throw new ModelNotFoundException("Appointment not found.");
+        }
+    }
+
+    public static void rejectAppointment(String doctorID, String appointmentID) throws ModelNotFoundException {
+        try {
+            Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
+            appointment.setAppointmentStatus(AppointmentStatus.REJECTED);
+            updateAppointment(appointment);
+        } catch (Exception e) {
+            throw new ModelNotFoundException("Appointment not found.");
+        }
     }
 
 }

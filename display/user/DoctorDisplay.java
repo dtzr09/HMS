@@ -161,16 +161,20 @@ public class DoctorDisplay {
         EnterToGoBackDisplay.display();
     }
 
-    private static void viewUpcomingAppointments(Doctor doctor) throws PageBackException {
+    private static void viewUpcomingAppointments(Doctor doctor) {
         ClearDisplay.ClearConsole();
-        List<Appointment> upcomingAppointments = AppointmentManager.getDoctorAppointments(doctor.getModelID());
-        if (upcomingAppointments == null) {
-            System.out.println("No upcoming appointments found.");
-            System.out.println();
-            EnterToGoBackDisplay.display();
+        try {
+            List<Appointment> upcomingAppointments = AppointmentManager.getDoctorAppointments(doctor.getModelID());
+            if (upcomingAppointments == null || upcomingAppointments.isEmpty() || upcomingAppointments.size() == 0) {
+                System.out.println("No upcoming appointments found.");
+                System.out.println();
+                EnterToGoBackDisplay.display();
+            }
+            AppointmentDisplay.upcomingAppointmentsDisplay(upcomingAppointments);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        AppointmentDisplay.upcomingAppointmentsDisplay(upcomingAppointments);
     }
 
     private static void displayRecordAppointmentOutcomePrompts(Doctor doctor, String appointmentID, String patientID)
@@ -186,7 +190,7 @@ public class DoctorDisplay {
             EnterToGoBackDisplay.display();
         }
 
-        Appointment appointment = AppointmentManager.getAppointmentByID(patientID, appointmentID);
+        Appointment appointment = AppointmentManager.getAppointmentByPatientAndID(patientID, appointmentID);
         if (appointment == null) {
             System.out.println("Appointment not found.");
             EnterToGoBackDisplay.display();

@@ -17,6 +17,8 @@ import model.appointment.Appointment;
 import model.appointment.enums.Weekdays;
 import model.user.Doctor;
 import model.user.Patient;
+import utils.exceptions.ModelAlreadyExistsException;
+import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 import utils.utils.FormatDateTime;
@@ -63,6 +65,41 @@ public class AppointmentDisplay {
         return timeSlotMap.get(timeSlotID);
     }
 
+    private static void approveOrRequestDisplay(String doctorID, String appointmentID) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Manage Appointment Request");
+        System.out.println("-------------------------");
+        System.out.println();
+        System.out.println("\t1. Approve");
+        System.out.println("\t2. Reject");
+        System.out.println("\t3. Go back");
+        System.out.println();
+        System.out.printf("What would you like to do?");
+        int choice = CustScanner.getIntChoice();
+        System.out.println();
+        try {
+            switch (choice) {
+                case 1:
+                    AppointmentManager.approveAppointment(doctorID, appointmentID);
+                    System.out.println("Appointment approved.");
+                    break;
+                case 2:
+                    AppointmentManager.rejectAppointment(doctorID, appointmentID);
+                    System.out.println("Appointment rejected.");
+                    break;
+                case 3:
+                    throw new PageBackException();
+                default:
+                    System.out.println("Invalid input. Please try again.");
+                    EnterToGoBackDisplay.display();
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+            EnterToGoBackDisplay.display();
+        }
+
+    }
+
     public static void appointmentRequestsDisplay(Doctor doctor) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+--------------------------------------+";
         ClearDisplay.ClearConsole();
@@ -78,13 +115,19 @@ public class AppointmentDisplay {
             for (Appointment appointmentReq : appointmentRequests) {
                 System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
                         appointmentReq.getAppointmentID(),
-                        FormatDateTime.toDateOnly(appointmentReq.getDateOfAppointment()),
+                        appointmentReq.getDateOfAppointment(),
                         getTimeSlot(appointmentReq.getTimeOfAppointment()), appointmentReq.getPatientID());
             }
+            System.out.println(fourColBorder);
+            System.out.println();
+            System.out.printf("Enter the appointment ID to approve or reject the appointment. ");
+            String appointmentID = CustScanner.getStrChoice();
+
+            approveOrRequestDisplay(doctor.getModelID(), appointmentID);
+
         } catch (Exception e) {
             System.out.printf("| %-100s |%n", "No appointment requests found.");
         }
-        System.out.println(fourColBorder);
         System.out.println();
         EnterToGoBackDisplay.display();
     }
@@ -98,9 +141,11 @@ public class AppointmentDisplay {
         System.out.printf("| %-36s | %-20s | %-15s | %-20s|%n", "ID", "Date", "Time", "Patient ID");
 
         for (Appointment upcomingAppointment : upcomingAppointments) {
+            System.out.println(upcomingAppointment.getAppointmentID());
             System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
-                    upcomingAppointment.getAppointmentID(), upcomingAppointment.getDateOfAppointment(),
-                    upcomingAppointment.getTimeOfAppointment(), upcomingAppointment.getPatientID());
+                    upcomingAppointment.getAppointmentID(),
+                    upcomingAppointment.getDateOfAppointment(),
+                    getTimeSlot(upcomingAppointment.getTimeOfAppointment()), upcomingAppointment.getPatientID());
         }
 
         System.out.println(fourColBorder);
@@ -118,8 +163,9 @@ public class AppointmentDisplay {
 
         for (Appointment appointment : appointments) {
             System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
-                    appointment.getAppointmentID(), appointment.getDateOfAppointment(),
-                    appointment.getTimeOfAppointment(), appointment.getPatientID());
+                    appointment.getAppointmentID(),
+                    appointment.getDateOfAppointment(),
+                    getTimeSlot(appointment.getTimeOfAppointment()), appointment.getPatientID());
         }
 
         System.out.println(fourColBorder);
@@ -350,29 +396,34 @@ public class AppointmentDisplay {
     public static void displayPatientsAppointment(Patient patient) {
         String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
         System.out.println(fiveColBorder);
-        System.out.printf("| %-110s |%n", " " + "Appointments");
+        System.out.printf("| %-123s |%n", " " + "Appointments");
         System.out.println(fiveColBorder);
         System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", "ID", "Date", "Time", "Doctor Name",
                 "Status");
         System.out.println(fiveColBorder);
         try {
-            List<Appointment> appointments = patient.getAppointments();
+            List<Appointment> appointments = AppointmentManager.getPatientAppointment(patient.getPatientID());
+            if (appointments.isEmpty() || appointments == null) {
+                System.out.printf("| %-90s %n", "No appointment found.");
+            }
             for (Appointment appointment : appointments) {
                 Doctor doctor = DoctorManager.getDoctorByID(appointment.getDoctorID());
-                System.out.printf("| %-36s | %-25s | %-15s | %-10s | %-20s | %n", appointment
+                System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", appointment
                         .getAppointmentID(),
                         appointment.getDateOfAppointment(),
-                        appointment.getTimeOfAppointment(),
+                        getTimeSlot(appointment.getTimeOfAppointment()),
                         doctor.getName(),
                         appointment.getAppointmentStatus());
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.printf("| %-90s %n", "No appointment found.");
         }
         System.out.println(fiveColBorder);
     }
 
-    public static void scheduleAppointmentDisplay(Patient patient, String doctorId) throws PageBackException {
+    public static void scheduleAppointmentDisplay(Patient patient, String doctorId, String action, String appointmentID)
+            throws PageBackException, ModelNotFoundException, ModelAlreadyExistsException {
         Doctor doctor = null;
         try {
             doctor = DoctorManager.getDoctorByID(doctorId);
@@ -391,10 +442,12 @@ public class AppointmentDisplay {
                 throw new PageBackException();
             }
         }
-        scheduleAppointment(patient.getPatientID(), doctor, month);
+        scheduleAppointment(patient.getPatientID(), doctor, month, action, appointmentID);
     }
 
-    private static void scheduleAppointment(String patientID, Doctor doctor, int month) throws PageBackException {
+    private static void scheduleAppointment(String patientID, Doctor doctor, int month, String action,
+            String appointmentID)
+            throws PageBackException, ModelNotFoundException, ModelAlreadyExistsException {
         ClearDisplay.ClearConsole();
         System.out.println("Schedule an Appointment");
         System.out.println("----------------------------");
@@ -425,18 +478,19 @@ public class AppointmentDisplay {
         System.out.println();
         System.out.printf("Enter the time slot that you would like to make an appointment for: ");
         int timeSlotID = CustScanner.getIntChoice();
-
         try {
-            AppointmentManager.scheduleNewAppointment(patientID, doctor.getModelID(),
-                    timeSlotID, appointmentDate);
-            System.out.println("Appointment scheduled successfully.");
+            if (action == "reschedule") {
+                AppointmentManager.rescheduleAppointment(patientID, appointmentID, timeSlotID,
+                        appointmentDate);
+            } else {
+                AppointmentManager.scheduleNewAppointment(patientID, doctor.getModelID(),
+                        timeSlotID, appointmentDate);
+            }
+            System.out.println("Appointment scheduled.");
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error scheduling appointment.");
+            System.out.println("Something went wrong.");
         }
-        System.out.println();
-        EnterToGoBackDisplay.display();
-
     }
 
 }

@@ -1,6 +1,5 @@
 package model.appointment;
 
-import java.util.Date;
 import java.util.Map;
 
 import model.Model;
@@ -9,13 +8,13 @@ import model.appointment.enums.AppointmentStatus;
 public class Appointment implements Model {
     private String appointmentID;
     private AppointmentStatus appointmentStatus;
-    private Date dateOfAppointment;
+    private String dateOfAppointment;
     private int timeOfAppointment;
     private String patientID;
     private String doctorID;
 
     public Appointment(String appointmentID, AppointmentStatus appointmentStatus, String patientID,
-            Date dateOfAppointment, int appointmentTime, String doctorID) {
+            String dateOfAppointment, int appointmentTime, String doctorID) {
         this.appointmentID = appointmentID;
         this.appointmentStatus = appointmentStatus;
         this.patientID = patientID;
@@ -50,11 +49,11 @@ public class Appointment implements Model {
         return true;
     }
 
-    public void setDateOfAppointment(Date date) {
+    public void setDateOfAppointment(String date) {
         this.dateOfAppointment = date;
     }
 
-    public Date getDateOfAppointment() {
+    public String getDateOfAppointment() {
         return dateOfAppointment;
     }
 
