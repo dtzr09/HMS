@@ -84,4 +84,18 @@ public class MedicationManager {
         }
         return medications;
     }
+
+    public static ArrayList<String> getListOfMedicationNamesByIDs(List<String> medicationIDs) {
+        ArrayList<String> medicationsNames = new ArrayList<>();
+        for (String medicationID : medicationIDs) {
+            try {
+                Medication medication = getMedicationsById(medicationID);
+                medicationsNames.add(medication.getName());
+            } catch (ModelNotFoundException e) {
+                System.out.println(medicationID + " not found.");
+            }
+        }
+        return medicationsNames;
+    }
+
 }

@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.medication.DiagnosisManager;
+import controller.medication.MedicationManager;
+import controller.medication.PrescriptionManager;
 import database.appointment.AppointmentOutcomeDatabase;
+import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
+import model.appointment.AppointmentOutcomeRecord;
 import model.diagnosis.Diagnosis;
+import model.prescription.Prescription;
 
 public class AppointmentOutcomeManager {
 
@@ -71,6 +76,28 @@ public class AppointmentOutcomeManager {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static List<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(List<AppointmentOutcome> recordList,
+            String patientID) {
+        ArrayList<AppointmentOutcomeRecord> records = new ArrayList<>();
+        for (AppointmentOutcome outcome : recordList) {
+            try {
+                Appointment appointment = AppointmentManager.getAppointmentByID(outcome.getAppointmentID());
+                Diagnosis diagnosis = DiagnosisManager.getDiagnosisByPatientIDAndDiagnosisID(patientID,
+                        outcome.getDiagnosisID());
+                Prescription prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
+                List<String> medicationNames = MedicationManager
+                        .getListOfMedicationNamesByIDs(prescription.getMedicationIDs());
+                AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(outcome.getAppointmentOutcomeID(),
+                        outcome.getTypeOfService(), outcome.getConsultationNotes(), medicationNames,
+                        appointment.getDateOfAppointment(), prescription.getPrescriptionStatus());
+                records.add(record);
+            } catch (Exception e) {
+                System.out.println("Error getting appointment outcome records.");
+            }
+        }
+        return records;
     }
 
 }

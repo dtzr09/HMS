@@ -15,6 +15,7 @@ import display.appointment.AppointmentDisplay;
 import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import display.medication.PrescriptionDisplay;
+import display.user.enums.MedicalRecordsActions;
 import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
 import model.diagnosis.Diagnosis;

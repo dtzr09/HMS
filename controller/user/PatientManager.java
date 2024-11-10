@@ -50,18 +50,6 @@ public class PatientManager {
         }
     }
 
-    public static void addDiagnosis(String diagnosis, String patientID, String doctorID, String prescriptionID) {
-        String diagnosisID = UUID.randomUUID().toString();
-        Date dateOfDiagnosis = new Date();
-        try {
-            Diagnosis newDiagnosis = new Diagnosis(diagnosisID, diagnosis, doctorID, prescriptionID, dateOfDiagnosis,
-                    patientID);
-            DiagnosisManager.addDiagnosis(newDiagnosis);
-        } catch (Exception e) {
-            System.out.println("Something went wrong.");
-        }
-    }
-
     public static Diagnosis getDiagnosisByID(Patient patient, String diagnosisID) {
         try {
             List<Diagnosis> diagnoses = DiagnosisManager.getDiagnosisByPatientID(patient.getPatientID());

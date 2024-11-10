@@ -52,6 +52,18 @@ public class AppointmentManager {
         return patientAppointments;
     }
 
+    public static List<Appointment> getPatientScheduledAppointments(String patientID) {
+        List<Appointment> allpatientAppointments = getPatientAppointment(patientID);
+        ArrayList<Appointment> scheduledPatientAppointment = new ArrayList<Appointment>();
+        if (allpatientAppointments == null || allpatientAppointments.isEmpty())
+            return scheduledPatientAppointment;
+        for (Appointment appointment : allpatientAppointments) {
+            if (appointment.getAppointmentStatus().equals(AppointmentStatus.APPROVED))
+                scheduledPatientAppointment.add(appointment);
+        }
+        return scheduledPatientAppointment;
+    }
+
     public static Boolean isAppointmentAvailable(String patientID, String appointmentID, String appointmentDate,
             int timeSlotID) {
         try {

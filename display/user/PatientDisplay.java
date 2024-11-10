@@ -54,6 +54,7 @@ public class PatientDisplay {
                     case 4 -> rescheduleAppointment(patient);
                     case 5 -> cancelAppointment(patient);
                     case 6 -> viewScheduledAppointments(patient);
+                    // case 6 -> viewPendingAppointments(patient);
                     case 7 -> displayPastAppointmentRecords(patient);
                     case 8 -> UserProfileDisplay.viewUserProfilePage(patient, userType);
                     case 9 -> UserProfileDisplay.updateUserProfile(patient, userType);
@@ -98,12 +99,7 @@ public class PatientDisplay {
             System.out.println("Appointment does not exist.");
             EnterToGoBackDisplay.display();
         }
-        try {
-            scheduleAppointment(patient, "reschedule", appointmentID);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Something went wrong.");
-        }
+        scheduleAppointment(patient, "reschedule", appointmentID);
         System.out.println();
         EnterToGoBackDisplay.display();
     }
@@ -127,7 +123,6 @@ public class PatientDisplay {
 
         try {
             AppointmentManager.doesAppointmentExist(appointmentID);
-            System.out.println("Appointment cancelled successfully.");
         } catch (Exception e) {
             System.out.println("Appointment does not exist.");
             EnterToGoBackDisplay.display();
@@ -169,7 +164,6 @@ public class PatientDisplay {
         Doctor doctor = null;
         try {
             String doctorID = patient.getDoctorID();
-            System.out.println(doctorID);
             doctor = DoctorManager.getDoctorByID(doctorID);
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,6 +201,8 @@ public class PatientDisplay {
         System.out.println();
         AppointmentDisplay.displayPatientsAppointment(patient);
         System.out.println();
+
+        EnterToGoBackDisplay.display();
     }
 
     private static void viewScheduledAppointments(Patient patient) throws PageBackException {

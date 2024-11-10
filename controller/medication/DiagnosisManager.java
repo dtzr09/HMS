@@ -1,10 +1,15 @@
 package controller.medication;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import database.medicalRecords.DiagnosisDatabase;
 import model.diagnosis.Diagnosis;
+import model.diagnosis.DiagnosisRecord;
+import model.prescription.Prescription;
+import model.user.Doctor;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 
@@ -58,4 +63,41 @@ public class DiagnosisManager {
         }
     }
 
+    public static void createNewDiagnosis(String diagnosis, String patientID, String doctorID, String prescriptionID) {
+        String diagnosisID = UUID.randomUUID().toString();
+        Date dateOfDiagnosis = new Date();
+        try {
+            Diagnosis newDiagnosis = new Diagnosis(diagnosisID, diagnosis, doctorID, prescriptionID, dateOfDiagnosis,
+                    patientID);
+            addDiagnosis(newDiagnosis);
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
+        }
+    }
+
+    public static List<DiagnosisRecord> getDiagnosisOutcomeRecordList(List<Diagnosis> diagnoses, Doctor doctor)
+            throws ModelNotFoundException {
+        List<DiagnosisRecord> diagnosisRecords = new ArrayList<>();
+        for (Diagnosis diagnosis : diagnoses) {
+            Prescription prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
+            ArrayList<String> medicationNames = MedicationManager
+                    .getListOfMedicationNamesByIDs(prescription.getMedicationIDs());
+            DiagnosisRecord diagnosisRecord = new DiagnosisRecord(diagnosis.getDiagnosisID(), diagnosis.getDisease(),
+                    doctor.getName(),
+                    medicationNames, diagnosis.getDateOfDiagnosis());
+            diagnosisRecords.add(diagnosisRecord);
+        }
+        return diagnosisRecords;
+    }
+
+    public static DiagnosisRecord getAPatientDiagnosisRecord(Diagnosis diagnosis, Doctor doctor)
+            throws ModelNotFoundException {
+        Prescription prescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
+        ArrayList<String> medicationNames = MedicationManager
+                .getListOfMedicationNamesByIDs(prescription.getMedicationIDs());
+        DiagnosisRecord diagnosisRecord = new DiagnosisRecord(diagnosis.getDiagnosisID(), diagnosis.getDisease(),
+                doctor.getName(),
+                medicationNames, diagnosis.getDateOfDiagnosis());
+        return diagnosisRecord;
+    }
 }

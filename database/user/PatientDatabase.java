@@ -68,7 +68,6 @@ public class PatientDatabase extends Database<Patient> {
             ArrayList<String> allergies = new ArrayList<>();
             if (allergiesStr != null) {
                 allergies = ConvertToArrayList.convertToArrayList(allergiesStr);
-                System.out.println(allergies);
             }
 
             Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDateTime(dateOfBirth);

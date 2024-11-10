@@ -311,6 +311,7 @@ public class AppointmentDisplay {
                         int slotNumber = Integer.parseInt(slot.trim());
                         timeSlots.put(Integer.toString(slotNumber), timeSlotMap.get(slotNumber));
                     }
+                    System.out.println();
                     System.out.println("Appointment Slots:");
                     if (timeSlots.isEmpty()) {
                         System.out.println("The doctor has not set his availability.");
@@ -407,7 +408,7 @@ public class AppointmentDisplay {
                 "Status");
         System.out.println(fiveColBorder);
         try {
-            List<Appointment> appointments = AppointmentManager.getPatientAppointment(patient.getPatientID());
+            List<Appointment> appointments = AppointmentManager.getPatientScheduledAppointments(patient.getPatientID());
             if (appointments.isEmpty() || appointments == null) {
                 System.out.printf("| %-90s %n", "No appointment found.");
             }

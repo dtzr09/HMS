@@ -5,43 +5,12 @@ import java.time.YearMonth;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
-import utils.iocontrol.CustScanner;
-
 public class CalendarDisplay {
     public static void calendarDisplay() {
         LocalDate currentDate = LocalDate.now();
         int year = currentDate.getYear();
         int month = currentDate.getMonthValue();
         calendarView(year, month);
-        System.out.println(
-                "Press 'n' to view the next month or 'p' to view the previous month. Else press any key to exit.");
-        while (true) {
-            System.out.println(
-                    "Press 'n' to view the next month or 'p' to view the previous month. Else press any key to exit.");
-            String input = CustScanner.getStrChoice();
-            if (input.equalsIgnoreCase("n")) {
-                month++;
-                if (month > 12) {
-                    month = 1;
-                    year++;
-                }
-            } else if (input.equalsIgnoreCase("p")) {
-                month--;
-                if (month < 1) {
-                    month = 12;
-                    year--;
-                }
-            } else {
-                break;
-            }
-
-            calendarView(year, month);
-            input = CustScanner.getStrChoice();
-        }
-
-        System.out.println("Exiting calendar display...");
-        System.exit(0);
-
     }
 
     public static void calendarView(int year, int month) {
