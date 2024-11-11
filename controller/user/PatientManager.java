@@ -1,9 +1,7 @@
 package controller.user;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import controller.medication.DiagnosisManager;
 import database.user.PatientDatabase;

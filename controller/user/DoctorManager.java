@@ -11,6 +11,15 @@ import model.user.Doctor;
 import model.user.Patient;
 
 public class DoctorManager {
+    public static List<Doctor> getAllDoctors() {
+        return DoctorDatabase.getDB().getAllDoctors();
+    }
+
+    public static String getRandDoctorID() {
+        List<Doctor> doctors = getAllDoctors();
+        return doctors.get((int) (Math.random() * doctors.size())).getModelID();
+    }
+
     public static Doctor getDoctorByID(String doctorID) {
         try {
             return DoctorDatabase.getDB().getByID(doctorID);

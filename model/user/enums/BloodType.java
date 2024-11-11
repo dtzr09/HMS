@@ -32,6 +32,23 @@ public enum BloodType {
             case "null":
             case "NOT_AVAILABLE":
                 return NOT_AVAILABLE;
+            case "A_POSITIVE":
+                return A_POSITIVE;
+            case "A_NEGATIVE":
+                return A_NEGATIVE;
+            case "B_POSITIVE":
+                return B_POSITIVE;
+            case "B_NEGATIVE":
+                return B_NEGATIVE;
+            case "O_POSITIVE":
+                return O_POSITIVE;
+            case "O_NEGATIVE":
+                return O_NEGATIVE;
+            case "AB_POSITIVE":
+                return AB_POSITIVE;
+            case "AB_NEGATIVE":
+                return AB_NEGATIVE;
+
             default:
                 throw new IllegalArgumentException("Unknown blood type: " + bloodType);
         }
