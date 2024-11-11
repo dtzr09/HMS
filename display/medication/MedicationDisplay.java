@@ -85,7 +85,7 @@ public class MedicationDisplay {
         MedicationManager.updateMedicationStock(medicationID);
         System.out.println();
         System.out.println(
-                "Medication stock updated! The current stock for the medication " + selectedMed.getName() + " is now "
+                "Medication stock updated! The current stock for the medication " + selectedMed.getName() + " is now. "
                         + selectedMed.getStock());
         System.out.println();
         EnterToGoBackDisplay.display();
