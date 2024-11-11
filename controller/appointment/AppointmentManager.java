@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import controller.user.DoctorManager;
 import database.appointment.AppointmentDatabase;
 import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
@@ -61,13 +60,13 @@ public class AppointmentManager {
         return patientAppointments;
     }
 
-    public static List<Appointment> getPatientScheduledAppointments(String patientID) {
+    public static List<Appointment> getPatientAppointmentsByStatus(String patientID, AppointmentStatus status) {
         List<Appointment> allpatientAppointments = getPatientAppointment(patientID);
         ArrayList<Appointment> scheduledPatientAppointment = new ArrayList<Appointment>();
         if (allpatientAppointments == null || allpatientAppointments.isEmpty())
             return scheduledPatientAppointment;
         for (Appointment appointment : allpatientAppointments) {
-            if (appointment.getAppointmentStatus().equals(AppointmentStatus.APPROVED))
+            if (appointment.getAppointmentStatus().equals(status))
                 scheduledPatientAppointment.add(appointment);
         }
         return scheduledPatientAppointment;

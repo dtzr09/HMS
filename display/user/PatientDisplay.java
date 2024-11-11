@@ -13,6 +13,7 @@ import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import display.medication.DiagnosisDisplay;
 import model.appointment.Appointment;
+import model.appointment.enums.AppointmentStatus;
 import model.user.Doctor;
 import model.user.Patient;
 import model.user.User;
@@ -34,11 +35,12 @@ public class PatientDisplay {
             System.out.println("\t4. Reschedule an appointment");
             System.out.println("\t5. Cancel an appointment");
             System.out.println("\t6. View scheduled appointments");
-            System.out.println("\t7. View Past Appointment Outcome Records");
-            System.out.println("\t8. View my profile");
-            System.out.println("\t9. Update my profile");
-            System.out.println("\t10. Change my password");
-            System.out.println("\t11. Logout");
+            System.out.println("\t7. View pending appointments");
+            System.out.println("\t8. View Past Appointment Outcome Records");
+            System.out.println("\t9. View my profile");
+            System.out.println("\t10. Update my profile");
+            System.out.println("\t11. Change my password");
+            System.out.println("\t12. Logout");
             System.out.println();
             System.out.println("===================================");
             System.out.println();
@@ -53,13 +55,13 @@ public class PatientDisplay {
                     case 3 -> scheduleAppointment(patient, "schedule", null);
                     case 4 -> rescheduleAppointment(patient);
                     case 5 -> cancelAppointment(patient);
-                    case 6 -> viewScheduledAppointments(patient);
-                    // case 6 -> viewPendingAppointments(patient);
-                    case 7 -> displayPastAppointmentRecords(patient);
-                    case 8 -> UserProfileDisplay.viewUserProfilePage(patient, userType);
-                    case 9 -> UserProfileDisplay.updateUserProfile(patient, userType);
-                    case 10 -> ChangePasswordDisplay.changePassword(patient, userType);
-                    case 11 -> LogoutDisplay.logout();
+                    case 6 -> viewAppointments(patient, AppointmentStatus.APPROVED);
+                    case 7 -> viewAppointments(patient, AppointmentStatus.PENDING);
+                    case 8 -> displayPastAppointmentRecords(patient);
+                    case 9 -> UserProfileDisplay.viewUserProfilePage(patient, userType);
+                    case 10 -> UserProfileDisplay.updateUserProfile(patient, userType);
+                    case 11 -> ChangePasswordDisplay.changePassword(patient, userType);
+                    case 12 -> LogoutDisplay.logout();
                     default -> System.out.println("Invalid option, please try again.");
                 }
             } catch (PageBackException e) {
@@ -76,7 +78,7 @@ public class PatientDisplay {
         System.out.println("--------------------------------------------");
         System.out.println();
         System.out.println("Your scheduled appointments:");
-        AppointmentDisplay.displayPatientsAppointment(patient);
+        AppointmentDisplay.displayAllPatientsAppointment(patient);
         System.out.println();
         List<Appointment> appointments = AppointmentManager.getPatientAppointment(patient.getPatientID());
         if (appointments.isEmpty() || appointments == null || appointments.size() == 0) {
@@ -84,21 +86,16 @@ public class PatientDisplay {
             EnterToGoBackDisplay.display();
         }
 
-        System.out.printf("Enter the appointment ID you would like to reschedule. ");
+        System.out.printf("Enter the appointment ID you would like to reschedule or press enter to go back. ");
         String appointmentID = CustScanner.getStrChoice();
 
-        if (appointmentID == null || appointmentID == "") {
+        if (appointmentID == "") {
+            throw new PageBackException();
+        } else if (appointmentID == null || !AppointmentManager.doesAppointmentExist(appointmentID)) {
             System.out.println("Invalid appointment ID.");
             EnterToGoBackDisplay.display();
         }
 
-        try {
-            AppointmentManager.doesAppointmentExist(appointmentID);
-            System.out.println("Appointment cancelled successfully.");
-        } catch (Exception e) {
-            System.out.println("Appointment does not exist.");
-            EnterToGoBackDisplay.display();
-        }
         scheduleAppointment(patient, "reschedule", appointmentID);
         System.out.println();
         EnterToGoBackDisplay.display();
@@ -110,7 +107,7 @@ public class PatientDisplay {
         System.out.println("--------------------------------------------");
         System.out.println();
         System.out.println("Your scheduled appointments:");
-        AppointmentDisplay.displayPatientsAppointment(patient);
+        AppointmentDisplay.displayPatientsAppointment(patient, AppointmentStatus.APPROVED);
         System.out.println();
 
         System.out.printf("Enter the appointment ID you would like to cancel.");
@@ -199,17 +196,17 @@ public class PatientDisplay {
         DiagnosisDisplay.displayAllDiagnosisOfPatient(patient);
 
         System.out.println();
-        AppointmentDisplay.displayPatientsAppointment(patient);
+        AppointmentDisplay.displayPatientsAppointment(patient, AppointmentStatus.APPROVED);
         System.out.println();
 
         EnterToGoBackDisplay.display();
     }
 
-    private static void viewScheduledAppointments(Patient patient) throws PageBackException {
+    private static void viewAppointments(Patient patient, AppointmentStatus status) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Scheduled Appointments");
         System.out.println();
-        AppointmentDisplay.displayPatientsAppointment(patient);
+        AppointmentDisplay.displayPatientsAppointment(patient, status);
         EnterToGoBackDisplay.display();
     }
 

@@ -15,6 +15,7 @@ import display.ClearDisplay;
 import display.EnterToGoBackDisplay;
 import display.user.PatientDisplay;
 import model.appointment.Appointment;
+import model.appointment.enums.AppointmentStatus;
 import model.appointment.enums.Weekdays;
 import model.user.Doctor;
 import model.user.Patient;
@@ -410,7 +411,7 @@ public class AppointmentDisplay {
         EnterToGoBackDisplay.display();
     }
 
-    public static void displayPatientsAppointment(Patient patient) {
+    public static void displayPatientsAppointment(Patient patient, AppointmentStatus status) {
         String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
         System.out.println(fiveColBorder);
         System.out.printf("| %-123s |%n", " " + "Appointments");
@@ -419,7 +420,37 @@ public class AppointmentDisplay {
                 "Status");
         System.out.println(fiveColBorder);
         try {
-            List<Appointment> appointments = AppointmentManager.getPatientScheduledAppointments(patient.getPatientID());
+            List<Appointment> appointments = AppointmentManager.getPatientAppointmentsByStatus(patient.getPatientID(),
+                    status);
+            if (appointments.isEmpty() || appointments == null) {
+                System.out.printf("| %-90s %n", "No appointment found.");
+            }
+            for (Appointment appointment : appointments) {
+                Doctor doctor = DoctorManager.getDoctorByID(appointment.getDoctorID());
+                System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", appointment
+                        .getAppointmentID(),
+                        appointment.getDateOfAppointment(),
+                        getTimeSlot(appointment.getTimeOfAppointment()),
+                        doctor.getName(),
+                        appointment.getAppointmentStatus());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.printf("| %-90s %n", "No appointment found.");
+        }
+        System.out.println(fiveColBorder);
+    }
+
+    public static void displayAllPatientsAppointment(Patient patient) {
+        String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
+        System.out.println(fiveColBorder);
+        System.out.printf("| %-123s |%n", " " + "Appointments");
+        System.out.println(fiveColBorder);
+        System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", "ID", "Date", "Time", "Doctor Name",
+                "Status");
+        System.out.println(fiveColBorder);
+        try {
+            List<Appointment> appointments = AppointmentManager.getPatientAppointment(patient.getPatientID());
             if (appointments.isEmpty() || appointments == null) {
                 System.out.printf("| %-90s %n", "No appointment found.");
             }
