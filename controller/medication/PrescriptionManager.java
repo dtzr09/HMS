@@ -45,7 +45,7 @@ public class PrescriptionManager {
             prescription.setPrescriptionStatus(status);
             if (status.equals(PrescriptionStatus.DISPENSED)) {
                 for (String medicationID : prescription.getMedicationIDs()) {
-                    MedicationManager.updateMedicationStock(medicationID);
+                    MedicationManager.reduceMedicationStock(medicationID);
                 }
             }
             updatePrescription(prescription);
