@@ -12,6 +12,7 @@ import model.prescription.Prescription;
 import model.user.Doctor;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
+import utils.utils.FormatDateTime;
 
 public class DiagnosisManager {
     public static Diagnosis findDiagnosis(String diagnosisID) throws ModelNotFoundException {
@@ -66,8 +67,9 @@ public class DiagnosisManager {
     public static void createNewDiagnosis(String diagnosis, String patientID, String doctorID, String prescriptionID) {
         String diagnosisID = UUID.randomUUID().toString();
         Date dateOfDiagnosis = new Date();
+        String dateOfDiagnosisStr = FormatDateTime.toDateOnly(dateOfDiagnosis);
         try {
-            Diagnosis newDiagnosis = new Diagnosis(diagnosisID, diagnosis, doctorID, prescriptionID, dateOfDiagnosis,
+            Diagnosis newDiagnosis = new Diagnosis(diagnosisID, diagnosis, doctorID, prescriptionID, dateOfDiagnosisStr,
                     patientID);
             addDiagnosis(newDiagnosis);
         } catch (Exception e) {
