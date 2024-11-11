@@ -3,6 +3,7 @@ package model.appointment;
 import java.util.Map;
 
 import model.Model;
+import model.appointment.enums.AppointmentOutcomeStatus;
 
 public class AppointmentOutcome implements Model {
     private String appointmentOutcomeID;
@@ -12,10 +13,12 @@ public class AppointmentOutcome implements Model {
     private String consultationNotes;
     private String diagnosisID;
     private String appointmentID;
+    private AppointmentOutcomeStatus status;
 
     public AppointmentOutcome(String appointmentOutcomeID, String patientID,
             String doctorID,
-            String typeOfService, String consultationNotes, String diagnosisID, String appointmentID) {
+            String typeOfService, String consultationNotes, String diagnosisID, String appointmentID,
+            AppointmentOutcomeStatus status) {
         this.appointmentOutcomeID = appointmentOutcomeID;
         this.patientID = patientID;
         this.doctorID = doctorID;
@@ -23,6 +26,16 @@ public class AppointmentOutcome implements Model {
         this.consultationNotes = consultationNotes;
         this.diagnosisID = diagnosisID;
         this.appointmentID = appointmentID;
+        this.status = status;
+    }
+
+    public AppointmentOutcome(String appointmentOutcomeID, String patientID, String doctorID, String appointmentID,
+            AppointmentOutcomeStatus status) {
+        this.appointmentOutcomeID = appointmentOutcomeID;
+        this.patientID = patientID;
+        this.doctorID = doctorID;
+        this.appointmentID = appointmentID;
+        this.status = status;
     }
 
     /**
@@ -66,6 +79,10 @@ public class AppointmentOutcome implements Model {
         return appointmentID;
     }
 
+    public AppointmentOutcomeStatus getStatus() {
+        return status;
+    }
+
     public void setConsultationNotes(String consultationNotes) {
         this.consultationNotes = consultationNotes;
     }
@@ -92,6 +109,10 @@ public class AppointmentOutcome implements Model {
 
     public void setAppointmentID(String appointmentID) {
         this.appointmentID = appointmentID;
+    }
+
+    public void setStatus(AppointmentOutcomeStatus status) {
+        this.status = status;
     }
 
 }

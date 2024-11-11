@@ -5,6 +5,7 @@ import java.util.Map;
 
 import database.Database;
 import model.appointment.AppointmentOutcome;
+import model.appointment.enums.AppointmentOutcomeStatus;
 
 public class AppointmentOutcomeDatabase extends Database<AppointmentOutcome> {
 
@@ -42,7 +43,21 @@ public class AppointmentOutcomeDatabase extends Database<AppointmentOutcome> {
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
-            getAll().add(new AppointmentOutcome(map));
+            String appointmentOutcomeID = map.get("appointmentOutcomeID");
+            String patientID = map.get("patientID");
+            String doctorID = map.get("doctorID");
+            String typeOfService = map.get("typeOfService");
+            String consultationNotes = map.get("consultationNotes");
+            String diagnosisID = map.get("diagnosisID");
+            String appointmentID = map.get("appointmentID");
+            String statusStr = map.get("status");
+
+            AppointmentOutcomeStatus status = AppointmentOutcomeStatus.valueOf(statusStr);
+            AppointmentOutcome outcome = new AppointmentOutcome(appointmentOutcomeID, patientID, doctorID,
+                    typeOfService,
+                    consultationNotes, diagnosisID, appointmentID, status);
+
+            getAll().add(outcome);
         }
     }
 

@@ -98,6 +98,7 @@ public class PrescriptionDisplay {
             }
         }
 
+        System.out.println();
         System.out.printf("Enter the instructions for drugs usage. ");
         String drugInstructions = CustScanner.getStrChoice();
 

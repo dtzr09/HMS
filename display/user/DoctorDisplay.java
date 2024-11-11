@@ -183,23 +183,28 @@ public class DoctorDisplay {
 
     }
 
-    private static void displayRecordAppointmentOutcomePrompts(Doctor doctor, String appointmentID, String patientID)
+    private static void displayRecordAppointmentOutcomePrompts(Doctor doctor, String appointmentID)
             throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Record Appointment Outcome");
         System.out.println("----------------------------------");
         System.out.println();
 
-        Patient patient = PatientManager.getPatientById(patientID);
-
+        Appointment appointment = AppointmentManager.getAppointmentByID(appointmentID);
+        if (appointment == null) {
+            System.out.println("Appointment not found.");
+            EnterToGoBackDisplay.display();
+        }
+        Patient patient = PatientManager.getPatientById(appointment.getPatientID());
         if (patient == null) {
             System.out.println("Patient not found.");
             EnterToGoBackDisplay.display();
         }
 
-        Appointment appointment = AppointmentManager.getAppointmentByPatientAndID(patientID, appointmentID);
-        if (appointment == null) {
-            System.out.println("Appointment not found.");
+        AppointmentOutcome appointmentOutcome = AppointmentOutcomeManager
+                .getAppointmentOutcomeByAppointmentID(appointmentID);
+        if (appointmentOutcome == null) {
+            System.out.println("Appointment Outcome not found");
             EnterToGoBackDisplay.display();
         }
 
@@ -211,21 +216,20 @@ public class DoctorDisplay {
 
         System.out.printf("Please enter the disease. ");
         String disease = CustScanner.getStrChoice();
+        System.out.println();
 
-        String appointmentOutcomeID = UUID.randomUUID().toString();
         String prescriptionID = UUID.randomUUID().toString();
         try {
             PrescriptionDisplay.displayAddNewPresciption(patient, doctor, prescriptionID);
             String diagnosisID = UUID.randomUUID().toString();
             Diagnosis diagnosis = new Diagnosis(
                     diagnosisID, disease, doctor.getModelID(), prescriptionID, appointment.getDateOfAppointment(),
-                    patientID);
-            AppointmentOutcome outcomeAppointment = new AppointmentOutcome(
-                    appointmentOutcomeID, patientID, doctor.getModelID(), typeOfService,
-                    consultationNotes,
-                    diagnosisID, appointmentID);
-            AppointmentOutcomeManager.createNewAppointmentOutcome(outcomeAppointment, diagnosis);
+                    patient.getPatientID());
+            AppointmentOutcomeManager.updateAppointmentOutcome(appointmentOutcome, diagnosis, typeOfService,
+                    diagnosisID,
+                    consultationNotes);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Appointment Outcome not added. Please try again later");
             EnterToGoBackDisplay.display();
         }
@@ -248,15 +252,21 @@ public class DoctorDisplay {
             EnterToGoBackDisplay.display();
         }
 
-        AppointmentDisplay.viewScheduledAppointments(appointments);
+        List<Appointment> pendingAppointments = null;
+        pendingAppointments = AppointmentManager.getAppointmentWithIncompleteOutcome(appointments,
+                doctor.getModelID());
+        if (pendingAppointments == null || pendingAppointments.isEmpty() || pendingAppointments.size() == 0) {
+            System.out.println("No pending appointments found.");
+            System.out.println();
+            EnterToGoBackDisplay.display();
+        }
+
+        AppointmentDisplay.viewScheduledAppointments(pendingAppointments);
         System.out.printf("Please enter the ID of the appointment you would like to record the outcome of. ");
         String appointmentID = CustScanner.getStrChoice();
         System.out.println();
 
-        System.out.printf("Please enter the ID of the patient for this appointment. ");
-        String patientID = CustScanner.getStrChoice();
-
-        displayRecordAppointmentOutcomePrompts(doctor, appointmentID, patientID);
+        displayRecordAppointmentOutcomePrompts(doctor, appointmentID);
     }
 
 }

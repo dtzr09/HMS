@@ -8,8 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import controller.user.DoctorManager;
 import database.appointment.AppointmentDatabase;
 import model.appointment.Appointment;
+import model.appointment.AppointmentOutcome;
+import model.appointment.enums.AppointmentOutcomeStatus;
 import model.appointment.enums.AppointmentStatus;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
@@ -150,8 +153,12 @@ public class AppointmentManager {
         try {
             Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
             appointment.setAppointmentStatus(AppointmentStatus.APPROVED);
+            String appointmentOutcomeID = UUID.randomUUID().toString();
+            AppointmentOutcome appointmentOutcome = new AppointmentOutcome(appointmentOutcomeID,
+                    appointment.getPatientID(), doctorID, appointmentID, AppointmentOutcomeStatus.PENDING);
 
             updateAppointment(appointment);
+            AppointmentOutcomeManager.createNewAppointmentOutcome(appointmentOutcome);
         } catch (Exception e) {
             throw new ModelNotFoundException("Appointment not found.");
         }
@@ -205,4 +212,19 @@ public class AppointmentManager {
         return doctorAppointments;
     }
 
+    public static ArrayList<Appointment> getAppointmentWithIncompleteOutcome(List<Appointment> appointments,
+            String doctorID) {
+        ArrayList<Appointment> pendingAppointments = new ArrayList<>();
+        List<AppointmentOutcome> appointmentOutcomes = AppointmentOutcomeManager
+                .getAppointmentOutcomeByDoctorID(doctorID);
+        for (AppointmentOutcome outcome : appointmentOutcomes) {
+            for (Appointment appointment : appointments) {
+                if (outcome.getAppointmentID().equals(appointment.getAppointmentID())
+                        && outcome.getStatus().equals(AppointmentOutcomeStatus.PENDING)) {
+                    pendingAppointments.add(appointment);
+                }
+            }
+        }
+        return pendingAppointments;
+    }
 }

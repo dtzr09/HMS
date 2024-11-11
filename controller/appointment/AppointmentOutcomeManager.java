@@ -10,6 +10,7 @@ import database.appointment.AppointmentOutcomeDatabase;
 import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
 import model.appointment.AppointmentOutcomeRecord;
+import model.appointment.enums.AppointmentOutcomeStatus;
 import model.diagnosis.Diagnosis;
 import model.prescription.Prescription;
 
@@ -23,30 +24,31 @@ public class AppointmentOutcomeManager {
         }
     }
 
-    public static void createNewAppointmentOutcome(AppointmentOutcome appointmentOutcome, Diagnosis diagnosis) {
+    public static void createNewAppointmentOutcome(AppointmentOutcome appointmentOutcome) {
         try {
             AppointmentOutcomeDatabase.getDB().add(appointmentOutcome);
-            DiagnosisManager.addDiagnosis(diagnosis);
         } catch (Exception e) {
             System.out.println("Appointment Outcome not added.");
         }
     }
 
-    public static void updateAppointmentOutcome(AppointmentOutcome appointmentOutcome, Diagnosis diagnosis) {
+    public static void updateAppointmentOutcome(AppointmentOutcome appointmentOutcome, Diagnosis diagnosis,
+            String typeOfService, String diagnosisID, String consultationNotes) {
         try {
+            System.out.println(typeOfService);
+            appointmentOutcome.setTypeOfService(typeOfService);
+            appointmentOutcome.setDiagnosisID(diagnosisID);
+            appointmentOutcome.setConsultationNotes(consultationNotes);
+            appointmentOutcome.setStatus(AppointmentOutcomeStatus.COMPLETED);
             AppointmentOutcomeDatabase.getDB().update(appointmentOutcome);
-            DiagnosisManager.addDiagnosis(diagnosis);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Appointment Outcome not updated.");
         }
     }
 
     public static List<AppointmentOutcome> getAllAppointmentOutcome() {
-        try {
-            return AppointmentOutcomeDatabase.getDB().getAllAppointmentOutcomes();
-        } catch (Exception e) {
-            return null;
-        }
+        return AppointmentOutcomeDatabase.getDB().getAllAppointmentOutcomes();
     }
 
     public static AppointmentOutcome getAppointmentOutcomeByAppointmentID(String appointmentID) {
@@ -58,6 +60,7 @@ public class AppointmentOutcomeManager {
             }
             return outcome;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -100,4 +103,14 @@ public class AppointmentOutcomeManager {
         return records;
     }
 
+    public static ArrayList<AppointmentOutcome> getAppointmentOutcomeByDoctorID(String doctorID) {
+        ArrayList<AppointmentOutcome> doctorAppointmentOutcome = new ArrayList<>();
+        List<AppointmentOutcome> appointmentOutcomes = getAllAppointmentOutcome();
+        for (AppointmentOutcome outcome : appointmentOutcomes) {
+            if (outcome.getDoctorID().equals(doctorID)) {
+                doctorAppointmentOutcome.add(outcome);
+            }
+        }
+        return doctorAppointmentOutcome;
+    }
 }

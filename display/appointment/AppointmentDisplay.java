@@ -10,6 +10,7 @@ import java.util.Map;
 
 import controller.appointment.AppointmentManager;
 import controller.user.DoctorManager;
+import controller.user.PatientManager;
 import display.ClearDisplay;
 import display.EnterToGoBackDisplay;
 import display.user.PatientDisplay;
@@ -74,7 +75,7 @@ public class AppointmentDisplay {
         System.out.println("\t2. Reject");
         System.out.println("\t3. Go back");
         System.out.println();
-        System.out.printf("What would you like to do?");
+        System.out.printf("What would you like to do? ");
         int choice = CustScanner.getIntChoice();
         System.out.println();
         try {
@@ -160,18 +161,18 @@ public class AppointmentDisplay {
     }
 
     public static void viewScheduledAppointments(List<Appointment> appointments) throws PageBackException {
-        String fourColBorder = "+--------------------------------------+----------------------+-----------------+--------------------------------------+";
-
+        String fourColBorder = "+--------------------------------------+----------------------+-----------------+-------------------+";
         System.out.println(fourColBorder);
-        System.out.printf("| %-115s |%n", " " + "All Appointments");
+        System.out.printf("| %-97s |%n", " " + "All Appointments");
         System.out.println(fourColBorder);
-        System.out.printf("| %-36s | %-20s | %-15s | %-37s|%n", "ID", "Date", "Time", "Patient ID");
+        System.out.printf("| %-36s | %-20s | %-15s | %-18s|%n", "ID", "Date", "Time", "Patient");
         System.out.println(fourColBorder);
         for (Appointment appointment : appointments) {
-            System.out.printf("| %-36s | %-20s | %-15s | %-36s |%n",
+            Patient patient = PatientManager.getPatientById(appointment.getPatientID());
+            System.out.printf("| %-36s | %-20s | %-15s | %-17s |%n",
                     appointment.getAppointmentID(),
                     appointment.getDateOfAppointment(),
-                    getTimeSlot(appointment.getTimeOfAppointment()), appointment.getPatientID());
+                    getTimeSlot(appointment.getTimeOfAppointment()), patient.getName());
         }
         System.out.println(fourColBorder);
         System.out.println();
@@ -539,6 +540,8 @@ public class AppointmentDisplay {
         System.out.println();
         System.out.printf("Enter the time slot that you would like to make an appointment for: ");
         int timeSlotID = CustScanner.getIntChoice();
+        // TODO: prevent user from typing other options
+        
         try {
             if (action == "reschedule") {
                 AppointmentManager.rescheduleAppointment(patientID, appointmentID, timeSlotID,
