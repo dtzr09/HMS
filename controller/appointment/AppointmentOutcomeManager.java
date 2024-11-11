@@ -117,4 +117,16 @@ public class AppointmentOutcomeManager {
         }
         return doctorAppointmentOutcome;
     }
+
+    public static int getNumberOfAppointmentOutcomeByPatientID(String patientID) {
+        List<AppointmentOutcome> appointmentOutcomes = getAllAppointmentOutcome();
+        int count = 0;
+        for (AppointmentOutcome outcome : appointmentOutcomes) {
+            if (outcome.getPatientID().equals(patientID)
+                    && outcome.getStatus().equals(AppointmentOutcomeStatus.COMPLETED)) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
