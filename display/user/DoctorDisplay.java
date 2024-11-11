@@ -219,7 +219,8 @@ public class DoctorDisplay {
             PrescriptionDisplay.displayAddNewPresciption(patient, doctor, prescriptionID);
             String diagnosisID = UUID.randomUUID().toString();
             Diagnosis diagnosis = new Diagnosis(
-                    diagnosisID, disease, doctor.getModelID(), prescriptionID, new Date(), patientID);
+                    diagnosisID, disease, doctor.getModelID(), prescriptionID, appointment.getDateOfAppointment(),
+                    patientID);
             AppointmentOutcome outcomeAppointment = new AppointmentOutcome(
                     appointmentOutcomeID, patientID, doctor.getModelID(), typeOfService,
                     consultationNotes,

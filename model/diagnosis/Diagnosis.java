@@ -1,6 +1,5 @@
 package model.diagnosis;
 
-import java.util.Date;
 import java.util.Map;
 
 import model.Model;
@@ -11,13 +10,13 @@ public class Diagnosis implements Model {
     private String disease;
     private String doctorID;
     private String prescriptionID;
-    private Date dateOfDiagnosis;
+    private String dateOfDiagnosis;
 
     public Diagnosis() {
     }
 
     public Diagnosis(String diagnosisID, String disease, String doctorID, String prescriptionID,
-            Date dateOfDiagnosis, String patientID) {
+            String dateOfDiagnosis, String patientID) {
         this.diagnosisID = diagnosisID;
         this.disease = disease;
         this.doctorID = doctorID;
@@ -52,10 +51,10 @@ public class Diagnosis implements Model {
     }
 
     public String getDateOfDiagnosis() {
-        return dateOfDiagnosis.toString();
+        return dateOfDiagnosis;
     }
 
-    public void setDateOfDiagnosis(Date dateOfDiagnosis) {
+    public void setDateOfDiagnosis(String dateOfDiagnosis) {
         this.dateOfDiagnosis = dateOfDiagnosis;
     }
 

@@ -41,16 +41,7 @@ public class DiagnosisDatabase extends Database<Diagnosis> {
     @Override
     public void setAll(List<Map<String, String>> listOfMappableObjects) {
         for (Map<String, String> map : listOfMappableObjects) {
-            String patientID = map.get("patientID");
-            String diagnosisID = map.get("diagnosisID");
-            String disease = map.get("disease");
-            String doctorID = map.get("doctorID");
-            String prescriptionID = map.get("prescriptionID");
-            String dateOfDiagnosis = map.get("dateOfDiagnosis");
-
-            Diagnosis diagnosis = new Diagnosis(diagnosisID, disease, doctorID, prescriptionID, null,
-                    patientID);
-            getAll().add(diagnosis);
+            getAll().add(new Diagnosis(map));
         }
     }
 
