@@ -130,10 +130,10 @@ public class PharmacistDisplay {
             EnterToGoBackDisplay.display();
         }
 
-        System.out.println("1. Pending");
-        System.out.println("2. Dispense");
-        System.out.println("3. Decline");
-        System.out.println("4. Go back");
+        System.out.println("\t1. Pending");
+        System.out.println("\t2. Dispense");
+        System.out.println("\t3. Decline");
+        System.out.println("\t4. Go back");
         System.out.printf("Choose from the options above to change to the new status: ");
         int i = CustScanner.getIntChoice();
         PrescriptionStatus newStatus = null;

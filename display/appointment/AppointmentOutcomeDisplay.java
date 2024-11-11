@@ -30,27 +30,22 @@ public class AppointmentOutcomeDisplay {
         System.out.println("----------------------------------------------------");
         System.out.println();
         System.out.println(sevenColBorder);
-        System.out.printf("| %-36s | %-18s | %-17s | %-18s | %18s | %-18s | %n", "Appointment Outcome ID",
+        System.out.printf("| %-36s | %-18s | %-18s | %-18s | %18s | %-18s| %n", "Appointment Outcome ID",
                 "Type of Service", "Consultation Notes", "Medications", "Appointment Date",
                 "Prescription Status");
         System.out.println(sevenColBorder);
-
-        try {
-            List<AppointmentOutcomeRecord> records = AppointmentOutcomeManager.getAppointmentOutcomeRecords(recordList,
-                    patientID);
-            for (AppointmentOutcomeRecord record : records) {
-                System.out.printf("| %-36s | %-18s | %-17s | %-18s | %18s | %-18s | %n",
-                        record.getAppointmentOutcomeID(),
-                        record.getTypeOfService(), record.getConsultationNotes(),
-                        String.join(",", record.getMedicationsNames()),
-                        record.getAppointmentDate(), record.getPrescriptionStatus());
-            }
-            System.out.println(sevenColBorder);
-            System.out.println();
-            EnterToGoBackDisplay.display();
-        } catch (Exception e) {
-            EnterToGoBackDisplay.display();
+        List<AppointmentOutcomeRecord> records = AppointmentOutcomeManager.getAppointmentOutcomeRecords(recordList,
+                patientID);
+        for (AppointmentOutcomeRecord record : records) {
+            System.out.printf("| %-36s | %-18s | %-18s | %-18s | %18s | %-18s | %n",
+                    record.getAppointmentOutcomeID(),
+                    record.getTypeOfService(), record.getConsultationNotes(),
+                    String.join(",", record.getMedicationsNames()),
+                    record.getAppointmentDate(), record.getPrescriptionStatus());
         }
+        System.out.println(sevenColBorder);
+        System.out.println();
+        EnterToGoBackDisplay.display();
 
     }
 

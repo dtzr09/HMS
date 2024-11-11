@@ -7,12 +7,14 @@ import controller.medication.DiagnosisManager;
 import controller.medication.MedicationManager;
 import controller.medication.PrescriptionManager;
 import database.appointment.AppointmentOutcomeDatabase;
+import display.EnterToGoBackDisplay;
 import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
 import model.appointment.AppointmentOutcomeRecord;
 import model.appointment.enums.AppointmentOutcomeStatus;
 import model.diagnosis.Diagnosis;
 import model.prescription.Prescription;
+import utils.exceptions.PageBackException;
 
 public class AppointmentOutcomeManager {
 
@@ -35,12 +37,12 @@ public class AppointmentOutcomeManager {
     public static void updateAppointmentOutcome(AppointmentOutcome appointmentOutcome, Diagnosis diagnosis,
             String typeOfService, String diagnosisID, String consultationNotes) {
         try {
-            System.out.println(typeOfService);
             appointmentOutcome.setTypeOfService(typeOfService);
             appointmentOutcome.setDiagnosisID(diagnosisID);
             appointmentOutcome.setConsultationNotes(consultationNotes);
             appointmentOutcome.setStatus(AppointmentOutcomeStatus.COMPLETED);
             AppointmentOutcomeDatabase.getDB().update(appointmentOutcome);
+            DiagnosisManager.addDiagnosis(diagnosis);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Appointment Outcome not updated.");
@@ -82,7 +84,7 @@ public class AppointmentOutcomeManager {
     }
 
     public static List<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(List<AppointmentOutcome> recordList,
-            String patientID) {
+            String patientID) throws PageBackException {
         ArrayList<AppointmentOutcomeRecord> records = new ArrayList<>();
         for (AppointmentOutcome outcome : recordList) {
             try {
@@ -97,7 +99,9 @@ public class AppointmentOutcomeManager {
                         appointment.getDateOfAppointment(), prescription.getPrescriptionStatus());
                 records.add(record);
             } catch (Exception e) {
-                System.out.println("Error getting appointment outcome records.");
+                e.printStackTrace();
+                System.out.println("| Error getting appointment outcome records.");
+                EnterToGoBackDisplay.display();
             }
         }
         return records;
