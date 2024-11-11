@@ -565,15 +565,17 @@ public class AppointmentDisplay {
         DayOfWeek day = fullDate.getDayOfWeek();
         if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
             System.out.println(
-                    "The doctor is not available on weekends. Please choose another day. Press enter to retry.");
-            if (CustScanner.getStrChoice().equals(""))
-                scheduleAppointment(patientID, doctor, month, action, appointmentID);
+                    "The doctor is not available on weekends. Please choose another day.");
+            // if (CustScanner.getStrChoice().equals(""))
+            //     scheduleAppointment(patientID, doctor, month, action, appointmentID);
+            throw new PageBackException();
         }
 
         if (!AppointmentManager.isTimeSlotAvailable(doctor, day)) {
             System.out.printf("No available time slots for this day. Please try again. ");
-            if (CustScanner.getStrChoice().equals(""))
-                scheduleAppointment(patientID, doctor, month, action, appointmentID);
+            // if (CustScanner.getStrChoice().equals(""))
+            //     scheduleAppointment(patientID, doctor, month, action, appointmentID);
+            throw new PageBackException();
         }
 
         displayAppointmentAvailabilityForADay(doctor, day);
