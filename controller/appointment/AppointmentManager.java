@@ -1,5 +1,6 @@
 package controller.appointment;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
 import model.appointment.enums.AppointmentOutcomeStatus;
 import model.appointment.enums.AppointmentStatus;
+import model.user.Doctor;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 
@@ -226,5 +228,14 @@ public class AppointmentManager {
             }
         }
         return pendingAppointments;
+    }
+
+    public static Boolean isTimeSlotAvailable(Doctor doctor, DayOfWeek day) {
+        int dayValue = day.getValue();
+        Map<String, List<String>> appointmentAvailability = doctor.getAppointmentAvailability();
+        if (appointmentAvailability.containsKey(Integer.toString(dayValue))) {
+            return true;
+        }
+        return false;
     }
 }

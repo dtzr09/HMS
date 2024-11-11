@@ -489,9 +489,9 @@ public class AppointmentDisplay {
                             && bookedSlots.get(Integer.parseInt(entry.getKey())).contains(slot)) {
                         continue;
                     }
-
                     System.out.printf("\t%s: %s\n", Integer.toString(slotNumber), timeSlotMap.get(slotNumber));
                 }
+                System.out.println();
             } catch (Exception e) {
                 EnterToGoBackDisplay.display();
             }
@@ -532,6 +532,13 @@ public class AppointmentDisplay {
         System.out.println();
         LocalDate fullDate = LocalDate.of(year, month, date);
         DayOfWeek day = fullDate.getDayOfWeek();
+
+        if (!AppointmentManager.isTimeSlotAvailable(doctor, day)) {
+            System.out.printf("No available time slots for this day. Please try again. ");
+            if (CustScanner.getStrChoice().equals(""))
+                scheduleAppointment(patientID, doctor, month, action, appointmentID);
+        }
+
         displayAppointmentAvailabilityForADay(doctor, day);
         Date appointmentDate = FormatDateTime.convertDMYToTime(date, month, year);
         String appointmentDateStr = FormatDateTime.formatDate(appointmentDate);
@@ -540,8 +547,7 @@ public class AppointmentDisplay {
         System.out.println();
         System.out.printf("Enter the time slot that you would like to make an appointment for: ");
         int timeSlotID = CustScanner.getIntChoice();
-        // TODO: prevent user from typing other options
-        
+
         try {
             if (action == "reschedule") {
                 AppointmentManager.rescheduleAppointment(patientID, appointmentID, timeSlotID,
