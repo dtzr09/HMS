@@ -223,7 +223,7 @@ public class PatientDisplay {
         System.out.println(fourColBorder);
         System.out.printf("| %-113s |%n", "All Patients");
         System.out.println(fourColBorder);
-        System.out.printf("| %-36s | %-20s | %-28s | %-20s |%n", "ID", "Name", "Email", "No. of appointments");
+        System.out.printf("| %-36s | %-20s | %-28s | %-20s |%n", "ID", "Name", "Email", "No. of outcomes");
         System.out.println(fourColBorder);
         if (patients.isEmpty()) {
             System.out.printf("| %-90s |%n", "No patient found.");
