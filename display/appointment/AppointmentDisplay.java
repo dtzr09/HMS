@@ -563,6 +563,12 @@ public class AppointmentDisplay {
         System.out.println();
         LocalDate fullDate = LocalDate.of(year, month, date);
         DayOfWeek day = fullDate.getDayOfWeek();
+        if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
+            System.out.println(
+                    "The doctor is not available on weekends. Please choose another day. Press enter to retry.");
+            if (CustScanner.getStrChoice().equals(""))
+                scheduleAppointment(patientID, doctor, month, action, appointmentID);
+        }
 
         if (!AppointmentManager.isTimeSlotAvailable(doctor, day)) {
             System.out.printf("No available time slots for this day. Please try again. ");
