@@ -334,17 +334,25 @@ public class AppointmentDisplay {
     public static void displayAppointmentAvailabilityForADay(Doctor doctor, DayOfWeek day)
             throws PageBackException {
         Map<String, List<String>> appointmentAvailability = doctor.getAppointmentAvailability();
+        Map<Integer, List<String>> bookedSlots = AppointmentManager.getBookedAppointmentsOfDoctor(
+                doctor.getModelID());
+        List<String> bookedSlotsForDay = bookedSlots.get(day.getValue());
+        Weekdays dayEnum = Weekdays.valueOf(day.toString());
+
         try {
-            System.out.printf("Selected Day: %s\n", day);
-            Map<String, String> timeSlots = new HashMap<>();
+            System.out.printf("Selected Day: %s\n", dayEnum.toCamelCase());
+            System.out.println();
+            System.out.println("Available Appointment Slots:");
+
             for (String slot : appointmentAvailability.get(Integer.toString(day.getValue()))) {
                 int slotNumber = Integer.parseInt(slot.trim());
-                timeSlots.put(Integer.toString(slotNumber), timeSlotMap.get(slotNumber));
+                if (bookedSlotsForDay != null && bookedSlotsForDay.contains(slot)) {
+                    continue;
+                }
+                System.out.printf("\t%s: %s\n", Integer.toString(slotNumber), timeSlotMap.get(slotNumber));
+
             }
-            System.out.println("Available Appointment Slots:");
-            for (Map.Entry<String, String> slot : timeSlots.entrySet()) {
-                System.out.printf("\t%s: %s\n", slot.getKey(), slot.getValue());
-            }
+
         } catch (Exception e) {
             System.out.println("No availability set for this day. Press choose another day.");
             displayAppointmentAvailabilityForADay(doctor, day);
@@ -376,6 +384,7 @@ public class AppointmentDisplay {
                 }
 
                 System.out.printf("Day: %s\n", day.toCamelCase());
+
                 Map<String, String> timeSlots = new HashMap<>();
                 for (String slot : entry.getValue()) {
                     int slotNumber = Integer.parseInt(slot.trim());
@@ -385,6 +394,7 @@ public class AppointmentDisplay {
                 for (Map.Entry<String, String> slot : timeSlots.entrySet()) {
                     System.out.printf("\t%s: %s\n", slot.getKey(), slot.getValue());
                 }
+
                 System.out.println();
             } catch (Exception e) {
                 EnterToGoBackDisplay.display();
@@ -431,12 +441,7 @@ public class AppointmentDisplay {
     public static void scheduleAppointmentDisplay(Patient patient, String doctorId, String action, String appointmentID)
             throws PageBackException, ModelNotFoundException, ModelAlreadyExistsException {
         Doctor doctor = null;
-        try {
-            doctor = DoctorManager.getDoctorByID(doctorId);
-        } catch (Exception e) {
-            throw new PageBackException();
-        }
-
+        doctor = DoctorManager.getDoctorByID(doctorId);
         System.out.printf("Enter the month (1 for Jan, etc) that you would like to make an appointment for: ");
         int month = CustScanner.getIntChoice();
         if (month < 1 || month > 12) {
@@ -448,7 +453,48 @@ public class AppointmentDisplay {
                 throw new PageBackException();
             }
         }
+
         scheduleAppointment(patient.getPatientID(), doctor, month, action, appointmentID);
+    }
+
+    public static void displayAppointmentAvailabilityForPatient(Doctor doctor) throws PageBackException {
+        Map<String, List<String>> currentAvailability = doctor.getAppointmentAvailability();
+        Map<Integer, List<String>> bookedSlots = AppointmentManager.getBookedAppointmentsOfDoctor(
+                doctor.getModelID());
+
+        for (Map.Entry<String, List<String>> entry : currentAvailability.entrySet()) {
+            try {
+                Weekdays day = null;
+                switch (entry.getKey()) {
+                    case "1" -> day = Weekdays.MONDAY;
+                    case "2" -> day = Weekdays.TUESDAY;
+                    case "3" -> day = Weekdays.WEDNESDAY;
+                    case "4" -> day = Weekdays.THURSDAY;
+                    case "5" -> day = Weekdays.FRIDAY;
+                    default -> {
+                        System.out.println("Something went wrong. Press enter to go back.");
+                        if (CustScanner.getStrChoice().equals("")) {
+                            throw new PageBackException();
+                        }
+                    }
+                }
+
+                System.out.printf("Day: %s\n", day.toCamelCase());
+                System.out.println();
+                System.out.println("Available Appointment Slots:");
+                for (String slot : entry.getValue()) {
+                    int slotNumber = Integer.parseInt(slot.trim());
+                    if (bookedSlots.containsKey(Integer.parseInt(entry.getKey()))
+                            && bookedSlots.get(Integer.parseInt(entry.getKey())).contains(slot)) {
+                        continue;
+                    }
+
+                    System.out.printf("\t%s: %s\n", Integer.toString(slotNumber), timeSlotMap.get(slotNumber));
+                }
+            } catch (Exception e) {
+                EnterToGoBackDisplay.display();
+            }
+        }
     }
 
     private static void scheduleAppointment(String patientID, Doctor doctor, int month, String action,
@@ -458,6 +504,14 @@ public class AppointmentDisplay {
         System.out.println("Schedule an Appointment");
         System.out.println("----------------------------");
         System.out.println();
+        System.out.println("This is the doctor's availability for the month.");
+
+        System.out.println();
+        displayAppointmentAvailabilityForPatient(doctor);
+        System.out.println();
+        System.out.println("--------------------------------");
+        System.out.println();
+
         int year = 2024;
         CalendarDisplay.calendarView(year, month);
         System.out.println();
@@ -486,20 +540,14 @@ public class AppointmentDisplay {
         System.out.printf("Enter the time slot that you would like to make an appointment for: ");
         int timeSlotID = CustScanner.getIntChoice();
         try {
-            Boolean available = AppointmentManager.isAppointmentAvailable(patientID, appointmentID,
-                    appointmentDateStr, timeSlotID);
-            if (!available) {
-                System.out.println("This appointment has been booked. Please select another appointment.");
+            if (action == "reschedule") {
+                AppointmentManager.rescheduleAppointment(patientID, appointmentID, timeSlotID,
+                        appointmentDateStr);
             } else {
-                if (action == "reschedule") {
-                    AppointmentManager.rescheduleAppointment(patientID, appointmentID, timeSlotID,
-                            appointmentDateStr);
-                } else {
-                    AppointmentManager.scheduleNewAppointment(patientID, doctor.getModelID(),
-                            timeSlotID, appointmentDateStr);
-                }
-                System.out.println("Appointment scheduled.");
+                AppointmentManager.scheduleNewAppointment(patientID, doctor.getModelID(),
+                        timeSlotID, appointmentDateStr);
             }
+            System.out.println("Appointment scheduled.");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Something went wrong.");

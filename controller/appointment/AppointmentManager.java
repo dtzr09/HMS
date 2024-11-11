@@ -1,7 +1,11 @@
 package controller.appointment;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import database.appointment.AppointmentDatabase;
@@ -64,26 +68,6 @@ public class AppointmentManager {
         return scheduledPatientAppointment;
     }
 
-    public static Boolean isAppointmentAvailable(String patientID, String appointmentID, String appointmentDate,
-            int timeSlotID) {
-        try {
-            List<Appointment> appointments = getPatientAppointment(patientID);
-            if (appointments == null || appointments.isEmpty())
-                return true;
-            for (Appointment appointment : appointments) {
-                if (appointment.getDateOfAppointment().equals(appointmentDate)
-                        && appointment.getTimeOfAppointment() == timeSlotID) {
-
-                    return false;
-                }
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public static void createAppointment(Appointment appointment) throws ModelAlreadyExistsException {
         AppointmentDatabase.getDB().add(appointment);
     }
@@ -112,7 +96,7 @@ public class AppointmentManager {
         return doctorAppointments;
     }
 
-    public static List<Appointment> getDoctorAppointments(String doctorID) {
+    public static ArrayList<Appointment> getDoctorAppointments(String doctorID) {
         ArrayList<Appointment> doctorAppointments = new ArrayList<Appointment>();
         List<Appointment> appointments = getAllAppointments();
         for (Appointment appointment : appointments) {
@@ -166,6 +150,7 @@ public class AppointmentManager {
         try {
             Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
             appointment.setAppointmentStatus(AppointmentStatus.APPROVED);
+
             updateAppointment(appointment);
         } catch (Exception e) {
             throw new ModelNotFoundException("Appointment not found.");
@@ -180,6 +165,44 @@ public class AppointmentManager {
         } catch (Exception e) {
             throw new ModelNotFoundException("Appointment not found.");
         }
+    }
+
+    public static ArrayList<Appointment> getAllDoctorAppointments(String doctorID) {
+        ArrayList<Appointment> doctorAppointments = new ArrayList<>();
+        List<Appointment> appointments = getAllAppointments();
+        for (Appointment appointment : appointments) {
+            if (appointment.getDoctorID().equals(doctorID))
+                doctorAppointments.add(appointment);
+        }
+        return doctorAppointments;
+    }
+
+    /**
+     * Get all the appointments of a doctor for a given date
+     * 
+     * @param doctorID
+     * @return
+     */
+    public static Map<Integer, List<String>> getBookedAppointmentsOfDoctor(String doctorID) {
+        Map<Integer, List<String>> doctorAppointments = new HashMap<>();
+        List<Appointment> appointments = getAllDoctorAppointments(doctorID);
+        for (Appointment appointment : appointments) {
+            if (appointment.getAppointmentStatus().equals(AppointmentStatus.PENDING)
+                    || appointment.getAppointmentStatus().equals(AppointmentStatus.APPROVED)) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate date = LocalDate.parse(appointment.getDateOfAppointment(), formatter);
+                int dayOfWeekValue = date.getDayOfWeek().getValue();
+                if (doctorAppointments.containsKey(appointment.getTimeOfAppointment())) {
+                    doctorAppointments.get(appointment.getTimeOfAppointment())
+                            .add(Integer.toString(appointment.getTimeOfAppointment()));
+                } else {
+                    List<String> appointmentsList = new ArrayList<>();
+                    appointmentsList.add(Integer.toString(appointment.getTimeOfAppointment()));
+                    doctorAppointments.put(dayOfWeekValue, appointmentsList);
+                }
+            }
+        }
+        return doctorAppointments;
     }
 
 }
