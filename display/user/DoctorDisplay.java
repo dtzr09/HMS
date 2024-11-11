@@ -86,7 +86,7 @@ public class DoctorDisplay {
         System.out.println("----------------------------------");
 
         Map<String, List<String>> currentAvailability = doctor.getAppointmentAvailability();
-        if (currentAvailability == null) {
+        if (currentAvailability == null || currentAvailability.isEmpty()) {
             System.out.printf(
                     "You have not set your availability for appointments. Would you like to set it now? [Y/N] ");
             String choice = CustScanner.getStrChoice();
@@ -106,7 +106,8 @@ public class DoctorDisplay {
 
             EnterToGoBackDisplay.display();
         } else {
-            AppointmentDisplay.displayAppointmentAvailability(doctor, currentAvailability);
+            AppointmentDisplay.displayAppointmentAvailability(doctor,
+                    currentAvailability);
         }
     }
 

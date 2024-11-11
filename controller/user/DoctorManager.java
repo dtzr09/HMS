@@ -53,8 +53,9 @@ public class DoctorManager {
     }
 
     public static void setAppointmentAvailability(Doctor doctor, Map<String, List<String>> appointmentAvailability) {
-        doctor.setAppointmentAvailability(appointmentAvailability);
         try {
+            System.out.println("Set" + appointmentAvailability);
+            doctor.setAppointmentAvailability(appointmentAvailability);
             UserManager.updateUser(doctor);
         } catch (Exception e) {
             System.out.println("Error updating appointment availability.");
