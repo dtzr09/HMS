@@ -79,25 +79,30 @@ public class AppointmentDisplay {
         System.out.printf("What would you like to do? ");
         int choice = CustScanner.getIntChoice();
         System.out.println();
-        try {
-            switch (choice) {
-                case 1:
+        switch (choice) {
+            case 1:
+                try {
                     AppointmentManager.approveAppointment(doctorID, appointmentID);
                     System.out.println("Appointment approved.");
-                    break;
-                case 2:
+                } catch (Exception e) {
+                    System.out.println("Something went wrong while approving the appointment.");
+                    EnterToGoBackDisplay.display();
+                }
+                break;
+            case 2:
+                try {
                     AppointmentManager.rejectAppointment(doctorID, appointmentID);
                     System.out.println("Appointment rejected.");
-                    break;
-                case 3:
-                    throw new PageBackException();
-                default:
-                    System.out.println("Invalid input. Please try again.");
+                } catch (Exception e) {
+                    System.out.println("Something went wrong while rejecting the appointment.");
                     EnterToGoBackDisplay.display();
-            }
-        } catch (Exception e) {
-            System.out.println("Something went wrong.");
-            EnterToGoBackDisplay.display();
+                }
+                break;
+            case 3:
+                throw new PageBackException();
+            default:
+                System.out.println("Invalid input. Please try again.");
+                EnterToGoBackDisplay.display();
         }
 
     }
@@ -111,31 +116,26 @@ public class AppointmentDisplay {
         System.out.printf("| %-36s | %-20s | %-15s | %-37s|%n", "ID", "Date", "Time", "Patient ID");
         System.out.println(fourColBorder);
 
-        try {
-            List<Appointment> appointmentRequests = AppointmentManager
-                    .getDoctorAppointmentsRequests(doctor.getModelID());
-            if (appointmentRequests.isEmpty() || appointmentRequests == null) {
-                System.out.printf("| %-100s |%n", "No appointment requests found.");
-                System.out.println(fourColBorder);
-                System.out.println();
-                EnterToGoBackDisplay.display();
-            }
-            for (Appointment appointmentReq : appointmentRequests) {
-                System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
-                        appointmentReq.getAppointmentID(),
-                        appointmentReq.getDateOfAppointment(),
-                        getTimeSlot(appointmentReq.getTimeOfAppointment()), appointmentReq.getPatientID());
-            }
+        List<Appointment> appointmentRequests = AppointmentManager
+                .getDoctorAppointmentsRequests(doctor.getModelID());
+        if (appointmentRequests.isEmpty() || appointmentRequests == null) {
+            System.out.printf("| %-100s |%n", "No appointment requests found.");
             System.out.println(fourColBorder);
             System.out.println();
-            System.out.printf("Enter the appointment ID to approve or reject the appointment. ");
-            String appointmentID = CustScanner.getStrChoice();
-
-            approveOrRequestDisplay(doctor.getModelID(), appointmentID);
-
-        } catch (Exception e) {
-            System.out.printf("| %-100s |%n", "No appointment requests found.");
+            EnterToGoBackDisplay.display();
         }
+        for (Appointment appointmentReq : appointmentRequests) {
+            System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
+                    appointmentReq.getAppointmentID(),
+                    appointmentReq.getDateOfAppointment(),
+                    getTimeSlot(appointmentReq.getTimeOfAppointment()), appointmentReq.getPatientID());
+        }
+        System.out.println(fourColBorder);
+        System.out.println();
+        System.out.printf("Enter the appointment ID to approve or reject the appointment. ");
+        String appointmentID = CustScanner.getStrChoice();
+        approveOrRequestDisplay(doctor.getModelID(), appointmentID);
+
         System.out.println();
         EnterToGoBackDisplay.display();
     }

@@ -151,28 +151,20 @@ public class AppointmentManager {
     }
 
     public static void approveAppointment(String doctorID, String appointmentID) throws ModelNotFoundException {
-        try {
-            Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
-            appointment.setAppointmentStatus(AppointmentStatus.APPROVED);
-            String appointmentOutcomeID = UUID.randomUUID().toString();
-            AppointmentOutcome appointmentOutcome = new AppointmentOutcome(appointmentOutcomeID,
-                    appointment.getPatientID(), doctorID, appointmentID, AppointmentOutcomeStatus.PENDING);
+        Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
+        appointment.setAppointmentStatus(AppointmentStatus.APPROVED);
+        String appointmentOutcomeID = UUID.randomUUID().toString();
+        AppointmentOutcome appointmentOutcome = new AppointmentOutcome(appointmentOutcomeID,
+                appointment.getPatientID(), doctorID, appointmentID, AppointmentOutcomeStatus.PENDING);
 
-            updateAppointment(appointment);
-            AppointmentOutcomeManager.createNewAppointmentOutcome(appointmentOutcome);
-        } catch (Exception e) {
-            throw new ModelNotFoundException("Appointment not found.");
-        }
+        updateAppointment(appointment);
+        AppointmentOutcomeManager.createNewAppointmentOutcome(appointmentOutcome);
     }
 
     public static void rejectAppointment(String doctorID, String appointmentID) throws ModelNotFoundException {
-        try {
-            Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
-            appointment.setAppointmentStatus(AppointmentStatus.REJECTED);
-            updateAppointment(appointment);
-        } catch (Exception e) {
-            throw new ModelNotFoundException("Appointment not found.");
-        }
+        Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
+        appointment.setAppointmentStatus(AppointmentStatus.REJECTED);
+        updateAppointment(appointment);
     }
 
     public static ArrayList<Appointment> getAllDoctorAppointments(String doctorID) {

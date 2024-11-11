@@ -36,7 +36,7 @@ public class PatientDisplay {
             System.out.println("\t5. Cancel an appointment");
             System.out.println("\t6. View scheduled appointments");
             System.out.println("\t7. View pending appointments");
-            System.out.println("\t8. View Past Appointment Outcome Records");
+            System.out.println("\t8. View past appointment outcome records");
             System.out.println("\t9. View my profile");
             System.out.println("\t10. Update my profile");
             System.out.println("\t11. Change my password");
