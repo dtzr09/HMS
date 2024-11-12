@@ -8,6 +8,13 @@ import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
 public class ChangePasswordDisplay {
+    /**
+     * Changes the password of the user display
+     * 
+     * @param user
+     * @param userType
+     * @throws PageBackException
+     */
     public static void changePassword(User user, UserType userType) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("=====================================");

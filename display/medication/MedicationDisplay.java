@@ -15,6 +15,12 @@ import utils.iocontrol.CustScanner;
 
 public class MedicationDisplay {
 
+    /**
+     * Display the medication management menu
+     * 
+     * @param administrator
+     * @throws PageBackException
+     */
     public static void medicationDisplay(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== MANAGE MEDICATION INVENTORY ==============");
@@ -40,6 +46,11 @@ public class MedicationDisplay {
         }
     }
 
+    /**
+     * Display to remove medication
+     * 
+     * @throws PageBackException
+     */
     private static void removeMedication() throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== REMOVE MEDICATION STOCK ==============");
@@ -64,6 +75,11 @@ public class MedicationDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display to add medication stock
+     * 
+     * @throws PageBackException
+     */
     private static void addMedicationStock() throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== ADD MEDICATION STOCK ==============");
@@ -91,6 +107,11 @@ public class MedicationDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display to add new medication
+     * 
+     * @throws PageBackException
+     */
     private static void addNewMedication() throws PageBackException {
         String medicationID = UUID.randomUUID().toString();
         System.out.print("Enter Medication Name: ");
@@ -114,6 +135,11 @@ public class MedicationDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display medication inventory
+     * 
+     * @throws PageBackException
+     */
     public static void viewMedicationInventory() throws PageBackException {
         ClearDisplay.ClearConsole();
         displayMedicationInventory();
@@ -121,6 +147,9 @@ public class MedicationDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Medication inventory table display
+     */
     public static void displayMedicationInventory() {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+";
         System.out.println(fourColBorder);
@@ -128,7 +157,7 @@ public class MedicationDisplay {
         System.out.println(fourColBorder);
         System.out.printf("| %-36s | %-20s | %-15s | %-20s|%n", "ID", "Name", "Quantity", "Low Stock Level Alert");
         System.out.println(fourColBorder);
-        List<Medication> medications = MedicationManager.getMedications();
+        List<Medication> medications = MedicationManager.getAllMedications();
         for (Medication medication : medications) {
             System.out.printf("| %-36s | %-20s | %-15s | %-20s |%n",
                     medication.getModelID(), medication.getName(),

@@ -1,8 +1,10 @@
 package display.user;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import controller.medication.DiagnosisManager;
+import controller.medication.MedicationManager;
 import controller.medication.PrescriptionManager;
 import controller.user.PatientManager;
 import controller.user.PharmacistManager;
@@ -16,8 +18,9 @@ import display.auth.ChangePasswordDisplay;
 import display.auth.LogoutDisplay;
 import display.medication.DiagnosisDisplay;
 import model.diagnosis.Diagnosis;
+import model.medication.Medication;
 import model.prescription.Prescription;
-import model.prescription.PrescriptionStatus;
+import model.prescription.enums.PrescriptionStatus;
 import model.user.Patient;
 import model.user.Pharmacist;
 import utils.exceptions.PageBackException;
@@ -25,6 +28,11 @@ import utils.iocontrol.CustScanner;
 
 public class PharmacistDisplay {
 
+    /**
+     * Display pharmacist main page
+     * 
+     * @param user
+     */
     public static void pharmacistDisplay(User user) {
         ClearDisplay.ClearConsole();
         if (user instanceof Pharmacist pharmacist) {
@@ -50,7 +58,7 @@ public class PharmacistDisplay {
             try {
                 switch (choice) {
                     case 1 -> viewAppointmentOutcomeRecords();
-                    case 2 -> updatePrescriptionStatus(user);
+                    case 2 -> updatePrescriptionStatusDisplay(user);
                     case 3 -> viewMedInv();
                     case 4 -> viewLowMedInv();
                     case 5 -> submitRequest(user);
@@ -71,29 +79,53 @@ public class PharmacistDisplay {
         }
     }
 
+    /**
+     * Display to view appointment outcome records
+     * 
+     * @throws PageBackException
+     */
     private static void viewAppointmentOutcomeRecords() throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("View Appointment Outcome Records");
         System.out.println("--------------------------------------");
         System.out.println();
         PatientDisplay.viewAllPatients();
-        System.out.printf("Please enter patient ID: ");
+        System.out.printf("Please enter patient ID or q to go back: ");
         String patientID = CustScanner.getStrChoice();
+        if (patientID.equalsIgnoreCase("q")) {
+            throw new PageBackException();
+        }
         System.out.println();
         AppointmentOutcomeDisplay.viewAppointmentOutcomeRecordsForPharmacist(patientID);
     }
 
+    /**
+     * Display to view medication inventory
+     * 
+     * @throws PageBackException
+     */
     public static void viewMedInv() throws PageBackException {
-        PharmacistManager.viewMedicationInventory();
+        viewMedicationInventory();
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display to view low stock medication inventory
+     * 
+     * @throws PageBackException
+     */
     public static void viewLowMedInv() throws PageBackException {
-        PharmacistManager.viewLowStockMedicationInventory();
+        viewLowStockMedicationInventory();
         EnterToGoBackDisplay.display();
     }
 
-    public static void updatePrescriptionStatus(User user) throws PageBackException {
+    /**
+     * Display to update prescription status
+     * 
+     * @param user
+     * @throws PageBackException
+     */
+    public static void updatePrescriptionStatusDisplay(User user) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println();
         System.out.println("Update Prescription Status");
@@ -134,6 +166,7 @@ public class PharmacistDisplay {
         System.out.println("\t2. Dispense");
         System.out.println("\t3. Decline");
         System.out.println("\t4. Go back");
+        System.out.println();
         System.out.printf("Choose from the options above to change to the new status: ");
         int i = CustScanner.getIntChoice();
         PrescriptionStatus newStatus = null;
@@ -145,11 +178,12 @@ public class PharmacistDisplay {
             case 4 -> throw new PageBackException();
             default -> {
                 System.out.println("Invalid choice. Please try again.");
-                updatePrescriptionStatus(user);
+                updatePrescriptionStatusDisplay(user);
             }
         }
         try {
-            PharmacistManager.updatePrescriptionStatus(patientDiagnosis, newStatus);
+            String prescriptionID = patientDiagnosis.getPrescriptionID();
+            PrescriptionManager.updatePrescriptionStatus(prescriptionID, newStatus);
             UserManager.updateUser(patient);
         } catch (Exception e) {
             System.out.println("Error updating prescription status");
@@ -158,14 +192,19 @@ public class PharmacistDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display to submit medication replenishment request
+     * 
+     * @param user
+     * @throws PageBackException
+     */
     public static void submitRequest(User user) throws PageBackException {
         try {
             ClearDisplay.ClearConsole();
-            PharmacistManager.viewMedicationInventory();
-            System.out.println("============================================================================");
-            System.out.printf("Enter the medication ID that you want to restock");
-            System.out.println();
+            viewMedicationInventory();
+            System.out.printf("Enter the medication ID that you want to restock: ");
             String id = CustScanner.getStrChoice();
+            System.out.println();
             PharmacistManager.submitReplenishmentRequest(id);
             EnterToGoBackDisplay.display();
         } catch (NoSuchElementException e) {
@@ -173,4 +212,49 @@ public class PharmacistDisplay {
             EnterToGoBackDisplay.display();
         }
     }
+
+    /**
+     * View inventory
+     * 
+     * @param medications
+     * @param title
+     */
+    private static void viewInventory(List<Medication> medications, String title) {
+        String threeColBorder = "+--------------------------------------+----------------------+------------+";
+
+        ClearDisplay.ClearConsole();
+        System.out.printf("%-20s%n", title);
+        System.out.println("----------------------------------------------------");
+        System.out.println();
+        System.out.println(threeColBorder);
+        System.out.printf("| %-36s | %-20s | %-10s | %n", "ID", "Name", "Stock");
+        System.out.println(threeColBorder);
+        if (medications.isEmpty()) {
+            System.out.println("| No medications found in inventory.       ");
+            System.out.println(threeColBorder);
+            System.out.println();
+            return;
+        }
+        for (Medication medication : medications) {
+            System.out.printf("| %-36s | %-20s | %-10s | %n", medication.getModelID(), medication.getName(),
+                    medication.getStock());
+        }
+        System.out.println(threeColBorder);
+        System.out.println();
+    }
+
+    /**
+     * View medication inventory
+     */
+    private static void viewMedicationInventory() {
+        viewInventory(MedicationManager.getAllMedications(), "Medication Inventory");
+    }
+
+    /**
+     * View low stock medication inventory
+     */
+    private static void viewLowStockMedicationInventory() {
+        viewInventory(MedicationManager.getLowStockMedicationInventory(), "Low Stock Medication Inventory");
+    }
+
 }

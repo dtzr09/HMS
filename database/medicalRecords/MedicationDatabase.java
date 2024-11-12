@@ -9,7 +9,7 @@ import database.Database;
 
 public class MedicationDatabase extends Database<Medication> {
 
-    private static final String FILE_PATH = "./data/user/medication.txt";
+    private static final String FILE_PATH = "./data/medical/medication.txt";
 
     MedicationDatabase() {
         super();
@@ -47,6 +47,11 @@ public class MedicationDatabase extends Database<Medication> {
         }
     }
 
+    /**
+     * Gets all medications.
+     * 
+     * @return a list of all medications
+     */
     public List<Medication> getAllMedications() {
         return super.getAll();
     }

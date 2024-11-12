@@ -31,7 +31,7 @@ public class AccountManager {
      * 
      * @param email
      * @param userType
-     * @return
+     * @return boolean
      */
     public static boolean userExist(String email, UserType userType) {
         try {
@@ -52,7 +52,7 @@ public class AccountManager {
      * @param userType
      * @param email
      * @param password
-     * @return
+     * @return User
      * @throws PasswordIncorrectException
      * @throws ModelNotFoundException
      */
@@ -71,6 +71,9 @@ public class AccountManager {
      * 
      * @param email
      * @param name
+     * @return User
+     * @throws ModelNotFoundException
+     * @throws UserAlreadyExistsException
      */
     public static User register(String email, String name, Gender gender, int age, UserType userType)
             throws ModelNotFoundException, UserAlreadyExistsException {
@@ -159,6 +162,8 @@ public class AccountManager {
 
     /**
      * Load hospital staffs
+     * 
+     * @throws ModelNotFoundException
      */
     public static void loadHospitalStaffs() {
         List<List<String>> hospitalStaffs = CSVReader.read("./resources/Staff_List.csv", true);
@@ -192,6 +197,11 @@ public class AccountManager {
 
     }
 
+    /**
+     * Check if hospital staffs repository is empty
+     * 
+     * @return boolean
+     */
     public static boolean isHospitalStaffsRepositoryEmpty() {
         return AdministratorDatabase.getDB().isEmpty() || DoctorDatabase.getDB().isEmpty()
                 || PharmacistDatabase.getDB().isEmpty();

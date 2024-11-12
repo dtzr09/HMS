@@ -11,7 +11,7 @@ import database.Database;
 
 public class ReplenishmentRequestDatabase extends Database<ReplenishmentRequest> {
 
-    private static final String FILE_PATH = "./data/user/replenishmentRequest.txt";
+    private static final String FILE_PATH = "./data/request/replenishmentRequest.txt";
 
     ReplenishmentRequestDatabase() {
         super();
@@ -19,9 +19,9 @@ public class ReplenishmentRequestDatabase extends Database<ReplenishmentRequest>
     }
 
     /**
-     * Gets a new instance of MedicationDatabase.
+     * Gets a new instance of ReplenishmentRequestDatabase.
      *
-     * @return a new instance of MedicationDatabase
+     * @return a new instance of ReplenishmentRequestDatabase
      */
     public static ReplenishmentRequestDatabase getDB() {
         return new ReplenishmentRequestDatabase();
@@ -62,6 +62,11 @@ public class ReplenishmentRequestDatabase extends Database<ReplenishmentRequest>
         }
     }
 
+    /**
+     * Gets all replenishment requests.
+     * 
+     * @return a list of all replenishment requests
+     */
     public List<ReplenishmentRequest> getAllReplenishmentRequests() {
         return super.getAll();
     }

@@ -1,17 +1,16 @@
 package database.medicalRecords;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import database.Database;
 import model.prescription.Prescription;
-import model.prescription.PrescriptionStatus;
+import model.prescription.enums.PrescriptionStatus;
 import utils.utils.ConvertToArrayList;
 
 public class PrescriptionDatabase extends Database<Prescription> {
-    private static final String FILE_PATH = "./data/user/prescription.txt";
+    private static final String FILE_PATH = "./data/medical/prescription.txt";
 
     PrescriptionDatabase() {
         super();
@@ -19,9 +18,9 @@ public class PrescriptionDatabase extends Database<Prescription> {
     }
 
     /**
-     * Gets a new instance of MedicationDatabase.
+     * Gets a new instance of PrescriptionDatabase.
      *
-     * @return a new instance of MedicationDatabase
+     * @return a new instance of PrescriptionDatabase
      */
     public static PrescriptionDatabase getDB() {
         return new PrescriptionDatabase();
@@ -49,7 +48,7 @@ public class PrescriptionDatabase extends Database<Prescription> {
             String patientID = map.get("patientID");
             String pharmacistID = map.get("pharmacistID");
             String doctorID = map.get("doctorID");
-            String dateOfPrescription = map.get("dateOfPrescription");
+            // String dateOfPrescription = map.get("dateOfPrescription");
             String drugInstructions = map.get("drugInstructions");
             String prescriptionStatus = map.get("prescriptionStatus");
             String medicationIDsStr = map.get("medicationIDs");
@@ -63,6 +62,11 @@ public class PrescriptionDatabase extends Database<Prescription> {
         }
     }
 
+    /**
+     * Gets all prescriptions.
+     *
+     * @return a list of all prescriptions
+     */
     public List<Prescription> getAllPrescriptions() {
         return super.getAll();
     }

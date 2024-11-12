@@ -6,13 +6,12 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 public class CalendarDisplay {
-    public static void calendarDisplay() {
-        LocalDate currentDate = LocalDate.now();
-        int year = currentDate.getYear();
-        int month = currentDate.getMonthValue();
-        calendarView(year, month);
-    }
-
+    /**
+     * Displays the calendar for the specified month and year
+     * 
+     * @param year
+     * @param month
+     */
     public static void calendarView(int year, int month) {
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate firstDayOfMonth = yearMonth.atDay(1);

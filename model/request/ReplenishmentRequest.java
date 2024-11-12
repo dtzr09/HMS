@@ -13,7 +13,18 @@ public class ReplenishmentRequest implements Model {
     private Date dateOfModification;
     private String medicationID;
 
-    // Constructor
+    /**
+     * Constructs a ReplenishmentRequest with all specified fields.
+     *
+     * @param replenishmentRequestID the unique identifier for the replenishment
+     *                               request.
+     * @param status                 the current status of the replenishment
+     *                               request.
+     * @param dateOfRequest          the date the request was created.
+     * @param dateOfModification     the date the request was last modified.
+     * @param medicationID           the unique identifier of the medication for
+     *                               replenishment.
+     */
     public ReplenishmentRequest(String replenishmentRequestID, RequestStatus status, Date dateOfRequest,
             Date dateOfModification, String medicationID) {
         this.replenishmentRequestID = replenishmentRequestID;
@@ -24,61 +35,103 @@ public class ReplenishmentRequest implements Model {
     }
 
     /**
-     * Converts the map to a Medication object
+     * Constructs a ReplenishmentRequest by converting a map of attributes.
      *
-     * @param map the map
+     * @param map a map of replenishment request attributes.
      */
     public ReplenishmentRequest(Map<String, String> map) {
         this.convertToObject(map);
     }
 
+    /**
+     * Retrieves the unique identifier for the replenishment request.
+     *
+     * @return the ID of the replenishment request.
+     */
     public String getModelID() {
         return this.replenishmentRequestID;
     }
 
+    /**
+     * Retrieves the request ID.
+     *
+     * @return the unique identifier for the replenishment request.
+     */
     public String getRequestID() {
         return replenishmentRequestID;
     }
 
+    /**
+     * Retrieves the current status of the replenishment request.
+     *
+     * @return the status of the replenishment request.
+     */
     public RequestStatus getStatus() {
         return status;
     }
 
+    /**
+     * Sets the status of the replenishment request.
+     *
+     * @param status the new status to set.
+     * @return true if the status was set successfully.
+     */
     public boolean setStatus(RequestStatus status) {
         this.status = status;
         return true;
     }
 
+    /**
+     * Retrieves the date the replenishment request was created.
+     *
+     * @return the date of the request.
+     */
     public Date getDateOfRequest() {
         return dateOfRequest;
     }
 
+    /**
+     * Sets the date the replenishment request was created.
+     *
+     * @param dateOfRequest the date of the request to set.
+     */
     public void setDateOfRequest(Date dateOfRequest) {
         this.dateOfRequest = dateOfRequest;
     }
 
+    /**
+     * Retrieves the date the replenishment request was last modified.
+     *
+     * @return the date of modification.
+     */
     public Date getDateOfModification() {
         return dateOfModification;
     }
 
+    /**
+     * Sets the date the replenishment request was last modified.
+     *
+     * @param dateOfModification the date of modification to set.
+     */
     public void setDateOfModification(Date dateOfModification) {
         this.dateOfModification = dateOfModification;
     }
 
+    /**
+     * Retrieves the medication ID associated with the replenishment request.
+     *
+     * @return the medication ID.
+     */
     public String getMedicationID() {
         return medicationID;
     }
 
+    /**
+     * Sets the medication ID associated with the replenishment request.
+     *
+     * @param medicationID the medication ID to set.
+     */
     public void setMedicationID(String medicationID) {
         this.medicationID = medicationID;
     }
-
-    public void displayReplenishmentRequest() {
-        System.out.println("Replenishment Request ID: " + replenishmentRequestID);
-        System.out.println("Status: " + status);
-        System.out.println("Date of Request: " + dateOfRequest);
-        System.out.println("Date of Modification: " + dateOfModification);
-        System.out.println("Medication ID: " + medicationID);
-    }
-
 }

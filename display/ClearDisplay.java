@@ -1,6 +1,9 @@
 package display;
 
 public class ClearDisplay {
+    /**
+     * Clears the console screen.
+     */
     public static void ClearConsole() {
         String os = System.getProperty("os.name").toLowerCase();
         try {
@@ -13,8 +16,5 @@ public class ClearDisplay {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // } catch (IOException | InterruptedException e) {
-        // e.printStackTrace();
-        // }
     }
 }

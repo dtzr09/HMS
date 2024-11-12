@@ -63,10 +63,23 @@ public class AppointmentDisplay {
         monthMap.put(12, "December");
     }
 
+    /**
+     * Get the time slot based on the time slot ID.
+     * 
+     * @param timeSlotID
+     * @return the time slot
+     */
     private static String getTimeSlot(int timeSlotID) {
         return timeSlotMap.get(timeSlotID);
     }
 
+    /**
+     * Display the menu for approving or rejecting an appointment.
+     * 
+     * @param doctorID
+     * @param appointmentID
+     * @throws PageBackException
+     */
     private static void approveOrRequestDisplay(String doctorID, String appointmentID) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Manage Appointment Request");
@@ -107,6 +120,12 @@ public class AppointmentDisplay {
 
     }
 
+    /**
+     * Display all appointment requests for a doctor.
+     * 
+     * @param doctor
+     * @throws PageBackException
+     */
     public static void appointmentRequestsDisplay(Doctor doctor) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+--------------------------------------+";
         ClearDisplay.ClearConsole();
@@ -140,6 +159,12 @@ public class AppointmentDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display all upcoming appointments for a doctor.
+     * 
+     * @param upcomingAppointments
+     * @throws PageBackException
+     */
     public static void upcomingAppointmentsDisplay(List<Appointment> upcomingAppointments) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+--------------------------------------+";
 
@@ -161,6 +186,12 @@ public class AppointmentDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display all scheduled appointments for a doctor.
+     * 
+     * @param pastAppointments
+     * @throws PageBackException
+     */
     public static void viewScheduledAppointments(List<Appointment> appointments) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+-------------------+";
         System.out.println(fourColBorder);
@@ -179,6 +210,11 @@ public class AppointmentDisplay {
         System.out.println();
     }
 
+    /**
+     * Display key value pairs of appointment slots
+     * 
+     * @param appointmentID
+     */
     private static void timeSlotDisplay() {
         for (Map.Entry<Integer, String> entry : timeSlotMap.entrySet()) {
             System.out.printf("\t%d. %s%n", entry.getKey(), entry.getValue());
@@ -186,6 +222,11 @@ public class AppointmentDisplay {
         System.out.println();
     }
 
+    /**
+     * Display key value pairs of weekdays
+     * 
+     * @param appointmentID
+     */
     private static void weekdayDisplay() {
         System.out.println("\t1. Monday");
         System.out.println("\t2. Tuesday");
@@ -194,7 +235,14 @@ public class AppointmentDisplay {
         System.out.println("\t5. Friday");
     }
 
-    public static Map<String, List<String>> setAppointmentAvailability(Doctor doctor) throws PageBackException {
+    /**
+     * Display menu for setting appointment availability
+     * 
+     * @param doctor
+     * @return a map of appointment availability
+     * @throws PageBackException
+     */
+    public static Map<String, List<String>> setAppointmentAvailabilityDisplay(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Set Availability for Appointments");
         System.out.println("----------------------------------");
@@ -234,6 +282,13 @@ public class AppointmentDisplay {
         return appointmentAvailability;
     }
 
+    /**
+     * Update appointment availability for a doctor display
+     * 
+     * @param doctor
+     * @param oldAppointmentAvailability
+     * @throws PageBackException
+     */
     private static void updateAppointmentAvailabilityDisplay(Doctor doctor,
             Map<String, List<String>> oldAppointmentAvailability) throws PageBackException {
         System.out.println("Update Appointment Availability");
@@ -283,9 +338,15 @@ public class AppointmentDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display the time slots of a doctor
+     * 
+     * @param doctor
+     * @throws PageBackException
+     */
     public static void displayDoctorTimeSlots(Doctor doctor) throws PageBackException {
         try {
-            Map<String, List<String>> appointmentAvailability = doctor.getAppointmentAvailability();
+            Map<String, List<String>> appointmentAvailability = DoctorManager.getAppointmentAvailability(doctor);
             if (appointmentAvailability.isEmpty() || appointmentAvailability == null) {
                 System.out.println("The doctor has not set his availability.");
                 EnterToGoBackDisplay.display();
@@ -333,9 +394,16 @@ public class AppointmentDisplay {
 
     }
 
+    /**
+     * Display the appointment availability for a doctor for a specific day
+     * 
+     * @param doctor
+     * @param day
+     * @throws PageBackException
+     */
     public static void displayAppointmentAvailabilityForADay(Doctor doctor, DayOfWeek day)
             throws PageBackException {
-        Map<String, List<String>> appointmentAvailability = doctor.getAppointmentAvailability();
+        Map<String, List<String>> appointmentAvailability = DoctorManager.getAppointmentAvailability(doctor);
         Map<Integer, List<String>> bookedSlots = AppointmentManager.getBookedAppointmentsOfDoctor(
                 doctor.getModelID());
         List<String> bookedSlotsForDay = bookedSlots.get(day.getValue());
@@ -361,6 +429,13 @@ public class AppointmentDisplay {
         }
     }
 
+    /**
+     * Display the appointment availability for a doctor
+     * 
+     * @param doctor
+     * @param appointmentAvailability
+     * @throws PageBackException
+     */
     public static void displayAppointmentAvailability(Doctor doctor,
             Map<String, List<String>> appointmentAvailability) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -411,6 +486,12 @@ public class AppointmentDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display all appointments of a patient by status (pending, scheduled)
+     * 
+     * @param patient
+     * @param status
+     */
     public static void displayPatientsAppointment(Patient patient, AppointmentStatus status) {
         String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
         System.out.println(fiveColBorder);
@@ -441,6 +522,11 @@ public class AppointmentDisplay {
         System.out.println(fiveColBorder);
     }
 
+    /**
+     * Display all appointments of a patient
+     * 
+     * @param patient
+     */
     public static void displayAllPatientsAppointment(Patient patient) {
         String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
         System.out.println(fiveColBorder);
@@ -470,10 +556,22 @@ public class AppointmentDisplay {
         System.out.println(fiveColBorder);
     }
 
+    /**
+     * Display schedule appointment menu for patient
+     * 
+     * @param doctor
+     */
     public static void scheduleAppointmentDisplay(Patient patient, String doctorId, String action, String appointmentID)
             throws PageBackException, ModelNotFoundException, ModelAlreadyExistsException {
         Doctor doctor = null;
         doctor = DoctorManager.getDoctorByID(doctorId);
+        Map<String, List<String>> currentAvailability = DoctorManager.getAppointmentAvailability(doctor);
+        if (currentAvailability.isEmpty() || currentAvailability == null) {
+            System.out.println();
+            System.out.println("The doctor has not set his availability.");
+            System.out.println();
+            EnterToGoBackDisplay.display();
+        }
         System.out.printf("Enter the month (1 for Jan, etc) that you would like to make an appointment for: ");
         int month = CustScanner.getIntChoice();
         if (month < 1 || month > 12) {
@@ -489,8 +587,14 @@ public class AppointmentDisplay {
         scheduleAppointment(patient.getPatientID(), doctor, month, action, appointmentID);
     }
 
+    /**
+     * Display appointment availability for a doctor
+     * 
+     * @param doctor
+     * @throws PageBackException
+     */
     public static void displayAppointmentAvailabilityForPatient(Doctor doctor) throws PageBackException {
-        Map<String, List<String>> currentAvailability = doctor.getAppointmentAvailability();
+        Map<String, List<String>> currentAvailability = DoctorManager.getAppointmentAvailability(doctor);
         Map<Integer, List<String>> bookedSlots = AppointmentManager.getBookedAppointmentsOfDoctor(
                 doctor.getModelID());
 
@@ -529,6 +633,18 @@ public class AppointmentDisplay {
         }
     }
 
+    /**
+     * Schedule an appointment for a patient
+     * 
+     * @param patientID
+     * @param doctor
+     * @param month
+     * @param action
+     * @param appointmentID
+     * @throws PageBackException
+     * @throws ModelNotFoundException
+     * @throws ModelAlreadyExistsException
+     */
     private static void scheduleAppointment(String patientID, Doctor doctor, int month, String action,
             String appointmentID)
             throws PageBackException, ModelNotFoundException, ModelAlreadyExistsException {
@@ -567,14 +683,14 @@ public class AppointmentDisplay {
             System.out.println(
                     "The doctor is not available on weekends. Please choose another day.");
             // if (CustScanner.getStrChoice().equals(""))
-            //     scheduleAppointment(patientID, doctor, month, action, appointmentID);
+            // scheduleAppointment(patientID, doctor, month, action, appointmentID);
             throw new PageBackException();
         }
 
         if (!AppointmentManager.isTimeSlotAvailable(doctor, day)) {
             System.out.printf("No available time slots for this day. Please try again. ");
             // if (CustScanner.getStrChoice().equals(""))
-            //     scheduleAppointment(patientID, doctor, month, action, appointmentID);
+            // scheduleAppointment(patientID, doctor, month, action, appointmentID);
             throw new PageBackException();
         }
 

@@ -6,6 +6,9 @@ import model.user.enums.UserType;
 import utils.iocontrol.CustScanner;
 
 public class WelcomeDisplay {
+    /**
+     * Displays the welcome message and prompts the user to register or login.
+     */
     public static void welcome() {
         ClearDisplay.ClearConsole();
         System.out.println("========================================");

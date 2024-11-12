@@ -9,7 +9,7 @@ import model.appointment.enums.AppointmentOutcomeStatus;
 
 public class AppointmentOutcomeDatabase extends Database<AppointmentOutcome> {
 
-    private static final String FILE_PATH = "./data/user/appointmentOutcome.txt";
+    private static final String FILE_PATH = "./data/appointment/appointmentOutcome.txt";
 
     AppointmentOutcomeDatabase() {
         super();
@@ -17,9 +17,9 @@ public class AppointmentOutcomeDatabase extends Database<AppointmentOutcome> {
     }
 
     /**
-     * Gets a new instance of MedicationDatabase.
+     * Gets a new instance of AppointmentOutcomeDatabase.
      *
-     * @return a new instance of MedicationDatabase
+     * @return a new instance of AppointmentOutcomeDatabase
      */
     public static AppointmentOutcomeDatabase getDB() {
         return new AppointmentOutcomeDatabase();
@@ -61,6 +61,11 @@ public class AppointmentOutcomeDatabase extends Database<AppointmentOutcome> {
         }
     }
 
+    /**
+     * Gets all appointment outcomes.
+     *
+     * @return a list of all appointment outcomes
+     */
     public List<AppointmentOutcome> getAllAppointmentOutcomes() {
         return super.getAll();
     }

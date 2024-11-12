@@ -19,10 +19,17 @@ import model.user.Doctor;
 import model.user.Patient;
 import model.user.User;
 import model.user.enums.UserType;
+import utils.exceptions.ModelAlreadyExistsException;
+import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
 public class PatientDisplay {
+    /**
+     * Displays the patient's main page.
+     * 
+     * @param user
+     */
     public static void patientDisplay(User user) {
         ClearDisplay.ClearConsole();
         if (user instanceof Patient patient) {
@@ -73,6 +80,12 @@ public class PatientDisplay {
         }
     }
 
+    /**
+     * Displays the patient's main page.
+     * 
+     * @param patient
+     * @throws PageBackException
+     */
     private static void rescheduleAppointment(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Reschedule an Appointment");
@@ -102,6 +115,12 @@ public class PatientDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Cancels an appointment display.
+     * 
+     * @param patient
+     * @throws PageBackException
+     */
     private static void cancelAppointment(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Cancel an Appointment");
@@ -137,6 +156,14 @@ public class PatientDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Schedule an appointment display.
+     * 
+     * @param patient
+     * @param action
+     * @param appointmentID
+     * @throws PageBackException
+     */
     private static void scheduleAppointment(Patient patient, String action, String appointmentID)
             throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -150,13 +177,19 @@ public class PatientDisplay {
         }
         try {
             AppointmentDisplay.scheduleAppointmentDisplay(patient, doctorID, action, appointmentID);
-        } catch (Exception e) {
+        } catch (ModelNotFoundException | ModelAlreadyExistsException e) {
             System.out.println("Something went wrong.");
             EnterToGoBackDisplay.display();
         }
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Displays the available appointment slots for the patient.
+     * 
+     * @param patient
+     * @throws PageBackException
+     */
     private static void displayAvailableAppointmentSlots(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
         Doctor doctor = null;
@@ -178,6 +211,12 @@ public class PatientDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Displays the patient's medical record and personal information.
+     * 
+     * @param patient
+     * @throws PageBackException
+     */
     public static void displayPatientInfo(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Medical Record of " + patient.getName());
@@ -203,6 +242,13 @@ public class PatientDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Displays the patient's scheduled appointments.
+     * 
+     * @param patient
+     * @param status
+     * @throws PageBackException
+     */
     private static void viewAppointments(Patient patient, AppointmentStatus status) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Scheduled Appointments");
@@ -211,11 +257,22 @@ public class PatientDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Displays the patient's past appointment records.
+     * 
+     * @param patient
+     * @throws PageBackException
+     */
     private static void displayPastAppointmentRecords(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
         AppointmentOutcomeDisplay.viewAppointmentOutcomeRecordsForPatient(patient);
     }
 
+    /**
+     * Displays all patients for pharmacist.
+     * 
+     * @throws PageBackException
+     */
     public static void viewAllPatients() throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+------------------------------+----------------------+";
         List<Patient> patients = PatientManager.getAllPatients();
@@ -243,6 +300,11 @@ public class PatientDisplay {
         System.out.println(fourColBorder);
     }
 
+    /**
+     * Displays the doctor's patients.
+     * 
+     * @param patients
+     */
     public static void displayPatients(List<Patient> patients) {
         String threeColBorder = "+--------------------------------------+----------------------+------------------------------+";
         System.out.println(threeColBorder);
@@ -263,6 +325,13 @@ public class PatientDisplay {
         System.out.println(threeColBorder);
     }
 
+    /**
+     * Updates the patient's medical record.
+     * 
+     * @param patient
+     * @param doctor
+     * @throws PageBackException
+     */
     public static void updatePatientMedicalRecord(Patient patient, Doctor doctor) throws PageBackException {
         displayPatientInfo(patient);
         System.out.println();
@@ -284,6 +353,12 @@ public class PatientDisplay {
         }
     }
 
+    /**
+     * Handles the addition of allergies.
+     * 
+     * @param patient
+     * @throws PageBackException
+     */
     private static void handleAddAllergy(Patient patient) throws PageBackException {
         System.out.printf("Enter the allergy you would like to add. ");
         String allergy = CustScanner.getStrChoice();
@@ -300,6 +375,12 @@ public class PatientDisplay {
         }
     }
 
+    /**
+     * Displays the add allergy display.
+     * 
+     * @param patient
+     * @throws PageBackException
+     */
     private static void addAllergyDisplay(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Add Allergy");

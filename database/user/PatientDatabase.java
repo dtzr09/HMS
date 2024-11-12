@@ -70,11 +70,10 @@ public class PatientDatabase extends Database<Patient> {
                 allergies = ConvertToArrayList.convertToArrayList(allergiesStr);
             }
 
-            Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDateTime(dateOfBirth);
             Date registrationDate = dateOfRegistration == null ? null
                     : FormatDateTime.convertStringToDateTime(dateOfRegistration);
 
-            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
+            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
                     registrationDate);
 
             String patientID = map.get("patientID");
@@ -88,6 +87,11 @@ public class PatientDatabase extends Database<Patient> {
         }
     }
 
+    /**
+     * Gets all patients.
+     *
+     * @return a list of all patients
+     */
     public List<Patient> getAllPatients() {
         return super.getAll();
     }

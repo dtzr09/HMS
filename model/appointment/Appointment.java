@@ -13,6 +13,16 @@ public class Appointment implements Model {
     private String patientID;
     private String doctorID;
 
+    /**
+     * Constructor for Appointment
+     * 
+     * @param appointmentID
+     * @param appointmentStatus
+     * @param patientID
+     * @param dateOfAppointment
+     * @param appointmentTime
+     * @param doctorID
+     */
     public Appointment(String appointmentID, AppointmentStatus appointmentStatus, String patientID,
             String dateOfAppointment, int appointmentTime, String doctorID) {
         this.appointmentID = appointmentID;
@@ -23,56 +33,123 @@ public class Appointment implements Model {
         this.doctorID = doctorID;
     }
 
+    /**
+     * Converts a map to an Appointment object
+     * 
+     * @param map
+     */
     public Appointment(Map<String, String> map) {
         this.convertToObject(map);
     }
 
+    /**
+     * Retrieves the unique model ID.
+     *
+     * @return the unique identifier of the appointment.
+     */
     public String getModelID() {
         return appointmentID;
     }
 
+    /**
+     * Retrieves the unique appointment ID.
+     *
+     * @return the identifier of the appointment.
+     */
     public String getAppointmentID() {
         return appointmentID;
     }
 
+    /**
+     * Retrieves the current status of the appointment.
+     *
+     * @return the status of the appointment.
+     */
     public AppointmentStatus getAppointmentStatus() {
         return appointmentStatus;
     }
 
+    /**
+     * Sets the status of the appointment.
+     *
+     * @param status the new status to set for the appointment.
+     * @return true if the status was set successfully.
+     */
     public boolean setAppointmentStatus(AppointmentStatus status) {
         this.appointmentStatus = status;
         return true;
     }
 
+    /**
+     * Updates the status of the appointment.
+     *
+     * @param newStatus the new status to update for the appointment.
+     * @return true if the status was updated successfully.
+     */
     public boolean updateAppointmentStatus(AppointmentStatus newStatus) {
         this.appointmentStatus = newStatus;
         return true;
     }
 
+    /**
+     * Sets the date of the appointment.
+     *
+     * @param date the date to set for the appointment.
+     */
     public void setDateOfAppointment(String date) {
         this.dateOfAppointment = date;
     }
 
+    /**
+     * Retrieves the date of the appointment.
+     *
+     * @return the date of the appointment.
+     */
     public String getDateOfAppointment() {
         return dateOfAppointment;
     }
 
+    /**
+     * Sets the time of the appointment.
+     *
+     * @param time the time to set for the appointment in 24-hour format.
+     */
     public void setTimeOfAppointment(int time) {
         this.timeOfAppointment = time;
     }
 
+    /**
+     * Retrieves the time of the appointment.
+     *
+     * @return the time of the appointment in 24-hour format.
+     */
     public int getTimeOfAppointment() {
         return timeOfAppointment;
     }
 
+    /**
+     * Retrieves the patient ID associated with the appointment.
+     *
+     * @return the patient ID.
+     */
     public String getPatientID() {
         return patientID;
     }
 
+    /**
+     * Retrieves the doctor ID associated with the appointment.
+     *
+     * @return the doctor ID.
+     */
     public String getDoctorID() {
         return doctorID;
     }
 
+    /**
+     * Sets the doctor ID for the appointment.
+     *
+     * @param doctorID the doctor ID to set for the appointment.
+     */
     public void setDoctorID(String doctorID) {
         this.doctorID = doctorID;
     }

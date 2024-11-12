@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import controller.user.DoctorManager;
 import database.appointment.AppointmentDatabase;
 import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
@@ -20,6 +21,12 @@ import utils.exceptions.ModelNotFoundException;
 
 public class AppointmentManager {
 
+    /**
+     * Check if an appointment exists
+     * 
+     * @param appointmentID
+     * @return Boolean
+     */
     public static Boolean doesAppointmentExist(String appointmentID) {
         try {
             return AppointmentDatabase.getDB().getByID(appointmentID) != null;
@@ -28,6 +35,13 @@ public class AppointmentManager {
         }
     }
 
+    /**
+     * Get an appointment by patient and appointment ID
+     * 
+     * @param patientID
+     * @param appointmentID
+     * @return Appointment
+     */
     public static Appointment getAppointmentByPatientAndID(String patientID, String appointmentID) {
         try {
             List<Appointment> appointments = getAllAppointments();
@@ -42,6 +56,13 @@ public class AppointmentManager {
         return null;
     }
 
+    /**
+     * Get an appointment by appointment ID
+     * 
+     * @param appointmentID
+     * @return Appointment
+     */
+
     public static Appointment getAppointmentByID(String appointmentID) {
         try {
             return AppointmentDatabase.getDB().getByID(appointmentID);
@@ -51,6 +72,12 @@ public class AppointmentManager {
         return null;
     }
 
+    /**
+     * Get all the appointments of a patient
+     * 
+     * @param patientID
+     * @return List<Appointment>
+     */
     public static List<Appointment> getPatientAppointment(String patientID) {
         List<Appointment> patientAppointments = new ArrayList<>();
         for (Appointment appointment : getAllAppointments()) {
@@ -60,6 +87,13 @@ public class AppointmentManager {
         return patientAppointments;
     }
 
+    /**
+     * Get all the appointments of a patient by status
+     * 
+     * @param patientID
+     * @param status
+     * @return List<Appointment>
+     */
     public static List<Appointment> getPatientAppointmentsByStatus(String patientID, AppointmentStatus status) {
         List<Appointment> allpatientAppointments = getPatientAppointment(patientID);
         ArrayList<Appointment> scheduledPatientAppointment = new ArrayList<Appointment>();
@@ -72,6 +106,12 @@ public class AppointmentManager {
         return scheduledPatientAppointment;
     }
 
+    /**
+     * Create a new appointment
+     * 
+     * @param appointment
+     * @throws ModelAlreadyExistsException
+     */
     public static void createAppointment(Appointment appointment) throws ModelAlreadyExistsException {
         AppointmentDatabase.getDB().add(appointment);
     }
@@ -85,10 +125,21 @@ public class AppointmentManager {
         createAppointment(newAppointment);
     }
 
+    /**
+     * Get all the appointments
+     * 
+     * @return List<Appointment>
+     */
     public static List<Appointment> getAllAppointments() {
         return AppointmentDatabase.getDB().getAllAppointments();
     }
 
+    /**
+     * Get all the appointments of a doctor
+     * 
+     * @param doctorID
+     * @return List<Appointment>
+     */
     public static List<Appointment> getDoctorAppointmentsRequests(String doctorID) {
         ArrayList<Appointment> doctorAppointments = new ArrayList<Appointment>();
         List<Appointment> appointments = getAllAppointments();
@@ -100,6 +151,12 @@ public class AppointmentManager {
         return doctorAppointments;
     }
 
+    /**
+     * Get all the appointments of a doctor
+     * 
+     * @param doctorID
+     * @return List<Appointment>
+     */
     public static ArrayList<Appointment> getDoctorAppointments(String doctorID) {
         ArrayList<Appointment> doctorAppointments = new ArrayList<Appointment>();
         List<Appointment> appointments = getAllAppointments();
@@ -111,10 +168,22 @@ public class AppointmentManager {
         return doctorAppointments;
     }
 
+    /**
+     * Update an appointment
+     * 
+     * @param newAppointment
+     * @throws ModelNotFoundException
+     */
     public static void updateAppointment(Appointment newAppointment) throws ModelNotFoundException {
         AppointmentDatabase.getDB().update(newAppointment);
     }
 
+    /**
+     * Cancel an appointment
+     * 
+     * @param patientID
+     * @param appointmentID
+     */
     public static void cancelAppointment(String patientID, String appointmentID) {
         try {
             Appointment appointment = getAppointmentByPatientAndID(patientID, appointmentID);
@@ -125,6 +194,15 @@ public class AppointmentManager {
         }
     }
 
+    /**
+     * Reschedule an appointment
+     * 
+     * @param patientID
+     * @param appointmentID
+     * @param timeSlotID
+     * @param newDate
+     * @throws ModelNotFoundException
+     */
     public static void rescheduleAppointment(String patientID, String appointmentID, int timeSlotID, String newDate)
             throws ModelNotFoundException {
         try {
@@ -138,6 +216,14 @@ public class AppointmentManager {
         }
     }
 
+    /**
+     * Get an appointment by doctor and appointment ID
+     * 
+     * @param doctorID
+     * @param appointmentID
+     * @return
+     * @throws ModelNotFoundException
+     */
     private static Appointment getAppointmentByDoctorAndID(String doctorID, String appointmentID)
             throws ModelNotFoundException {
         List<Appointment> appointments = getAllAppointments();
@@ -150,6 +236,13 @@ public class AppointmentManager {
         return appointment;
     }
 
+    /**
+     * Approve an appointment for a doctor and create an appointment outcome
+     * 
+     * @param doctorID
+     * @param appointmentID
+     * @throws ModelNotFoundException
+     */
     public static void approveAppointment(String doctorID, String appointmentID) throws ModelNotFoundException {
         Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
         appointment.setAppointmentStatus(AppointmentStatus.APPROVED);
@@ -161,12 +254,25 @@ public class AppointmentManager {
         AppointmentOutcomeManager.createNewAppointmentOutcome(appointmentOutcome);
     }
 
+    /**
+     * Reject an appointment for a doctor
+     * 
+     * @param doctorID
+     * @param appointmentID
+     * @throws ModelNotFoundException
+     */
     public static void rejectAppointment(String doctorID, String appointmentID) throws ModelNotFoundException {
         Appointment appointment = getAppointmentByDoctorAndID(doctorID, appointmentID);
         appointment.setAppointmentStatus(AppointmentStatus.REJECTED);
         updateAppointment(appointment);
     }
 
+    /**
+     * Get all the appointments of a doctor
+     * 
+     * @param doctorID
+     * @return List<Appointment>
+     */
     public static ArrayList<Appointment> getAllDoctorAppointments(String doctorID) {
         ArrayList<Appointment> doctorAppointments = new ArrayList<>();
         List<Appointment> appointments = getAllAppointments();
@@ -178,10 +284,10 @@ public class AppointmentManager {
     }
 
     /**
-     * Get all the appointments of a doctor for a given date
+     * Get all the appointments of a doctor that has been booked
      * 
      * @param doctorID
-     * @return
+     * @return Map<Integer, List<String>>
      */
     public static Map<Integer, List<String>> getBookedAppointmentsOfDoctor(String doctorID) {
         Map<Integer, List<String>> doctorAppointments = new HashMap<>();
@@ -205,6 +311,13 @@ public class AppointmentManager {
         return doctorAppointments;
     }
 
+    /**
+     * Get all the appointments of a doctor with appointment outcome status pending
+     * 
+     * @param appointments
+     * @param doctorID
+     * @return ArrayList<Appointment>
+     */
     public static ArrayList<Appointment> getAppointmentWithIncompleteOutcome(List<Appointment> appointments,
             String doctorID) {
         ArrayList<Appointment> pendingAppointments = new ArrayList<>();
@@ -221,9 +334,16 @@ public class AppointmentManager {
         return pendingAppointments;
     }
 
+    /**
+     * Checks if a time slot is available for a doctor
+     * 
+     * @param doctorID
+     * @param day
+     * @return Boolean
+     */
     public static Boolean isTimeSlotAvailable(Doctor doctor, DayOfWeek day) {
         int dayValue = day.getValue();
-        Map<String, List<String>> appointmentAvailability = doctor.getAppointmentAvailability();
+        Map<String, List<String>> appointmentAvailability = DoctorManager.getAppointmentAvailability(doctor);
         if (appointmentAvailability.containsKey(Integer.toString(dayValue))) {
             return true;
         }

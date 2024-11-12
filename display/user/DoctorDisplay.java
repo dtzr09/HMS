@@ -26,6 +26,12 @@ import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
 public class DoctorDisplay {
+    /**
+     * Display the doctor main page
+     * 
+     * @param user
+     * @throws PageBackException
+     */
     public static void doctorDisplay(User user) throws PageBackException {
         ClearDisplay.ClearConsole();
         if (user instanceof Doctor doctor) {
@@ -79,6 +85,12 @@ public class DoctorDisplay {
 
     }
 
+    /**
+     * Display the set availability for appointments
+     * 
+     * @param doctor
+     * @throws PageBackException
+     */
     private static void appointmentAvailabilityDisplay(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Set Availability for Appointments");
@@ -90,7 +102,8 @@ public class DoctorDisplay {
                     "You have not set your availability for appointments. Would you like to set it now? [Y/N] ");
             String choice = CustScanner.getStrChoice();
             if (choice.equalsIgnoreCase("Y")) {
-                Map<String, List<String>> newAvailabilities = AppointmentDisplay.setAppointmentAvailability(doctor);
+                Map<String, List<String>> newAvailabilities = AppointmentDisplay
+                        .setAppointmentAvailabilityDisplay(doctor);
                 try {
                     DoctorManager.setAppointmentAvailability(doctor, newAvailabilities);
                     System.out.println();
@@ -110,6 +123,12 @@ public class DoctorDisplay {
         }
     }
 
+    /**
+     * Display the patients of the doctor
+     * 
+     * @param doctor
+     * @throws PageBackException
+     */
     private static void displayMyPatients(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
         List<Patient> patients = PatientManager.getPatientsOfDoctor(doctor.getModelID());
@@ -120,6 +139,13 @@ public class DoctorDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display the menu to view or update the medical records of the patients
+     * 
+     * @param doctor
+     * @param actions
+     * @throws PageBackException
+     */
     private static void displayPatientsMenu(Doctor doctor, MedicalRecordsActions actions) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("These are your current patients.");
@@ -164,6 +190,12 @@ public class DoctorDisplay {
 
     }
 
+    /**
+     * Display the patient medical record
+     * 
+     * @param patient
+     * @throws PageBackException
+     */
     private static void viewPatientMedicalRecord(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
         PatientDisplay.displayPatientInfo(patient);
@@ -171,6 +203,12 @@ public class DoctorDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display the upcoming appointments of the doctor
+     * 
+     * @param doctor
+     * @throws PageBackException
+     */
     private static void viewUpcomingAppointments(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
         List<Appointment> upcomingAppointments = AppointmentManager.getDoctorAppointments(doctor.getModelID());
@@ -183,6 +221,13 @@ public class DoctorDisplay {
 
     }
 
+    /**
+     * Prompts to record the appointment outcome
+     * 
+     * @param doctor
+     * @param appointmentID
+     * @throws PageBackException
+     */
     private static void displayRecordAppointmentOutcomePrompts(Doctor doctor, String appointmentID)
             throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -233,11 +278,19 @@ public class DoctorDisplay {
             EnterToGoBackDisplay.display();
         }
 
+        System.out.println();
         System.out.println("Appointment Outcome added successfully.");
+        System.out.println();
         EnterToGoBackDisplay.display();
 
     }
 
+    /**
+     * Display updating of appointment outcome menu
+     * 
+     * @param doctor
+     * @throws PageBackException
+     */
     private static void recordAppointmentOutcome(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Record Appointment Outcome");

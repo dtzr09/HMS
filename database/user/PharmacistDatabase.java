@@ -56,10 +56,9 @@ public class PharmacistDatabase extends Database<Pharmacist> {
             String genderStr = map.get("personalInfo_gender");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
 
-            Date birthDate = FormatDateTime.convertStringToDateTime(dateOfBirth);
             Date registrationDate = FormatDateTime.convertStringToDateTime(dateOfRegistration);
 
-            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
+            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
                     registrationDate);
 
             String pharmacistID = map.get("pharmacistID");
@@ -71,6 +70,11 @@ public class PharmacistDatabase extends Database<Pharmacist> {
         }
     }
 
+    /**
+     * Gets all pharmacists.
+     *
+     * @return a list of all pharmacists
+     */
     public List<Pharmacist> getAllPharmacist() {
         return super.getAll();
     }

@@ -13,6 +13,11 @@ import utils.exceptions.ModelNotFoundException;
 
 public class ReplenishmentRequestManager {
 
+    /**
+     * Check if there are any pending requests
+     * 
+     * @return true if there are pending requests, false otherwise
+     */
     public static Boolean isThereAnyPendingRequests() {
         try {
             List<ReplenishmentRequest> replenishmentRequests = ReplenishmentRequestDatabase.getDB()
@@ -28,10 +33,25 @@ public class ReplenishmentRequestManager {
 
     }
 
+    /**
+     * Update a request
+     * 
+     * @param request
+     * @throws ModelNotFoundException
+     */
     public static void updateRequst(ReplenishmentRequest request) throws ModelNotFoundException {
         ReplenishmentRequestDatabase.getDB().update(request);
     }
 
+    /**
+     * Add a replenishment request
+     * 
+     * @param replenishmentRequestID
+     * @param status
+     * @param dateOfRequest
+     * @param dateOfModification
+     * @param medicationID
+     */
     public static void addReplenishmentRequest(String replenishmentRequestID, RequestStatus status, Date dateOfRequest,
             Date dateOfModification, String medicationID) {
         ReplenishmentRequest request = new ReplenishmentRequest(replenishmentRequestID, status, dateOfRequest,
@@ -43,6 +63,13 @@ public class ReplenishmentRequestManager {
         }
     }
 
+    /**
+     * Get a replenishment request by its ID
+     * 
+     * @param requestId
+     * @return ReplenishmentRequest
+     * @throws ModelNotFoundException
+     */
     private static ReplenishmentRequest getReplenishmentRequestById(String requestId) throws ModelNotFoundException {
         return ReplenishmentRequestDatabase.getDB().getByID(requestId);
     }
@@ -62,6 +89,12 @@ public class ReplenishmentRequestManager {
         }
     }
 
+    /**
+     * Approve a medication replenishment request
+     * 
+     * @param requestId
+     * @return true if the request is approved, false otherwise
+     */
     public static boolean approveMedicationReplenishmentRequest(String requestId) {
         try {
             ReplenishmentRequest replenishmentRequest = getReplenishmentRequestById(requestId);
@@ -78,6 +111,12 @@ public class ReplenishmentRequestManager {
 
     }
 
+    /**
+     * Decline a medication replenishment request
+     * 
+     * @param requestId
+     * @return true if the request is declined, false otherwise
+     */
     public static boolean declineMedicationReplenishmentRequest(String requestId) {
         try {
             ReplenishmentRequest replenishmentRequest = getReplenishmentRequestById(requestId);

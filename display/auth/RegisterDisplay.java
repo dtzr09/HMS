@@ -1,10 +1,11 @@
 package display.auth;
 
+import java.util.concurrent.TimeUnit;
+
 import controller.account.AccountManager;
 import controller.authentication.PasswordManager;
 import controller.user.UserManager;
 import display.ClearDisplay;
-import display.EnterToGoBackDisplay;
 import display.WelcomeDisplay;
 import model.user.User;
 import model.user.enums.Gender;
@@ -14,6 +15,9 @@ import utils.iocontrol.CustScanner;
 
 public class RegisterDisplay {
 
+    /**
+     * Display menu for user to register
+     */
     public static void registerDisplay() {
         ClearDisplay.ClearConsole();
         System.out.println("========================================");
@@ -57,6 +61,12 @@ public class RegisterDisplay {
 
     }
 
+    /**
+     * Display fields for user to register
+     * 
+     * @param userType
+     * @throws PageBackException
+     */
     private static void registerUserDisplay(UserType userType) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("========================================");
@@ -106,7 +116,9 @@ public class RegisterDisplay {
                 try {
                     PasswordManager.changePassword(user, "password", CustScanner.getPassword());
                     UserManager.updateUser(user);
-                    System.out.println("Password changed successfully.");
+                    System.out.println("Password changed successfully. Redirecting you to login page...");
+                    TimeUnit.SECONDS.sleep(2);
+                    WelcomeDisplay.welcome();
                 } catch (Exception e) {
                     System.out.println("Password change failed. Please try again.");
                     System.out.println("Error registering user.");
@@ -119,51 +131,9 @@ public class RegisterDisplay {
                         registerUserDisplay(userType);
                     }
                 }
-                EnterToGoBackDisplay.display();
             }
         } catch (Exception e) {
             throw new PageBackException();
         }
     }
-
-    // try {
-    // User user = AccountManager.register(userEmail, name, gender, age, userType);
-    // if (user != null) {
-    // System.out.println("User registered successfully.");
-
-    // // Check if its the first time user logged in
-    // if (PasswordManager.checkPassword(user, "password")) {
-    // System.out.print("Please enter a new password: ");
-    // try {
-    // PasswordManager.changePassword(user, "password", CustScanner.getPassword());
-    // } catch (Exception e) {
-    // System.out.println("Password change failed. Please try again.");
-    // e.printStackTrace();
-    // PasswordManager.changePassword(user, "password", CustScanner.getPassword());
-    // }
-    // UserManager.updateUser(user);
-    // System.out.println("Password changed successfully.");
-    // }
-    // switch (userType) {
-    // case ADMINISTRATOR -> AdministratorDisplay.administratorDisplay(user);
-    // default -> throw new IllegalStateException("Unexpected value: " + userType);
-    // }
-    // } else {
-    // throw new Exception();
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // System.out.println("Error registering user.");
-    // System.out.println("Enter [b] to go back to login page, else any other key to
-    // try again.");
-    // String choice = CustScanner.getStrChoice();
-    // if (choice.equalsIgnoreCase("b")) {
-    // throw new PageBackException();
-    // } else {
-    // System.out.println("Please try again.");
-    // registerUserDisplay(userType);
-    // }
-    // }
-    // }
-
 }

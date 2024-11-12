@@ -56,11 +56,10 @@ public class AdministratorDatabase extends Database<Administrator> {
             String genderStr = map.get("personalInfo_gender");
             Gender gender = genderStr != null ? Gender.valueOf(genderStr.toUpperCase()) : null;
 
-            Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDateTime(dateOfBirth);
             Date registrationDate = dateOfRegistration == null ? null
                     : FormatDateTime.convertStringToDateTime(dateOfRegistration);
 
-            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
+            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
                     registrationDate);
             String administratorID = map.get("administratorID");
             String password = map.get("password");
@@ -71,6 +70,11 @@ public class AdministratorDatabase extends Database<Administrator> {
         }
     }
 
+    /**
+     * Gets all administrators.
+     *
+     * @return a list of all administrators
+     */
     public List<Administrator> getAllAdministrators() {
         return super.getAll();
     }

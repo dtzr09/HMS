@@ -3,9 +3,9 @@ package display.medication;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.medication.DiagnosisManager;
 import controller.medication.MedicationManager;
 import controller.medication.PrescriptionManager;
-import controller.user.PatientManager;
 import display.EnterToGoBackDisplay;
 import model.diagnosis.Diagnosis;
 import model.medication.Medication;
@@ -16,6 +16,14 @@ import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
 public class PrescriptionDisplay {
+    /**
+     * Display the update of prescription management menu
+     * 
+     * @param patient
+     * @param doctor
+     * @param diagnosisId
+     * @throws PageBackException
+     */
     public static void updatePrescriptionDisplay(Patient patient, Doctor doctor,
             String diagnosisId)
             throws PageBackException {
@@ -24,7 +32,7 @@ public class PrescriptionDisplay {
         Prescription oldPrescription = null;
         String medicationsStr = "";
         try {
-            diagnosis = PatientManager.getDiagnosisByID(patient, diagnosisId);
+            diagnosis = DiagnosisManager.getDiagnosisByID(patient, diagnosisId);
             oldPrescription = PrescriptionManager.getPrescriptionByID(diagnosis.getPrescriptionID());
             ArrayList<Medication> medication = MedicationManager
                     .getMedicationsByIDs(oldPrescription.getMedicationIDs());
@@ -78,6 +86,14 @@ public class PrescriptionDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Display the add new prescription menu
+     * 
+     * @param patient
+     * @param doctor
+     * @param prescriptionID
+     * @throws PageBackException
+     */
     public static void displayAddNewPresciption(Patient patient, Doctor doctor, String prescriptionID)
             throws PageBackException {
         System.out.println("Select the medications for the diagnosis.");

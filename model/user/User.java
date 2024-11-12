@@ -17,7 +17,9 @@ public interface User extends Model {
 
     String getPassword();
 
-    Date getDateOfBirth();
+    String getDateOfBirth();
+
+    Date getDateOfRegistration();
 
     int getAge();
 
@@ -33,7 +35,7 @@ public interface User extends Model {
 
     void setAge(int age);
 
-    void setDateOfBirth(Date dateOfBirth);
+    void setDateOfBirth(String dateOfBirth);
 
     void setPassword(String password);
 

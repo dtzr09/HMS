@@ -10,9 +10,15 @@ import model.user.User;
 import model.user.enums.UserType;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
+import utils.utils.FormatDateTime;
 
 public class UserProfileDisplay {
 
+        /**
+         * Displays the user's profile fields.
+         * 
+         * @param user
+         */
         public static void profileFields(User user) {
                 System.out.printf("User ID: %s\n", user.getModelID());
                 System.out.printf("Name: %s\n", user.getName());
@@ -21,6 +27,8 @@ public class UserProfileDisplay {
                 System.out.printf("Age: %d\n", user.getAge());
                 System.out.printf("Date of Birth: %s\n", user.getDateOfBirth());
                 System.out.printf("Phone Number: %s\n", user.getPhoneNumber());
+                System.out.printf("Date Of Registration: %s\n",
+                                FormatDateTime.formatDateTimeToString(user.getDateOfRegistration()));
         }
 
         /**
@@ -44,20 +52,29 @@ public class UserProfileDisplay {
         public static void viewUserProfilePage(User user, UserType userType) throws PageBackException {
                 ClearDisplay.ClearConsole();
                 viewUserProfile(user, userType);
+                System.out.println();
                 EnterToGoBackDisplay.display();
         }
 
+        /**
+         * Displays menu for user to update their profile.
+         * 
+         * @param user
+         * @param userType
+         * @throws PageBackException
+         */
         public static void updateUserProfile(User user, UserType userType) throws PageBackException {
                 ClearDisplay.ClearConsole();
                 System.out.println("Your profile");
                 System.out.println("--------------------------------");
                 profileFields(user);
+                System.out.println();
                 System.out.println("\t1. Name");
                 System.out.println("\t2. Email");
                 System.out.println("\t3. Phone Number");
                 System.out.println("\t4. Age");
                 System.out.println("\t5. Date of Birth");
-                System.out.println("\t5. Go back");
+                System.out.println("\t6. Go back");
                 System.out.println();
                 Map<String, String> updatedFields = new HashMap<>();
 
@@ -90,7 +107,7 @@ public class UserProfileDisplay {
                         updatedFields.put(inputField, newValue);
 
                         System.out.println();
-                        System.out.println("Do you want to update another field? (y/n)");
+                        System.out.printf("Do you want to update another field? (y/n) ");
                         if (CustScanner.getStrChoice().equalsIgnoreCase("n")) {
                                 break;
                         }
@@ -99,7 +116,7 @@ public class UserProfileDisplay {
                 System.out.println("Updated fields:");
                 updatedFields.forEach((key, value) -> System.out.printf("%s: %s\n", key, value));
                 System.out.println();
-                System.out.println("Do you want to save these changes? (y/n)");
+                System.out.printf("Do you want to save these changes? (y/n) ");
                 if (CustScanner.getStrChoice().equalsIgnoreCase("y")) {
                         try {
                                 UserManager.updateUserProfile(user, userType, updatedFields);
@@ -109,6 +126,5 @@ public class UserProfileDisplay {
 
                 }
                 EnterToGoBackDisplay.display();
-
         }
 }

@@ -18,14 +18,11 @@ import utils.exceptions.PageBackException;
 
 public class AppointmentOutcomeManager {
 
-    public static void getAppointmentOutcomeByID(String appointmentOutcomeID) {
-        try {
-            AppointmentOutcomeDatabase.getDB().getByID(appointmentOutcomeID);
-        } catch (Exception e) {
-            System.out.println("Appointment Outcome not found.");
-        }
-    }
-
+    /**
+     * Create new appointment outcome
+     * 
+     * @param appointmentOutcome
+     */
     public static void createNewAppointmentOutcome(AppointmentOutcome appointmentOutcome) {
         try {
             AppointmentOutcomeDatabase.getDB().add(appointmentOutcome);
@@ -34,6 +31,15 @@ public class AppointmentOutcomeManager {
         }
     }
 
+    /**
+     * Update appointment outcome
+     * 
+     * @param appointmentOutcome
+     * @param diagnosis
+     * @param typeOfService
+     * @param diagnosisID
+     * @param consultationNotes
+     */
     public static void updateAppointmentOutcome(AppointmentOutcome appointmentOutcome, Diagnosis diagnosis,
             String typeOfService, String diagnosisID, String consultationNotes) {
         try {
@@ -49,6 +55,11 @@ public class AppointmentOutcomeManager {
         }
     }
 
+    /**
+     * Get all appointment outcomes
+     * 
+     * @return List<AppointmentOutcome>
+     */
     public static List<AppointmentOutcome> getAllAppointmentOutcome() {
         return AppointmentOutcomeDatabase.getDB().getAllAppointmentOutcomes();
     }
@@ -67,6 +78,12 @@ public class AppointmentOutcomeManager {
         }
     }
 
+    /**
+     * Get appointment outcome by patient ID
+     * 
+     * @param patientID
+     * @return List<AppointmentOutcome>
+     */
     public static List<AppointmentOutcome> getPatientsAppointmentOutcomeRecords(String patientID) {
         ArrayList<AppointmentOutcome> recordList = new ArrayList<>();
 
@@ -83,6 +100,14 @@ public class AppointmentOutcomeManager {
         }
     }
 
+    /**
+     * Get appointment outcome records
+     * 
+     * @param recordList
+     * @param patientID
+     * @return List<AppointmentOutcomeRecord>
+     * @throws PageBackException
+     */
     public static List<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(List<AppointmentOutcome> recordList,
             String patientID) throws PageBackException {
         ArrayList<AppointmentOutcomeRecord> records = new ArrayList<>();
@@ -99,14 +124,18 @@ public class AppointmentOutcomeManager {
                         appointment.getDateOfAppointment(), prescription.getPrescriptionStatus());
                 records.add(record);
             } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("| Error getting appointment outcome records.");
                 EnterToGoBackDisplay.display();
             }
         }
         return records;
     }
 
+    /**
+     * Get appointment outcome by doctor ID
+     * 
+     * @param doctorID
+     * @return List<AppointmentOutcome>
+     */
     public static ArrayList<AppointmentOutcome> getAppointmentOutcomeByDoctorID(String doctorID) {
         ArrayList<AppointmentOutcome> doctorAppointmentOutcome = new ArrayList<>();
         List<AppointmentOutcome> appointmentOutcomes = getAllAppointmentOutcome();
@@ -118,6 +147,12 @@ public class AppointmentOutcomeManager {
         return doctorAppointmentOutcome;
     }
 
+    /**
+     * Get number of appointment outcome by patient ID
+     * 
+     * @param patientID
+     * @return int
+     */
     public static int getNumberOfAppointmentOutcomeByPatientID(String patientID) {
         List<AppointmentOutcome> appointmentOutcomes = getAllAppointmentOutcome();
         int count = 0;

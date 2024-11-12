@@ -1,10 +1,8 @@
 package database.user;
 
-import model.appointment.Appointment;
 import model.user.Doctor;
 import model.user.PersonalInfo;
 import model.user.enums.Gender;
-import utils.utils.ConvertToArrayList;
 import utils.utils.FormatDateTime;
 import utils.utils.StringToMap;
 
@@ -64,22 +62,26 @@ public class DoctorDatabase extends Database<Doctor> {
 
             Map<String, List<String>> apppointmentAvailability = StringToMap.ToMap(appointmentAvailabilityStr);
 
-            Date birthDate = dateOfBirth == null ? null : FormatDateTime.convertStringToDateTime(dateOfBirth);
             Date registrationDate = dateOfRegistration == null ? null
                     : FormatDateTime.convertStringToDateTime(dateOfRegistration);
 
-            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, birthDate, emailAddress, phoneNumber,
+            PersonalInfo personalInfo = new PersonalInfo(name, gender, age, dateOfBirth, emailAddress, phoneNumber,
                     registrationDate);
 
             String doctorID = map.get("doctorID");
             String password = map.get("password");
 
-            Doctor doctor = new Doctor(doctorID, password, personalInfo, new ArrayList<>(), 0, new ArrayList<>(),
+            Doctor doctor = new Doctor(doctorID, password, personalInfo, new ArrayList<>(), 0,
                     apppointmentAvailability);
             getAll().add(doctor);
         }
     }
 
+    /**
+     * Gets all doctors in the Database.
+     *
+     * @return a list of all doctors in the Database
+     */
     public List<Doctor> getAllDoctors() {
         return super.getAll();
     }

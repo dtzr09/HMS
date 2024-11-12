@@ -35,8 +35,15 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
         return listOfModelObjects;
     }
 
-    // Only users will have email
+    /**
+     * Gets a model object by email.
+     * 
+     * @param userEmail
+     * @return
+     * @throws ModelNotFoundException
+     */
     public ModelObject getByEmail(String userEmail) throws ModelNotFoundException {
+        // Only users will have email
         for (ModelObject modelObject : listOfModelObjects) {
             if (modelObject.getModelEmail().equalsIgnoreCase(userEmail)) {
                 return modelObject;
@@ -45,6 +52,14 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
         throw new ModelNotFoundException("No model object with Email" + userEmail + " exists.");
     }
 
+    /**
+     * Gets a model object by ID.
+     *
+     * @param modelObjectID the ID of the model object to get
+     * @return the model object with the specified ID
+     * @throws ModelNotFoundException if the model object with the given ID does not
+     *                                exist
+     */
     public ModelObject getByID(String modelObjectID) throws ModelNotFoundException {
         for (ModelObject modelObject : listOfModelObjects) {
             if (modelObject.getModelID().equalsIgnoreCase(modelObjectID)) {
@@ -123,15 +138,6 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
     }
 
     /**
-     * Gets the size of the Database.
-     *
-     * @return the size of the Database
-     */
-    public int size() {
-        return listOfModelObjects.size();
-    }
-
-    /**
      * Removes all model objects from this Database.
      */
     public void clear() {
@@ -173,71 +179,5 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
     @Override
     public Iterator<ModelObject> iterator() {
         return listOfModelObjects.iterator();
-    }
-
-    /**
-     * Finds all model objects in the Database that match the specified rules.
-     * <p>
-     * Multiple rules can be specified, and all rules must be satisfied for a model
-     * object to be considered a match.
-     * <p>
-     * The rules are specified as lambda expressions that take a model object as a
-     * parameter and return a boolean.
-     * <p>
-     * Here is an example of how to use this method:
-     *
-     * <pre>
-     * List&lt;Student&gt; modelObjects = Database.findByRules(
-     *         student -&gt; student.getFirstName().equals("John"),
-     *         student -&gt; student.getLastName().equals("Smith"));
-     * </pre>
-     * <p>
-     * This will return a list of all students whose first name is "John" and whose
-     * last name is "Smith".
-     *
-     * @param rules the rules to match
-     * @return a list of all model objects in the Database that match the
-     *         specified rules
-     */
-    @SafeVarargs
-    public final List<ModelObject> findByRules(DatabaseRule<ModelObject>... rules) {
-        List<ModelObject> modelObjects = new ArrayList<>();
-        for (ModelObject modelObject : listOfModelObjects) {
-            boolean isMatch = true;
-            for (DatabaseRule<ModelObject> rule : rules) {
-                if (!rule.isMatch(modelObject)) {
-                    isMatch = false;
-                    break;
-                }
-            }
-            if (isMatch) {
-                modelObjects.add(modelObject);
-            }
-        }
-        return modelObjects;
-    }
-
-    /**
-     * Gets a list of all model objects in the Database.
-     *
-     * @return a list of all model objects in the Database
-     */
-    public List<ModelObject> getList() {
-        return findByRules();
-    }
-
-    /**
-     * Provides a rule for filtering model objects in the Database.
-     *
-     * @param <ModelObject> the type of model object stored in the Database
-     */
-    public interface DatabaseRule<ModelObject> {
-        /**
-         * Checks whether the specified model object matches the rule.
-         *
-         * @param modelObject the model object to check
-         * @return true if the model object matches the rule, false otherwise
-         */
-        boolean isMatch(ModelObject modelObject);
     }
 }

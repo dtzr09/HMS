@@ -13,6 +13,12 @@ import utils.exceptions.PageBackException;
 
 public class AppointmentOutcomeDisplay {
 
+    /**
+     * Displays the appointment outcome records for a patient for a pharmacist
+     * 
+     * @param patientID
+     * @throws PageBackException
+     */
     public static void viewAppointmentOutcomeRecordsForPharmacist(String patientID) throws PageBackException {
         ClearDisplay.ClearConsole();
         String sevenColBorder = "+--------------------------------------+--------------------+--------------------+--------------------+--------------------+--------------------+";
@@ -49,6 +55,12 @@ public class AppointmentOutcomeDisplay {
 
     }
 
+    /**
+     * Displays the appointment outcome records for a patient
+     * 
+     * @param patient
+     * @throws PageBackException
+     */
     public static void viewAppointmentOutcomeRecordsForPatient(Patient patient) throws PageBackException {
         String fourcolBorder = "+--------------------------------------+--------------------------------------+--------------------------------------+--------------------------------------+";
         String patientID = patient.getPatientID();

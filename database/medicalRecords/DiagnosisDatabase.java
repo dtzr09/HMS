@@ -7,7 +7,7 @@ import database.Database;
 import model.diagnosis.Diagnosis;
 
 public class DiagnosisDatabase extends Database<Diagnosis> {
-    private static final String FILE_PATH = "./data/user/diagnosis.txt";
+    private static final String FILE_PATH = "./data/medical/diagnosis.txt";
 
     DiagnosisDatabase() {
         super();
@@ -15,9 +15,9 @@ public class DiagnosisDatabase extends Database<Diagnosis> {
     }
 
     /**
-     * Gets a new instance of MedicationDatabase.
+     * Gets a new instance of DiagnosisDatabase.
      *
-     * @return a new instance of MedicationDatabase
+     * @return a new instance of DiagnosisDatabase
      */
     public static DiagnosisDatabase getDB() {
         return new DiagnosisDatabase();
@@ -45,6 +45,11 @@ public class DiagnosisDatabase extends Database<Diagnosis> {
         }
     }
 
+    /**
+     * Gets all diagnosis.
+     *
+     * @return a list of all diagnosis
+     */
     public List<Diagnosis> getAllDiagnosis() {
         return super.getAll();
     }

@@ -3,21 +3,35 @@ package controller.user;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.medication.DiagnosisManager;
 import database.user.PatientDatabase;
-import model.diagnosis.Diagnosis;
 import model.user.Patient;
 import utils.exceptions.ModelNotFoundException;
 
 public class PatientManager {
+    /**
+     * Get all patients
+     * 
+     * @return List of patients
+     */
     public static List<Patient> getAllPatients() {
         return PatientDatabase.getDB().getAllPatients();
     }
 
+    /**
+     * Check if patient database is empty
+     * 
+     * @return True if empty, false otherwise
+     */
     public static boolean isRepositoryEmpty() {
         return PatientDatabase.getDB().isEmpty();
     }
 
+    /**
+     * Get all patients of a doctor
+     * 
+     * @param doctorId
+     * @return List of patients
+     */
     public static List<Patient> getPatientsOfDoctor(String doctorId) {
         List<Patient> patients = new ArrayList<>();
         List<Patient> allPatients = getAllPatients();
@@ -28,6 +42,12 @@ public class PatientManager {
         return patients;
     }
 
+    /**
+     * Get patient by ID
+     * 
+     * @param patientId
+     * @return Patient
+     */
     public static Patient getPatientById(String patientId) {
         try {
             return PatientDatabase.getDB().getByID(patientId);
@@ -37,6 +57,12 @@ public class PatientManager {
         }
     }
 
+    /**
+     * Add allergy to patient
+     * 
+     * @param patient
+     * @param allergy
+     */
     public static void addAllergy(Patient patient, String allergy) {
         try {
             ArrayList<String> allergies = patient.getAllergies();
@@ -48,42 +74,4 @@ public class PatientManager {
         }
     }
 
-    public static Diagnosis getDiagnosisByID(Patient patient, String diagnosisID) {
-        try {
-            List<Diagnosis> diagnoses = DiagnosisManager.getDiagnosisByPatientID(patient.getPatientID());
-            Diagnosis diagnosis = null;
-
-            for (Diagnosis d : diagnoses) {
-                if (d.getDiagnosisID().equals(diagnosisID)) {
-                    diagnosis = d;
-                    break;
-                }
-            }
-
-            if (diagnosis == null) {
-                throw new ModelNotFoundException();
-            }
-
-            return diagnosis;
-        } catch (ModelNotFoundException e) {
-            System.out.println("Diagnosis not found.");
-        }
-        return null;
-    }
-
-    public static void updateDisease(String newDisease, String patientID, String diagnosisID) {
-        try {
-            Patient patient = getPatientById(patientID);
-            List<Diagnosis> diagnoses = DiagnosisManager.getDiagnosisByPatientID(patientID);
-            for (Diagnosis diagnosis : diagnoses) {
-                if (diagnosis.getDiagnosisID().equals(diagnosisID)) {
-                    diagnosis.setDisease(newDisease);
-                    break;
-                }
-            }
-            UserManager.updateUser(patient);
-        } catch (Exception e) {
-            System.out.println("Something went wrong.");
-        }
-    }
 }

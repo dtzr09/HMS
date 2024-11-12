@@ -8,7 +8,7 @@ import model.appointment.Appointment;
 
 public class AppointmentDatabase extends Database<Appointment> {
 
-    private static final String FILE_PATH = "./data/user/appointment.txt";
+    private static final String FILE_PATH = "./data/appointment/appointment.txt";
 
     AppointmentDatabase() {
         super();
@@ -16,9 +16,9 @@ public class AppointmentDatabase extends Database<Appointment> {
     }
 
     /**
-     * Gets a new instance of MedicationDatabase.
+     * Gets a new instance of AppointmentDatabase.
      *
-     * @return a new instance of MedicationDatabase
+     * @return a new instance of AppointmentDatabase
      */
     public static AppointmentDatabase getDB() {
         return new AppointmentDatabase();
@@ -46,6 +46,11 @@ public class AppointmentDatabase extends Database<Appointment> {
         }
     }
 
+    /**
+     * Gets all appointments.
+     *
+     * @return a list of all appointments
+     */
     public List<Appointment> getAllAppointments() {
         return super.getAll();
     }

@@ -10,10 +10,26 @@ import utils.exceptions.UserCannotBeFoundException;
 
 public class AdministratorManager {
 
+    /**
+     * Check if the administrator database is empty
+     * 
+     * @return true if the administrator database is empty, false otherwise
+     */
     public static boolean isRepositoryEmpty() {
         return AdministratorDatabase.getDB().isEmpty();
     }
 
+    /**
+     * Add a new hospital staff
+     * 
+     * @param email
+     * @param name
+     * @param gender
+     * @param age
+     * @param userType
+     * @throws ModelNotFoundException
+     * @throws UserAlreadyExistsException
+     */
     public static void addNewHospitalStaff(String email, String name, Gender gender, int age, UserType userType)
             throws ModelNotFoundException, UserAlreadyExistsException {
         try {
@@ -25,6 +41,14 @@ public class AdministratorManager {
         }
     }
 
+    /**
+     * Remove a hospital staff
+     * 
+     * @param email
+     * @param userType
+     * @throws ModelNotFoundException
+     * @throws UserCannotBeFoundException
+     */
     public static void removeNewHospitalStaff(String email, UserType userType)
             throws ModelNotFoundException, UserCannotBeFoundException {
         try {

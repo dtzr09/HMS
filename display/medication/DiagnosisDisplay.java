@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import controller.medication.DiagnosisManager;
 import controller.user.DoctorManager;
-import controller.user.PatientManager;
 import display.ClearDisplay;
 import display.EnterToGoBackDisplay;
 import model.diagnosis.Diagnosis;
@@ -17,6 +16,13 @@ import utils.iocontrol.CustScanner;
 
 public class DiagnosisDisplay {
 
+    /**
+     * Display menu to add diagnosis
+     * 
+     * @param patient
+     * @param doctor
+     * @throws PageBackException
+     */
     public static void addDiagnosisDisplay(Patient patient, Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("Add Diagnosis");
@@ -37,6 +43,13 @@ public class DiagnosisDisplay {
         }
     }
 
+    /**
+     * Display all diagnosis of a patient
+     * 
+     * @param patient
+     * @param doctor
+     * @throws PageBackException
+     */
     private static void displayAllDiagnosisOfPatient(Patient patient, Doctor doctor) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-----------------+";
         System.out.printf("| %-100s |%n", " " + "Diagnosis history of " + patient.getName());
@@ -57,20 +70,26 @@ public class DiagnosisDisplay {
                             record.getDisease(), record.getDoctorName(), String.join(",", record.getMedicationNames()),
                             record.getDateOfDiagnosis());
                 }
-
             }
-
         } catch (Exception e) {
             System.out.println("No diagnosis found.");
             throw new PageBackException();
         }
     }
 
+    /**
+     * Display menu to update the disease of the diagnosis
+     * 
+     * @param patient
+     * @param doctor
+     * @param diagnosisId
+     * @throws PageBackException
+     */
     private static void updateDiagnosis(Patient patient, Doctor doctor, String diagnosisId) throws PageBackException {
         System.out.println("Enter the new diagnosis.");
         String diagnosis = CustScanner.getStrChoice();
         try {
-            PatientManager.updateDisease(diagnosis, patient.getPatientID(), diagnosisId);
+            DiagnosisManager.updateDisease(diagnosis, patient.getPatientID(), diagnosisId);
             System.out.println("Diagnosis updated successfully.");
         } catch (Exception e) {
             System.out.println("Something went wrong.");
@@ -78,6 +97,33 @@ public class DiagnosisDisplay {
         }
     }
 
+    /**
+     * Main display to update diagnosis
+     * 
+     * @param patient
+     * @param doctor
+     * @throws PageBackException
+     */
+    public static void updateDiagnosisDisplay(Patient patient, Doctor doctor) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Update Diagnosis");
+        System.out.println("--------------------------------------------");
+
+        displayAllDiagnosisOfPatient(patient, doctor);
+
+        System.out.println("Enter the diagnosis id you would like to update.");
+        String diagnosisId = CustScanner.getStrChoice();
+        updateDiagnosisMenu(patient, doctor, diagnosisId);
+    }
+
+    /**
+     * Display menu to update diagnosis
+     * 
+     * @param patient
+     * @param doctor
+     * @param diagnosisId
+     * @throws PageBackException
+     */
     private static void updateDiagnosisMenu(Patient patient, Doctor doctor, String diagnosisId)
             throws PageBackException {
         displaySingleDiagnosis(patient, doctor, diagnosisId);
@@ -102,6 +148,14 @@ public class DiagnosisDisplay {
         }
     }
 
+    /**
+     * Display single diagnosis
+     * 
+     * @param patient
+     * @param doctor
+     * @param diagnosisId
+     * @throws PageBackException
+     */
     private static void displaySingleDiagnosis(Patient patient, Doctor doctor, String diagnosisId)
             throws PageBackException {
         try {
@@ -125,18 +179,6 @@ public class DiagnosisDisplay {
             throw new PageBackException();
         }
 
-    }
-
-    public static void updateDiagnosisDisplay(Patient patient, Doctor doctor) throws PageBackException {
-        ClearDisplay.ClearConsole();
-        System.out.println("Update Diagnosis");
-        System.out.println("--------------------------------------------");
-
-        displayAllDiagnosisOfPatient(patient, doctor);
-
-        System.out.println("Enter the diagnosis id you would like to update.");
-        String diagnosisId = CustScanner.getStrChoice();
-        updateDiagnosisMenu(patient, doctor, diagnosisId);
     }
 
     public static void displayAllDiagnosisOfPatient(Patient patient) throws PageBackException {

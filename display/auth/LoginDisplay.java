@@ -18,6 +18,12 @@ import utils.exceptions.PasswordIncorrectException;
 import utils.iocontrol.CustScanner;
 
 public class LoginDisplay {
+    /**
+     * Display for user to log in
+     * 
+     * @param userType
+     * @throws PageBackException
+     */
     public static void login(UserType userType) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("========================================");

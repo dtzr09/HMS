@@ -22,12 +22,18 @@ import utils.exceptions.PageBackException;
 import utils.exceptions.UserAlreadyExistsException;
 import utils.exceptions.UserCannotBeFoundException;
 import utils.iocontrol.CustScanner;
+import utils.utils.FormatDateTime;
 
 public class AdministratorDisplay {
 
     private static String threeColBorder = "+--------------------------------------+----------------------+------------------------------+";
-    private static String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
+    private static String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+----------------------+";
 
+    /**
+     * Display the administrator main page
+     * 
+     * @param user
+     */
     public static void administratorDisplay(User user) {
         ClearDisplay.ClearConsole();
         if (user instanceof Administrator administrator) {
@@ -80,12 +86,21 @@ public class AdministratorDisplay {
         }
     }
 
+    /**
+     * Display the table header
+     */
     private static void displayTableHeader() {
         System.out.println(threeColBorder);
         System.out.printf("| %-36s | %-20s | %-28s |%n", "ID", "Name", "Email");
         System.out.println(threeColBorder);
     }
 
+    /**
+     * Display the user table
+     * 
+     * @param title
+     * @param users
+     */
     private static <T extends User> void displayUserTable(String title, List<T> users) {
         System.out.println(threeColBorder);
         System.out.printf("| %-90s |%n", " " + title);
@@ -105,6 +120,11 @@ public class AdministratorDisplay {
         System.out.println();
     }
 
+    /**
+     * View hospital staffs display
+     * 
+     * @throws PageBackException
+     */
     private static void viewHospitalStaffs() throws PageBackException {
         ClearDisplay.ClearConsole();
 
@@ -115,6 +135,11 @@ public class AdministratorDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * View hospital staffs by user type
+     * 
+     * @param userType
+     */
     private static void viewHospitalStaffsByUsertype(UserType userType) {
         ClearDisplay.ClearConsole();
         switch (userType) {
@@ -125,6 +150,12 @@ public class AdministratorDisplay {
         }
     }
 
+    /**
+     * Manage hospital staffs display
+     * 
+     * @param administrator
+     * @throws PageBackException
+     */
     private static void manageHospitalStaffs(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== MANAGE HOSPITAL STAFFS ==============");
@@ -147,6 +178,12 @@ public class AdministratorDisplay {
         }
     }
 
+    /**
+     * Add hospital staff display
+     * 
+     * @param administrator
+     * @throws PageBackException
+     */
     private static void addHospitalStaff(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== ONBOARD NEW HOSPITAL STAFF ==============");
@@ -218,6 +255,12 @@ public class AdministratorDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Remove hospital staff display
+     * 
+     * @param administrator
+     * @throws PageBackException
+     */
     private static void removeHospitalStaff(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== REMOVE HOSPITAL STAFF ==============");
@@ -261,10 +304,13 @@ public class AdministratorDisplay {
 
     }
 
+    /**
+     * Pending replenishment requests table
+     */
     private static void viewPendingRequests() {
-        System.out.println(fiveColBorder);
+        String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+----------------------+";
         try {
-            System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", "ID", "Name", "Current Quantity",
+            System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-20s | %n", "ID", "Name", "Current Quantity",
                     "Status", "Date of Request");
             System.out.println(fiveColBorder);
             List<ReplenishmentRequest> pendingRequest = ReplenishmentRequestManager
@@ -283,12 +329,12 @@ public class AdministratorDisplay {
                     System.out.println("Something went wrong. No medication found.");
                     throw new PageBackException();
                 } else {
-                    System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-15s | %n", request
+                    System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-20s | %n", request
                             .getRequestID(),
                             medication.getName(),
                             +medication.getStock(),
                             request.getStatus(),
-                            request.getDateOfRequest());
+                            FormatDateTime.formatDateTimeToString(request.getDateOfRequest()));
                 }
             }
         } catch (Exception e) {
@@ -299,16 +345,27 @@ public class AdministratorDisplay {
         System.out.println(fiveColBorder);
     }
 
+    /**
+     * View pending medication replenishment request
+     * 
+     * @throws PageBackException
+     */
     public static void viewPendingMedicationReplenishmentRequest() throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println(fiveColBorder);
-        System.out.printf("| %-123s |%n", " " + "PENDING REPLENISHMENT REQUEST ");
+        System.out.printf("| %-128s |%n", " " + "PENDING REPLENISHMENT REQUEST ");
         System.out.println(fiveColBorder);
         viewPendingRequests();
         System.out.println();
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Manage medication replenishment request display
+     * 
+     * @param user
+     * @throws PageBackException
+     */
     public static void manageMedicationReplenishmentRequest(Administrator user) throws PageBackException {
         ClearDisplay.ClearConsole();
         System.out.println("============== MANAGE REPLENISHMENT REQUEST ==============");
@@ -322,6 +379,7 @@ public class AdministratorDisplay {
         System.out.println("\t1. Approve medication replenishment request");
         System.out.println("\t2. Decline medication replenishment request");
         System.out.println("\t3. Back");
+        System.out.println();
         System.out.println("=========================================================");
 
         System.out.print("What would you like to do? ");
@@ -339,6 +397,9 @@ public class AdministratorDisplay {
         EnterToGoBackDisplay.display();
     }
 
+    /**
+     * Approve medication replenishment request display
+     */
     private static void approveMedicationReplenishmentRequestDisplay() {
         ClearDisplay.ClearConsole();
         System.out.println("============== APPROVE REPLENISHMENT REQUEST ==============");
@@ -354,6 +415,9 @@ public class AdministratorDisplay {
         }
     }
 
+    /**
+     * Decline medication replenishment request display
+     */
     private static void declineMedicationReplenishmentRequestDisplay() {
         ClearDisplay.ClearConsole();
         System.out.println("============== APPROVE REPLENISHMENT REQUEST ==============");

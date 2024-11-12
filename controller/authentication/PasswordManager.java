@@ -7,10 +7,24 @@ import utils.exceptions.PasswordDoesNotFulfilCriteriaException;
 import utils.exceptions.PasswordIncorrectException;
 
 public class PasswordManager {
+    /**
+     * Check if the password is correct
+     * 
+     * @param user
+     * @param password
+     * @return true if the password is correct
+     */
     public static boolean checkPassword(User user, String password) {
         return user.getPassword().equals(password);
     }
 
+    /**
+     * Check if the password is valid
+     * 
+     * @param password
+     * @return true if the password is valid
+     * @throws PasswordDoesNotFulfilCriteriaException
+     */
     private static boolean checkPasswordIsValid(String password) throws PasswordDoesNotFulfilCriteriaException {
         if (password.length() > 8) {
             return true;
@@ -19,6 +33,16 @@ public class PasswordManager {
         }
     }
 
+    /**
+     * Change the password of the user
+     * 
+     * @param user
+     * @param oldPassword
+     * @param newPassword
+     * @throws PasswordIncorrectException
+     * @throws PasswordDoesNotFulfilCriteriaException
+     * @throws ModelNotFoundException
+     */
     public static void changePassword(User user, String oldPassword, String newPassword)
             throws PasswordIncorrectException, PasswordDoesNotFulfilCriteriaException, ModelNotFoundException {
 
