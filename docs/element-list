@@ -11,10 +11,10 @@ database.request
 database.user
 display.appointment
 display.medicalRecords
+display.medicalRecords.enums
 display.password
 display.session
 display.user
-display.user.enums
 model
 model.appointment
 model.appointment.enums

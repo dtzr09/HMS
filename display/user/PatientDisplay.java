@@ -24,11 +24,19 @@ import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
+/**
+ * The {@code PatientDisplay} class provides an interface for patients in the
+ * Hospital Management System. It allows patients to view and manage their
+ * medical
+ * records, appointments, and personal information.
+ */
 public class PatientDisplay {
     /**
-     * Displays the patient's main page.
+     * Displays the patient's main page with options to view and manage medical
+     * records,
+     * appointments, and profile settings.
      * 
-     * @param user
+     * @param user the logged-in user, which must be of type {@code Patient}.
      */
     public static void patientDisplay(User user) {
         ClearDisplay.ClearConsole();
@@ -81,10 +89,11 @@ public class PatientDisplay {
     }
 
     /**
-     * Displays the patient's main page.
+     * Displays the menu to reschedule an appointment for the patient.
      * 
-     * @param patient
-     * @throws PageBackException
+     * @param patient the logged-in patient.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void rescheduleAppointment(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -116,10 +125,11 @@ public class PatientDisplay {
     }
 
     /**
-     * Cancels an appointment display.
+     * Displays the menu to cancel an appointment for the patient.
      * 
-     * @param patient
-     * @throws PageBackException
+     * @param patient the logged-in patient.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void cancelAppointment(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -157,12 +167,14 @@ public class PatientDisplay {
     }
 
     /**
-     * Schedule an appointment display.
+     * Displays the menu to schedule a new appointment for the patient.
      * 
-     * @param patient
-     * @param action
-     * @param appointmentID
-     * @throws PageBackException
+     * @param patient       the logged-in patient.
+     * @param action        the action to perform (e.g., "schedule" or
+     *                      "reschedule").
+     * @param appointmentID the ID of the appointment, if rescheduling.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void scheduleAppointment(Patient patient, String action, String appointmentID)
             throws PageBackException {
@@ -185,10 +197,11 @@ public class PatientDisplay {
     }
 
     /**
-     * Displays the available appointment slots for the patient.
+     * Displays the available appointment slots for the patient's assigned doctor.
      * 
-     * @param patient
-     * @throws PageBackException
+     * @param patient the logged-in patient.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void displayAvailableAppointmentSlots(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -214,8 +227,9 @@ public class PatientDisplay {
     /**
      * Displays the patient's medical record and personal information.
      * 
-     * @param patient
-     * @throws PageBackException
+     * @param patient the logged-in patient.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     public static void displayPatientInfo(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -243,11 +257,14 @@ public class PatientDisplay {
     }
 
     /**
-     * Displays the patient's scheduled appointments.
+     * Displays the patient's scheduled or pending appointments based on the status
+     * provided.
      * 
-     * @param patient
-     * @param status
-     * @throws PageBackException
+     * @param patient the logged-in patient.
+     * @param status  the status of the appointments to view (e.g., APPROVED or
+     *                PENDING).
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void viewAppointments(Patient patient, AppointmentStatus status) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -260,8 +277,9 @@ public class PatientDisplay {
     /**
      * Displays the patient's past appointment records.
      * 
-     * @param patient
-     * @throws PageBackException
+     * @param patient the logged-in patient.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void displayPastAppointmentRecords(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -269,9 +287,10 @@ public class PatientDisplay {
     }
 
     /**
-     * Displays all patients for pharmacist.
+     * Displays all registered patients for the pharmacist.
      * 
-     * @throws PageBackException
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     public static void viewAllPatients() throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+------------------------------+----------------------+";
@@ -301,9 +320,9 @@ public class PatientDisplay {
     }
 
     /**
-     * Displays the doctor's patients.
+     * Displays the list of patients assigned to a specific doctor.
      * 
-     * @param patients
+     * @param patients the list of patients to display.
      */
     public static void displayPatients(List<Patient> patients) {
         String threeColBorder = "+--------------------------------------+----------------------+------------------------------+";
@@ -326,11 +345,13 @@ public class PatientDisplay {
     }
 
     /**
-     * Updates the patient's medical record.
+     * Updates the medical record of the specified patient, allowing for
+     * adding allergies or a new diagnosis.
      * 
-     * @param patient
-     * @param doctor
-     * @throws PageBackException
+     * @param patient the patient whose medical record is being updated.
+     * @param doctor  the doctor making the update.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     public static void updatePatientMedicalRecord(Patient patient, Doctor doctor) throws PageBackException {
         displayPatientInfo(patient);
@@ -354,10 +375,11 @@ public class PatientDisplay {
     }
 
     /**
-     * Handles the addition of allergies.
+     * Handles the addition of an allergy for the patient.
      * 
-     * @param patient
-     * @throws PageBackException
+     * @param patient the patient to whom the allergy is being added.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void handleAddAllergy(Patient patient) throws PageBackException {
         System.out.printf("Enter the allergy you would like to add. ");
@@ -376,10 +398,11 @@ public class PatientDisplay {
     }
 
     /**
-     * Displays the add allergy display.
+     * Displays the interface for adding allergies to the patient's medical record.
      * 
-     * @param patient
-     * @throws PageBackException
+     * @param patient the patient to whom allergies are being added.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void addAllergyDisplay(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();

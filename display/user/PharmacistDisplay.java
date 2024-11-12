@@ -26,12 +26,21 @@ import model.user.Pharmacist;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
+/**
+ * The {@code PharmacistDisplay} class provides the main interface for
+ * pharmacists in the
+ * Hospital Management System. It allows pharmacists to view and manage
+ * medication inventory,
+ * view appointment outcome records, update prescription statuses, and manage
+ * their profiles.
+ */
 public class PharmacistDisplay {
 
     /**
-     * Display pharmacist main page
+     * Displays the pharmacist main page, with options to manage inventory,
+     * view records, and update profile settings.
      * 
-     * @param user
+     * @param user the logged-in user, which must be of type {@code Pharmacist}.
      */
     public static void pharmacistDisplay(User user) {
         ClearDisplay.ClearConsole();
@@ -60,7 +69,7 @@ public class PharmacistDisplay {
                     case 1 -> viewAppointmentOutcomeRecords();
                     case 2 -> updatePrescriptionStatusDisplay(user);
                     case 3 -> viewMedInv();
-                    case 4 -> viewLowMedInv();
+                    case 4 -> viewLowMedicationInventory();
                     case 5 -> submitRequest(user);
                     case 6 -> UserProfileDisplay.viewUserProfilePage(pharmacist, userType);
                     case 7 -> UserProfileDisplay.updateUserProfile(pharmacist, userType);
@@ -80,9 +89,11 @@ public class PharmacistDisplay {
     }
 
     /**
-     * Display to view appointment outcome records
+     * Displays the appointment outcome records for a specific patient, allowing
+     * the pharmacist to view outcomes related to their role.
      * 
-     * @throws PageBackException
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void viewAppointmentOutcomeRecords() throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -100,9 +111,11 @@ public class PharmacistDisplay {
     }
 
     /**
-     * Display to view medication inventory
+     * Displays the full medication inventory, allowing the pharmacist to view
+     * all available medications.
      * 
-     * @throws PageBackException
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     public static void viewMedInv() throws PageBackException {
         viewMedicationInventory();
@@ -110,20 +123,25 @@ public class PharmacistDisplay {
     }
 
     /**
-     * Display to view low stock medication inventory
+     * Displays the low-stock medication inventory, allowing the pharmacist to
+     * quickly identify medications needing replenishment.
      * 
-     * @throws PageBackException
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
-    public static void viewLowMedInv() throws PageBackException {
+    public static void viewLowMedicationInventory() throws PageBackException {
         viewLowStockMedicationInventory();
         EnterToGoBackDisplay.display();
     }
 
     /**
-     * Display to update prescription status
+     * Displays the interface for updating the prescription status of a patient's
+     * diagnosis. The pharmacist can update the status to Pending, Dispensed, or
+     * Declined.
      * 
-     * @param user
-     * @throws PageBackException
+     * @param user the logged-in pharmacist user.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     public static void updatePrescriptionStatusDisplay(User user) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -193,10 +211,12 @@ public class PharmacistDisplay {
     }
 
     /**
-     * Display to submit medication replenishment request
+     * Displays the interface to submit a medication replenishment request for low
+     * stock or unavailable medications.
      * 
-     * @param user
-     * @throws PageBackException
+     * @param user the logged-in pharmacist user.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     public static void submitRequest(User user) throws PageBackException {
         try {
@@ -214,10 +234,11 @@ public class PharmacistDisplay {
     }
 
     /**
-     * View inventory
+     * Displays the specified inventory list with a given title, showing the ID,
+     * name, and stock of each medication.
      * 
-     * @param medications
-     * @param title
+     * @param medications the list of medications to display.
+     * @param title       the title of the inventory section being displayed.
      */
     private static void viewInventory(List<Medication> medications, String title) {
         String threeColBorder = "+--------------------------------------+----------------------+------------+";
@@ -244,14 +265,14 @@ public class PharmacistDisplay {
     }
 
     /**
-     * View medication inventory
+     * Displays the entire medication inventory.
      */
     private static void viewMedicationInventory() {
         viewInventory(MedicationManager.getAllMedications(), "Medication Inventory");
     }
 
     /**
-     * View low stock medication inventory
+     * Displays only the low-stock medications in the inventory.
      */
     private static void viewLowStockMedicationInventory() {
         viewInventory(MedicationManager.getLowStockMedicationInventory(), "Low Stock Medication Inventory");

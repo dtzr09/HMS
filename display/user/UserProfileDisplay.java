@@ -12,12 +12,19 @@ import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 import utils.utils.FormatDateTime;
 
+/**
+ * The {@code UserProfileDisplay} class provides functionalities for displaying
+ * and updating a user's profile in the Hospital Management System. This class
+ * allows users to view their profile details and update specific fields as
+ * needed.
+ */
 public class UserProfileDisplay {
 
         /**
-         * Displays the user's profile fields.
+         * Displays the main profile fields for a user, such as ID, name, email, gender,
+         * age, date of birth, phone number, and date of registration.
          * 
-         * @param user
+         * @param user the user whose profile fields are to be displayed.
          */
         public static void profileFields(User user) {
                 System.out.printf("User ID: %s\n", user.getModelID());
@@ -32,9 +39,12 @@ public class UserProfileDisplay {
         }
 
         /**
-         * Displays the user's profile.
+         * Displays a brief view of the user's profile, welcoming the user and showing
+         * their profile information.
          *
-         * @param user the user whose profile is to be displayed.
+         * @param user     the user whose profile is to be displayed.
+         * @param userType the type of user (e.g., Doctor, Patient) whose profile is
+         *                 being displayed.
          */
         public static void viewUserProfile(User user, UserType userType) {
                 System.out.println("Welcome to your profile, " + user.getName() + " !");
@@ -43,9 +53,12 @@ public class UserProfileDisplay {
         }
 
         /**
-         * Displays the user's profile.
-         *
-         * @param user the user whose profile is to be displayed.
+         * Displays the user's profile page with an option to go back to the previous
+         * page.
+         * 
+         * @param user     the user whose profile page is to be displayed.
+         * @param userType the type of user (e.g., Doctor, Patient) whose profile is
+         *                 being displayed.
          * @throws PageBackException if the user chooses to go back to the previous
          *                           page.
          */
@@ -57,11 +70,17 @@ public class UserProfileDisplay {
         }
 
         /**
-         * Displays menu for user to update their profile.
+         * Displays the menu for updating the user's profile information. Allows the
+         * user
+         * to select specific fields such as name, email, phone number, age, or date of
+         * birth
+         * to update and save the changes.
          * 
-         * @param user
-         * @param userType
-         * @throws PageBackException
+         * @param user     the user whose profile is to be updated.
+         * @param userType the type of user (e.g., Doctor, Patient) whose profile is
+         *                 being updated.
+         * @throws PageBackException if the user chooses to go back to the previous
+         *                           page.
          */
         public static void updateUserProfile(User user, UserType userType) throws PageBackException {
                 ClearDisplay.ClearConsole();

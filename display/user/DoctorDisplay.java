@@ -10,11 +10,11 @@ import controller.user.DoctorManager;
 import controller.user.PatientManager;
 import display.appointment.AppointmentDisplay;
 import display.medicalRecords.PrescriptionDisplay;
+import display.medicalRecords.enums.MedicalRecordsActions;
 import display.password.ChangePasswordDisplay;
 import display.session.ClearDisplay;
 import display.session.EnterToGoBackDisplay;
 import display.session.LogoutDisplay;
-import display.user.enums.MedicalRecordsActions;
 import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
 import model.diagnosis.Diagnosis;
@@ -25,12 +25,20 @@ import model.user.enums.UserType;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
+/**
+ * The {@code DoctorDisplay} class provides an interface for doctors in the
+ * Hospital Management System. It allows doctors to manage their patients,
+ * view and update patient medical records, set appointment availability,
+ * manage appointment requests, and record appointment outcomes.
+ */
 public class DoctorDisplay {
     /**
-     * Display the doctor main page
+     * Displays the main page for the doctor, listing the available options
+     * for managing patients, appointments, and profile settings.
      * 
-     * @param user
-     * @throws PageBackException
+     * @param user the logged-in user, which must be of type {@code Doctor}.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     public static void doctorDisplay(User user) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -86,10 +94,12 @@ public class DoctorDisplay {
     }
 
     /**
-     * Display the set availability for appointments
+     * Displays the interface for setting the doctor's availability for
+     * appointments.
      * 
-     * @param doctor
-     * @throws PageBackException
+     * @param doctor the logged-in doctor.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void appointmentAvailabilityDisplay(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -124,10 +134,11 @@ public class DoctorDisplay {
     }
 
     /**
-     * Display the patients of the doctor
+     * Displays the list of patients assigned to the doctor.
      * 
-     * @param doctor
-     * @throws PageBackException
+     * @param doctor the logged-in doctor.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void displayMyPatients(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -140,11 +151,13 @@ public class DoctorDisplay {
     }
 
     /**
-     * Display the menu to view or update the medical records of the patients
+     * Displays the menu to view or update the medical records of the patients.
      * 
-     * @param doctor
-     * @param actions
-     * @throws PageBackException
+     * @param doctor  the logged-in doctor.
+     * @param actions the type of action (VIEW or UPDATE) to perform on the medical
+     *                records.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void displayPatientsMenu(Doctor doctor, MedicalRecordsActions actions) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -191,10 +204,11 @@ public class DoctorDisplay {
     }
 
     /**
-     * Display the patient medical record
+     * Displays the medical record of a specific patient.
      * 
-     * @param patient
-     * @throws PageBackException
+     * @param patient the patient whose medical record is to be viewed.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void viewPatientMedicalRecord(Patient patient) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -204,10 +218,11 @@ public class DoctorDisplay {
     }
 
     /**
-     * Display the upcoming appointments of the doctor
+     * Displays the upcoming appointments for the doctor.
      * 
-     * @param doctor
-     * @throws PageBackException
+     * @param doctor the logged-in doctor.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void viewUpcomingAppointments(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -222,11 +237,13 @@ public class DoctorDisplay {
     }
 
     /**
-     * Prompts to record the appointment outcome
+     * Prompts the doctor to record the outcome of an appointment, including
+     * type of service, consultation notes, and prescription details.
      * 
-     * @param doctor
-     * @param appointmentID
-     * @throws PageBackException
+     * @param doctor        the logged-in doctor.
+     * @param appointmentID the ID of the appointment to record the outcome for.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void displayRecordAppointmentOutcomePrompts(Doctor doctor, String appointmentID)
             throws PageBackException {
@@ -286,10 +303,12 @@ public class DoctorDisplay {
     }
 
     /**
-     * Display updating of appointment outcome menu
+     * Displays the menu to record the outcome of pending appointments for the
+     * doctor.
      * 
-     * @param doctor
-     * @throws PageBackException
+     * @param doctor the logged-in doctor.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void recordAppointmentOutcome(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();

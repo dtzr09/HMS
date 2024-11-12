@@ -24,15 +24,25 @@ import utils.exceptions.UserCannotBeFoundException;
 import utils.iocontrol.CustScanner;
 import utils.utils.FormatDateTime;
 
+/**
+ * The {@code AdministratorDisplay} class provides an interface for
+ * administrators
+ * in the Hospital Management System. It allows administrators to perform tasks
+ * such as viewing and managing hospital staff, viewing and managing medication
+ * inventory, handling medication replenishment requests, and viewing and
+ * updating
+ * their profile.
+ */
 public class AdministratorDisplay {
 
     private static String threeColBorder = "+--------------------------------------+----------------------+------------------------------+";
     private static String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+----------------------+";
 
     /**
-     * Display the administrator main page
+     * Displays the main page for the administrator, listing the available options
+     * for managing the hospital and viewing their own profile.
      * 
-     * @param user
+     * @param user the logged-in user, which must be of type {@code Administrator}.
      */
     public static void administratorDisplay(User user) {
         ClearDisplay.ClearConsole();
@@ -87,7 +97,7 @@ public class AdministratorDisplay {
     }
 
     /**
-     * Display the table header
+     * Displays the table header for hospital staff details.
      */
     private static void displayTableHeader() {
         System.out.println(threeColBorder);
@@ -96,10 +106,13 @@ public class AdministratorDisplay {
     }
 
     /**
-     * Display the user table
+     * Displays a table of users with the specified title. It lists users' IDs,
+     * names,
+     * and emails.
      * 
-     * @param title
-     * @param users
+     * @param title the title of the table (e.g., "DOCTORS", "PHARMACISTS").
+     * @param users the list of users to be displayed.
+     * @param <T>   a subclass of {@code User}.
      */
     private static <T extends User> void displayUserTable(String title, List<T> users) {
         System.out.println(threeColBorder);
@@ -121,9 +134,11 @@ public class AdministratorDisplay {
     }
 
     /**
-     * View hospital staffs display
+     * Displays all hospital staff by category (Doctors, Pharmacists, and
+     * Administrators).
      * 
-     * @throws PageBackException
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void viewHospitalStaffs() throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -136,9 +151,10 @@ public class AdministratorDisplay {
     }
 
     /**
-     * View hospital staffs by user type
+     * Displays hospital staff of a specific user type.
      * 
-     * @param userType
+     * @param userType the type of user to display (DOCTOR, PHARMACIST,
+     *                 ADMINISTRATOR).
      */
     private static void viewHospitalStaffsByUsertype(UserType userType) {
         ClearDisplay.ClearConsole();
@@ -151,10 +167,12 @@ public class AdministratorDisplay {
     }
 
     /**
-     * Manage hospital staffs display
+     * Displays the menu for managing hospital staff, providing options to add or
+     * remove staff members.
      * 
-     * @param administrator
-     * @throws PageBackException
+     * @param administrator the logged-in administrator.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void manageHospitalStaffs(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -179,10 +197,12 @@ public class AdministratorDisplay {
     }
 
     /**
-     * Add hospital staff display
+     * Displays the menu for adding a new hospital staff member, prompting the
+     * administrator to enter details such as name, email, gender, and age.
      * 
-     * @param administrator
-     * @throws PageBackException
+     * @param administrator the logged-in administrator.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void addHospitalStaff(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -256,10 +276,13 @@ public class AdministratorDisplay {
     }
 
     /**
-     * Remove hospital staff display
+     * Displays the menu for removing a hospital staff member by selecting the user
+     * type
+     * and entering the staff's ID.
      * 
-     * @param administrator
-     * @throws PageBackException
+     * @param administrator the logged-in administrator.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     private static void removeHospitalStaff(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -305,7 +328,7 @@ public class AdministratorDisplay {
     }
 
     /**
-     * Pending replenishment requests table
+     * Displays a table of pending medication replenishment requests.
      */
     private static void viewPendingRequests() {
         String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+----------------------+";
@@ -346,9 +369,10 @@ public class AdministratorDisplay {
     }
 
     /**
-     * View pending medication replenishment request
+     * Displays the pending medication replenishment requests.
      * 
-     * @throws PageBackException
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     public static void viewPendingMedicationReplenishmentRequest() throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -361,10 +385,12 @@ public class AdministratorDisplay {
     }
 
     /**
-     * Manage medication replenishment request display
+     * Displays the menu for managing medication replenishment requests, allowing
+     * the administrator to approve or decline requests.
      * 
-     * @param user
-     * @throws PageBackException
+     * @param user the logged-in administrator.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
      */
     public static void manageMedicationReplenishmentRequest(Administrator user) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -398,7 +424,9 @@ public class AdministratorDisplay {
     }
 
     /**
-     * Approve medication replenishment request display
+     * Displays the approval process for a medication replenishment request,
+     * allowing
+     * the administrator to enter the request ID and approve it.
      */
     private static void approveMedicationReplenishmentRequestDisplay() {
         ClearDisplay.ClearConsole();
@@ -416,7 +444,8 @@ public class AdministratorDisplay {
     }
 
     /**
-     * Decline medication replenishment request display
+     * Displays the decline process for a medication replenishment request, allowing
+     * the administrator to enter the request ID and decline it.
      */
     private static void declineMedicationReplenishmentRequestDisplay() {
         ClearDisplay.ClearConsole();
