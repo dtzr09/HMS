@@ -7,10 +7,23 @@ import database.Database;
 import model.appointment.AppointmentOutcome;
 import model.appointment.enums.AppointmentOutcomeStatus;
 
+/**
+ * Manages the storage and retrieval of AppointmentOutcome entities in the
+ * hospital
+ * management system.
+ * Extends the Database class with a specific type of AppointmentOutcome,
+ * enabling
+ * operations such as loading, saving, and retrieving appointment outcome data.
+ */
 public class AppointmentOutcomeDatabase extends Database<AppointmentOutcome> {
 
     private static final String FILE_PATH = "./data/appointment/appointmentOutcome.txt";
 
+    /**
+     * Initializes a new AppointmentOutcomeDatabase instance and loads the data
+     * from the
+     * specified file.
+     */
     AppointmentOutcomeDatabase() {
         super();
         load();

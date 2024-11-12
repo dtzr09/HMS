@@ -28,6 +28,11 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
         listOfModelObjects = new ArrayList<>();
     }
 
+    /**
+     * Gets the file path of the Database file.
+     *
+     * @return the file path of the Database file
+     */
     public abstract String getFilePath();
 
     @Override
@@ -38,8 +43,8 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
     /**
      * Gets a model object by email.
      * 
-     * @param userEmail
-     * @return
+     * @param userEmail the email of the model object to get
+     * @return the model object with the specified email
      * @throws ModelNotFoundException
      */
     public ModelObject getByEmail(String userEmail) throws ModelNotFoundException {

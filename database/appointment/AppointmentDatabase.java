@@ -6,10 +6,20 @@ import java.util.Map;
 import database.Database;
 import model.appointment.Appointment;
 
+/**
+ * Manages the storage and retrieval of Appointment entities in the hospital
+ * management system.
+ * Extends the Database class with a specific type of Appointment, enabling
+ * operations such as loading, saving, and retrieving appointment data.
+ */
 public class AppointmentDatabase extends Database<Appointment> {
 
     private static final String FILE_PATH = "./data/appointment/appointment.txt";
 
+    /**
+     * Initializes a new AppointmentDatabase instance and loads the data from the
+     * specified file.
+     */
     AppointmentDatabase() {
         super();
         load();

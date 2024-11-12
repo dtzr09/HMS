@@ -6,17 +6,26 @@ import model.user.enums.Gender;
 import utils.utils.FormatDateTime;
 import utils.utils.StringToMap;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import database.Database;
 
+/**
+ * Manages the storage and retrieval of Doctor entities in the hospital
+ * management system.
+ * Extends the Database class with a specific type of Doctor, enabling
+ * operations such as loading, saving, and retrieving doctor data.
+ */
 public class DoctorDatabase extends Database<Doctor> {
 
     private static final String FILE_PATH = "./data/user/doctor.txt";
 
+    /**
+     * Initializes a new DoctorDatabase instance and loads the data from the
+     * specified file.
+     */
     DoctorDatabase() {
         super();
         load();
@@ -71,7 +80,7 @@ public class DoctorDatabase extends Database<Doctor> {
             String doctorID = map.get("doctorID");
             String password = map.get("password");
 
-            Doctor doctor = new Doctor(doctorID, password, personalInfo, new ArrayList<>(), 0,
+            Doctor doctor = new Doctor(doctorID, password, personalInfo, 0,
                     apppointmentAvailability);
             getAll().add(doctor);
         }

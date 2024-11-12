@@ -7,6 +7,11 @@ import java.util.Map;
 import model.Model;
 import model.prescription.enums.PrescriptionStatus;
 
+/**
+ * Represents a prescription issued by a doctor for a patient.
+ * Contains details about the medications, issuing doctor, assigned pharmacist,
+ * date of prescription, and specific drug instructions.
+ */
 public class Prescription implements Model {
     private String prescriptionID;
     private String patientID;

@@ -5,6 +5,12 @@ import java.util.Date;
 import model.user.enums.Gender;
 import utils.iocontrol.Mappable;
 
+/**
+ * Represents the personal information of a user in the hospital management
+ * system.
+ * Implements the Mappable interface, allowing it to be used in map-based
+ * operations.
+ */
 public class PersonalInfo implements Mappable {
 
     private String name;

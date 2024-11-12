@@ -5,6 +5,11 @@ import java.util.Map;
 
 import model.user.enums.Gender;
 
+/**
+ * Represents a Pharmacist in the hospital management system.
+ * A Pharmacist implements the User interface and contains information
+ * about their ID, personal details, and password.
+ */
 public class Pharmacist implements User {
     private String pharmacistID;
     private PersonalInfo personalInfo;

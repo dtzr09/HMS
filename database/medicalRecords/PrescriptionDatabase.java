@@ -9,9 +9,19 @@ import model.prescription.Prescription;
 import model.prescription.enums.PrescriptionStatus;
 import utils.utils.ConvertToArrayList;
 
+/**
+ * Manages the storage and retrieval of Prescription entities in the hospital
+ * management system.
+ * Extends the Database class with a specific type of Prescription, enabling
+ * operations such as loading, saving, and retrieving prescription data.
+ */
 public class PrescriptionDatabase extends Database<Prescription> {
     private static final String FILE_PATH = "./data/medical/prescription.txt";
 
+    /**
+     * Initializes a new PrescriptionDatabase instance and loads the data from the
+     * specified file.
+     */
     PrescriptionDatabase() {
         super();
         load();

@@ -4,6 +4,11 @@ import java.util.Map;
 
 import model.Model;
 
+/**
+ * This class represents a diagnosis made by a doctor for a patient.
+ * It contains information about the patient's diagnosis, including the
+ * disease, doctor, prescription, and date of diagnosis.
+ */
 public class Diagnosis implements Model {
     private String patientID;
     private String diagnosisID;

@@ -2,6 +2,11 @@ package model.diagnosis;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a record of a diagnosis for a patient, including
+ * details about the diagnosed disease, the doctor, prescribed medications,
+ * and the date of diagnosis.
+ */
 public class DiagnosisRecord {
     private String diagnosisID;
     private String disease;

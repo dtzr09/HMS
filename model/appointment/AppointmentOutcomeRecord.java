@@ -4,6 +4,10 @@ import java.util.List;
 
 import model.prescription.enums.PrescriptionStatus;
 
+/**
+ * Represents a record of an appointment outcome, containing details of the
+ * consultation, prescribed medications, and prescription status.
+ */
 public class AppointmentOutcomeRecord {
     private String appointmentOutcomeID;
     private String typeOfService;
@@ -15,16 +19,16 @@ public class AppointmentOutcomeRecord {
     /**
      * Constructs an AppointmentOutcomeRecord with all specified fields.
      *
-     * @param appointmentOutcomeID the unique identifier for the appointment
-     *                             outcome.
-     * @param typeOfService        the type of service provided.
-     * @param consultationNotes    notes from the consultation.
-     * @param medicationsNames     a list of medication names prescribed.
-     * @param appointmentDate      the date of the appointment.
-     * @param prescriptionStatus   the status of the prescription.
+     * @param appointmentOutcomeID the unique identifier for the appointment outcome
+     * @param typeOfService        the type of service provided
+     * @param consultationNotes    notes from the consultation
+     * @param medicationsNames     a list of medication names prescribed
+     * @param appointmentDate      the date of the appointment
+     * @param prescriptionStatus   the status of the prescription
      */
-    public AppointmentOutcomeRecord(String appointmentOutcomeID, String typeOfService, String consultationNotes,
-            List<String> medicationsNames, String appointmentDate, PrescriptionStatus prescriptionStatus) {
+    public AppointmentOutcomeRecord(String appointmentOutcomeID, String typeOfService,
+            String consultationNotes, List<String> medicationsNames,
+            String appointmentDate, PrescriptionStatus prescriptionStatus) {
         this.appointmentOutcomeID = appointmentOutcomeID;
         this.typeOfService = typeOfService;
         this.consultationNotes = consultationNotes;
@@ -36,7 +40,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Retrieves the appointment outcome ID.
      *
-     * @return the unique identifier for the appointment outcome.
+     * @return the unique identifier for the appointment outcome
      */
     public String getAppointmentOutcomeID() {
         return appointmentOutcomeID;
@@ -45,7 +49,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Sets the appointment outcome ID.
      *
-     * @param appointmentOutcomeID the appointment outcome ID to set.
+     * @param appointmentOutcomeID the appointment outcome ID to set
      */
     public void setAppointmentOutcomeID(String appointmentOutcomeID) {
         this.appointmentOutcomeID = appointmentOutcomeID;
@@ -54,7 +58,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Retrieves the type of service provided.
      *
-     * @return the type of service.
+     * @return the type of service
      */
     public String getTypeOfService() {
         return typeOfService;
@@ -63,7 +67,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Sets the type of service provided.
      *
-     * @param typeOfService the type of service to set.
+     * @param typeOfService the type of service to set
      */
     public void setTypeOfService(String typeOfService) {
         this.typeOfService = typeOfService;
@@ -72,7 +76,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Retrieves the consultation notes.
      *
-     * @return the consultation notes.
+     * @return the consultation notes
      */
     public String getConsultationNotes() {
         return consultationNotes;
@@ -81,7 +85,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Sets the consultation notes.
      *
-     * @param consultationNotes the consultation notes to set.
+     * @param consultationNotes the consultation notes to set
      */
     public void setConsultationNotes(String consultationNotes) {
         this.consultationNotes = consultationNotes;
@@ -90,7 +94,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Retrieves the list of medication names prescribed.
      *
-     * @return the list of medication names.
+     * @return the list of medication names
      */
     public List<String> getMedicationsNames() {
         return medicationsNames;
@@ -99,7 +103,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Sets the list of medication names prescribed.
      *
-     * @param medicationsNames the list of medication names to set.
+     * @param medicationsNames the list of medication names to set
      */
     public void setMedicationsNames(List<String> medicationsNames) {
         this.medicationsNames = medicationsNames;
@@ -108,7 +112,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Retrieves the appointment date.
      *
-     * @return the date of the appointment.
+     * @return the date of the appointment
      */
     public String getAppointmentDate() {
         return appointmentDate;
@@ -117,7 +121,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Sets the appointment date.
      *
-     * @param appointmentDate the date of the appointment to set.
+     * @param appointmentDate the date of the appointment to set
      */
     public void setAppointmentDate(String appointmentDate) {
         this.appointmentDate = appointmentDate;
@@ -126,7 +130,7 @@ public class AppointmentOutcomeRecord {
     /**
      * Retrieves the prescription status.
      *
-     * @return the status of the prescription.
+     * @return the status of the prescription
      */
     public PrescriptionStatus getPrescriptionStatus() {
         return prescriptionStatus;
@@ -135,10 +139,9 @@ public class AppointmentOutcomeRecord {
     /**
      * Sets the prescription status.
      *
-     * @param prescriptionStatus the prescription status to set.
+     * @param prescriptionStatus the prescription status to set
      */
     public void setPrescriptionStatus(PrescriptionStatus prescriptionStatus) {
         this.prescriptionStatus = prescriptionStatus;
     }
-
 }

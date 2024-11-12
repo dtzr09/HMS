@@ -10,10 +10,19 @@ import model.user.PersonalInfo;
 import model.user.enums.Gender;
 import utils.utils.FormatDateTime;
 
+/**
+ * Manages the storage and retrieval of Administrator entities in the hospital
+ * management system.
+ * Extends the Database class with a specific type of Administrator, enabling
+ * operations such as loading, saving, and retrieving administrator data.
+ */
 public class AdministratorDatabase extends Database<Administrator> {
 
     private static final String FILE_PATH = "./data/user/administrator.txt";
 
+    /**
+     * Constructs an instance of AdministratorDatabase.
+     */
     AdministratorDatabase() {
         super();
         load();

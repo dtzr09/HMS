@@ -6,6 +6,11 @@ import java.util.Map;
 import model.Model;
 import model.request.enums.RequestStatus;
 
+/**
+ * Represents a replenishment request for medication inventory in the system.
+ * This class provides information about the request ID, status, request date,
+ * modification date, and associated medication ID.
+ */
 public class ReplenishmentRequest implements Model {
     private String replenishmentRequestID;
     private RequestStatus status;

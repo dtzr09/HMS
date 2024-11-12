@@ -5,9 +5,16 @@ import java.util.Map;
 
 import model.user.enums.Gender;
 
+/**
+ * Represents an Administrator user in the hospital management system.
+ * The Administrator has a unique ID, personal information, and a password.
+ */
 public class Administrator implements User {
+
     private String administratorID;
+
     private PersonalInfo personalInfo;
+
     private String password;
 
     /**

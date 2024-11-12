@@ -9,10 +9,24 @@ import java.util.Map;
 
 import database.Database;
 
+/**
+ * Manages the storage and retrieval of ReplenishmentRequest entities in the
+ * hospital
+ * management system.
+ * Extends the Database class with a specific type of ReplenishmentRequest,
+ * enabling
+ * operations such as loading, saving, and retrieving replenishment request
+ * data.
+ */
 public class ReplenishmentRequestDatabase extends Database<ReplenishmentRequest> {
 
     private static final String FILE_PATH = "./data/request/replenishmentRequest.txt";
 
+    /**
+     * Initializes a new ReplenishmentRequestDatabase instance and loads the data
+     * from the
+     * specified file.
+     */
     ReplenishmentRequestDatabase() {
         super();
         load();

@@ -12,8 +12,20 @@ import utils.iocontrol.Mappable;
  * defines how the ID can be retrieved.
  */
 public interface Model extends Mappable {
+    /**
+     * Retrieves the unique identifier for the model entity.
+     * 
+     * @return the unique ID of the model.
+     */
     String getModelID();
 
+    /**
+     * Retrieves the model email associated with the entity, if available.
+     * This method has a default implementation returning null,
+     * allowing optional override by implementing classes.
+     * 
+     * @return the model email, or null if not applicable.
+     */
     default String getModelEmail() {
         return null;
     }

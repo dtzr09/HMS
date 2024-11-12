@@ -7,10 +7,20 @@ import java.util.Map;
 
 import database.Database;
 
+/**
+ * Manages the storage and retrieval of Medication entities in the hospital
+ * management system.
+ * Extends the Database class with a specific type of Medication, enabling
+ * operations such as loading, saving, and retrieving medication data.
+ */
 public class MedicationDatabase extends Database<Medication> {
 
     private static final String FILE_PATH = "./data/medical/medication.txt";
 
+    /**
+     * Initializes a new MedicationDatabase instance and loads the data from the
+     * specified file.
+     */
     MedicationDatabase() {
         super();
         load();

@@ -1,5 +1,5 @@
 
 /**
- * Contains classes related to medication data and management.
+ * This package contains classes related to medication data and management.
  */
 package model.medication;

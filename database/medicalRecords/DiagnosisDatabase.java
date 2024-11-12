@@ -6,9 +6,19 @@ import java.util.Map;
 import database.Database;
 import model.diagnosis.Diagnosis;
 
+/**
+ * Manages the storage and retrieval of Diagnosis entities in the hospital
+ * management system.
+ * Extends the Database class with a specific type of Diagnosis, enabling
+ * operations such as loading, saving, and retrieving diagnosis data.
+ */
 public class DiagnosisDatabase extends Database<Diagnosis> {
     private static final String FILE_PATH = "./data/medical/diagnosis.txt";
 
+    /**
+     * Initializes a new DiagnosisDatabase instance and loads the data from the
+     * specified file.
+     */
     DiagnosisDatabase() {
         super();
         load();

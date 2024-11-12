@@ -2,19 +2,27 @@ package model.user;
 
 import java.util.Map;
 
-import model.appointment.Appointment;
 import model.user.enums.Gender;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Represents a Doctor in the hospital management system.
+ * A Doctor implements the User interface and contains information
+ * about their ID, password, personal details, number of patients,
+ * and available appointment slots.
+ */
 public class Doctor implements User {
+
     private String doctorID;
+
     private String password;
+
     private PersonalInfo personalInfo;
+
     private int numOfPatients = 0;
-    private ArrayList<Appointment> appointments = new ArrayList<>();
+
     private Map<String, List<String>> appointmentAvailability;
 
     /**
@@ -30,12 +38,11 @@ public class Doctor implements User {
      * @param numOfPatients           the number of patients assigned to the doctor.
      * @param appointmentAvailability a map of available appointment slots.
      */
-    public Doctor(String doctorID, String password, PersonalInfo personalInfo, ArrayList<Appointment> appointments,
+    public Doctor(String doctorID, String password, PersonalInfo personalInfo,
             int numOfPatients, Map<String, List<String>> appointmentAvailability) {
         this.doctorID = doctorID;
         this.password = password;
         this.personalInfo = personalInfo;
-        this.appointments = appointments;
         this.numOfPatients = numOfPatients;
         this.appointmentAvailability = appointmentAvailability;
     }
@@ -126,15 +133,6 @@ public class Doctor implements User {
     }
 
     /**
-     * Retrieves the list of appointments associated with the doctor.
-     *
-     * @return the list of appointments.
-     */
-    public ArrayList<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    /**
      * Retrieves the number of patients assigned to the doctor.
      *
      * @return the number of patients.
@@ -207,15 +205,6 @@ public class Doctor implements User {
     }
 
     /**
-     * Sets the list of appointments associated with the doctor.
-     *
-     * @param appointments the list of appointments to set.
-     */
-    public void setAppointments(ArrayList<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-
-    /**
      * Sets the number of patients assigned to the doctor.
      *
      * @param numOfPatients the number of patients to set.
@@ -278,12 +267,4 @@ public class Doctor implements User {
         personalInfo.setDateOfBirth(dateOfBirth);
     }
 
-    /**
-     * Adds an appointment to the list of appointments associated with the doctor.
-     *
-     * @param appointment the appointment to add.
-     */
-    public void addAppointment(Appointment appointment) {
-        this.appointments.add(appointment);
-    }
 }

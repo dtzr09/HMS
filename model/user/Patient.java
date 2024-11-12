@@ -7,6 +7,12 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Represents a Patient in the hospital management system.
+ * A Patient implements the User interface and contains information
+ * about their ID, assigned doctor, personal details, medical information,
+ * and a list of diagnoses.
+ */
 public class Patient implements User {
     private String patientID;
     private String doctorID;

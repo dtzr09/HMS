@@ -13,10 +13,20 @@ import model.user.enums.Gender;
 import utils.utils.ConvertToArrayList;
 import utils.utils.FormatDateTime;
 
+/**
+ * Manages the storage and retrieval of Patient entities in the hospital
+ * management system.
+ * Extends the Database class with a specific type of Patient, enabling
+ * operations such as loading, saving, and retrieving patient data.
+ */
 public class PatientDatabase extends Database<Patient> {
 
     private static final String FILE_PATH = "./data/user/patient.txt";
 
+    /**
+     * Initializes a new PatientDatabase instance and loads the data from the
+     * specified file.
+     */
     PatientDatabase() {
         super();
         load();

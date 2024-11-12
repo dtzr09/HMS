@@ -10,9 +10,19 @@ import model.user.Pharmacist;
 import model.user.enums.Gender;
 import utils.utils.FormatDateTime;
 
+/**
+ * Manages the storage and retrieval of Pharmacist entities in the hospital
+ * management system.
+ * Extends the Database class with a specific type of Pharmacist, enabling
+ * operations such as loading, saving, and retrieving pharmacist data.
+ */
 public class PharmacistDatabase extends Database<Pharmacist> {
     private static final String FILE_PATH = "./data/user/pharmacist.txt";
 
+    /**
+     * Initializes a new PharmacistDatabase instance and loads the data from the
+     * specified file.
+     */
     PharmacistDatabase() {
         super();
         load();
