@@ -11,8 +11,10 @@
 - tests: Contains all the test files
 
 ## To Start:
-
 - In terminal: `./run.sh`
+
+## To generate javadocs
+- In terminal: `javadoc -d docs $(find controller database display model -name "*.java")`
 
 ## All functionalities
 
