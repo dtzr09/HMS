@@ -333,6 +333,7 @@ public class AdministratorDisplay {
     private static void viewPendingRequests() {
         String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+----------------------+";
         try {
+            System.out.println(fiveColBorder);
             System.out.printf("| %-36s | %-25s | %-20s | %-15s | %-20s | %n", "ID", "Name", "Current Quantity",
                     "Status", "Date of Request");
             System.out.println(fiveColBorder);
