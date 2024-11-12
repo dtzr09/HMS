@@ -1,12 +1,12 @@
-package display.medication;
+package display.medicalRecords;
 
 import java.util.List;
 import java.util.UUID;
 
 import controller.medication.DiagnosisManager;
 import controller.user.DoctorManager;
-import display.ClearDisplay;
-import display.EnterToGoBackDisplay;
+import display.session.ClearDisplay;
+import display.session.EnterToGoBackDisplay;
 import model.diagnosis.Diagnosis;
 import model.diagnosis.DiagnosisRecord;
 import model.user.Doctor;
@@ -14,14 +14,20 @@ import model.user.Patient;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
+/**
+ * The DiagnosisDisplay class provides various displays and menus for managing
+ * and interacting with diagnoses related to patients. It includes
+ * functionalities
+ * for adding, viewing, updating, and displaying diagnosis records.
+ */
 public class DiagnosisDisplay {
 
     /**
-     * Display menu to add diagnosis
+     * Displays the menu to add a new diagnosis for a patient by a doctor.
      * 
-     * @param patient
-     * @param doctor
-     * @throws PageBackException
+     * @param patient the patient receiving the diagnosis
+     * @param doctor  the doctor providing the diagnosis
+     * @throws PageBackException if an error occurs or user opts to go back
      */
     public static void addDiagnosisDisplay(Patient patient, Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -44,11 +50,12 @@ public class DiagnosisDisplay {
     }
 
     /**
-     * Display all diagnosis of a patient
+     * Displays all diagnosis records of a specific patient, with details
+     * including diagnosis ID, doctor name, medications, and date of diagnosis.
      * 
-     * @param patient
-     * @param doctor
-     * @throws PageBackException
+     * @param patient the patient whose diagnosis records are being displayed
+     * @param doctor  the doctor responsible for the diagnoses
+     * @throws PageBackException if no records are found or an error occurs
      */
     private static void displayAllDiagnosisOfPatient(Patient patient, Doctor doctor) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-----------------+";
@@ -78,12 +85,13 @@ public class DiagnosisDisplay {
     }
 
     /**
-     * Display menu to update the disease of the diagnosis
+     * Displays a menu to update the disease associated with an existing diagnosis
+     * record.
      * 
-     * @param patient
-     * @param doctor
-     * @param diagnosisId
-     * @throws PageBackException
+     * @param patient     the patient whose diagnosis is being updated
+     * @param doctor      the doctor making the update
+     * @param diagnosisId the unique ID of the diagnosis to update
+     * @throws PageBackException if an error occurs or the user opts to go back
      */
     private static void updateDiagnosis(Patient patient, Doctor doctor, String diagnosisId) throws PageBackException {
         System.out.println("Enter the new diagnosis.");
@@ -98,11 +106,13 @@ public class DiagnosisDisplay {
     }
 
     /**
-     * Main display to update diagnosis
+     * Main display for updating diagnosis, showing all diagnosis records
+     * for a patient and allowing the doctor to select a specific diagnosis to
+     * update.
      * 
-     * @param patient
-     * @param doctor
-     * @throws PageBackException
+     * @param patient the patient whose diagnosis records are displayed
+     * @param doctor  the doctor making the updates
+     * @throws PageBackException if an error occurs or the user opts to go back
      */
     public static void updateDiagnosisDisplay(Patient patient, Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -117,12 +127,12 @@ public class DiagnosisDisplay {
     }
 
     /**
-     * Display menu to update diagnosis
+     * Displays a menu for updating diagnosis details or associated prescription.
      * 
-     * @param patient
-     * @param doctor
-     * @param diagnosisId
-     * @throws PageBackException
+     * @param patient     the patient whose diagnosis is being updated
+     * @param doctor      the doctor making the update
+     * @param diagnosisId the unique ID of the diagnosis to update
+     * @throws PageBackException if an error occurs or the user opts to go back
      */
     private static void updateDiagnosisMenu(Patient patient, Doctor doctor, String diagnosisId)
             throws PageBackException {
@@ -149,12 +159,13 @@ public class DiagnosisDisplay {
     }
 
     /**
-     * Display single diagnosis
+     * Displays a specific diagnosis record, showing detailed information
+     * such as diagnosis ID, disease, doctor, medications, and date of diagnosis.
      * 
-     * @param patient
-     * @param doctor
-     * @param diagnosisId
-     * @throws PageBackException
+     * @param patient     the patient whose diagnosis is displayed
+     * @param doctor      the doctor responsible for the diagnosis
+     * @param diagnosisId the unique ID of the diagnosis to display
+     * @throws PageBackException if the diagnosis is not found or an error occurs
      */
     private static void displaySingleDiagnosis(Patient patient, Doctor doctor, String diagnosisId)
             throws PageBackException {
@@ -181,6 +192,13 @@ public class DiagnosisDisplay {
 
     }
 
+    /**
+     * Displays all diagnosis records of a patient without a doctor specified,
+     * useful for viewing history in a general context.
+     * 
+     * @param patient the patient whose diagnosis records are displayed
+     * @throws PageBackException if an error occurs or no records are found
+     */
     public static void displayAllDiagnosisOfPatient(Patient patient) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-------------------+";
         System.out.println(fourColBorder);

@@ -1,8 +1,6 @@
-package display.auth;
+package display.session;
 
 import controller.account.AccountManager;
-import display.ClearDisplay;
-import display.WelcomeDisplay;
 import display.user.AdministratorDisplay;
 import display.user.DoctorDisplay;
 import display.user.PatientDisplay;

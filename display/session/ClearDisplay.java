@@ -1,5 +1,12 @@
-package display;
+package display.session;
 
+/**
+ * The {@code ClearDisplay} class provides a utility method to clear the console
+ * screen.
+ * This class detects the operating system and executes the appropriate command
+ * to clear the console on both Windows and Unix-based systems.
+ *
+ */
 public class ClearDisplay {
     /**
      * Clears the console screen.

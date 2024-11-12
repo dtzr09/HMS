@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import controller.user.UserManager;
-import display.ClearDisplay;
-import display.EnterToGoBackDisplay;
+import display.session.ClearDisplay;
+import display.session.EnterToGoBackDisplay;
 import model.user.User;
 import model.user.enums.UserType;
 import utils.exceptions.PageBackException;

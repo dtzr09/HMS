@@ -1,7 +1,7 @@
-package display.auth;
+package display.password;
 
 import controller.account.AccountManager;
-import display.ClearDisplay;
+import display.session.ClearDisplay;
 import model.user.User;
 import model.user.enums.UserType;
 import utils.exceptions.PageBackException;

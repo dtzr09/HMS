@@ -1,11 +1,11 @@
-package display.medication;
+package display.medicalRecords;
 
 import java.util.List;
 import java.util.UUID;
 
 import controller.medication.MedicationManager;
-import display.ClearDisplay;
-import display.EnterToGoBackDisplay;
+import display.session.ClearDisplay;
+import display.session.EnterToGoBackDisplay;
 import display.user.AdministratorDisplay;
 import model.medication.Medication;
 import model.user.Administrator;
@@ -13,13 +13,20 @@ import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
+/**
+ * The MedicationDisplay class provides various displays and menus for managing
+ * medications in the inventory. It includes functionalities for adding new
+ * medications, updating stock levels, removing medications, and viewing the
+ * medication inventory.
+ */
 public class MedicationDisplay {
 
     /**
-     * Display the medication management menu
-     * 
-     * @param administrator
-     * @throws PageBackException
+     * Displays the main menu for managing medications, allowing the administrator
+     * to add new medications, increase stock, remove medications, or go back.
+     *
+     * @param administrator the administrator accessing the menu
+     * @throws PageBackException if an error occurs or the user opts to go back
      */
     public static void medicationDisplay(Administrator administrator) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -47,9 +54,9 @@ public class MedicationDisplay {
     }
 
     /**
-     * Display to remove medication
-     * 
-     * @throws PageBackException
+     * Displays a prompt for removing a medication from the inventory.
+     *
+     * @throws PageBackException if the medication is not found or an error occurs
      */
     private static void removeMedication() throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -76,9 +83,9 @@ public class MedicationDisplay {
     }
 
     /**
-     * Display to add medication stock
-     * 
-     * @throws PageBackException
+     * Displays a prompt to add stock to an existing medication in the inventory.
+     *
+     * @throws PageBackException if the medication is not found or an error occurs
      */
     private static void addMedicationStock() throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -108,9 +115,10 @@ public class MedicationDisplay {
     }
 
     /**
-     * Display to add new medication
-     * 
-     * @throws PageBackException
+     * Displays a prompt to add a new medication to the inventory. The user must
+     * provide the medication's name, current stock, and low stock alert level.
+     *
+     * @throws PageBackException if the medication already exists or an error occurs
      */
     private static void addNewMedication() throws PageBackException {
         String medicationID = UUID.randomUUID().toString();
@@ -136,9 +144,10 @@ public class MedicationDisplay {
     }
 
     /**
-     * Display medication inventory
-     * 
-     * @throws PageBackException
+     * Displays the entire medication inventory to the user, showing details
+     * for each medication including ID, name, stock quantity, and low stock alert level.
+     *
+     * @throws PageBackException if an error occurs or the user opts to go back
      */
     public static void viewMedicationInventory() throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -148,7 +157,8 @@ public class MedicationDisplay {
     }
 
     /**
-     * Medication inventory table display
+     * Displays a table of all medications in the inventory, including ID, name,
+     * quantity, and low stock level alert. This method is used by other display methods.
      */
     public static void displayMedicationInventory() {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+";

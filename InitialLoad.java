@@ -8,7 +8,7 @@ import controller.medication.MedicationManager;
 import controller.user.PatientManager;
 import database.user.DoctorDatabase;
 import database.user.PatientDatabase;
-import display.WelcomeDisplay;
+import display.session.WelcomeDisplay;
 import model.user.Doctor;
 import model.user.Patient;
 

@@ -7,7 +7,7 @@ import controller.medication.DiagnosisManager;
 import controller.medication.MedicationManager;
 import controller.medication.PrescriptionManager;
 import database.appointment.AppointmentOutcomeDatabase;
-import display.EnterToGoBackDisplay;
+import display.session.EnterToGoBackDisplay;
 import model.appointment.Appointment;
 import model.appointment.AppointmentOutcome;
 import model.appointment.AppointmentOutcomeRecord;

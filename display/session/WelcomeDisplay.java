@@ -1,13 +1,22 @@
-package display;
+package display.session;
 
-import display.auth.LoginDisplay;
-import display.auth.RegisterDisplay;
 import model.user.enums.UserType;
 import utils.iocontrol.CustScanner;
 
+/**
+ * The {@code WelcomeDisplay} class provides the initial welcome screen for the
+ * Hospital Management System.
+ * It prompts users to either register if they are new or log in if they already
+ * have an account.
+ * Users can choose their role (Doctor, Patient, Pharmacist, or Administrator)
+ * for login, or exit the application.
+ */
 public class WelcomeDisplay {
     /**
-     * Displays the welcome message and prompts the user to register or login.
+     * Displays the welcome message and prompts the user to register or log in.
+     * New users can opt to register, while existing users are guided to the login
+     * process
+     * based on their role. The user also has the option to exit the application.
      */
     public static void welcome() {
         ClearDisplay.ClearConsole();

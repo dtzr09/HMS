@@ -9,10 +9,10 @@ database.appointment
 database.medicalRecords
 database.request
 database.user
-display
 display.appointment
-display.auth
-display.medication
+display.medicalRecords
+display.password
+display.session
 display.user
 display.user.enums
 model

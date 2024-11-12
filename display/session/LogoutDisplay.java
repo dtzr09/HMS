@@ -1,6 +1,4 @@
-package display.auth;
-
-import display.WelcomeDisplay;
+package display.session;
 
 /**
  * The {@code LogoutDisplay} class provides a simple interface for logging out a

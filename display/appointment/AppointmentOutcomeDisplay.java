@@ -4,8 +4,8 @@ import java.util.List;
 
 import controller.appointment.AppointmentOutcomeManager;
 import controller.user.PatientManager;
-import display.ClearDisplay;
-import display.EnterToGoBackDisplay;
+import display.session.ClearDisplay;
+import display.session.EnterToGoBackDisplay;
 import model.appointment.AppointmentOutcome;
 import model.appointment.AppointmentOutcomeRecord;
 import model.user.Patient;

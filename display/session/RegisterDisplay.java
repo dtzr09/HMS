@@ -1,22 +1,35 @@
-package display.auth;
+package display.session;
 
 import java.util.concurrent.TimeUnit;
 
 import controller.account.AccountManager;
 import controller.authentication.PasswordManager;
 import controller.user.UserManager;
-import display.ClearDisplay;
-import display.WelcomeDisplay;
 import model.user.User;
 import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
+/**
+ * The {@code RegisterDisplay} class provides an interface for new users to
+ * register
+ * for the Hospital Management System. It includes options to register as
+ * various user
+ * types and guides the user through entering necessary information, including
+ * name,
+ * email, gender, and age.
+ */
 public class RegisterDisplay {
 
     /**
-     * Display menu for user to register
+     * Displays the main registration menu, allowing users to select the type of
+     * account
+     * they want to register for. Users can register as a Doctor, Patient,
+     * Pharmacist,
+     * or Administrator. Users also have the option to go back to the login page or
+     * exit
+     * the application.
      */
     public static void registerDisplay() {
         ClearDisplay.ClearConsole();
@@ -58,14 +71,20 @@ public class RegisterDisplay {
             System.out.println("Please try again.");
             registerDisplay();
         }
-
     }
 
     /**
-     * Display fields for user to register
+     * Displays the registration form for the selected {@code UserType}. Prompts the
+     * user
+     * for information such as name, email, gender, and age. If registration is
+     * successful,
+     * the user is asked to set a new password, and upon completion, is redirected
+     * to the
+     * login page.
      * 
-     * @param userType
-     * @throws PageBackException
+     * @param userType the type of user account being created (Doctor, Patient,
+     *                 Pharmacist, or Administrator)
+     * @throws PageBackException if the user chooses to go back to the previous page
      */
     private static void registerUserDisplay(UserType userType) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -97,12 +116,7 @@ public class RegisterDisplay {
             System.out.print("What is your gender? [M/F]: ");
             genderInput = CustScanner.getStrChoice();
         }
-        Gender gender = null;
-        if (genderInput.equalsIgnoreCase("M")) {
-            gender = Gender.MALE;
-        } else if (genderInput.equalsIgnoreCase("F")) {
-            gender = Gender.FEMALE;
-        }
+        Gender gender = genderInput.equalsIgnoreCase("M") ? Gender.MALE : Gender.FEMALE;
 
         System.out.print("Enter your age: ");
         int age = CustScanner.getIntChoice();
