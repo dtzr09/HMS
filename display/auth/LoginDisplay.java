@@ -17,12 +17,28 @@ import utils.exceptions.PageBackException;
 import utils.exceptions.PasswordIncorrectException;
 import utils.iocontrol.CustScanner;
 
+/**
+ * The {@code LoginDisplay} class provides a user interface for users to log in
+ * based on their user type (e.g., Administrator, Pharmacist, Doctor, Patient).
+ * It handles user input for email and password, verifies the existence of the
+ * user,
+ * and directs authenticated users to the appropriate display based on their
+ * role.
+ * If authentication fails, users are given options to retry, quit, or register.
+ */
 public class LoginDisplay {
+
     /**
-     * Display for user to log in
+     * Displays the login interface for the specified {@code UserType}.
+     * This method prompts the user for their email and password, validates the
+     * input, and verifies the existence of the user in the system. If the user
+     * is successfully authenticated, they are directed to their respective
+     * user display. In case of authentication failure, the user is presented with
+     * options to retry, quit, or register.
      * 
-     * @param userType
-     * @throws PageBackException
+     * @param userType the {@code UserType} representing the type of user attempting
+     *                 to log in (e.g., Administrator, Pharmacist, Doctor, Patient).
+     * @throws PageBackException if the user opts to go back to the previous menu.
      */
     public static void login(UserType userType) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -31,7 +47,6 @@ public class LoginDisplay {
         System.out.print("Enter your email address: ");
         String email = CustScanner.getStrChoice();
 
-        // get user by email (check if user exists)
         while (email.isEmpty()) {
             System.out.println("Email cannot be empty.");
             System.out.print("Enter your email address: ");
@@ -40,7 +55,7 @@ public class LoginDisplay {
 
         if (!AccountManager.userExist(email, userType)) {
             System.out.printf(
-                    "Email does not exist. Press q to quit, r to retry, else any other key to register.");
+                    "Email does not exist. Press q to quit, r to retry, or any other key to register.");
             String choice = CustScanner.getStrChoice();
             if (choice.equalsIgnoreCase("q")) {
                 System.exit(0);
@@ -50,12 +65,10 @@ public class LoginDisplay {
             RegisterDisplay.registerDisplay();
         }
 
-        // if user exists, check the password
         System.out.print("Enter your password: ");
         String password = CustScanner.getPassword();
-
         while (password.isEmpty()) {
-            System.out.println("password cannot be empty.");
+            System.out.println("Password cannot be empty.");
             System.out.print("Enter your password: ");
             password = CustScanner.getPassword();
         }
@@ -64,12 +77,10 @@ public class LoginDisplay {
             User user = AccountManager.login(userType, email, password);
 
             switch (userType) {
-                case ADMINISTRATOR ->
-                    AdministratorDisplay.administratorDisplay((Administrator) user);
+                case ADMINISTRATOR -> AdministratorDisplay.administratorDisplay((Administrator) user);
                 case PHARMACIST -> PharmacistDisplay.pharmacistDisplay((Pharmacist) user);
                 case DOCTOR -> DoctorDisplay.doctorDisplay((Doctor) user);
                 case PATIENT -> PatientDisplay.patientDisplay((Patient) user);
-
                 default -> throw new IllegalStateException("Unexpected value: " + userType);
             }
         } catch (PasswordIncorrectException e) {

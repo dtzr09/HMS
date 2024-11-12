@@ -5,12 +5,22 @@ import java.time.YearMonth;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
+/**
+ * The {@code CalendarDisplay} class provides a method for displaying a calendar
+ * view for a specified month and year in a console-friendly format. The
+ * calendar
+ * shows the month name, year, and the days of the week arranged in a grid, with
+ * each day correctly aligned according to the weekday.
+ */
 public class CalendarDisplay {
+
     /**
-     * Displays the calendar for the specified month and year
+     * Displays the calendar for the specified month and year.
+     * The calendar is displayed in a grid format with days of the week as headers,
+     * and each date aligned according to its corresponding weekday.
      * 
-     * @param year
-     * @param month
+     * @param year  the year for which the calendar is to be displayed
+     * @param month the month (1-12) for which the calendar is to be displayed
      */
     public static void calendarView(int year, int month) {
         YearMonth yearMonth = YearMonth.of(year, month);

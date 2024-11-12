@@ -25,8 +25,18 @@ import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 import utils.utils.FormatDateTime;
 
+/**
+ * This class provides various methods for managing
+ * and displaying appointment-related information for doctors and patients.
+ * It includes functionality for approving or rejecting appointments, displaying
+ * appointment requests, viewing scheduled appointments, setting availability,
+ * and scheduling new appointments.
+ */
 public class AppointmentDisplay {
+    // Mapping for time slots
     private static final Map<Integer, String> timeSlotMap = new HashMap<>();
+
+    // Mapping for months
     private static final Map<Integer, String> monthMap = new HashMap<>();
 
     static {
@@ -64,21 +74,22 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Get the time slot based on the time slot ID.
-     * 
-     * @param timeSlotID
-     * @return the time slot
+     * Retrieves the time slot associated with a given time slot ID.
+     *
+     * @param timeSlotID the ID representing the time slot
+     * @return the time slot as a string, or {@code null} if no matching slot is
+     *         found
      */
     private static String getTimeSlot(int timeSlotID) {
         return timeSlotMap.get(timeSlotID);
     }
 
     /**
-     * Display the menu for approving or rejecting an appointment.
-     * 
-     * @param doctorID
-     * @param appointmentID
-     * @throws PageBackException
+     * Displays a menu for approving or rejecting an appointment.
+     *
+     * @param doctorID      the unique identifier for the doctor
+     * @param appointmentID the unique identifier for the appointment
+     * @throws PageBackException if the user chooses to go back
      */
     private static void approveOrRequestDisplay(String doctorID, String appointmentID) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -121,10 +132,10 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display all appointment requests for a doctor.
-     * 
-     * @param doctor
-     * @throws PageBackException
+     * Displays all appointment requests for a specified doctor.
+     *
+     * @param doctor the {@code Doctor} object representing the doctor
+     * @throws PageBackException if the user chooses to go back
      */
     public static void appointmentRequestsDisplay(Doctor doctor) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+--------------------------------------+";
@@ -160,10 +171,10 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display all upcoming appointments for a doctor.
-     * 
-     * @param upcomingAppointments
-     * @throws PageBackException
+     * Displays all upcoming appointments for a doctor.
+     *
+     * @param upcomingAppointments a list of upcoming {@code Appointment} objects
+     * @throws PageBackException if the user chooses to go back
      */
     public static void upcomingAppointmentsDisplay(List<Appointment> upcomingAppointments) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+--------------------------------------+";
@@ -187,10 +198,10 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display all scheduled appointments for a doctor.
-     * 
-     * @param pastAppointments
-     * @throws PageBackException
+     * Displays all scheduled appointments for a doctor.
+     *
+     * @param appointments a list of {@code Appointment} objects
+     * @throws PageBackException if the user chooses to go back
      */
     public static void viewScheduledAppointments(List<Appointment> appointments) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+-------------------+";
@@ -211,9 +222,7 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display key value pairs of appointment slots
-     * 
-     * @param appointmentID
+     * Displays the available time slots for appointments.
      */
     private static void timeSlotDisplay() {
         for (Map.Entry<Integer, String> entry : timeSlotMap.entrySet()) {
@@ -223,9 +232,7 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display key value pairs of weekdays
-     * 
-     * @param appointmentID
+     * Displays the available weekdays for setting availability.
      */
     private static void weekdayDisplay() {
         System.out.println("\t1. Monday");
@@ -236,11 +243,11 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display menu for setting appointment availability
-     * 
-     * @param doctor
-     * @return a map of appointment availability
-     * @throws PageBackException
+     * Displays a menu for setting the appointment availability of a doctor.
+     *
+     * @param doctor the {@code Doctor} object for whom availability is being set
+     * @return a map of weekdays to time slot lists representing the availability
+     * @throws PageBackException if the user chooses to go back
      */
     public static Map<String, List<String>> setAppointmentAvailabilityDisplay(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -283,11 +290,12 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Update appointment availability for a doctor display
-     * 
-     * @param doctor
-     * @param oldAppointmentAvailability
-     * @throws PageBackException
+     * Updates the appointment availability of a doctor.
+     *
+     * @param doctor                     the {@code Doctor} object whose
+     *                                   availability is being updated
+     * @param oldAppointmentAvailability the existing availability map
+     * @throws PageBackException if the user chooses to go back
      */
     private static void updateAppointmentAvailabilityDisplay(Doctor doctor,
             Map<String, List<String>> oldAppointmentAvailability) throws PageBackException {
@@ -339,10 +347,10 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display the time slots of a doctor
-     * 
-     * @param doctor
-     * @throws PageBackException
+     * Displays the time slots available for a specified doctor.
+     *
+     * @param doctor the {@code Doctor} object for whom time slots are displayed
+     * @throws PageBackException if the user chooses to go back
      */
     public static void displayDoctorTimeSlots(Doctor doctor) throws PageBackException {
         try {
@@ -395,11 +403,11 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display the appointment availability for a doctor for a specific day
-     * 
-     * @param doctor
-     * @param day
-     * @throws PageBackException
+     * Displays the appointment availability for a doctor on a specific day.
+     *
+     * @param doctor the {@code Doctor} object for whom availability is displayed
+     * @param day    the {@code DayOfWeek} representing the day
+     * @throws PageBackException if the user chooses to go back
      */
     public static void displayAppointmentAvailabilityForADay(Doctor doctor, DayOfWeek day)
             throws PageBackException {
@@ -430,11 +438,12 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display the appointment availability for a doctor
-     * 
-     * @param doctor
-     * @param appointmentAvailability
-     * @throws PageBackException
+     * Displays the entire appointment availability for a doctor.
+     *
+     * @param doctor                  the {@code Doctor} object for whom
+     *                                availability is displayed
+     * @param appointmentAvailability the map representing availability
+     * @throws PageBackException if the user chooses to go back
      */
     public static void displayAppointmentAvailability(Doctor doctor,
             Map<String, List<String>> appointmentAvailability) throws PageBackException {
@@ -487,10 +496,10 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display all appointments of a patient by status (pending, scheduled)
-     * 
-     * @param patient
-     * @param status
+     * Displays all appointments of a patient filtered by appointment status.
+     *
+     * @param patient the {@code Patient} object for whom appointments are displayed
+     * @param status  the status to filter appointments (e.g., pending, scheduled)
      */
     public static void displayPatientsAppointment(Patient patient, AppointmentStatus status) {
         String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
@@ -523,9 +532,9 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display all appointments of a patient
-     * 
-     * @param patient
+     * Displays all appointments of a patient without filtering by status.
+     *
+     * @param patient the {@code Patient} object for whom appointments are displayed
      */
     public static void displayAllPatientsAppointment(Patient patient) {
         String fiveColBorder = "+--------------------------------------+---------------------------+----------------------+-----------------+-----------------+";
@@ -557,9 +566,17 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display schedule appointment menu for patient
-     * 
-     * @param doctor
+     * Displays the scheduling menu for an appointment with a doctor.
+     *
+     * @param patient       the {@code Patient} object scheduling the appointment
+     * @param doctorId      the unique identifier for the doctor
+     * @param action        the action to perform (e.g., new appointment or
+     *                      reschedule)
+     * @param appointmentID the unique identifier for the appointment (if
+     *                      rescheduling)
+     * @throws PageBackException           if the user chooses to go back
+     * @throws ModelNotFoundException      if the doctor or appointment is not found
+     * @throws ModelAlreadyExistsException if there is a scheduling conflict
      */
     public static void scheduleAppointmentDisplay(Patient patient, String doctorId, String action, String appointmentID)
             throws PageBackException, ModelNotFoundException, ModelAlreadyExistsException {
@@ -588,10 +605,11 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Display appointment availability for a doctor
-     * 
-     * @param doctor
-     * @throws PageBackException
+     * Displays the appointment availability for a patient viewing a doctor's
+     * schedule.
+     *
+     * @param doctor the {@code Doctor} object whose availability is being viewed
+     * @throws PageBackException if the user chooses to go back
      */
     public static void displayAppointmentAvailabilityForPatient(Doctor doctor) throws PageBackException {
         Map<String, List<String>> currentAvailability = DoctorManager.getAppointmentAvailability(doctor);
@@ -634,16 +652,20 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Schedule an appointment for a patient
-     * 
-     * @param patientID
-     * @param doctor
-     * @param month
-     * @param action
-     * @param appointmentID
-     * @throws PageBackException
-     * @throws ModelNotFoundException
-     * @throws ModelAlreadyExistsException
+     * Schedules an appointment for a patient with a doctor on a specific date and
+     * time slot.
+     *
+     * @param patientID     the unique identifier for the patient
+     * @param doctor        the {@code Doctor} object with whom the appointment is
+     *                      being scheduled
+     * @param month         the month of the appointment
+     * @param action        the action to perform (e.g., new appointment or
+     *                      reschedule)
+     * @param appointmentID the unique identifier for the appointment (if
+     *                      rescheduling)
+     * @throws PageBackException           if the user chooses to go back
+     * @throws ModelNotFoundException      if the doctor or appointment is not found
+     * @throws ModelAlreadyExistsException if there is a scheduling conflict
      */
     private static void scheduleAppointment(String patientID, Doctor doctor, int month, String action,
             String appointmentID)

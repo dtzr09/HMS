@@ -11,13 +11,24 @@ import model.appointment.AppointmentOutcomeRecord;
 import model.user.Patient;
 import utils.exceptions.PageBackException;
 
+/**
+ * This class is responsible for displaying the appointment outcome records for
+ * a patient
+ */
 public class AppointmentOutcomeDisplay {
 
     /**
-     * Displays the appointment outcome records for a patient for a pharmacist
+     * Displays the appointment outcome records for a patient, specifically for a
+     * pharmacist's view.
      * 
-     * @param patientID
-     * @throws PageBackException
+     * This method retrieves and displays the appointment outcome records
+     * for the specified patient ID, including information such as type of service,
+     * consultation notes, medications, appointment date, and prescription status.
+     *
+     * @param patientID the unique identifier of the patient whose appointment
+     *                  outcome records are to be displayed.
+     * @throws PageBackException if there is an attempt to navigate back in the
+     *                           display.
      */
     public static void viewAppointmentOutcomeRecordsForPharmacist(String patientID) throws PageBackException {
         ClearDisplay.ClearConsole();
@@ -56,10 +67,17 @@ public class AppointmentOutcomeDisplay {
     }
 
     /**
-     * Displays the appointment outcome records for a patient
+     * Displays the appointment outcome records for a patient, specifically for a
+     * patient's view.
      * 
-     * @param patient
-     * @throws PageBackException
+     * This method retrieves and displays the appointment outcome records
+     * for the specified patient ID, including information such as type of service,
+     * consultation notes and medications.
+     * 
+     * @param patient the patient whose appointment outcome records are to be
+     *                displayed.
+     * @throws PageBackException if there is an attempt to navigate back in the
+     *                           display.
      */
     public static void viewAppointmentOutcomeRecordsForPatient(Patient patient) throws PageBackException {
         String fourcolBorder = "+--------------------------------------+--------------------------------------+--------------------------------------+--------------------------------------+";

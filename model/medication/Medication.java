@@ -4,6 +4,13 @@ import java.util.Map;
 
 import model.Model;
 
+/**
+ * Represents a medication in the hospital management system.
+ * This class contains information about a medication's unique ID, name,
+ * current stock level, and low stock level alert threshold.
+ * 
+ * Implements the Model interface for data model consistency.
+ */
 public class Medication implements Model {
     private String medicationID;
     private String name;
