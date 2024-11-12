@@ -1,5 +1,9 @@
 package utils.utils;
 
+/**
+ * The EmptyID class provides a constant and a method to check if an ID is empty
+ * or null.
+ */
 public class EmptyID {
     /**
      * The constant EMPTY_ID represents the empty ID value, which is "null".

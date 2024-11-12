@@ -7,7 +7,19 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for converting a formatted string representation of a map
+ * into a Map object with String keys and List of String values.
+ */
 public class StringToMap {
+    /**
+     * Converts a formatted string representation of a map to a Map object.
+     * 
+     * @param input the string to convert, expected in the format "{key=[value1,
+     *              value2], ...}"
+     * @return a Map with String keys and List<String> values, parsed from the input
+     *         string
+     */
     public static Map<String, List<String>> ToMap(String input) {
         Map<String, List<String>> map = new HashMap<>();
 
