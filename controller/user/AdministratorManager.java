@@ -7,6 +7,9 @@ import model.user.enums.UserType;
 import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.UserAlreadyExistsException;
 import utils.exceptions.UserCannotBeFoundException;
+/**
+ * The AdministratorManager class provides utility methods for handling the functionalities of an Administrator.
+ */
 
 public class AdministratorManager {
 

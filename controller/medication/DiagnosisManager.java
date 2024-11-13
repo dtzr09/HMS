@@ -16,6 +16,9 @@ import model.user.Patient;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 import utils.utils.FormatDateTime;
+/**
+ * The DiagnosisManager class provides utility methods for handing Diagnosis such as retieving, updating and adding it.
+ */
 
 public class DiagnosisManager {
 

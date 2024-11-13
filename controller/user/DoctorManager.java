@@ -6,6 +6,9 @@ import java.util.Map;
 import database.user.DoctorDatabase;
 import model.user.Doctor;
 import model.user.Patient;
+/**
+ * The DoctorManager class provides utility methods for handling the functionalities of a Doctor.
+ */
 
 public class DoctorManager {
     /**

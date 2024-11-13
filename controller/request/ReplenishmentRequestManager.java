@@ -10,6 +10,10 @@ import model.request.ReplenishmentRequest;
 import model.request.enums.RequestStatus;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
+/**
+ * The ReplenishmentRequestManager class provides utility methods for handling Medication replenishment requests
+ * between Pharmacists and Administrator.
+ */
 
 public class ReplenishmentRequestManager {
 

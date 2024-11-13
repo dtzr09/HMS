@@ -10,6 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 import database.medicalRecords.PrescriptionDatabase;
+/**
+ * The PrescriptionManager class provides utility methods for handing prescriptions such as creating and updating Prescriptions.
+ */
 
 public class PrescriptionManager {
 

@@ -15,6 +15,9 @@ import model.appointment.enums.AppointmentOutcomeStatus;
 import model.diagnosis.Diagnosis;
 import model.prescription.Prescription;
 import utils.exceptions.PageBackException;
+/**
+ * The AppointmentOutcomeManager class provides utility methods for managing Appointment Outcomes such as recording and retrieving.
+ */
 
 public class AppointmentOutcomeManager {
 

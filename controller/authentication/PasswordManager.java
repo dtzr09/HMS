@@ -5,6 +5,9 @@ import model.user.User;
 import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PasswordDoesNotFulfilCriteriaException;
 import utils.exceptions.PasswordIncorrectException;
+/**
+ * The PasswordManager class provides utility methods for managing passwords.
+ */
 
 public class PasswordManager {
     /**

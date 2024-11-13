@@ -10,6 +10,9 @@ import database.medicalRecords.MedicationDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * The MedicationManager class provides utility methods for managing medications and its inventory.
+ */
 
 public class MedicationManager {
 

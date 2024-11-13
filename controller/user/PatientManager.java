@@ -6,6 +6,9 @@ import java.util.List;
 import database.user.PatientDatabase;
 import model.user.Patient;
 import utils.exceptions.ModelNotFoundException;
+/**
+ * The PatientManager class provides utility methods for handling the functionalities of a Patient.
+ */
 
 public class PatientManager {
     /**

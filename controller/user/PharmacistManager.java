@@ -5,6 +5,9 @@ import model.request.enums.RequestStatus;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+/**
+ * The PharmacistManager class provides utility methods for handling the functionalities of a Pharmacist.
+ */
 
 public class PharmacistManager {
     /**

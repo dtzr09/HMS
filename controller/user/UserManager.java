@@ -20,7 +20,9 @@ import model.user.enums.UserType;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.UserCannotBeFoundException;
-
+/**
+ * The UserManager class provides utility methods for handling the functionalities of all users of the application.
+ */
 public class UserManager {
 
     /**

@@ -18,6 +18,9 @@ import model.appointment.enums.AppointmentStatus;
 import model.user.Doctor;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
+/**
+ * The AppointmentManager class provides utility methods for scheduling Appointments.
+ */
 
 public class AppointmentManager {
 
