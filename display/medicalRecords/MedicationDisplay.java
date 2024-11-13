@@ -78,6 +78,7 @@ public class MedicationDisplay {
         try {
             MedicationManager.deleteMedication(medicationID);
         } catch (ModelNotFoundException e) {
+            System.out.println("Medication not found.");
             EnterToGoBackDisplay.display();
         }
         System.out.println();
@@ -113,6 +114,7 @@ public class MedicationDisplay {
         try {
             MedicationManager.updateMedicationStock(medicationID);
         } catch (ModelNotFoundException e) {
+            System.out.println("Medication not found.");
             EnterToGoBackDisplay.display();
         }
         System.out.println();
