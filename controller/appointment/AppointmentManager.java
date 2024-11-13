@@ -152,12 +152,12 @@ public class AppointmentManager {
     }
 
     /**
-     * Get all the appointments of a doctor
+     * Get all the scheduled appointments of a doctor
      * 
      * @param doctorID
      * @return List<Appointment>
      */
-    public static ArrayList<Appointment> getDoctorAppointments(String doctorID) {
+    public static ArrayList<Appointment> getScheduledDoctorAppointments(String doctorID) {
         ArrayList<Appointment> doctorAppointments = new ArrayList<Appointment>();
         List<Appointment> appointments = getAllAppointments();
         for (Appointment appointment : appointments) {

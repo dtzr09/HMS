@@ -2,18 +2,31 @@ package display.user;
 
 import java.util.List;
 
+import controller.appointment.AppointmentManager;
+import controller.appointment.AppointmentOutcomeManager;
+import controller.medication.DiagnosisManager;
 import controller.medication.MedicationManager;
 import controller.request.ReplenishmentRequestManager;
 import controller.user.AdministratorManager;
+import controller.user.DoctorManager;
+import controller.user.PatientManager;
 import controller.user.UserManager;
+import display.appointment.AppointmentDisplay;
 import display.medicalRecords.MedicationDisplay;
 import display.password.ChangePasswordDisplay;
 import display.session.ClearDisplay;
 import display.session.EnterToGoBackDisplay;
 import display.session.LogoutDisplay;
+import model.appointment.Appointment;
+import model.appointment.AppointmentOutcome;
+import model.appointment.enums.AppointmentOutcomeStatus;
+import model.diagnosis.Diagnosis;
+import model.diagnosis.DiagnosisRecord;
 import model.medication.Medication;
 import model.request.ReplenishmentRequest;
 import model.user.Administrator;
+import model.user.Doctor;
+import model.user.Patient;
 import model.user.User;
 import model.user.enums.Gender;
 import model.user.enums.UserType;
@@ -54,14 +67,15 @@ public class AdministratorDisplay {
             System.out.println();
             System.out.println("\t1. View hospital staffs");
             System.out.println("\t2. Manage hospital staffs");
-            System.out.println("\t3. View medication inventory");
-            System.out.println("\t4. Manage medication inventory");
-            System.out.println("\t5. View pending medication replenisment request");
-            System.out.println("\t6. Manage medication replenishment request");
-            System.out.println("\t7. View my profile");
-            System.out.println("\t8. Update my profile");
-            System.out.println("\t9. Change my password");
-            System.out.println("\t10. Logout");
+            System.out.println("\t3. View doctor appointment details");
+            System.out.println("\t4. View medication inventory");
+            System.out.println("\t5. Manage medication inventory");
+            System.out.println("\t6. View pending medication replenisment request");
+            System.out.println("\t7. Manage medication replenishment request");
+            System.out.println("\t8. View my profile");
+            System.out.println("\t9. Update my profile");
+            System.out.println("\t10. Change my password");
+            System.out.println("\t11. Logout");
             System.out.println();
             System.out.println("===================================");
 
@@ -74,15 +88,16 @@ public class AdministratorDisplay {
                 switch (choice) {
                     case 1 -> viewHospitalStaffs();
                     case 2 -> manageHospitalStaffs(administrator);
-                    case 3 -> MedicationDisplay.viewMedicationInventory();
-                    case 4 -> MedicationDisplay.medicationDisplay(administrator);
-                    case 5 ->
+                    case 3 -> viewAppointmentDetailsDisplay();
+                    case 4 -> MedicationDisplay.viewMedicationInventory();
+                    case 5 -> MedicationDisplay.medicationDisplay(administrator);
+                    case 6 ->
                         viewPendingMedicationReplenishmentRequest();
-                    case 6 -> manageMedicationReplenishmentRequest(administrator);
-                    case 7 -> UserProfileDisplay.viewUserProfilePage(administrator, userType);
-                    case 8 -> UserProfileDisplay.updateUserProfile(administrator, userType);
-                    case 9 -> ChangePasswordDisplay.changePassword(administrator, userType);
-                    case 10 -> LogoutDisplay.logout();
+                    case 7 -> manageMedicationReplenishmentRequest(administrator);
+                    case 8 -> UserProfileDisplay.viewUserProfilePage(administrator, userType);
+                    case 9 -> UserProfileDisplay.updateUserProfile(administrator, userType);
+                    case 10 -> ChangePasswordDisplay.changePassword(administrator, userType);
+                    case 11 -> LogoutDisplay.logout();
                     default -> {
                         System.out.println("Invalid choice. Please try again.");
                         administratorDisplay(user);
@@ -94,6 +109,163 @@ public class AdministratorDisplay {
         } else {
             throw new IllegalArgumentException("User is not an administrator.");
         }
+    }
+
+    /**
+     * Displays the view appointment details screen. Clears the console, lists all
+     * doctors with appointments,
+     * and prompts the user to enter a doctor's ID to view the respective
+     * appointments.
+     * If the user inputs "b", the method throws a PageBackException to go back to
+     * the previous page.
+     * If the doctor ID is empty, a message is displayed, and the user is prompted
+     * to try again.
+     * 
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
+     */
+    private static void viewAppointmentDetailsDisplay() throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("============== VIEW APPOINTMENT DETAILS ==============");
+        System.out.println();
+        DoctorDisplay.displayDoctorAppointments();
+        System.out.println();
+        System.out.printf("Enter doctor ID to view his/her appointments or [b] to go back: ");
+        String doctorId = CustScanner.getStrChoice();
+        if (doctorId.equalsIgnoreCase("b")) {
+            throw new PageBackException();
+        }
+        if (doctorId.isEmpty() || doctorId == "") {
+            System.out.println("Doctor ID cannot be empty.\n");
+            EnterToGoBackDisplay.display();
+        }
+        ClearDisplay.ClearConsole();
+        try {
+            displayAllAppointmentsForADoctor(doctorId);
+        } catch (Exception e) {
+            viewAppointmentDetailsDisplay();
+        }
+
+        EnterToGoBackDisplay.display();
+    }
+
+    /**
+     * Displays all appointments for a specified doctor. Clears the console and
+     * retrieves the doctor by ID,
+     * displaying the doctor's name and their appointments. If no appointments are
+     * found, the user is notified.
+     * Prompts the user to enter an appointment ID to view further details or "b" to
+     * go back.
+     * 
+     * @param doctorId the ID of the doctor whose appointments are to be displayed.
+     * @throws PageBackException if the user chooses to go back to the previous
+     *                           page.
+     */
+    private static void displayAllAppointmentsForADoctor(String doctorId) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        Doctor doctor = DoctorManager.getDoctorByID(doctorId);
+        System.out.println("All appointments for Dr. " + doctor.getName());
+        List<Appointment> appointments = AppointmentManager.getAllDoctorAppointments(doctorId);
+        System.out.println();
+        if (appointments.isEmpty() || appointments == null || appointments.size() == 0) {
+            System.out.println("No appointments found.\n");
+            EnterToGoBackDisplay.display();
+        }
+        AppointmentDisplay.viewAppointments(appointments);
+        System.out.println();
+        System.out.printf("Enter appointment ID to view appointment details or [b] to go back: ");
+        String appointmentId = CustScanner.getStrChoice();
+        if (appointmentId.isEmpty() || appointmentId == "") {
+            System.out.println("Appointment ID cannot be empty.\n");
+            EnterToGoBackDisplay.display();
+        }
+        if (appointmentId.equalsIgnoreCase("b")) {
+            throw new PageBackException();
+        }
+        try {
+            displayAppointmentDetails(appointmentId);
+        } catch (Exception e) {
+            displayAllAppointmentsForADoctor(doctorId);
+        }
+    }
+
+    /**
+     * Displays detailed information for a specific appointment by its appointment
+     * ID. Clears the console and retrieves
+     * the appointment details, including doctor and patient information,
+     * appointment status, and outcome.
+     * If any part of the information (appointment, doctor, patient, or outcome) is
+     * missing or retrieval fails, an
+     * error message is displayed, and the method throws a PageBackException to
+     * return to the previous page.
+     * 
+     * For completed appointments, the method displays additional details, including
+     * the type of service,
+     * consultation notes, diagnosis, and prescribed medications. If the appointment
+     * is still pending,
+     * it shows that outcome status.
+     * 
+     * @param appointmentId the ID of the appointment to display.
+     * @throws PageBackException if any data retrieval fails or if any required data
+     *                           (appointment, doctor, patient,
+     *                           or outcome) is not found, prompting the user to go
+     *                           back.
+     */
+    private static void displayAppointmentDetails(String appointmentId) throws PageBackException {
+        ClearDisplay.ClearConsole();
+        System.out.println("Appointment details for appointment ID: " + appointmentId);
+        Appointment appointment = AppointmentManager.getAppointmentByID(appointmentId);
+        if (appointment == null) {
+            System.out.println("Something went wrong. Appointment not found.");
+            throw new PageBackException();
+        }
+        Doctor doctor = DoctorManager.getDoctorByID(appointment.getDoctorID());
+        if (doctor == null) {
+            System.out.println("Something went wrong. Doctor not found.");
+            throw new PageBackException();
+        }
+        Patient patient = PatientManager.getPatientById(appointment.getPatientID());
+        if (patient == null) {
+            System.out.println("Something went wrong. Patient not found.");
+            throw new PageBackException();
+        }
+        AppointmentOutcome outcome = AppointmentOutcomeManager.getAppointmentOutcomeByAppointmentID(appointmentId);
+        if (outcome == null) {
+            System.out.println("Something went wrong. Appointment outcome not found.");
+            throw new PageBackException();
+        }
+        DiagnosisRecord diagnosisRecord = null;
+        if (outcome.getStatus() == AppointmentOutcomeStatus.COMPLETED) {
+            try {
+                Diagnosis diagnosis = DiagnosisManager.getDiagnosisByID(patient, outcome.getDiagnosisID());
+                diagnosisRecord = DiagnosisManager.getAPatientDiagnosisRecord(diagnosis, doctor);
+            } catch (Exception e) {
+                System.out.println("Something went wrong. Diagnosis not found.");
+                throw new PageBackException();
+            }
+        }
+        System.out.println();
+        System.out.println("Appointment ID: " + appointment.getAppointmentID());
+        System.out.println("Doctor Name: " + doctor.getName());
+        System.out.println("Patient Name: " + patient.getName());
+        System.out.println("Date of Appointment: " + appointment.getDateOfAppointment());
+        System.out
+                .println("Time of Appointment: " + AppointmentDisplay.getTimeSlot(appointment.getTimeOfAppointment()));
+        System.out.println("Status: " + appointment.getAppointmentStatus());
+        System.out.println();
+        System.out.println("Appointment Outcome:");
+        System.out.println();
+        if (outcome.getStatus() == AppointmentOutcomeStatus.COMPLETED) {
+            System.out.println("Type of Service: " + outcome.getTypeOfService());
+            System.out.println("Consultation Notes: " + outcome.getConsultationNotes());
+            System.out.println("Diagnosis: " + diagnosisRecord.getDisease());
+            System.out.println("Prescribed Medications: " + String.join(",", diagnosisRecord.getMedicationNames()));
+
+        } else {
+            System.out.println("Still pending.");
+        }
+        System.out.println();
+        EnterToGoBackDisplay.display();
     }
 
     /**

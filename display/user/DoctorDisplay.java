@@ -8,6 +8,7 @@ import controller.appointment.AppointmentManager;
 import controller.appointment.AppointmentOutcomeManager;
 import controller.user.DoctorManager;
 import controller.user.PatientManager;
+import controller.user.UserManager;
 import display.appointment.AppointmentDisplay;
 import display.medicalRecords.PrescriptionDisplay;
 import display.medicalRecords.enums.MedicalRecordsActions;
@@ -226,7 +227,7 @@ public class DoctorDisplay {
      */
     private static void viewUpcomingAppointments(Doctor doctor) throws PageBackException {
         ClearDisplay.ClearConsole();
-        List<Appointment> upcomingAppointments = AppointmentManager.getDoctorAppointments(doctor.getModelID());
+        List<Appointment> upcomingAppointments = AppointmentManager.getScheduledDoctorAppointments(doctor.getModelID());
         if (upcomingAppointments == null || upcomingAppointments.isEmpty() || upcomingAppointments.size() == 0) {
             System.out.println("No upcoming appointments found.");
             System.out.println();
@@ -315,7 +316,7 @@ public class DoctorDisplay {
         System.out.println("Record Appointment Outcome");
         System.out.println("----------------------------------");
 
-        List<Appointment> appointments = AppointmentManager.getDoctorAppointments(doctor.getModelID());
+        List<Appointment> appointments = AppointmentManager.getScheduledDoctorAppointments(doctor.getModelID());
 
         if (appointments == null || appointments.isEmpty() || appointments.size() == 0) {
             System.out.println("No appointments found.");
@@ -332,7 +333,7 @@ public class DoctorDisplay {
             EnterToGoBackDisplay.display();
         }
 
-        AppointmentDisplay.viewScheduledAppointments(pendingAppointments);
+        AppointmentDisplay.viewAppointments(pendingAppointments);
         System.out.printf("Please enter the ID of the appointment you would like to record the outcome of. ");
         String appointmentID = CustScanner.getStrChoice();
         System.out.println();
@@ -340,4 +341,27 @@ public class DoctorDisplay {
         displayRecordAppointmentOutcomePrompts(doctor, appointmentID);
     }
 
+    /**
+     * Displays a table of all doctors with their details, including ID, name,
+     * email, and the number of appointments.
+     */
+    public static void displayDoctorAppointments() {
+        String fourColBorder = "+--------------------------------------+----------------------+------------------------------+------------------------+";
+        List<Doctor> doctors = UserManager.getDoctors();
+        if (doctors == null || doctors.isEmpty()) {
+            System.out.println("No doctors found.");
+            return;
+        }
+        System.out.println(fourColBorder);
+        System.out.printf("| %-115s |%n", "Doctors");
+        System.out.println(fourColBorder);
+        System.out.printf("| %-36s | %-20s | %-28s | %-22s |%n", "ID", "Name", "Email", "No. of Appointments");
+        System.out.println(fourColBorder);
+        for (Doctor doctor : doctors) {
+            int noOfAppointments = AppointmentManager.getAllDoctorAppointments(doctor.getModelID()).size();
+            System.out.printf("| %-36s | %-20s | %-28s | %-22s |%n", doctor.getModelID(), doctor.getName(),
+                    doctor.getEmail(), noOfAppointments);
+        }
+        System.out.println(fourColBorder);
+    }
 }

@@ -80,7 +80,7 @@ public class AppointmentDisplay {
      * @return the time slot as a string, or {@code null} if no matching slot is
      *         found
      */
-    private static String getTimeSlot(int timeSlotID) {
+    public static String getTimeSlot(int timeSlotID) {
         return timeSlotMap.get(timeSlotID);
     }
 
@@ -198,12 +198,12 @@ public class AppointmentDisplay {
     }
 
     /**
-     * Displays all scheduled appointments for a doctor.
+     * Displays all appointments for a doctor.
      *
      * @param appointments a list of {@code Appointment} objects
      * @throws PageBackException if the user chooses to go back
      */
-    public static void viewScheduledAppointments(List<Appointment> appointments) throws PageBackException {
+    public static void viewAppointments(List<Appointment> appointments) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+-------------------+";
         System.out.println(fourColBorder);
         System.out.printf("| %-97s |%n", " " + "All Appointments");
@@ -739,5 +739,4 @@ public class AppointmentDisplay {
             System.out.println("Something went wrong.");
         }
     }
-
 }
