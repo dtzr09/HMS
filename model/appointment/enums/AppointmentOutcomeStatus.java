@@ -9,7 +9,16 @@ package model.appointment.enums;
  * </ul>
  */
 public enum AppointmentOutcomeStatus {
-    PENDING, COMPLETED;
+    /**
+     * Indicates that the appointment outcome is still pending and has not been
+     * finalized.
+     */
+    PENDING,
+
+    /**
+     * Indicates that the appointment outcome has been completed and finalized.
+     */
+    COMPLETED;
 
     /**
      * Converts a string representation of the status to its corresponding

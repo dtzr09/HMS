@@ -10,9 +10,20 @@ package model.prescription.enums;
  * </ul>
  */
 public enum PrescriptionStatus {
-    PENDING, // Prescription is waiting to be processed
-    DISPENSED, // Prescription has been dispensed to the patient
-    DECLINED; // Prescription was declined and not dispensed
+    /**
+     * The prescription is awaiting processing.
+     */
+    PENDING,
+
+    /**
+     * The prescription has been dispensed to the patient.
+     */
+    DISPENSED,
+
+    /**
+     * The prescription was declined and not dispensed.
+     */
+    DECLINED;
 
     /**
      * Converts a string representation of the prescription status to its

@@ -14,6 +14,9 @@ import utils.utils.EmptyID;
  * Interface for objects that can be mapped to/from a Map.
  */
 public interface Mappable {
+    /**
+     * Date format for converting dates to strings
+     */
     static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     /**

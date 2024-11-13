@@ -6,14 +6,50 @@ package model.user.enums;
  * as well as an option for unavailable information.
  */
 public enum BloodType {
+
+    /**
+     * Blood type A positive (A+).
+     */
     A_POSITIVE, // A+
+
+    /**
+     * Blood type A negative (A-).
+     */
     A_NEGATIVE, // A-
+
+    /**
+     * Blood type B positive (B+).
+     */
     B_POSITIVE, // B+
+
+    /**
+     * Blood type B negative (B-).
+     */
     B_NEGATIVE, // B-
+
+    /**
+     * Blood type O positive (O+).
+     */
     O_POSITIVE, // O+
+
+    /**
+     * Blood type O negative (O-).
+     */
     O_NEGATIVE, // O-
+
+    /**
+     * Blood type AB positive (AB+).
+     */
     AB_POSITIVE, // AB+
+
+    /**
+     * Blood type AB negative (AB-).
+     */
     AB_NEGATIVE, // AB-
+
+    /**
+     * Not available or unspecified blood type.
+     */
     NOT_AVAILABLE; // Not available or unspecified
 
     /**

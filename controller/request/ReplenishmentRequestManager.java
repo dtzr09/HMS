@@ -10,8 +10,10 @@ import model.request.ReplenishmentRequest;
 import model.request.enums.RequestStatus;
 import utils.exceptions.ModelAlreadyExistsException;
 import utils.exceptions.ModelNotFoundException;
+
 /**
- * The ReplenishmentRequestManager class provides utility methods for handling Medication replenishment requests
+ * The ReplenishmentRequestManager class provides utility methods for handling
+ * Medication replenishment requests
  * between Pharmacists and Administrator.
  */
 
@@ -20,11 +22,15 @@ public class ReplenishmentRequestManager {
     /**
      * Checks if there are any pending replenishment requests in the database.
      * 
-     * This method retrieves all replenishment requests and checks if any of them have a status of 
-     * `PENDING`. If at least one pending request is found, the method returns `true`. If no pending 
-     * requests are found or if an error occurs during the process, it returns `false`.
+     * This method retrieves all replenishment requests and checks if any of them
+     * have a status of
+     * `PENDING`. If at least one pending request is found, the method returns
+     * `true`. If no pending
+     * requests are found or if an error occurs during the process, it returns
+     * `false`.
      * 
-     * @return `true` if there is at least one pending replenishment request, `false` otherwise.
+     * @return `true` if there is at least one pending replenishment request,
+     *         `false` otherwise.
      */
     public static Boolean isThereAnyPendingRequests() {
         try {
@@ -43,11 +49,14 @@ public class ReplenishmentRequestManager {
     /**
      * Updates an existing replenishment request in the database.
      * 
-     * This method updates the details of a replenishment request in the database. The updated request
-     * must be passed as an argument, and its changes will be reflected in the database.
+     * This method updates the details of a replenishment request in the database.
+     * The updated request
+     * must be passed as an argument, and its changes will be reflected in the
+     * database.
      * 
      * @param request the replenishment request to be updated.
-     * @throws ModelNotFoundException if the replenishment request does not exist in the database.
+     * @throws ModelNotFoundException if the replenishment request does not exist in
+     *                                the database.
      */
     public static void updateRequst(ReplenishmentRequest request) throws ModelNotFoundException {
         ReplenishmentRequestDatabase.getDB().update(request);
@@ -56,36 +65,40 @@ public class ReplenishmentRequestManager {
     /**
      * Adds a new replenishment request to the database.
      * 
-     * This method creates a new replenishment request and adds it to the database. If the request details
+     * This method creates a new replenishment request and adds it to the database.
+     * If the request details
      * are valid and not already existing, it will be added to the database.
      * 
      * @param replenishmentRequestID the unique ID of the replenishment request.
-     * @param status the current status of the replenishment request (e.g., PENDING, APPROVED, etc.).
-     * @param dateOfRequest the date when the replenishment request was made.
-     * @param dateOfModification the date when the request was last modified.
-     * @param medicationID the ID of the medication associated with the replenishment request.
-     * @throws ModelAlreadyExistsException if a replenishment request with the same ID already exists.
+     * @param status                 the current status of the replenishment request
+     *                               (e.g., PENDING, APPROVED, etc.).
+     * @param dateOfRequest          the date when the replenishment request was
+     *                               made.
+     * @param dateOfModification     the date when the request was last modified.
+     * @param medicationID           the ID of the medication associated with the
+     *                               replenishment request.
+     * @throws ModelAlreadyExistsException if a replenishment request with the same
+     *                                     ID already exists.
      */
     public static void addReplenishmentRequest(String replenishmentRequestID, RequestStatus status, Date dateOfRequest,
-            Date dateOfModification, String medicationID) {
+            Date dateOfModification, String medicationID) throws ModelAlreadyExistsException {
         ReplenishmentRequest request = new ReplenishmentRequest(replenishmentRequestID, status, dateOfRequest,
                 dateOfModification, medicationID);
-        try {
-            ReplenishmentRequestDatabase.getDB().add(request);
-        } catch (ModelAlreadyExistsException e) {
-            System.out.println("Request Invalid. Check request details before submitting!");
-        }
+        ReplenishmentRequestDatabase.getDB().add(request);
     }
 
     /**
      * Retrieves a replenishment request by its unique ID.
      * 
-     * This method fetches a specific replenishment request from the database using its request ID.
-     * If the request ID does not exist in the database, it will throw a ModelNotFoundException.
+     * This method fetches a specific replenishment request from the database using
+     * its request ID.
+     * If the request ID does not exist in the database, it will throw a
+     * ModelNotFoundException.
      * 
      * @param requestId the unique ID of the replenishment request to retrieve.
      * @return the ReplenishmentRequest object associated with the given request ID.
-     * @throws ModelNotFoundException if the replenishment request with the given ID is not found.
+     * @throws ModelNotFoundException if the replenishment request with the given ID
+     *                                is not found.
      */
     private static ReplenishmentRequest getReplenishmentRequestById(String requestId) throws ModelNotFoundException {
         return ReplenishmentRequestDatabase.getDB().getByID(requestId);
@@ -94,8 +107,10 @@ public class ReplenishmentRequestManager {
     /**
      * Retrieves a list of all pending medication replenishment requests.
      * 
-     * This method checks the database for all replenishment requests with a status of PENDING and
-     * returns them as a list. If no pending requests are found, it returns an empty list.
+     * This method checks the database for all replenishment requests with a status
+     * of PENDING and
+     * returns them as a list. If no pending requests are found, it returns an empty
+     * list.
      * 
      * @return an ArrayList of ReplenishmentRequest objects with a PENDING status.
      */
@@ -117,12 +132,15 @@ public class ReplenishmentRequestManager {
     /**
      * Approves a medication replenishment request and updates the medication stock.
      * 
-     * This method retrieves a replenishment request by its ID, updates its status to APPROVED, 
-     * and then increases the stock of the corresponding medication. It also updates the replenishment 
+     * This method retrieves a replenishment request by its ID, updates its status
+     * to APPROVED,
+     * and then increases the stock of the corresponding medication. It also updates
+     * the replenishment
      * request in the database after the approval process.
      * 
      * @param requestId the unique ID of the replenishment request to approve.
-     * @return true if the replenishment request was successfully approved and stock updated; 
+     * @return true if the replenishment request was successfully approved and stock
+     *         updated;
      *         false if the request was not found or an error occurred.
      */
     public static boolean approveMedicationReplenishmentRequest(String requestId) {
@@ -142,14 +160,17 @@ public class ReplenishmentRequestManager {
     }
 
     /**
-     * Declines a medication replenishment request by setting its status to REJECTED.
+     * Declines a medication replenishment request by setting its status to
+     * REJECTED.
      * 
-     * This method retrieves a replenishment request by its ID and updates its status to REJECTED. 
-     * The updated request is then stored in the database. If the request cannot be found, 
+     * This method retrieves a replenishment request by its ID and updates its
+     * status to REJECTED.
+     * The updated request is then stored in the database. If the request cannot be
+     * found,
      * the method returns false. If the process is successful, it returns true.
      * 
      * @param requestId the unique ID of the replenishment request to decline.
-     * @return true if the replenishment request was successfully declined; 
+     * @return true if the replenishment request was successfully declined;
      *         false if the request was not found or an error occurred.
      */
     public static boolean declineMedicationReplenishmentRequest(String requestId) {

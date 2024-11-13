@@ -13,7 +13,33 @@ package model.appointment.enums;
  * </ul>
  */
 public enum AppointmentStatus {
-    PENDING, APPROVED, CANCELLED, COMPLETED, REJECTED;
+    /**
+     * Indicates that the appointment is awaiting approval.
+     */
+    PENDING,
+
+    /**
+     * Indicates that the appointment has been approved and is scheduled to take
+     * place.
+     */
+    APPROVED,
+
+    /**
+     * Indicates that the appointment has been cancelled by the user or the
+     * provider.
+     */
+    CANCELLED,
+
+    /**
+     * Indicates that the appointment has been successfully completed.
+     */
+    COMPLETED,
+
+    /**
+     * Indicates that the appointment request was rejected and will not be
+     * scheduled.
+     */
+    REJECTED;
 
     /**
      * Converts a string representation of the status to its corresponding

@@ -33,8 +33,6 @@ public class Doctor implements User {
      * @param doctorID                the unique identifier for the doctor.
      * @param password                the password for the doctor's account.
      * @param personalInfo            the personal information of the doctor.
-     * @param appointments            a list of appointments associated with the
-     *                                doctor.
      * @param numOfPatients           the number of patients assigned to the doctor.
      * @param appointmentAvailability a map of available appointment slots.
      */

@@ -5,8 +5,23 @@ package model.user.enums;
  * system.
  */
 public enum UserType {
-    DOCTOR, // Represents a user with a doctor role
-    PHARMACIST, // Represents a user with a pharmacist role
-    PATIENT, // Represents a user with a patient role
-    ADMINISTRATOR // Represents a user with an administrator role
+    /**
+     * Represents a user with a doctor role.
+     */
+    DOCTOR,
+
+    /**
+     * Represents a user with a pharmacist role.
+     */
+    PHARMACIST,
+
+    /**
+     * Represents a user with a patient role.
+     */
+    PATIENT,
+
+    /**
+     * Represents a user with a nurse role.
+     */
+    ADMINISTRATOR
 }

@@ -6,12 +6,39 @@ package model.appointment.enums;
  * to a Weekdays instance, and format the weekday name in camel case.
  */
 public enum Weekdays {
+    /**
+     * Monday
+     */
     MONDAY("Monday"),
+
+    /**
+     * Tuesday
+     */
     TUESDAY("Tuesday"),
+
+    /**
+     * Wednesday
+     */
     WEDNESDAY("Wednesday"),
+
+    /**
+     * Thursday
+     */
     THURSDAY("Thursday"),
+
+    /**
+     * Friday
+     */
     FRIDAY("Friday"),
+
+    /**
+     * Saturday
+     */
     SATURDAY("Saturday"),
+
+    /**
+     * Sunday
+     */
     SUNDAY("Sunday");
 
     private final String weekday;

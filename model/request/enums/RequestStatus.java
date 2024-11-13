@@ -10,9 +10,20 @@ package model.request.enums;
  * </ul>
  */
 public enum RequestStatus {
-    PENDING, // Request is awaiting review
-    APPROVED, // Request has been approved
-    REJECTED; // Request has been rejected
+    /**
+     * The request is awaiting review.
+     */
+    PENDING,
+
+    /**
+     * The request has been approved.
+     */
+    APPROVED,
+
+    /**
+     * The request has been rejected.
+     */
+    REJECTED;
 
     /**
      * Converts a string representation of a request status to a RequestStatus enum.

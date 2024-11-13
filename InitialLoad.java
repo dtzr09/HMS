@@ -55,9 +55,13 @@ public class InitialLoad {
     public static void start() {
         int flag = 0;
         if (isInitial()) {
-            MedicationManager.loadMedication();
-            AccountManager.loadHospitalStaffs();
-            AccountManager.loadPatient();
+            try {
+                MedicationManager.loadMedication();
+                AccountManager.loadHospitalStaffs();
+                AccountManager.loadPatient();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             flag = 1;
         }
         if (flag == 1) {

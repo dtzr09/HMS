@@ -14,11 +14,15 @@ import java.util.regex.Pattern;
 public class StringToMap {
     /**
      * Converts a formatted string representation of a map to a Map object.
+     * <p>
+     * The input string is expected to be in the format "{key=[value1, value2],
+     * ...}".
+     * </p>
      * 
      * @param input the string to convert, expected in the format "{key=[value1,
      *              value2], ...}"
-     * @return a Map with String keys and List<String> values, parsed from the input
-     *         string
+     * @return a Map with String keys and List&lt;String&gt; values, parsed from the
+     *         input string
      */
     public static Map<String, List<String>> ToMap(String input) {
         Map<String, List<String>> map = new HashMap<>();
