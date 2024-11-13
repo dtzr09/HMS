@@ -11,24 +11,33 @@ import utils.exceptions.UserCannotBeFoundException;
 public class AdministratorManager {
 
     /**
-     * Check if the administrator database is empty
+     * Checks if the Administrator database is empty.
      * 
-     * @return true if the administrator database is empty, false otherwise
+     * This method queries the Administrator database to check if it contains any records. 
+     * It returns true if the database is empty, and false if it contains any records.
+     * 
+     * @return true if the Administrator database is empty; false if it contains records.
      */
     public static boolean isRepositoryEmpty() {
         return AdministratorDatabase.getDB().isEmpty();
     }
 
     /**
-     * Add a new hospital staff
+     * Registers a new hospital staff member by adding them to the system.
      * 
-     * @param email
-     * @param name
-     * @param gender
-     * @param age
-     * @param userType
-     * @throws ModelNotFoundException
-     * @throws UserAlreadyExistsException
+     * This method registers a new hospital staff member by calling the `AccountManager.register` method.
+     * It requires the staff member's email, name, gender, age, and user type as inputs.
+     * If the staff member already exists, a `UserAlreadyExistsException` is thrown. 
+     * If there is an issue with the provided user type or model, a `ModelNotFoundException` will be thrown.
+     * 
+     * @param email the email address of the staff member.
+     * @param name the name of the staff member.
+     * @param gender the gender of the staff member.
+     * @param age the age of the staff member.
+     * @param userType the user type (e.g., ADMINISTRATOR, DOCTOR) of the staff member.
+     * 
+     * @throws ModelNotFoundException if the model or user type cannot be found or is invalid.
+     * @throws UserAlreadyExistsException if a user with the same email already exists in the system.
      */
     public static void addNewHospitalStaff(String email, String name, Gender gender, int age, UserType userType)
             throws ModelNotFoundException, UserAlreadyExistsException {
@@ -42,12 +51,18 @@ public class AdministratorManager {
     }
 
     /**
-     * Remove a hospital staff
+     * Removes an existing hospital staff member from the system.
      * 
-     * @param email
-     * @param userType
-     * @throws ModelNotFoundException
-     * @throws UserCannotBeFoundException
+     * This method attempts to remove a staff member based on their email and user type by calling 
+     * the `AccountManager.removeUser()` method. If the user is not found in the system, 
+     * it throws a `ModelNotFoundException`. If the specific user cannot be found or removed, 
+     * a `UserCannotBeFoundException` is thrown.
+     * 
+     * @param email the email address of the staff member to be removed.
+     * @param userType the user type (e.g., ADMINISTRATOR, DOCTOR) of the staff member to be removed.
+     * 
+     * @throws ModelNotFoundException if the staff member's model cannot be found in the system.
+     * @throws UserCannotBeFoundException if the specific user cannot be found based on the provided email and user type.
      */
     public static void removeNewHospitalStaff(String email, UserType userType)
             throws ModelNotFoundException, UserCannotBeFoundException {

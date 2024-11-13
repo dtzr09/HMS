@@ -19,9 +19,14 @@ import utils.exceptions.PageBackException;
 public class AppointmentOutcomeManager {
 
     /**
-     * Create new appointment outcome
+     * Creates a new appointment outcome and adds it to the database.
      * 
-     * @param appointmentOutcome
+     * This method takes an `AppointmentOutcome` object, attempts to add it to the `AppointmentOutcomeDatabase`, 
+     * and handles any exceptions that may arise during the process. If the outcome is successfully added, it 
+     * remains stored in the database for future reference. If an error occurs during the operation, an error 
+     * message is displayed.
+     * 
+     * @param appointmentOutcome The `AppointmentOutcome` object to be added to the database.
      */
     public static void createNewAppointmentOutcome(AppointmentOutcome appointmentOutcome) {
         try {
@@ -32,13 +37,21 @@ public class AppointmentOutcomeManager {
     }
 
     /**
-     * Update appointment outcome
+     * Updates the details of an existing appointment outcome and adds a diagnosis.
      * 
-     * @param appointmentOutcome
-     * @param diagnosis
-     * @param typeOfService
-     * @param diagnosisID
-     * @param consultationNotes
+     * This method updates the given `AppointmentOutcome` object by setting the type of service, 
+     * diagnosis ID, and consultation notes. The status of the appointment outcome is then updated 
+     * to "COMPLETED". The updated outcome is stored in the `AppointmentOutcomeDatabase`, and the 
+     * provided diagnosis is added to the `DiagnosisManager`.
+     * 
+     * If any error occurs during the update process, the exception is caught, and an error message 
+     * is printed to the console.
+     * 
+     * @param appointmentOutcome The `AppointmentOutcome` object to be updated.
+     * @param diagnosis The `Diagnosis` object to be added to the system.
+     * @param typeOfService The type of medical service provided during the appointment.
+     * @param diagnosisID The ID of the diagnosis associated with the appointment.
+     * @param consultationNotes Notes regarding the consultation or findings during the appointment.
      */
     public static void updateAppointmentOutcome(AppointmentOutcome appointmentOutcome, Diagnosis diagnosis,
             String typeOfService, String diagnosisID, String consultationNotes) {
@@ -56,14 +69,28 @@ public class AppointmentOutcomeManager {
     }
 
     /**
-     * Get all appointment outcomes
+     * Retrieves all appointment outcomes from the database.
      * 
-     * @return List<AppointmentOutcome>
+     * This method fetches and returns a list of all `AppointmentOutcome` objects stored in the 
+     * `AppointmentOutcomeDatabase`. The list contains the details of all outcomes recorded for 
+     * appointments.
+     * 
+     * @return A list of all `AppointmentOutcome` objects in the database.
      */
     public static List<AppointmentOutcome> getAllAppointmentOutcome() {
         return AppointmentOutcomeDatabase.getDB().getAllAppointmentOutcomes();
     }
-
+    /**
+     * Retrieves the appointment outcome for a given appointment ID.
+     * 
+     * This method searches through all appointment outcomes in the database to find the outcome 
+     * associated with the provided appointment ID. If the outcome is found, it is returned; 
+     * otherwise, the method returns null.
+     * 
+     * @param appointmentID The ID of the appointment whose outcome is to be retrieved.
+     * @return The `AppointmentOutcome` object associated with the given appointment ID, or null 
+     *         if no such outcome is found.
+     */
     public static AppointmentOutcome getAppointmentOutcomeByAppointmentID(String appointmentID) {
         try {
             AppointmentOutcome outcome = null;
@@ -79,10 +106,15 @@ public class AppointmentOutcomeManager {
     }
 
     /**
-     * Get appointment outcome by patient ID
+     * Retrieves all appointment outcome records for a given patient.
      * 
-     * @param patientID
-     * @return List<AppointmentOutcome>
+     * This method filters and returns a list of all `AppointmentOutcome` objects that are associated 
+     * with the specified patient ID. It searches through all appointment outcomes and adds those 
+     * matching the given patient ID to the result list.
+     * 
+     * @param patientID The ID of the patient whose appointment outcomes are to be retrieved.
+     * @return A list of `AppointmentOutcome` objects associated with the given patient ID, 
+     *         or null if an error occurs during the process.
      */
     public static List<AppointmentOutcome> getPatientsAppointmentOutcomeRecords(String patientID) {
         ArrayList<AppointmentOutcome> recordList = new ArrayList<>();
@@ -101,12 +133,17 @@ public class AppointmentOutcomeManager {
     }
 
     /**
-     * Get appointment outcome records
+     * Retrieves a list of appointment outcome records for a given list of appointment outcomes and patient ID.
      * 
-     * @param recordList
-     * @param patientID
-     * @return List<AppointmentOutcomeRecord>
-     * @throws PageBackException
+     * This method processes a list of `AppointmentOutcome` objects, fetches the corresponding appointment, diagnosis,
+     * and prescription details, and compiles this information into a list of `AppointmentOutcomeRecord` objects. Each record
+     * contains detailed information about the appointment outcome, including type of service, consultation notes, 
+     * medication names, and prescription status.
+     * 
+     * @param recordList The list of `AppointmentOutcome` objects that represent the outcomes of various appointments.
+     * @param patientID The ID of the patient whose appointment outcomes are being processed.
+     * @return A list of `AppointmentOutcomeRecord` objects, each representing the details of an appointment outcome.
+     * @throws PageBackException If there is an error in fetching related data or processing any of the outcomes.
      */
     public static List<AppointmentOutcomeRecord> getAppointmentOutcomeRecords(List<AppointmentOutcome> recordList,
             String patientID) throws PageBackException {
@@ -131,10 +168,13 @@ public class AppointmentOutcomeManager {
     }
 
     /**
-     * Get appointment outcome by doctor ID
+     * Retrieves a list of appointment outcomes for a specific doctor.
      * 
-     * @param doctorID
-     * @return List<AppointmentOutcome>
+     * This method filters the list of all appointment outcomes and returns only those that are associated with the given doctor ID.
+     * The outcomes returned represent the results of appointments attended by the specified doctor.
+     * 
+     * @param doctorID The ID of the doctor whose appointment outcomes are to be retrieved.
+     * @return A list of `AppointmentOutcome` objects that belong to the specified doctor.
      */
     public static ArrayList<AppointmentOutcome> getAppointmentOutcomeByDoctorID(String doctorID) {
         ArrayList<AppointmentOutcome> doctorAppointmentOutcome = new ArrayList<>();
@@ -148,10 +188,13 @@ public class AppointmentOutcomeManager {
     }
 
     /**
-     * Get number of appointment outcome by patient ID
+     * Retrieves the number of completed appointment outcomes for a specific patient.
      * 
-     * @param patientID
-     * @return int
+     * This method iterates through all appointment outcomes and counts how many are associated
+     * with the given patient ID and have a status of "COMPLETED".
+     * 
+     * @param patientID The ID of the patient whose completed appointment outcomes are to be counted.
+     * @return The number of completed appointment outcomes for the specified patient.
      */
     public static int getNumberOfAppointmentOutcomeByPatientID(String patientID) {
         List<AppointmentOutcome> appointmentOutcomes = getAllAppointmentOutcome();
