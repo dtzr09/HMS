@@ -45,7 +45,8 @@ public abstract class Database<ModelObject extends Model> extends Savable<ModelO
      * 
      * @param userEmail the email of the model object to get
      * @return the model object with the specified email
-     * @throws ModelNotFoundException
+     * @throws ModelNotFoundException if the model object with the given email does
+     *                                not exist
      */
     public ModelObject getByEmail(String userEmail) throws ModelNotFoundException {
         // Only users will have email
