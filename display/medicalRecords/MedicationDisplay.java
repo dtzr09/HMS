@@ -10,6 +10,7 @@ import display.user.AdministratorDisplay;
 import model.medication.Medication;
 import model.user.Administrator;
 import utils.exceptions.ModelAlreadyExistsException;
+import utils.exceptions.ModelNotFoundException;
 import utils.exceptions.PageBackException;
 import utils.iocontrol.CustScanner;
 
@@ -74,7 +75,11 @@ public class MedicationDisplay {
             throw new PageBackException();
         }
 
-        MedicationManager.deleteMedication(medicationID);
+        try {
+            MedicationManager.deleteMedication(medicationID);
+        } catch (ModelNotFoundException e) {
+            EnterToGoBackDisplay.display();
+        }
         System.out.println();
         System.out.println(
                 "Medication " + selectedMed.getName() + " has been removed from the inventory.");
@@ -105,7 +110,11 @@ public class MedicationDisplay {
             throw new PageBackException();
         }
 
-        MedicationManager.updateMedicationStock(medicationID);
+        try {
+            MedicationManager.updateMedicationStock(medicationID);
+        } catch (ModelNotFoundException e) {
+            EnterToGoBackDisplay.display();
+        }
         System.out.println();
         System.out.println(
                 "Medication stock updated! The current stock for the medication " + selectedMed.getName() + " is now. "
