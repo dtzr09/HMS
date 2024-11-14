@@ -11,6 +11,7 @@ import database.medicalRecords.DiagnosisDatabase;
 import model.diagnosis.Diagnosis;
 import model.diagnosis.DiagnosisRecord;
 import model.prescription.Prescription;
+import model.prescription.enums.PrescriptionStatus;
 import model.user.Doctor;
 import model.user.Patient;
 import utils.exceptions.ModelAlreadyExistsException;
@@ -111,6 +112,24 @@ public class DiagnosisManager {
             List<Diagnosis> diagnoses = getAllDiagnosis();
             for (Diagnosis d : diagnoses) {
                 if (d.getPatientID().equals(patientID)) {
+                    patientDiagnosis.add(d);
+                }
+            }
+            return patientDiagnosis;
+        } catch (NullPointerException e) {
+            return patientDiagnosis;
+        }
+    }
+
+    public static List<Diagnosis> getDiagnosisByPatientIDAndDiagnosisDetails(String patientID)
+            throws ModelNotFoundException {
+        ArrayList<Diagnosis> patientDiagnosis = new ArrayList<>();
+        try {
+            List<Diagnosis> diagnoses = getAllDiagnosis();
+            for (Diagnosis d : diagnoses) {
+                Prescription prescription = PrescriptionManager.getPrescriptionByID(d.getPrescriptionID());
+                if (d.getPatientID().equals(patientID) && !prescription.getMedicationIDs().isEmpty()
+                        && prescription.getPrescriptionStatus() == PrescriptionStatus.PENDING) {
                     patientDiagnosis.add(d);
                 }
             }

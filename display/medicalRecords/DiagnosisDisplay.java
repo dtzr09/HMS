@@ -199,7 +199,7 @@ public class DiagnosisDisplay {
      * @param patient the patient whose diagnosis records are displayed
      * @throws PageBackException if an error occurs or no records are found
      */
-    public static void displayAllDiagnosisOfPatient(Patient patient) throws PageBackException {
+    public static Boolean displayAllDiagnosisOfPatient(Patient patient) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-------------------+";
         System.out.println(fourColBorder);
         System.out.printf("| %-120s | %n", " " + "Diagnosis history of " + patient.getName());
@@ -211,6 +211,8 @@ public class DiagnosisDisplay {
             List<Diagnosis> diagnoses = DiagnosisManager.getDiagnosisByPatientID(patient.getPatientID());
             if (diagnoses.size() == 0 || diagnoses == null) {
                 System.out.printf("| %-120s | %n", "No diagnosis found. ");
+                System.out.println(fourColBorder);
+                return false;
             }
             for (Diagnosis diagnosis : diagnoses) {
                 String doctorID = diagnosis.getDoctorID();
@@ -220,17 +222,25 @@ public class DiagnosisDisplay {
                 }
 
                 DiagnosisRecord record = DiagnosisManager.getAPatientDiagnosisRecord(diagnosis, doctor);
-                System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-17s |%n",
-                        record.getDiagnosisID(), record.getDisease(),
-                        record.getDoctorName(), String.join(",", record.getMedicationNames()),
-                        record.getDateOfDiagnosis());
+                if (record.getMedicationNames().isEmpty() || record.getMedicationNames().size() == 0) {
+                    System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-17s |%n",
+                            record.getDiagnosisID(), record.getDisease(),
+                            record.getDoctorName(), "N/A",
+                            record.getDateOfDiagnosis());
+                } else {
+                    System.out.printf("| %-36s | %-20s | %-15s | %-20s | %-17s |%n",
+                            record.getDiagnosisID(), record.getDisease(),
+                            record.getDoctorName(), String.join(",", record.getMedicationNames()),
+                            record.getDateOfDiagnosis());
+                }
             }
             System.out.println(fourColBorder);
+            return true;
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("| No diagnosis found.");
             System.out.println(fourColBorder);
             EnterToGoBackDisplay.display();
+            return false;
         }
     }
 

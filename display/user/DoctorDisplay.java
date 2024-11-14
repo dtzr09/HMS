@@ -285,12 +285,25 @@ public class DoctorDisplay {
 
         System.out.printf("Please enter the type of service provided. ");
         String typeOfService = CustScanner.getStrChoice();
+        if (typeOfService.isBlank() || typeOfService == "") {
+            System.out.println("Type of service cannot be empty.");
+            EnterToGoBackDisplay.display();
+        }
 
         System.out.printf("Please enter the consultation notes. ");
         String consultationNotes = CustScanner.getStrChoice();
+        if (consultationNotes.isBlank() || consultationNotes == "") {
+            System.out.println("Consultation notes cannot be empty.");
+            EnterToGoBackDisplay.display();
+        }
 
         System.out.printf("Please enter the disease. ");
         String disease = CustScanner.getStrChoice();
+        if (disease.isBlank() || disease == "") {
+            System.out.println("Disease cannot be empty.");
+            EnterToGoBackDisplay.display();
+        }
+
         System.out.println();
 
         String prescriptionID = UUID.randomUUID().toString();
@@ -331,7 +344,6 @@ public class DoctorDisplay {
         List<Appointment> appointments = AppointmentManager.getScheduledDoctorAppointments(doctor.getModelID());
 
         if (appointments == null || appointments.isEmpty() || appointments.size() == 0) {
-            System.out.println("No appointments found.");
             System.out.println();
             EnterToGoBackDisplay.display();
         }

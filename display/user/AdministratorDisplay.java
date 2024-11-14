@@ -266,7 +266,11 @@ public class AdministratorDisplay {
             System.out.println("Type of Service: " + outcome.getTypeOfService());
             System.out.println("Consultation Notes: " + outcome.getConsultationNotes());
             System.out.println("Diagnosis: " + diagnosisRecord.getDisease());
-            System.out.println("Prescribed Medications: " + String.join(",", diagnosisRecord.getMedicationNames()));
+            if (diagnosisRecord.getMedicationNames().isEmpty() || diagnosisRecord.getMedicationNames().size() == 0) {
+                System.out.println("Prescribed Medications: NA");
+            } else {
+                System.out.println("Prescribed Medications: " + String.join(",", diagnosisRecord.getMedicationNames()));
+            }
 
         } else {
             System.out.println("Still pending.");

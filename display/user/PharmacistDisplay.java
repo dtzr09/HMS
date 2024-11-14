@@ -162,7 +162,10 @@ public class PharmacistDisplay {
         }
 
         ClearDisplay.ClearConsole();
-        DiagnosisDisplay.displayAllDiagnosisOfPatient(patient);
+        if (!DiagnosisDisplay.displayAllDiagnosisOfPatient(patient)) {
+            EnterToGoBackDisplay.display();
+        }
+        ;
         System.out.println();
         System.out.printf("Enter the diagnosis ID: ");
         String diagnosisID = CustScanner.getStrChoice();
@@ -173,10 +176,15 @@ public class PharmacistDisplay {
             patientDiagnosis = DiagnosisManager.getDiagnosisByPatientIDAndDiagnosisID(patient.getPatientID(),
                     diagnosisID);
             Prescription prescription = PrescriptionManager.getPrescriptionByID(patientDiagnosis.getPrescriptionID());
-            System.out.println("The status for the diagnosis prescription is: "
-                    + prescription.getPrescriptionStatus());
+            if (prescription.getMedicationIDs().isEmpty()
+                    || prescription.getPrescriptionStatus() != PrescriptionStatus.PENDING) {
+                throw new Exception();
+            } else {
+                System.out.println("The status for the diagnosis prescription is: "
+                        + prescription.getPrescriptionStatus());
+            }
         } catch (Exception e) {
-            System.out.println("Diagnosis ID not found, check ID entered.");
+            System.out.println("Diagnosis ID not found or there is nothing to dispense.\n");
             EnterToGoBackDisplay.display();
         }
 

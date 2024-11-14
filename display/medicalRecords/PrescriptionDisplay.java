@@ -132,6 +132,10 @@ public class PrescriptionDisplay {
         System.out.println();
         System.out.printf("Enter the instructions for drugs usage. ");
         String drugInstructions = CustScanner.getStrChoice();
+        if (drugInstructions.isEmpty() || drugInstructions.isBlank()) {
+            System.out.println("Drug instructions cannot be empty.");
+            EnterToGoBackDisplay.display();
+        }
 
         try {
             PrescriptionManager.createNewPrescription(prescriptionID,
