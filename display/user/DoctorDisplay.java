@@ -344,7 +344,7 @@ public class DoctorDisplay {
         List<Appointment> appointments = AppointmentManager.getScheduledDoctorAppointments(doctor.getModelID());
 
         if (appointments == null || appointments.isEmpty() || appointments.size() == 0) {
-            System.out.println();
+            System.out.println("No appointments found.");
             EnterToGoBackDisplay.display();
         }
 

@@ -9,6 +9,8 @@ import model.user.User;
 import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.exceptions.PageBackException;
+import utils.exceptions.PasswordDoesNotFulfilCriteriaException;
+import utils.exceptions.PasswordIncorrectException;
 import utils.iocontrol.CustScanner;
 
 /**
@@ -126,28 +128,32 @@ public class RegisterDisplay {
             if (user != null) {
                 ClearDisplay.ClearConsole();
                 System.out.println("User registered successfully.");
-                System.out.print("Please enter a new password: ");
-                try {
-                    PasswordManager.changePassword(user, "password", CustScanner.getPassword());
-                    UserManager.updateUser(user);
-                    System.out.println("Password changed successfully. Redirecting you to login page...");
-                    TimeUnit.SECONDS.sleep(2);
-                    WelcomeDisplay.welcome();
-                } catch (Exception e) {
-                    System.out.println("Password change failed. Please try again.");
-                    System.out.println("Error registering user.");
-                    System.out.println("Enter [b] to go back to login page, else any other key to try again.");
-                    String choice = CustScanner.getStrChoice();
-                    if (choice.equalsIgnoreCase("b")) {
-                        throw new PageBackException();
-                    } else {
-                        System.out.println("Please try again.");
-                        registerUserDisplay(userType);
+
+                boolean passwordChanged = false;
+                while (!passwordChanged) {
+                    System.out.println();
+                    System.out.print("Please enter a new password: ");
+                    try {
+                        PasswordManager.changePassword(user, "password", CustScanner.getPassword());
+                        UserManager.updateUser(user);
+                        System.out.println("Password changed successfully. Redirecting you to login page...");
+                        TimeUnit.SECONDS.sleep(1);
+                        WelcomeDisplay.welcome();
+                        passwordChanged = true; // Exit loop once successful
+                    } catch (PasswordDoesNotFulfilCriteriaException e) {
+                        System.out.println("Password must be at least 8 characters. Please try again.");
+                    } catch (Exception e) {
+                        System.out.println(
+                                "Password change failed. Enter [b] to go back to login page or any other key to try again.");
+                        if (CustScanner.getStrChoice().equalsIgnoreCase("b")) {
+                            throw new PageBackException();
+                        }
                     }
                 }
             }
         } catch (Exception e) {
             throw new PageBackException();
         }
+
     }
 }
