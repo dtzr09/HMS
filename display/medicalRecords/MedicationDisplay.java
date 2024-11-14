@@ -119,8 +119,8 @@ public class MedicationDisplay {
         }
         System.out.println();
         System.out.println(
-                "Medication stock updated! The current stock for the medication " + selectedMed.getName() + " is now. "
-                        + selectedMed.getStock());
+                "Medication stock updated! The current stock for the medication " + selectedMed.getName() + " is now "
+                        + selectedMed.getStock() + 10);
         System.out.println();
         EnterToGoBackDisplay.display();
     }
@@ -156,7 +156,8 @@ public class MedicationDisplay {
 
     /**
      * Displays the entire medication inventory to the user, showing details
-     * for each medication including ID, name, stock quantity, and low stock alert level.
+     * for each medication including ID, name, stock quantity, and low stock alert
+     * level.
      *
      * @throws PageBackException if an error occurs or the user opts to go back
      */
@@ -169,7 +170,8 @@ public class MedicationDisplay {
 
     /**
      * Displays a table of all medications in the inventory, including ID, name,
-     * quantity, and low stock level alert. This method is used by other display methods.
+     * quantity, and low stock level alert. This method is used by other display
+     * methods.
      */
     public static void displayMedicationInventory() {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+";
