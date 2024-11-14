@@ -165,7 +165,6 @@ public class PharmacistDisplay {
         if (!DiagnosisDisplay.displayAllDiagnosisOfPatient(patient)) {
             EnterToGoBackDisplay.display();
         }
-        ;
         System.out.println();
         System.out.printf("Enter the diagnosis ID: ");
         String diagnosisID = CustScanner.getStrChoice();

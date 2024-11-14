@@ -198,6 +198,7 @@ public class DiagnosisDisplay {
      * 
      * @param patient the patient whose diagnosis records are displayed
      * @throws PageBackException if an error occurs or no records are found
+     * @return true if records are found, false otherwise
      */
     public static Boolean displayAllDiagnosisOfPatient(Patient patient) throws PageBackException {
         String fourColBorder = "+--------------------------------------+----------------------+-----------------+----------------------+-------------------+";
