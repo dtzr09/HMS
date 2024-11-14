@@ -224,7 +224,14 @@ public class AdministratorDisplay {
             System.out.println("Something went wrong. Doctor not found.");
             throw new PageBackException();
         }
-        Patient patient = PatientManager.getPatientById(appointment.getPatientID());
+        Patient patient = null;
+        try {
+            patient = PatientManager.getPatientById(appointment.getPatientID());
+        } catch (Exception e) {
+            System.out.println("Something went wrong. Patient not found.");
+            throw new PageBackException();
+        }
+
         if (patient == null) {
             System.out.println("Something went wrong. Patient not found.");
             throw new PageBackException();

@@ -211,11 +211,16 @@ public class AppointmentDisplay {
         System.out.printf("| %-36s | %-20s | %-15s | %-18s|%n", "ID", "Date", "Time", "Patient");
         System.out.println(fourColBorder);
         for (Appointment appointment : appointments) {
-            Patient patient = PatientManager.getPatientById(appointment.getPatientID());
-            System.out.printf("| %-36s | %-20s | %-15s | %-17s |%n",
-                    appointment.getAppointmentID(),
-                    appointment.getDateOfAppointment(),
-                    getTimeSlot(appointment.getTimeOfAppointment()), patient.getName());
+            try {
+                Patient patient = PatientManager.getPatientById(appointment.getPatientID());
+                System.out.printf("| %-36s | %-20s | %-15s | %-17s |%n",
+                        appointment.getAppointmentID(),
+                        appointment.getDateOfAppointment(),
+                        getTimeSlot(appointment.getTimeOfAppointment()), patient.getName());
+            } catch (Exception e) {
+                System.out.println("No appointments found.");
+                EnterToGoBackDisplay.display();
+            }
         }
         System.out.println(fourColBorder);
         System.out.println();

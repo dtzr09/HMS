@@ -157,7 +157,7 @@ public class PharmacistDisplay {
         try {
             patient = PatientManager.getPatientById(patientID);
         } catch (Exception e) {
-            System.out.println("Patient email not found");
+            System.out.println("Patient ID not found, check ID entered.");
             EnterToGoBackDisplay.display();
         }
 

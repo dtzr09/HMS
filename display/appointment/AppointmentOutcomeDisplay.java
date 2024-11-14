@@ -41,7 +41,15 @@ public class AppointmentOutcomeDisplay {
             System.out.println();
             EnterToGoBackDisplay.display();
         }
-        Patient patient = PatientManager.getPatientById(patientID);
+        Patient patient = null;
+        try {
+            patient = PatientManager.getPatientById(patientID);
+        } catch (Exception e) {
+            System.out.println();
+            System.out.println("Patient not found.");
+            System.out.println();
+            EnterToGoBackDisplay.display();
+        }
 
         System.out.println("Appointment Outcome Records for " + patient.getName());
         System.out.println("----------------------------------------------------");

@@ -179,8 +179,13 @@ public class DoctorDisplay {
                         + " the medical record of. ");
 
         String patientID = CustScanner.getStrChoice();
-
-        Patient patient = PatientManager.getPatientById(patientID);
+        Patient patient = null;
+        try {
+            patient = PatientManager.getPatientById(patientID);
+        } catch (Exception e) {
+            System.out.println("Patient not found.");
+            EnterToGoBackDisplay.display();
+        }
 
         if (patient == null) {
             System.out.println("Patient not found.");
@@ -258,7 +263,14 @@ public class DoctorDisplay {
             System.out.println("Appointment not found.");
             EnterToGoBackDisplay.display();
         }
-        Patient patient = PatientManager.getPatientById(appointment.getPatientID());
+        Patient patient = null;
+        try {
+            patient = PatientManager.getPatientById(appointment.getPatientID());
+        } catch (Exception e) {
+            System.out.println("Patient not found.");
+            EnterToGoBackDisplay.display();
+        }
+
         if (patient == null) {
             System.out.println("Patient not found.");
             EnterToGoBackDisplay.display();
