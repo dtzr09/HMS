@@ -210,7 +210,7 @@ public class DiagnosisDisplay {
         try {
             List<Diagnosis> diagnoses = DiagnosisManager.getDiagnosisByPatientID(patient.getPatientID());
             if (diagnoses.size() == 0 || diagnoses == null) {
-                System.out.printf("| %115s | %n", "No diagnosis found. ");
+                System.out.printf("| %-120s | %n", "No diagnosis found. ");
             }
             for (Diagnosis diagnosis : diagnoses) {
                 String doctorID = diagnosis.getDoctorID();
