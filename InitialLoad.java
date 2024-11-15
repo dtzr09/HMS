@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import controller.account.AccountManager;
 import controller.medication.MedicationManager;
@@ -34,24 +31,6 @@ public class InitialLoad {
         }
     }
 
-    private static void updateLoadedDoctor() {
-        try {
-            List<Doctor> doctors = DoctorDatabase.getDB().getAllDoctors();
-            Map<String, List<String>> dummyMap = new HashMap<>();
-            dummyMap.put("1", Arrays.asList("1", "2", "5"));
-            dummyMap.put("2", Arrays.asList("12", "13", "14"));
-
-            for (Doctor doctor : doctors) {
-                if (doctor.getEmail().equals("john_smith@hotmail.com")) {
-                    doctor.setAppointmentAvailability(dummyMap);
-                    DoctorDatabase.getDB().update(doctor);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void start() {
         int flag = 0;
         if (isInitial()) {
@@ -66,7 +45,6 @@ public class InitialLoad {
         }
         if (flag == 1) {
             updateLoadedPatient();
-            updateLoadedDoctor();
         }
         WelcomeDisplay.welcome();
     }

@@ -1,5 +1,5 @@
-﻿Staff ID,Name,Email,Role,Gender,Age,Appointment Availability
-7698086e-39ad-4738-9f3a-9daf3f72ab7e,John Smith,john_smith@hotmail.com,Doctor,Male,45,"{1:[1,2,5], 2: [1,15]}"
-eba66fcf-10d6-4aac-86f0-fc008720b2d5,Emily Clarke,emily_clarke@hotmail.com,Doctor,Female,38,
-e176d623-c9fe-46b4-869d-269e4aaa65c2,Mark Lee,mark_lee@hotmail.com,Pharmacist,Male,29,
-c1e5f76f-e420-45a4-baf3-21d37dec136c,Sarah Lee,sarah_lee@hotmail.com,Administrator,Female,40,
+﻿Staff ID,Name,Email,Role,Gender,Age
+7698086e-39ad-4738-9f3a-9daf3f72ab7e,John Smith,john_smith@hotmail.com,Doctor,Male,45
+eba66fcf-10d6-4aac-86f0-fc008720b2d5,Emily Clarke,emily_clarke@hotmail.com,Doctor,Female,38
+e176d623-c9fe-46b4-869d-269e4aaa65c2,Mark Lee,mark_lee@hotmail.com,Pharmacist,Male,29
+c1e5f76f-e420-45a4-baf3-21d37dec136c,Sarah Lee,sarah_lee@hotmail.com,Administrator,Female,40

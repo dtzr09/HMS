@@ -34,13 +34,13 @@ public class AccountManager {
      * 
      * This method queries the UserManager to determine if a user with the specified
      * email and user type is present. If the user is found, it returns true;
-     * otherwise, it returns false. If a ModelNotFoundException is caught, it 
+     * otherwise, it returns false. If a ModelNotFoundException is caught, it
      * indicates that the user was not found.
      * 
      * @param email    The email address of the user to check.
      * @param userType The type of user (e.g., ADMINISTRATOR, etc.).
      * @return {@code true} if the user exists, {@code false} otherwise.
-     */    
+     */
     public static boolean userExist(String email, UserType userType) {
         try {
             User user = UserManager.findUser(email, userType);
@@ -57,16 +57,20 @@ public class AccountManager {
     /**
      * Attempts to log in a user by verifying the provided email and password.
      * 
-     * This method retrieves a user based on the specified email and user type. If the user
-     * exists and the provided password matches the stored password, the user is returned.
+     * This method retrieves a user based on the specified email and user type. If
+     * the user
+     * exists and the provided password matches the stored password, the user is
+     * returned.
      * Otherwise, an exception is thrown to indicate the failure reason.
      * 
      * @param userType The type of the user (e.g., ADMINISTRATOR, etc.).
      * @param email    The email address of the user attempting to log in.
      * @param password The password provided by the user for authentication.
      * @return The authenticated {@link User} object if login is successful.
-     * @throws PasswordIncorrectException If the provided password does not match the stored password.
-     * @throws ModelNotFoundException     If a user with the specified email and user type cannot be found.
+     * @throws PasswordIncorrectException If the provided password does not match
+     *                                    the stored password.
+     * @throws ModelNotFoundException     If a user with the specified email and
+     *                                    user type cannot be found.
      */
     public static User login(UserType userType, String email, String password)
             throws PasswordIncorrectException, ModelNotFoundException {
@@ -81,9 +85,12 @@ public class AccountManager {
     /**
      * Registers a new user with the specified details.
      * 
-     * This method creates a new user using the provided email, name, gender, age, and user type.
-     * If the user is successfully created, it is returned. If a user with the specified email 
-     * and user type already exists, an exception is thrown. A default password is assigned 
+     * This method creates a new user using the provided email, name, gender, age,
+     * and user type.
+     * If the user is successfully created, it is returned. If a user with the
+     * specified email
+     * and user type already exists, an exception is thrown. A default password is
+     * assigned
      * during user creation.
      * 
      * @param email    The email address of the user to register.
@@ -92,8 +99,10 @@ public class AccountManager {
      * @param age      The age of the user.
      * @param userType The type of the user (e.g., ADMINISTRATOR, etc.).
      * @return The newly created {@link User} object if registration is successful.
-     * @throws ModelNotFoundException         If the user model could not be created or found.
-     * @throws UserAlreadyExistsException     If a user with the specified email already exists.
+     * @throws ModelNotFoundException     If the user model could not be created or
+     *                                    found.
+     * @throws UserAlreadyExistsException If a user with the specified email already
+     *                                    exists.
      */
     public static User register(String email, String name, Gender gender, int age, UserType userType)
             throws ModelNotFoundException, UserAlreadyExistsException {
@@ -109,17 +118,26 @@ public class AccountManager {
     /**
      * Changes the password of a user.
      * 
-     * This method locates a user based on the specified email and user type, verifies
-     * the old password, and updates it to a new password if the verification is successful.
-     * If any validation or user-finding issues occur, appropriate exceptions are thrown.
+     * This method locates a user based on the specified email and user type,
+     * verifies
+     * the old password, and updates it to a new password if the verification is
+     * successful.
+     * If any validation or user-finding issues occur, appropriate exceptions are
+     * thrown.
      * 
      * @param userType    The type of the user (e.g., ADMINISTRATOR, etc.).
-     * @param email       The email address of the user whose password is to be changed.
+     * @param email       The email address of the user whose password is to be
+     *                    changed.
      * @param oldPassword The current password of the user for verification.
      * @param newPassword The new password to be set for the user.
-     * @throws PasswordIncorrectException               If the old password provided does not match the stored password.
-     * @throws ModelNotFoundException                   If a user with the specified email and user type cannot be found.
-     * @throws PasswordDoesNotFulfilCriteriaException   If the new password does not meet the required criteria.
+     * @throws PasswordIncorrectException             If the old password provided
+     *                                                does not match the stored
+     *                                                password.
+     * @throws ModelNotFoundException                 If a user with the specified
+     *                                                email and user type cannot be
+     *                                                found.
+     * @throws PasswordDoesNotFulfilCriteriaException If the new password does not
+     *                                                meet the required criteria.
      */
     public static void changePassword(UserType userType, String email, String oldPassword, String newPassword)
             throws PasswordIncorrectException, ModelNotFoundException, PasswordDoesNotFulfilCriteriaException {
@@ -131,14 +149,16 @@ public class AccountManager {
     /**
      * Removes a user identified by the specified staff ID and user type.
      * 
-     * This method attempts to remove a user based on the given staff ID and user type.
-     * If the user cannot be found or a model-related issue arises during removal, 
+     * This method attempts to remove a user based on the given staff ID and user
+     * type.
+     * If the user cannot be found or a model-related issue arises during removal,
      * the appropriate exceptions are thrown to indicate the specific error.
      * 
      * @param staffID  The ID of the staff to be removed.
      * @param userType The type of the user (e.g., ADMINISTRATOR, etc.).
-     * @throws ModelNotFoundException       If the user model is not found.
-     * @throws UserCannotBeFoundException   If the user with the specified staff ID and user type cannot be located.
+     * @throws ModelNotFoundException     If the user model is not found.
+     * @throws UserCannotBeFoundException If the user with the specified staff ID
+     *                                    and user type cannot be located.
      */
     public static void removeUser(String staffID, UserType userType)
             throws ModelNotFoundException, UserCannotBeFoundException {
@@ -154,10 +174,14 @@ public class AccountManager {
     /**
      * Loads patient data from a CSV file and initializes patient objects.
      * 
-     * This method reads patient data from a specified CSV file, creates a new {@link Patient}
-     * object for each entry, and populates the user management system with these patients.
-     * Each patient is assigned a unique ID, and relevant fields such as name, gender, blood
-     * type, and email are extracted from the data. If any errors occur during data loading 
+     * This method reads patient data from a specified CSV file, creates a new
+     * {@link Patient}
+     * object for each entry, and populates the user management system with these
+     * patients.
+     * Each patient is assigned a unique ID, and relevant fields such as name,
+     * gender, blood
+     * type, and email are extracted from the data. If any errors occur during data
+     * loading
      * or processing, an error message is printed to the console.
      */
     public static void loadPatient() {
@@ -189,6 +213,7 @@ public class AccountManager {
 
                 UserManager.loadPatient(newPatient);
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("Something went wrong with loading patients data");
             }
         }
@@ -197,10 +222,14 @@ public class AccountManager {
     /**
      * Loads hospital staff data from a CSV file and initializes staff objects.
      * 
-     * This method reads data from a specified CSV file containing hospital staff information.
-     * It creates new staff users based on their name, email, user type (such as Doctor, Pharmacist, 
-     * or Administrator), gender, and age. The data is parsed from the CSV and then used to create 
-     * users through the {@link UserManager}. If an error occurs due to a missing model or an existing 
+     * This method reads data from a specified CSV file containing hospital staff
+     * information.
+     * It creates new staff users based on their name, email, user type (such as
+     * Doctor, Pharmacist,
+     * or Administrator), gender, and age. The data is parsed from the CSV and then
+     * used to create
+     * users through the {@link UserManager}. If an error occurs due to a missing
+     * model or an existing
      * user conflict, the exception details are printed.
      */
     public static void loadHospitalStaffs() {
@@ -237,11 +266,13 @@ public class AccountManager {
     /**
      * Checks if the hospital staff repositories are empty.
      * 
-     * This method determines whether any of the hospital staff databases (Administrator, 
-     * Doctor, or Pharmacist) are empty. It returns {@code true} if any of the repositories 
+     * This method determines whether any of the hospital staff databases
+     * (Administrator,
+     * Doctor, or Pharmacist) are empty. It returns {@code true} if any of the
+     * repositories
      * contain no entries, indicating that at least one staff type is not present.
      * 
-     * @return {@code true} if any of the hospital staff repositories are empty; 
+     * @return {@code true} if any of the hospital staff repositories are empty;
      *         {@code false} otherwise.
      */
     public static boolean isHospitalStaffsRepositoryEmpty() {

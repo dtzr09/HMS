@@ -10,7 +10,6 @@ import model.user.enums.Gender;
 import model.user.enums.UserType;
 import utils.exceptions.PageBackException;
 import utils.exceptions.PasswordDoesNotFulfilCriteriaException;
-import utils.exceptions.PasswordIncorrectException;
 import utils.iocontrol.CustScanner;
 
 /**
