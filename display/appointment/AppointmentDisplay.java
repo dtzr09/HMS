@@ -402,7 +402,7 @@ public class AppointmentDisplay {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
 
     }
