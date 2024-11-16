@@ -10,13 +10,9 @@
 - utils: Contains all the utility functions for the entire system
 - tests: Contains all the test files
 
-## To Start:
-
-- In terminal: `./run.sh`
-
-## To generate javadocs
-
-- In terminal: `javadoc -d docs $(find controller database display model utils  -name "*.java")`
+## Run
+There is a shell script run.sh to run the program. (In terminal: `./run.sh`)
+- The main class is Main.java.
 
 ## All functionalities
 
@@ -73,3 +69,7 @@
 - [x] View profile
 - [x] Update profile
 - [x] Change password
+
+## To generate javadocs
+
+- In terminal: `javadoc -d docs $(find controller database display model utils  -name "*.java")`
