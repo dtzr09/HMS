@@ -1,2 +1,0 @@
-﻿PrescriptionID,PatientID,PharmacistID,DoctorID,Medications,Date of Prescription,Drug Instructions,Prescription Status,DiagnosisID
-6dd4a7a9-a6b5-4d2d-a1e7-69591e43a276,3cf22b5c-9553-4ab7-bebb-bdec338456ff,,eba66fcf-10d6-4aac-86f0-fc008720b2d5,"8dabfc02-f33f-4774-944f-e3103a58b699, 70a75bad-dbb1-44de-b6ed-a8f790be1ba5",11/10/24,2 times a day,PENDING,79acd9ad-1cee-4ec9-950c-d195eda4dbe3
